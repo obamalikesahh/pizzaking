@@ -142,7 +142,7 @@ export function AdminProvider({ children }) {
   };
 
   const userVerifyAndSetPassword = (tempUser, inputCode, password) => {
-    if (tempUser && tempUser.verificationCode === inputCode.trim()) {
+    if (tempUser && String(tempUser.verificationCode) === String(inputCode).trim()) {
       const verifiedUser = { email: tempUser.email, name: tempUser.name, password, isVerified: true, joined: new Date().toLocaleDateString('de-DE') + ' ' + new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }) };
       setCurrentUser(verifiedUser);
       setAllUsers(prev => [...prev, verifiedUser]);
@@ -161,7 +161,7 @@ export function AdminProvider({ children }) {
   };
 
   const userVerifyLogin = (tempUser, expectedCode, inputCode) => {
-    if (expectedCode === inputCode.trim()) {
+    if (String(expectedCode) === String(inputCode).trim()) {
       setCurrentUser(tempUser);
       return { success: true };
     }
