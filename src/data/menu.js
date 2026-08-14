@@ -383,7 +383,7 @@ export const menuData = [
       {
         "id": "33D",
         "name": "Anatolia",
-        "desc": {"de":"mit Sucuk, Weichkäse, Oliven & Zwiebeln","en":"with Sucuk, soft cheese, olives & onions","ru":"с Sucuk, мягким сыром, оливками & луком"},
+        "desc": {"de":"mit türkischer Knoblauchwurst, Dönerfleisch (Halal), Weichkäse, Sauce Hollandaise & Zwiebeln","en":"with Turkish garlic sausage, doner meat (Halal), soft cheese, hollandaise sauce & onions","ru":"с турецкой колбасой суджук, донер-мясом (халяль), мягким сыром, голландским соусом & луком"},
         "price": "15,70 € | 18,80 € | 24,90 €",
         "image": "/images/pizzen/pizzen fleisch/pizza sucuk.jpeg",
         "subcategory": "Fleisch"
@@ -391,7 +391,7 @@ export const menuData = [
       {
         "id": "1000",
         "name": "Pizza Spaghetti",
-        "desc": {"de":"mit Spaghetti Bolognese & Käse","en":"with spaghetti bolognese & cheese","ru":"с спагетти болоньезе & сыром"},
+        "desc": {"de":"mit Spaghetti, Ei, Sauce Hollandaise & Bacon","en":"with spaghetti, egg, hollandaise sauce & bacon","ru":"со спагетти, яйцом, голландским соусом & беконом"},
         "price": "13,75 € | 16,10 € | 22,50 €",
         "image": "/images/pizzen/pizzen fleisch/pizza bologna.jpeg",
         "subcategory": "Fleisch"
