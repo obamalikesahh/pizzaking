@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { menuData as defaultMenuData } from '../data/menu';
+import { API_URL } from '../api';
 
 const AdminContext = createContext();
 
@@ -50,17 +51,17 @@ export function AdminProvider({ children }) {
 
   // Fetch initial data from backend
   useEffect(() => {
-    fetch('http://localhost:3001/api/offers', { cache: 'no-store' })
+    fetch(`${API_URL}/offers`, { cache: 'no-store' })
       .then(res => res.json())
       .then(data => setOffers(data))
       .catch(err => console.error("Fehler beim Laden der Angebote:", err));
 
-    fetch('http://localhost:3001/api/orders', { cache: 'no-store' })
+    fetch(`${API_URL}/orders`, { cache: 'no-store' })
       .then(res => res.json())
       .then(data => setOrders(data))
       .catch(err => console.error("Fehler beim Laden der Bestellungen:", err));
 
-    fetch('http://localhost:3001/api/menu', { cache: 'no-store' })
+    fetch(`${API_URL}/menu`, { cache: 'no-store' })
       .then(res => res.json())
       .then(data => {
         if (data && data.length > 0) {
@@ -86,7 +87,7 @@ export function AdminProvider({ children }) {
 
   const seedMenu = async (menuData) => {
     try {
-      await fetch('http://localhost:3001/api/menu/seed', {
+      await fetch(`${API_URL}/menu/seed`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ menu: menuData })
@@ -192,7 +193,7 @@ export function AdminProvider({ children }) {
 
   const updateOrderStatus = async (orderId, newStatus) => {
     try {
-      await fetch(`http://localhost:3001/api/orders/${orderId}/status`, {
+      await fetch(`${API_URL}/orders/${orderId}/status`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus })
@@ -210,7 +211,7 @@ export function AdminProvider({ children }) {
   // Offer functions
   const addOffer = async (offer) => {
     try {
-      const res = await fetch('http://localhost:3001/api/offers', {
+      const res = await fetch(`${API_URL}/offers`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(offer)
@@ -226,7 +227,7 @@ export function AdminProvider({ children }) {
 
   const removeOffer = async (offerId) => {
     try {
-      const res = await fetch(`http://localhost:3001/api/offers/${offerId}`, { method: 'DELETE' });
+      const res = await fetch(`${API_URL}/offers/${offerId}`, { method: 'DELETE' });
       if (res.ok) {
         setOffers(prev => prev.filter(o => o.id !== offerId));
       }
@@ -245,7 +246,7 @@ export function AdminProvider({ children }) {
   // Menu editing functions
   const updateMenuItem = async (itemId, updatedFields) => {
     try {
-      const res = await fetch(`http://localhost:3001/api/menu/item/${itemId}`, {
+      const res = await fetch(`${API_URL}/menu/item/${itemId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedFields)
