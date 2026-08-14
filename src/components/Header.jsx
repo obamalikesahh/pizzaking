@@ -37,6 +37,26 @@ export default function Header() {
           PIZZA KING
         </Link>
 
+        {/* Language Switcher */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', padding: '6px 12px', borderRadius: '20px' }}>
+          <Globe size={14} color="#cfa670" />
+          <select 
+            value={language} 
+            onChange={(e) => setLanguage(e.target.value)}
+            style={{ background: 'transparent', border: 'none', color: '#ffffff', outline: 'none', cursor: 'pointer', fontSize: '0.8rem', fontWeight: '600', letterSpacing: '0.5px' }}
+          >
+            <option value="de" style={{ background: '#111', color: '#fff' }}>DE</option>
+            <option value="en" style={{ background: '#111', color: '#fff' }}>EN</option>
+            <option value="ru" style={{ background: '#111', color: '#fff' }}>RU</option>
+          </select>
+        </div>
+
+        {/* Cart CTA */}
+        <Link to="/checkout" className="pill-link pill-cta" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <ShoppingCart size={14} />
+          <span className="cart-text">{t.cart}</span> {totalItems > 0 && `(${totalItems})`}
+        </Link>
+
         <AnimatePresence initial={false}>
           {isNavOpen && (
             <motion.nav 
@@ -53,26 +73,6 @@ export default function Header() {
               <Link to="/account" className="pill-link" style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#cfa670' }}>
                 <User size={15} />
                 {currentUser ? currentUser.name.split(' ')[0] : t.login}
-              </Link>
-
-              {/* Language Switcher */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', padding: '6px 12px', borderRadius: '20px' }}>
-                <Globe size={14} color="#cfa670" />
-                <select 
-                  value={language} 
-                  onChange={(e) => setLanguage(e.target.value)}
-                  style={{ background: 'transparent', border: 'none', color: '#ffffff', outline: 'none', cursor: 'pointer', fontSize: '0.8rem', fontWeight: '600', letterSpacing: '0.5px' }}
-                >
-                  <option value="de" style={{ background: '#111', color: '#fff' }}>DE</option>
-                  <option value="en" style={{ background: '#111', color: '#fff' }}>EN</option>
-                  <option value="ru" style={{ background: '#111', color: '#fff' }}>RU</option>
-                </select>
-              </div>
-
-              {/* Cart CTA */}
-              <Link to="/checkout" className="pill-link pill-cta" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <ShoppingCart size={14} />
-                {t.cart} {totalItems > 0 && `(${totalItems})`}
               </Link>
             </motion.nav>
           )}
