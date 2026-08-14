@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Send } from 'lucide-react';
 import { useAdmin } from '../context/AdminContext';
+import { getTranslation } from '../data/translations';
 import './Footer.css';
 
 export default function Footer() {
-  const { addNewsletterSubscriber } = useAdmin();
+  const { addNewsletterSubscriber, language } = useAdmin();
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState(''); // '', 'loading', 'success', 'error'
+  const t = getTranslation(language);
 
   const handleSubscribe = async (e) => {
     e.preventDefault();
@@ -48,27 +50,27 @@ export default function Footer() {
             PIZZA KING
           </h2>
           <p style={{ color: 'var(--color-text-muted)', maxWidth: '300px', lineHeight: '1.6' }}>
-            Frisch zubereitete Pizzen, Burger, Döner, Pastagerichte & mehr. Qualität und Geschmack für Schleswig direkt zu dir nach Hause.
+            {t.traditionDesc2}
           </p>
         </div>
 
         <div className="footer-links">
-          <h3>Navigation</h3>
-          <Link to="/">Startseite</Link>
-          <Link to="/menu">Speisekarte</Link>
-          <Link to="/about">Über Uns</Link>
-          <Link to="/contact">Kontakt & Anfahrt</Link>
+          <h3>{t.navigation}</h3>
+          <Link to="/">{t.home || 'Startseite'}</Link>
+          <Link to="/menu">{t.menu}</Link>
+          <Link to="/about">{t.about}</Link>
+          <Link to="/contact">{t.contact}</Link>
         </div>
 
         <div className="footer-links">
-          <h3>Kontakt</h3>
+          <h3>{t.contact}</h3>
           <p>Domziegelhof 12-14</p>
           <p>24837 Schleswig</p>
           <p style={{ color: 'var(--color-primary)', fontWeight: 'bold', marginTop: '6px' }}>Tel: 04621 - 30 11 11</p>
         </div>
 
         <div className="footer-social">
-          <h3>Folge Uns</h3>
+          <h3>{t.followUs}</h3>
           <div className="social-icons">
             <a href="#" aria-label="Facebook">FB</a>
             <a href="#" aria-label="Instagram">IG</a>
@@ -76,13 +78,13 @@ export default function Footer() {
           </div>
         </div>
         <div className="footer-newsletter" style={{ flex: '1', minWidth: '280px' }}>
-          <h3 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-primary)', fontSize: '1.2rem', marginBottom: '1rem' }}>Newsletter</h3>
-          <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', marginBottom: '15px' }}>Werde Teil des exklusiven King-Clubs und erhalte geheime Angebote!</p>
+          <h3 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-primary)', fontSize: '1.2rem', marginBottom: '1rem' }}>{t.newsletter}</h3>
+          <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', marginBottom: '15px' }}>{t.newsletterFooterDesc}</p>
           
           <form onSubmit={handleSubscribe} style={{ display: 'flex', gap: '8px', position: 'relative' }}>
             <input 
               type="email" 
-              placeholder="Deine E-Mail Adresse..." 
+              placeholder={t.emailPlaceholder} 
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -103,7 +105,7 @@ export default function Footer() {
       </div>
       <div className="footer-bottom">
         <div className="container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <p>&copy; {new Date().getFullYear()} Pizza King Schleswig. Alle Rechte vorbehalten.</p>
+          <p>&copy; {new Date().getFullYear()} Pizza King Schleswig. {t.rights}</p>
         </div>
       </div>
     </footer>

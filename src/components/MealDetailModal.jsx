@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ShoppingBag, Check } from 'lucide-react';
+import { useAdmin } from '../context/AdminContext';
+import { getTranslation } from '../data/translations';
 import './MealDetailModal.css';
 
 export default function MealDetailModal({ isOpen, onClose, product, addToCart }) {
+  const { language } = useAdmin();
+  const t = getTranslation(language);
   if (!isOpen || !product) return null;
 
   // Parse multi-price strings (e.g. "11,40 € | 13,20 € | 17,40 €")
@@ -113,7 +117,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
             {/* Size selection */}
             {options.length > 1 && (
               <div>
-                <div className="q-modal-section-title">Größe Wählen</div>
+                <div className="q-modal-section-title">{t.chooseSize}</div>
                 <div className="q-modal-sizes-grid">
                   {options.map((opt, idx) => (
                     <div
@@ -132,7 +136,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
             {/* Käserand option for Pizza */}
             {isPizza && !isPizzabroetchen && (
               <div>
-                <div className="q-modal-section-title">Extras</div>
+                <div className="q-modal-section-title">{t.extras}</div>
                 <div
                   className={`q-modal-size-btn ${kaeserand ? 'active' : ''}`}
                   onClick={() => setKaeserand(!kaeserand)}
@@ -147,7 +151,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
                     }}>
                       {kaeserand && <Check size={14} color="#000" />}
                     </div>
-                    <span>Käserand (+{getKaeserandPrice() > 0 ? getKaeserandPrice().toFixed(2).replace('.', ',') : (selectedOption.label.includes('36') ? '4,60' : selectedOption.label.includes('32') ? '3,40' : '2,20')} €)</span>
+                    <span>{t.cheeseCrust} (+{getKaeserandPrice() > 0 ? getKaeserandPrice().toFixed(2).replace('.', ',') : (selectedOption.label.includes('36') ? '4,60' : selectedOption.label.includes('32') ? '3,40' : '2,20')} €)</span>
                   </div>
                 </div>
               </div>
@@ -156,7 +160,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
             {/* Filling selection for Pizzabrötchen */}
             {isPizzabroetchen && (
               <div>
-                <div className="q-modal-section-title">Füllung / Belag Wählen</div>
+                <div className="q-modal-section-title">{t.chooseFilling}</div>
                 <div className="q-modal-sizes-grid">
                   {fillingOptions.map((fill, idx) => (
                     <div
@@ -174,12 +178,12 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
 
             <div className="q-modal-footer">
               <div>
-                <span style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '1px', color: '#888', display: 'block' }}>Gesamtpreis</span>
+                <span style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '1px', color: '#888', display: 'block' }}>{t.totalPrice}</span>
                 <span className="q-modal-final-price">{finalPrice.toFixed(2).replace('.', ',')} €</span>
               </div>
               <button className="q-modal-add-btn" onClick={handleAdd}>
                 <ShoppingBag size={18} />
-                In den Warenkorb
+                {t.addToCart}
               </button>
             </div>
           </div>

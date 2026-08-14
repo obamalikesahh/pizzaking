@@ -4,10 +4,12 @@ import { useCart } from '../context/CartContext';
 import { Leaf } from 'lucide-react';
 import MealDetailModal from '../components/MealDetailModal';
 import { menuData } from '../data/menu';
+import { useAdmin } from '../context/AdminContext';
 import './Menu.css';
 
 export default function Menu() {
   const { addToCart } = useCart();
+  const { language } = useAdmin();
   const [activeCategory, setActiveCategory] = useState(menuData[0].category);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
@@ -126,7 +128,9 @@ export default function Menu() {
                         <div className="subcategory-header-line"></div>
                       </div>
                     )}
-                    {products.map((product, index) => (
+                    {products.map((product, index) => {
+                      const desc = typeof product.desc === 'object' ? (product.desc[language] || product.desc.de) : product.desc;
+                      return (
                       <motion.div 
                         key={product.id}
                         className="menu-list-item"
@@ -134,7 +138,7 @@ export default function Menu() {
                           id: product.id,
                           name: product.name,
                           price: parseFloat(product.price.split(' ')[0].replace(',', '.')) || 0,
-                          description: product.desc,
+                          description: desc,
                           imageUrl: product.image,
                           fullPrice: product.price,
                           category: activeCategory
@@ -153,10 +157,10 @@ export default function Menu() {
                             <div className="menu-item-dots"></div>
                             <span className="menu-item-price">{product.price}</span>
                           </div>
-                          <p className="menu-item-desc">{product.desc}</p>
+                          <p className="menu-item-desc">{desc}</p>
                         </div>
                       </motion.div>
-                    ))}
+                    )})}
                   </React.Fragment>
                 ))}
               </motion.div>

@@ -3,10 +3,12 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ChevronDown, Quote, Mail, CheckCircle, Tag } from 'lucide-react';
 import { useAdmin } from '../context/AdminContext';
+import { getTranslation } from '../data/translations';
 import './Home.css';
 
 export default function Home() {
-  const { offers } = useAdmin();
+  const { offers, language } = useAdmin();
+  const t = getTranslation(language);
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
   return (
@@ -69,8 +71,8 @@ export default function Home() {
           {/* Column 2: Center Workshop Content */}
           <div className="workshop-center-column">
             <motion.div className="testimonials-header-center" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-              <h2>OUR CULINARY WORKSHOP</h2>
-              <p>Experience the art of authentic pizza-making</p>
+              <h2>{t.ourCulinaryWorkshop}</h2>
+              <p>{t.experienceArt}</p>
             </motion.div>
 
             <div className="workshop-grid">
@@ -78,28 +80,28 @@ export default function Home() {
               <div className="workshop-ingredients">
                 <motion.div className="ingredient-card tall" initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}>
                   <img src="/fresh_tomatoes.png" alt="Fresh Tomatoes" className="ingredient-img" />
-                  <div className="ingredient-label">FRESH<br/>TOMATOES</div>
+                  <div className="ingredient-label">{t.freshTomatoes.split('\n').map((line, i) => <React.Fragment key={i}>{line}{i === 0 && <br/>}</React.Fragment>)}</div>
                 </motion.div>
                 
                 <div className="ingredient-col-small">
                   <motion.div className="ingredient-card small" initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
                     <img src="/mozzarella.png" alt="Buffalo Mozzarella" className="ingredient-img" />
-                    <div className="ingredient-label small-text">BUFFALO<br/>MOZZARELLA</div>
+                    <div className="ingredient-label small-text">{t.buffaloMozzarella.split('\n').map((line, i) => <React.Fragment key={i}>{line}{i === 0 && <br/>}</React.Fragment>)}</div>
                   </motion.div>
                   <motion.div className="ingredient-card small" initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
                     <img src="/basil.png" alt="Fresh Basil" className="ingredient-img" />
-                    <div className="ingredient-label small-text">FRESH BASIL</div>
+                    <div className="ingredient-label small-text">{t.freshBasil}</div>
                   </motion.div>
                 </div>
 
                 <div className="ingredient-col-small">
                   <motion.div className="ingredient-card small" initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: 0.3 }}>
                     <img src="/ham.png" alt="Artisan Ham" className="ingredient-img" />
-                    <div className="ingredient-label small-text">ARTISAN<br/>HAM</div>
+                    <div className="ingredient-label small-text">{t.artisanHam.split('\n').map((line, i) => <React.Fragment key={i}>{line}{i === 0 && <br/>}</React.Fragment>)}</div>
                   </motion.div>
                   <motion.div className="ingredient-card small" initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: 0.4 }}>
                     <img src="/champignons_beef.png" alt="Champignons & Beef" className="ingredient-img" />
-                    <div className="ingredient-label small-text">CHAMPIGNONS<br/>& BEEF</div>
+                    <div className="ingredient-label small-text">{t.champignonsBeef.split('\n').map((line, i) => <React.Fragment key={i}>{line}{i === 0 && <br/>}</React.Fragment>)}</div>
                   </motion.div>
                 </div>
               </div>
@@ -110,12 +112,12 @@ export default function Home() {
                   <source src="/pizza.mp4" type="video/mp4" />
                 </video>
                 <div className="process-steps">
-                  <div className="step"><strong>STEP 1:</strong> SELECT YOUR BASE</div>
-                  <div className="step"><strong>STEP 2:</strong> ADD A SAUCE</div>
-                  <div className="step"><strong>STEP 3:</strong> CHOOSE CHEESES & TOPPINGS</div>
+                  <div className="step"><strong>{t.step1}</strong> {t.step1Desc}</div>
+                  <div className="step"><strong>{t.step2}</strong> {t.step2Desc}</div>
+                  <div className="step"><strong>{t.step3}</strong> {t.step3Desc}</div>
                 </div>
                 <div style={{ position: 'absolute', bottom: '20px', right: '20px', zIndex: 10 }}>
-                  <Link to="/menu" className="bestseller-btn">CUSTOMIZE YOUR PIZZA <ArrowRight size={14} /></Link>
+                  <Link to="/menu" className="bestseller-btn">{t.customizePizza} <ArrowRight size={14} /></Link>
                 </div>
               </motion.div>
             </div>
@@ -124,18 +126,18 @@ export default function Home() {
               <motion.div className="workshop-info-box" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
                 <img src="/potato_wedge.png" alt="Pairing" className="info-icon-img" style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: '50%' }} />
                 <div>
-                  <h4 style={{ color: 'var(--color-text)', fontFamily: 'var(--font-heading)', fontSize: '1.1rem', margin: '0 0 5px 0' }}>CHEF'S SIGNATURE PAIRINGS</h4>
-                  <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', margin: 0 }}>Try our recommendation: Truffle Oil and San Marzano base</p>
+                  <h4 style={{ color: 'var(--color-text)', fontFamily: 'var(--font-heading)', fontSize: '1.1rem', margin: '0 0 5px 0' }}>{t.chefsSignature}</h4>
+                  <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', margin: 0 }}>{t.chefsSignatureDesc}</p>
                 </div>
               </motion.div>
               <motion.div className="workshop-secret-box" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
-                <h4 style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-heading)', fontSize: '1.1rem', margin: '0 0 5px 0' }}>OUR DOUGH SECRET</h4>
-                <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', margin: 0 }}>A 48-hour slow fermentation process</p>
+                <h4 style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-heading)', fontSize: '1.1rem', margin: '0 0 5px 0' }}>{t.ourDoughSecret}</h4>
+                <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', margin: 0 }}>{t.ourDoughSecretDesc}</p>
               </motion.div>
             </div>
             
             <div className="test-footer-action" style={{ marginTop: '30px', textAlign: 'center' }}>
-              <Link to="/about" className="bestseller-btn" style={{ padding: '12px 24px' }}>VISIT THE FULL WORKSHOP <ArrowRight size={14} /></Link>
+              <Link to="/about" className="bestseller-btn" style={{ padding: '12px 24px' }}>{t.visitWorkshop} <ArrowRight size={14} /></Link>
             </div>
           </div>
 
@@ -143,7 +145,7 @@ export default function Home() {
           <div className="workshop-right-column">
             <div className="mini-menu-header">
               <span className="diamond-line"></span>
-              <h3>SIGNATURES</h3>
+              <h3>{t.signatures}</h3>
               <span className="diamond-line"></span>
             </div>
 
@@ -270,7 +272,7 @@ export default function Home() {
             </div>
             
             <div style={{ textAlign: 'center', marginTop: 'auto', paddingTop: '20px' }}>
-              <Link to="/menu" className="test-link" style={{ fontSize: '0.8rem', color: 'var(--color-primary)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '5px', textTransform: 'uppercase', letterSpacing: '1px', border: '1px solid rgba(207, 190, 145, 0.3)', padding: '8px 16px', borderRadius: '30px' }}>VIEW FULL MENU <ArrowRight size={14} /></Link>
+              <Link to="/menu" className="test-link" style={{ fontSize: '0.8rem', color: 'var(--color-primary)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '5px', textTransform: 'uppercase', letterSpacing: '1px', border: '1px solid rgba(207, 190, 145, 0.3)', padding: '8px 16px', borderRadius: '30px' }}>{t.viewFullMenu} <ArrowRight size={14} /></Link>
             </div>
           </div>
         </div>
@@ -282,9 +284,9 @@ export default function Home() {
           <div className="section-container">
             <div style={{ textAlign: 'center', marginBottom: '35px' }}>
               <span style={{ color: '#cfa670', fontSize: '0.85rem', letterSpacing: '2px', textTransform: 'uppercase', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-                <Tag size={16} /> AKTUELLER AKTIONEN & DEALS
+                <Tag size={16} /> {t.activeOffers}
               </span>
-              <h2 style={{ fontFamily: 'Cinzel, serif', color: '#ffffff', fontSize: '2.2rem', margin: '8px 0 0 0' }}>AKTUELLE ANGEBOTE</h2>
+              <h2 style={{ fontFamily: 'Cinzel, serif', color: '#ffffff', fontSize: '2.2rem', margin: '8px 0 0 0' }}>{t.currentOffers}</h2>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '25px', maxWidth: '1100px', margin: '0 auto' }}>
@@ -314,7 +316,7 @@ export default function Home() {
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '15px', borderTop: '1px solid rgba(255,255,255,0.08)' }}>
                       <span style={{ fontFamily: 'Cinzel, serif', color: '#cfa670', fontSize: '1.5rem', fontWeight: 'bold' }}>{offer.price}</span>
                       <Link to="/menu" className="bestseller-btn" style={{ fontSize: '0.8rem', padding: '10px 20px' }}>
-                        JETZT BESTELLEN <ArrowRight size={14} />
+                        {t.orderNow} <ArrowRight size={14} />
                       </Link>
                     </div>
                   </div>
@@ -338,9 +340,9 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
               >
-                <p className="bestsellers-subtitle">UNSERE BELIEBTESTEN GERICHTE</p>
-                <h2 className="bestsellers-title">BESTSELLERS</h2>
-                <p className="bestsellers-desc">Die Lieblingsgerichte unserer Gäste in Schleswig.</p>
+                <p className="bestsellers-subtitle">{t.popularDishes}</p>
+                <h2 className="bestsellers-title">{t.bestsellers}</h2>
+                <p className="bestsellers-desc">{t.bestsellersDesc}</p>
               </motion.div>
               
               <motion.div 
@@ -353,7 +355,7 @@ export default function Home() {
                 <img src="/images/pizzen/pizzen%20fleisch/pizza%20king%20II.jpeg" alt="Pizza King II" className="bestseller-img" />
                 <div className="bestseller-content bottom-split">
                   <h3>PIZZA<br/>KING II</h3>
-                  <Link to="/menu" className="bestseller-btn">ZUM MENÜ <ArrowRight size={14} /></Link>
+                  <Link to="/menu" className="bestseller-btn">{t.toMenu} <ArrowRight size={14} /></Link>
                 </div>
               </motion.div>
             </div>
@@ -370,7 +372,7 @@ export default function Home() {
                 <img src="/images/Burger%20Men%C3%BC/Big%20Cheeseburger%20Men%C3%BC.jpeg" onError={(e) => { e.target.onerror = null; e.target.src = '/burger_cinematic.png'; }} alt="Big Cheeseburger Menü" className="bestseller-img burger-img-offset" />
                 <div className="bestseller-content top-left-content">
                   <h3>BIG CHEESEBURGER<br/>MENÜ</h3>
-                  <Link to="/menu" className="bestseller-btn">JETZT BESTELLEN <ArrowRight size={14} /></Link>
+                  <Link to="/menu" className="bestseller-btn">{t.orderNow} <ArrowRight size={14} /></Link>
                 </div>
               </motion.div>
               
@@ -398,7 +400,7 @@ export default function Home() {
                   <img src="/images/Salate/Salad%20King.jpeg" alt="King-Grundsalat" className="bestseller-img" />
                   <div className="bestseller-content bottom-split">
                     <h3>KING<br/>GRUNDSALAT</h3>
-                    <Link to="/menu" className="bestseller-btn">ZUM MENÜ <ArrowRight size={14} /></Link>
+                    <Link to="/menu" className="bestseller-btn">{t.toMenu} <ArrowRight size={14} /></Link>
                   </div>
                 </motion.div>
               </div>
@@ -411,9 +413,9 @@ export default function Home() {
       <section className="luxury-section testimonials-section" style={{ padding: '100px 20px', background: '#0e100f' }}>
         <div className="section-container">
           <motion.div className="testimonials-header-center" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <p style={{ color: '#cfa670', letterSpacing: '3px', textTransform: 'uppercase', fontSize: '0.85rem', marginBottom: '8px' }}>WAS UNSERE GÄSTE SAGEN</p>
-            <h2 style={{ color: '#ffffff', fontFamily: 'Cinzel, serif', fontSize: '2.5rem', letterSpacing: '2px' }}>BEWERTUNGEN & ERFAHRUNGEN</h2>
-            <p style={{ color: '#888888', maxWidth: '600px', margin: '10px auto 40px' }}>Echte Meinungen von unseren treuen Kunden in Schleswig.</p>
+            <p style={{ color: '#cfa670', letterSpacing: '3px', textTransform: 'uppercase', fontSize: '0.85rem', marginBottom: '8px' }}>{t.whatGuestsSay}</p>
+            <h2 style={{ color: '#ffffff', fontFamily: 'Cinzel, serif', fontSize: '2.5rem', letterSpacing: '2px' }}>{t.reviewsExperiences}</h2>
+            <p style={{ color: '#888888', maxWidth: '600px', margin: '10px auto 40px' }}>{t.realOpinions}</p>
           </motion.div>
 
           <div className="testimonials-grid-new" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '30px', maxWidth: '1200px', margin: '0 auto' }}>
@@ -430,7 +432,7 @@ export default function Home() {
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
                   <div style={{ color: '#cfa670', fontSize: '1.2rem' }}>★★★★★</div>
-                  <span style={{ fontSize: '0.75rem', background: 'rgba(207, 166, 112, 0.15)', color: '#cfa670', padding: '4px 10px', borderRadius: '12px', border: '1px solid rgba(207, 166, 112, 0.3)' }}>Verifizierter Kunde</span>
+                  <span style={{ fontSize: '0.75rem', background: 'rgba(207, 166, 112, 0.15)', color: '#cfa670', padding: '4px 10px', borderRadius: '12px', border: '1px solid rgba(207, 166, 112, 0.3)' }}>{t.verifiedCustomer}</span>
                 </div>
                 <p className="test-quote" style={{ fontSize: '1.1rem', color: '#dddddd', marginBottom: '25px', fontStyle: 'italic', lineHeight: '1.6' }}>
                   "Absolut überragend! Das ist nicht einfach nur Pizza, das ist Handwerkskunst. Der Teig ist unglaublich luftig, die Zutaten frisch und hochwertig. Für mich die absolute Nummer 1 in Schleswig."
@@ -439,7 +441,7 @@ export default function Home() {
               <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div>
                   <span style={{ color: '#ffffff', fontWeight: '600', display: 'block' }}>Markus S.</span>
-                  <small style={{ color: '#888888' }}>Stammkunde aus Schleswig</small>
+                  <small style={{ color: '#888888' }}>{t.regularCustomer}</small>
                 </div>
                 <span style={{ fontSize: '0.75rem', color: '#cfa670', background: 'rgba(255,255,255,0.05)', padding: '6px 12px', borderRadius: '20px' }}>🍕 Pizza King II</span>
               </div>
@@ -458,7 +460,7 @@ export default function Home() {
                 <div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
                     <div style={{ color: '#cfa670', fontSize: '1.2rem' }}>★★★★★</div>
-                    <span style={{ fontSize: '0.75rem', background: 'rgba(207, 166, 112, 0.15)', color: '#cfa670', padding: '4px 10px', borderRadius: '12px', border: '1px solid rgba(207, 166, 112, 0.3)' }}>Google Local Guide</span>
+                    <span style={{ fontSize: '0.75rem', background: 'rgba(207, 166, 112, 0.15)', color: '#cfa670', padding: '4px 10px', borderRadius: '12px', border: '1px solid rgba(207, 166, 112, 0.3)' }}>{t.localGuide}</span>
                   </div>
                   <p className="test-quote" style={{ fontSize: '1.1rem', color: '#dddddd', marginBottom: '20px', fontStyle: 'italic', lineHeight: '1.6' }}>
                     "Wir bestellen hier regelmäßig für die ganze Familie. Die Portionen sind gigantisch, das Essen immer perfekt heiß und die Lieferung erfolgt schneller als man gucken kann. Eine absolute Empfehlung!"
@@ -487,7 +489,7 @@ export default function Home() {
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
                   <div style={{ color: '#cfa670', fontSize: '1.2rem' }}>★★★★★</div>
-                  <span style={{ fontSize: '0.75rem', background: 'rgba(207, 166, 112, 0.15)', color: '#cfa670', padding: '4px 10px', borderRadius: '12px', border: '1px solid rgba(207, 166, 112, 0.3)' }}>Verifizierter Kunde</span>
+                  <span style={{ fontSize: '0.75rem', background: 'rgba(207, 166, 112, 0.15)', color: '#cfa670', padding: '4px 10px', borderRadius: '12px', border: '1px solid rgba(207, 166, 112, 0.3)' }}>{t.verifiedCustomer}</span>
                 </div>
                 <p className="test-quote" style={{ fontSize: '1.1rem', color: '#dddddd', marginBottom: '25px', fontStyle: 'italic', lineHeight: '1.6' }}>
                   "Die Qualität des Fleisches bei den Burgern ist außergewöhnlich gut für einen Lieferdienst. Alles extrem frisch zubereitet, richtig saftig und pünktlich geliefert. Ein Highlight für jeden Feierabend!"
@@ -496,7 +498,7 @@ export default function Home() {
               <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div>
                   <span style={{ color: '#ffffff', fontWeight: '600', display: 'block' }}>Dennis B.</span>
-                  <small style={{ color: '#888888' }}>Lieferdienst Fan</small>
+                  <small style={{ color: '#888888' }}>{t.deliveryFan}</small>
                 </div>
                 <span style={{ fontSize: '0.75rem', color: '#cfa670', background: 'rgba(255,255,255,0.05)', padding: '6px 12px', borderRadius: '20px' }}>🍔 Big Cheeseburger</span>
               </div>
@@ -524,12 +526,12 @@ export default function Home() {
               
               <div style={{ position: 'absolute', bottom: '25px', left: '25px', right: '25px', display: 'flex', gap: '15px' }}>
                 <div style={{ background: 'rgba(10,11,10,0.85)', backdropFilter: 'blur(10px)', border: '1px solid rgba(207, 166, 112, 0.3)', padding: '14px 20px', borderRadius: '16px', flex: 1, textAlign: 'center' }}>
-                  <span style={{ fontFamily: 'Cinzel, serif', color: '#cfa670', fontSize: '1.6rem', fontWeight: 'bold', display: 'block' }}>25+ Jahre</span>
-                  <span style={{ color: '#aaa', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Erfahrung</span>
+                  <span style={{ fontFamily: 'Cinzel, serif', color: '#cfa670', fontSize: '1.6rem', fontWeight: 'bold', display: 'block' }}>{t.yearsExperience}</span>
+                  <span style={{ color: '#aaa', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '1px' }}>{t.experience}</span>
                 </div>
                 <div style={{ background: 'rgba(10,11,10,0.85)', backdropFilter: 'blur(10px)', border: '1px solid rgba(207, 166, 112, 0.3)', padding: '14px 20px', borderRadius: '16px', flex: 1, textAlign: 'center' }}>
-                  <span style={{ fontFamily: 'Cinzel, serif', color: '#cfa670', fontSize: '1.6rem', fontWeight: 'bold', display: 'block' }}>48 Stunden</span>
-                  <span style={{ color: '#aaa', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Teigreifung</span>
+                  <span style={{ fontFamily: 'Cinzel, serif', color: '#cfa670', fontSize: '1.6rem', fontWeight: 'bold', display: 'block' }}>{t.hoursDough}</span>
+                  <span style={{ color: '#aaa', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '1px' }}>{t.doughMaturation}</span>
                 </div>
               </div>
             </motion.div>
@@ -541,33 +543,33 @@ export default function Home() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <p style={{ color: '#cfa670', letterSpacing: '3px', textTransform: 'uppercase', fontSize: '0.85rem', marginBottom: '10px', fontWeight: '600' }}>UNSERE GESCHICHTE</p>
+              <p style={{ color: '#cfa670', letterSpacing: '3px', textTransform: 'uppercase', fontSize: '0.85rem', marginBottom: '10px', fontWeight: '600' }}>{t.ourHistory}</p>
               <h2 style={{ fontFamily: 'Cinzel, serif', color: '#ffffff', fontSize: '2.5rem', letterSpacing: '1px', lineHeight: '1.2', marginBottom: '25px' }}>
-                TRADITION & LEIDENSCHAFT FÜR SCHLESWIG
+                {t.traditionPassion}
               </h2>
               
               <p style={{ color: '#cccccc', fontSize: '1.05rem', lineHeight: '1.8', marginBottom: '20px' }}>
-                Bei Pizza King am Domziegelhof in Schleswig dreht sich alles um echte Leidenschaft für gutes Essen. Wir backen unsere Pizzen nach traditionellen Rezepturen mit 48 Stunden langsam gereiftem Teig, feinstem Mozzarella und täglich frisch zubereiteten Soßen.
+                {t.traditionDesc1}
               </p>
               
               <p style={{ color: '#888888', fontSize: '0.95rem', lineHeight: '1.7', marginBottom: '30px' }}>
-                Ob unsere knusprigen Pizzen mit hausgemachtem Käserand, saftige Döner-Aufläufe mit Soße Hollandaise, krosse Burgermenüs oder bayerische & italienische Nudelspezialitäten – wir bringen königlichen Geschmack direkt zu dir nach Hause.
+                {t.traditionDesc2}
               </p>
 
               <div style={{ display: 'flex', gap: '30px', marginBottom: '35px', padding: '20px 0', borderY: '1px solid rgba(255,255,255,0.08)' }}>
                 <div>
                   <h4 style={{ color: '#ffffff', fontSize: '1.5rem', margin: 0, fontFamily: 'Cinzel, serif' }}>50.000+</h4>
-                  <span style={{ color: '#888', fontSize: '0.8rem' }}>Zufriedene Gäste</span>
+                  <span style={{ color: '#888', fontSize: '0.8rem' }}>{t.happyGuestsLabel}</span>
                 </div>
                 <div style={{ width: '1px', background: 'rgba(255,255,255,0.1)' }}></div>
                 <div>
                   <h4 style={{ color: '#ffffff', fontSize: '1.5rem', margin: 0, fontFamily: 'Cinzel, serif' }}>100%</h4>
-                  <span style={{ color: '#888', fontSize: '0.8rem' }}>Frische Zutaten</span>
+                  <span style={{ color: '#888', fontSize: '0.8rem' }}>{t.freshIngredientsLabel}</span>
                 </div>
               </div>
 
               <Link to="/about" className="bestseller-btn" style={{ padding: '14px 28px', fontSize: '0.85rem' }}>
-                MEHR ÜBER UNS ERFAHREN <ArrowRight size={16} />
+                {t.learnMore} <ArrowRight size={16} />
               </Link>
             </motion.div>
 
@@ -596,10 +598,10 @@ export default function Home() {
             </div>
             
             <h2 style={{ fontFamily: 'Cinzel, serif', color: '#ffffff', fontSize: '2.2rem', letterSpacing: '2px', marginBottom: '15px' }}>
-              HOL DIR UNSEREN NEWSLETTER
+              {t.getNewsletter}
             </h2>
             <p style={{ color: '#aaaaaa', maxWidth: '550px', margin: '0 auto 30px', fontSize: '1rem', lineHeight: '1.6' }}>
-              Abonniere jetzt den Pizza King Newsletter & erhalte <strong style={{ color: '#cfa670' }}>10% Rabatt</strong> auf deine nächste Bestellung sowie exklusive Angebote direkt per E-Mail!
+              {t.newsletterDesc.split('10%').map((part, index) => index === 0 ? <React.Fragment key={index}>{part}</React.Fragment> : <React.Fragment key={index}><strong style={{ color: '#cfa670' }}>10%</strong>{part}</React.Fragment>)}
             </p>
 
             {subscribed ? (
@@ -609,7 +611,7 @@ export default function Home() {
                 style={{ background: 'rgba(207, 166, 112, 0.2)', border: '1px solid #cfa670', color: '#ffffff', padding: '18px 24px', borderRadius: '40px', display: 'inline-flex', alignItems: 'center', gap: '10px' }}
               >
                 <CheckCircle size={20} color="#cfa670" />
-                <span>Vielen Dank! Dein 10% Gutscheincode lautet: <strong style={{ color: '#cfa670' }}>KING10</strong></span>
+                <span>{t.thanksCode.split('KING10').map((part, index) => index === 0 ? <React.Fragment key={index}>{part}</React.Fragment> : <React.Fragment key={index}><strong style={{ color: '#cfa670' }}>KING10</strong>{part}</React.Fragment>)}</span>
               </motion.div>
             ) : (
               <form 
@@ -621,14 +623,14 @@ export default function Home() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Deine E-Mail-Adresse eingeben..." 
+                  placeholder={t.emailPlaceholder} 
                   style={{ flex: 1, minWidth: '240px', padding: '16px 24px', borderRadius: '40px', background: 'rgba(255, 255, 255, 0.06)', border: '1px solid rgba(255, 255, 255, 0.15)', color: '#ffffff', outline: 'none', fontSize: '0.95rem' }}
                 />
                 <button 
                   type="submit"
                   style={{ background: '#cfa670', color: '#000000', border: 'none', padding: '16px 32px', borderRadius: '40px', fontWeight: '600', letterSpacing: '1px', textTransform: 'uppercase', cursor: 'pointer', transition: 'all 0.2s ease' }}
                 >
-                  ABONNIEREN
+                  {t.subscribe}
                 </button>
               </form>
             )}
