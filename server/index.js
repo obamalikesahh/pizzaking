@@ -232,17 +232,52 @@ app.post('/api/send-order', async (req, res) => {
 });
 
 // --- NEWSLETTER API ---
+const subscribedEmailsMap = new Map();
+
 const handleNewsletterSubscribe = async (req, res) => {
   try {
-    const email = req.body.email || req.body.toEmail;
-    if (!email) return res.status(400).json({ error: 'Email is required' });
+    const rawEmail = req.body.email || req.body.toEmail;
+    if (!rawEmail) return res.status(400).json({ error: 'Email is required' });
 
-    console.log(`✉️ [Server Mailer] Sende Newsletter Gutschein an ${email}...`);
+    const normalizedEmail = rawEmail.trim().toLowerCase();
 
-    // Generiere einen 10% Rabattcode
+    // Check 1: In-memory map
+    let existingCodeStr = subscribedEmailsMap.get(normalizedEmail);
+
+    // Check 2: Database check
+    if (!existingCodeStr && prisma && prisma.discountCode) {
+      try {
+        const existing = await prisma.discountCode.findFirst({
+          where: { email: { equals: normalizedEmail, mode: 'insensitive' } }
+        });
+        if (existing) {
+          existingCodeStr = existing.code;
+        }
+      } catch (dbFindErr) {
+        console.warn('Prisma check failed for newsletter code:', dbFindErr.message);
+      }
+    }
+
+    // If code already exists for this email, do not generate a new one!
+    if (existingCodeStr) {
+      console.log(`ℹ️ [Server Mailer] ${normalizedEmail} hat bereits den Code ${existingCodeStr}`);
+      return res.json({ 
+        success: true, 
+        code: existingCodeStr, 
+        alreadySubscribed: true, 
+        message: 'Du hast deinen Gutschein bereits erhalten!' 
+      });
+    }
+
+    console.log(`✉️ [Server Mailer] Sende neuen Newsletter Gutschein an ${normalizedEmail}...`);
+
+    // Generiere einen neuen 10% Rabattcode
     const randomPart = Math.random().toString(36).substring(2, 6).toUpperCase();
     const numPart = Math.floor(100 + Math.random() * 900);
     const codeStr = `KING-${numPart}-${randomPart}`;
+
+    // Speichere im in-memory Map
+    subscribedEmailsMap.set(normalizedEmail, codeStr);
 
     // Ablaufdatum in 1 Monat
     const expiresAt = new Date();
@@ -253,7 +288,7 @@ const handleNewsletterSubscribe = async (req, res) => {
         await prisma.discountCode.create({
           data: {
             code: codeStr,
-            email: email,
+            email: normalizedEmail,
             discount: 10,
             expiresAt: expiresAt
           }
@@ -266,7 +301,7 @@ const handleNewsletterSubscribe = async (req, res) => {
     // Sende Email über denselben IONOS Transporter wie den Verifizierungscode
     const info = await transporter.sendMail({
       from: `"Pizza King Schleswig" <${process.env.SMTP_USER}>`,
-      to: email,
+      to: normalizedEmail,
       subject: `🎁 Dein 10% Willkommens-Gutschein für Pizza King: ${codeStr}`,
       html: `
         <div style="font-family: Arial, sans-serif; padding: 25px; background: #0a0b0a; color: #ffffff; border-radius: 12px; border: 1px solid #cfa670;">

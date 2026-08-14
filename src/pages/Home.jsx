@@ -15,8 +15,12 @@ export default function Home() {
   const { addToCart } = useCart();
   const t = getTranslation(language);
   const [email, setEmail] = useState('');
-  const [subscribed, setSubscribed] = useState(false);
-  const [createdCode, setCreatedCode] = useState('');
+  const [subscribed, setSubscribed] = useState(() => {
+    return localStorage.getItem('pk_newsletter_subscribed') === 'true';
+  });
+  const [createdCode, setCreatedCode] = useState(() => {
+    return localStorage.getItem('pk_newsletter_code') || '';
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
@@ -585,14 +589,17 @@ export default function Home() {
                 <span>Vielen Dank! E-Mail wurde gesendet. Dein Gutscheincode: <strong style={{ color: '#cfa670' }}>{createdCode || 'KING10'}</strong></span>
               </motion.div>
             ) : (
-              <form 
                 onSubmit={async (e) => { 
                   e.preventDefault(); 
                   if (email && !isSubmitting) { 
                     setIsSubmitting(true);
                     if (addNewsletterSubscriber) addNewsletterSubscriber(email);
                     const res = await sendNewsletterEmail(email);
-                    if (res.code) setCreatedCode(res.code);
+                    if (res.code) {
+                      setCreatedCode(res.code);
+                      localStorage.setItem('pk_newsletter_code', res.code);
+                      localStorage.setItem('pk_newsletter_subscribed', 'true');
+                    }
                     setSubscribed(true);
                     setIsSubmitting(false);
                   } 

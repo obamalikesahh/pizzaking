@@ -24,7 +24,11 @@ export default function Footer() {
     // Send Welcome Email
     try {
       const res = await sendNewsletterEmail(email);
-      if (res.success) {
+      if (res.success || res.code) {
+        if (res.code) {
+          localStorage.setItem('pk_newsletter_code', res.code);
+          localStorage.setItem('pk_newsletter_subscribed', 'true');
+        }
         setStatus('success');
         setEmail('');
         setTimeout(() => setStatus(''), 4000);
