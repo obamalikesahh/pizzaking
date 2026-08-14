@@ -48,6 +48,8 @@
   display: flex;
   align-items: center;
   gap: 15px;
+  overflow: hidden;
+  whiteSpace: nowrap;
 }
 
 .pill-link {
@@ -113,7 +115,7 @@
   border-radius: 50%;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .pill-header {
     top: 20px;
     left: 20px;
@@ -122,8 +124,29 @@
   .pill-container {
     justify-content: space-between;
     width: 100%;
+    flex-wrap: wrap;
+    position: relative;
   }
   .pill-nav {
-    display: none;
+    display: flex;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #1a1a1a;
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    gap: 20px;
+    margin-top: 10px;
+    white-space: normal;
+  }
+  .pill-link {
+    font-size: 1rem;
+    padding: 5px 0;
+    width: 100%;
   }
 }

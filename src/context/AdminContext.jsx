@@ -43,36 +43,59 @@ export function AdminProvider({ children }) {
     return [];
   });
 
-  // Placed orders state (starts empty if no user orders exist)
-  const [orders, setOrders] = useState(() => {
-    const saved = localStorage.getItem('pk_orders_live');
-    if (saved) {
-      try { return JSON.parse(saved); } catch (e) {}
-    }
-    return [];
-  });
-
-  // Active Special Offers (Angebote)
+  // Backend state
+  const [orders, setOrders] = useState([]);
   const [offers, setOffers] = useState([]);
+  const [menu, setMenu] = useState([]);
 
+  // Fetch initial data from backend
   useEffect(() => {
     fetch('http://localhost:3001/api/offers', { cache: 'no-store' })
       .then(res => res.json())
       .then(data => setOffers(data))
       .catch(err => console.error("Fehler beim Laden der Angebote:", err));
+
+    fetch('http://localhost:3001/api/orders', { cache: 'no-store' })
+      .then(res => res.json())
+      .then(data => setOrders(data))
+      .catch(err => console.error("Fehler beim Laden der Bestellungen:", err));
+
+    fetch('http://localhost:3001/api/menu', { cache: 'no-store' })
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.length > 0) {
+          // Format backend data to match frontend structure
+          const formattedMenu = data.map(cat => ({
+            category: cat.title,
+            items: cat.items.map(item => ({
+              ...item,
+              badges: item.badges ? item.badges.split(',') : []
+            }))
+          }));
+          setMenu(formattedMenu);
+        } else {
+          // If empty, seed from default data
+          seedMenu(defaultMenuData);
+        }
+      })
+      .catch(err => {
+        console.error("Fehler beim Laden der Speisekarte:", err);
+        setMenu(defaultMenuData); // Fallback
+      });
   }, []);
 
-  // Custom Menu Data
-  const [menu, setMenu] = useState(() => {
-    const saved = localStorage.getItem('pk_menu_data');
-    if (saved) {
-      try { return JSON.parse(saved); } catch (e) {}
+  const seedMenu = async (menuData) => {
+    try {
+      await fetch('http://localhost:3001/api/menu/seed', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ menu: menuData })
+      });
+      setMenu(menuData);
+    } catch (err) {
+      console.error("Fehler beim Seeden:", err);
     }
-    return defaultMenuData;
-  });
-
-  // Save state
-  // (Removed localStorage persistence for admin auth to require login every time)
+  };
 
   useEffect(() => {
     localStorage.setItem('pk_lang', language);
@@ -89,14 +112,6 @@ export function AdminProvider({ children }) {
   useEffect(() => {
     localStorage.setItem('pk_newsletter', JSON.stringify(newsletterSubscribers));
   }, [newsletterSubscribers]);
-
-  useEffect(() => {
-    localStorage.setItem('pk_orders_live', JSON.stringify(orders));
-  }, [orders]);
-
-  useEffect(() => {
-    localStorage.setItem('pk_menu_data', JSON.stringify(menu));
-  }, [menu]);
 
   // Auth functions
   const login = (email, password) => {
@@ -171,11 +186,21 @@ export function AdminProvider({ children }) {
       ...newOrder
     };
     setOrders(prev => [orderWithId, ...prev]);
+    // Also push to backend if needed (optional since checkout handles sending to /api/send-order, but real saving should be here)
     return orderWithId;
   };
 
-  const updateOrderStatus = (orderId, newStatus) => {
-    setOrders(prev => prev.map(o => o.id === orderId ? { ...o, status: newStatus } : o));
+  const updateOrderStatus = async (orderId, newStatus) => {
+    try {
+      await fetch(`http://localhost:3001/api/orders/${orderId}/status`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus })
+      });
+      setOrders(prev => prev.map(o => o.id === orderId ? { ...o, status: newStatus } : o));
+    } catch (err) {
+      console.error("Fehler beim Update des Bestellstatus:", err);
+    }
   };
 
   const clearOrders = () => {
@@ -218,11 +243,22 @@ export function AdminProvider({ children }) {
   };
 
   // Menu editing functions
-  const updateMenuItem = (itemId, updatedFields) => {
-    setMenu(prevData => prevData.map(cat => ({
-      ...cat,
-      items: cat.items.map(item => item.id === itemId ? { ...item, ...updatedFields } : item)
-    })));
+  const updateMenuItem = async (itemId, updatedFields) => {
+    try {
+      const res = await fetch(`http://localhost:3001/api/menu/item/${itemId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedFields)
+      });
+      if (res.ok) {
+        setMenu(prevData => prevData.map(cat => ({
+          ...cat,
+          items: cat.items.map(item => item.id === itemId ? { ...item, ...updatedFields } : item)
+        })));
+      }
+    } catch (err) {
+      console.error("Fehler beim Update des Menü-Artikels:", err);
+    }
   };
 
   return (

@@ -45,3 +45,24 @@ model Offer {
   image       String?
   createdAt   DateTime @default(now())
 }
+
+model MenuCategory {
+  id        String     @id @default(uuid())
+  title     String
+  order     Int        @default(0)
+  items     MenuItem[]
+  createdAt DateTime   @default(now())
+}
+
+model MenuItem {
+  id             String       @id @default(uuid())
+  name           String
+  description    String
+  price          String
+  image          String?
+  badges         String?
+  bestseller     Boolean      @default(false)
+  categoryId     String
+  category       MenuCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  createdAt      DateTime     @default(now())
+}

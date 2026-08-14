@@ -376,8 +376,8 @@
 
 .testimonials-bento-container {
   display: grid;
-  grid-template-columns: 1fr 3fr;
-  gap: 50px;
+  grid-template-columns: 1fr 2.3fr 1fr;
+  gap: 30px;
   max-width: 1600px;
 }
 
@@ -785,6 +785,22 @@
 }
 
 @media (max-width: 900px) {
+  .bento-grid {
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: 100vh;
+  }
+  .bento-main {
+    min-height: 50vh;
+    padding: 30px;
+  }
+  .bento-side {
+    grid-template-rows: repeat(3, 150px);
+  }
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
   .testimonials-grid-new {
     grid-template-columns: 1fr;
   }

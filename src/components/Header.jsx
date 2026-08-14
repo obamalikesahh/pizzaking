@@ -45,7 +45,6 @@ export default function Header() {
               animate={{ opacity: 1, width: 'auto', x: 0 }}
               exit={{ opacity: 0, width: 0, x: 20 }}
               transition={{ duration: 0.3, ease: 'easeInOut' }}
-              style={{ display: 'flex', alignItems: 'center', gap: '15px', overflow: 'hidden', whiteSpace: 'nowrap' }}
             >
               <Link to="/menu" className="pill-link">{t.menu}</Link>
               <Link to="/about" className="pill-link">{t.about}</Link>

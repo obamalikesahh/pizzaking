@@ -272,6 +272,98 @@ const groqTools = [
   }
 ];
 
+// --- MENU API ---
+app.get('/api/menu', async (req, res) => {
+  try {
+    const categories = await prisma.menuCategory.findMany({
+      include: { items: true },
+      orderBy: { order: 'asc' }
+    });
+    res.json(categories);
+  } catch (error) {
+    console.error('Error fetching menu:', error);
+    res.status(500).json({ error: 'Failed to fetch menu' });
+  }
+});
+
+app.put('/api/menu/item/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updateData = req.body;
+    const updatedItem = await prisma.menuItem.update({
+      where: { id },
+      data: updateData
+    });
+    res.json(updatedItem);
+  } catch (error) {
+    console.error('Error updating menu item:', error);
+    res.status(500).json({ error: 'Failed to update menu item' });
+  }
+});
+
+app.post('/api/menu/seed', async (req, res) => {
+  try {
+    const { menu } = req.body; // Expecting the defaultMenuData array
+    // First clear existing
+    await prisma.menuItem.deleteMany({});
+    await prisma.menuCategory.deleteMany({});
+    
+    // Seed new
+    for (let i = 0; i < menu.length; i++) {
+      const cat = menu[i];
+      const createdCat = await prisma.menuCategory.create({
+        data: {
+          title: cat.category,
+          order: i,
+          items: {
+            create: cat.items.map(item => ({
+              id: item.id || undefined,
+              name: item.name,
+              description: item.description,
+              price: item.price,
+              image: item.image,
+              badges: item.badges ? item.badges.join(',') : null,
+              bestseller: item.bestseller || false
+            }))
+          }
+        }
+      });
+    }
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error seeding menu:', error);
+    res.status(500).json({ error: 'Failed to seed menu' });
+  }
+});
+
+// --- ORDERS API ---
+app.get('/api/orders', async (req, res) => {
+  try {
+    const orders = await prisma.order.findMany({
+      orderBy: { createdAt: 'desc' }
+    });
+    res.json(orders);
+  } catch (error) {
+    console.error('Error fetching orders:', error);
+    res.status(500).json({ error: 'Failed to fetch orders' });
+  }
+});
+
+app.put('/api/orders/:id/status', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+    const updatedOrder = await prisma.order.update({
+      where: { id },
+      data: { status }
+    });
+    res.json(updatedOrder);
+  } catch (error) {
+    console.error('Error updating order status:', error);
+    res.status(500).json({ error: 'Failed to update order status' });
+  }
+});
+
 // --- Offers API ---
 app.get('/api/offers', async (req, res) => {
   try {

@@ -58,7 +58,7 @@ export default function Home() {
 
       {/* 1. Master 3-Column Culinary Workshop */}
       <section className="luxury-section testimonials-section" style={{ paddingTop: '80px', paddingBottom: '80px' }}>
-        <div className="section-container testimonials-bento-container" style={{ gridTemplateColumns: '1fr 2.3fr 1fr', gap: '30px' }}>
+        <div className="section-container testimonials-bento-container">
           
           {/* Column 1: Left Images */}
           <div className="testimonials-side-images" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
