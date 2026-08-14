@@ -22,7 +22,7 @@ export default function Impressum() {
 
           <h3>Kontakt</h3>
           <p>
-            Telefon: 04621 - 30 11 11<br />
+            Telefon: 04621 / 999 460 oder 04621 / 999 461<br />
             E-Mail: kontakt@pizzaking-schleswig.de
           </p>
 
