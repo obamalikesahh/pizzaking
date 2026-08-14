@@ -3,7 +3,7 @@
  * Versendet E-Mails sicher über den lokalen Node-Backend-Server (Port 3001) über IONOS SMTP.
  */
 
-const BACKEND_URL = 'http://localhost:3002';
+import { API_URL } from '../api';
 
 /**
  * 🔑 1. Verifizierungscode senden
@@ -12,7 +12,7 @@ export async function sendVerificationEmail(toEmail, userName, code) {
   console.log(`✉️ [EMail-Service] Sende Verifizierungscode an ${toEmail} via IONOS Backend...`);
 
   try {
-    const res = await fetch(`${BACKEND_URL}/api/send-verification`, {
+    const res = await fetch(`${API_URL}/send-verification`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ toEmail, userName, code })
@@ -40,7 +40,7 @@ export async function sendOrderConfirmationEmail(toEmail, order) {
   console.log(`✉️ [EMail-Service] Sende Bestellbestätigung für Order ${order.id} via IONOS Backend...`);
 
   try {
-    const res = await fetch(`${BACKEND_URL}/api/send-order`, {
+    const res = await fetch(`${API_URL}/send-order`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ toEmail, order })

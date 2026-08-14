@@ -391,7 +391,10 @@ app.post('/api/chat', async (req, res) => {
     });
   } catch (error) {
     console.error('Chat Error:', error);
-    res.status(500).json({ error: 'Failed to process chat message' });
+    if (error.status === 429 || (error.message && error.message.includes('429'))) {
+      return res.status(429).json({ error: 'Zu viele Anfragen an die KI. Bitte warte einen kurzen Moment (ca. 30 Sekunden) und versuche es gleich noch einmal.' });
+    }
+    res.status(500).json({ error: 'Ein interner Fehler ist aufgetreten. Bitte versuche es später noch einmal.' });
   }
 });
 

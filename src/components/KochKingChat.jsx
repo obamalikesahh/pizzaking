@@ -56,11 +56,16 @@ const KochKingChat = () => {
         })
       });
 
-      if (!response.ok) {
-        throw new Error('Server returned an error');
+      let data;
+      try {
+        data = await response.json();
+      } catch (e) {
+        throw new Error('Entschuldigung, es gab einen Fehler bei der Verbindung. Bitte versuche es später noch einmal.');
       }
 
-      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || 'Entschuldigung, ein Serverfehler ist aufgetreten.');
+      }
       
       if (data.text) {
         setMessages(prev => [...prev, { role: 'model', text: data.text }]);
@@ -74,7 +79,10 @@ const KochKingChat = () => {
       }
     } catch (error) {
       console.error('Chat error:', error);
-      setMessages(prev => [...prev, { role: 'model', text: 'Entschuldigung, es gab einen Fehler bei der Verbindung. Bitte versuche es später noch einmal.' }]);
+      const errorMsg = error.message === 'Failed to fetch' 
+        ? 'Entschuldigung, es gab einen Fehler bei der Verbindung. Bitte versuche es später noch einmal.' 
+        : error.message;
+      setMessages(prev => [...prev, { role: 'model', text: errorMsg }]);
     } finally {
       setIsLoading(false);
     }
