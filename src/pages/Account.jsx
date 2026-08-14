@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { sendVerificationEmail } from '../services/emailService';
 
 export default function Account() {
-  const { currentUser, userSignUp, userVerifyAndSetPassword, userLogin, userLogout, orders } = useAdmin();
+  const { currentUser, userSignUp, userVerifyAndSetPassword, userLogin, userVerifyLogin, userLogout, orders } = useAdmin();
 
   // Mode: 'login' | 'login_step2' | 'signup_step1' | 'signup_step2'
   const [mode, setMode] = useState('login');
