@@ -7,14 +7,17 @@ import { getTranslation } from '../data/translations';
 import { useCart } from '../context/CartContext';
 import { menuData } from '../data/menu';
 import MealDetailModal from '../components/MealDetailModal';
+import { sendNewsletterEmail } from '../services/emailService';
 import './Home.css';
 
 export default function Home() {
-  const { offers, language } = useAdmin();
+  const { offers, language, addNewsletterSubscriber } = useAdmin();
   const { addToCart } = useCart();
   const t = getTranslation(language);
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
+  const [createdCode, setCreatedCode] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   const getProduct = (id) => {
@@ -579,11 +582,21 @@ export default function Home() {
                 style={{ background: 'rgba(207, 166, 112, 0.2)', border: '1px solid #cfa670', color: '#ffffff', padding: '18px 24px', borderRadius: '40px', display: 'inline-flex', alignItems: 'center', gap: '10px' }}
               >
                 <CheckCircle size={20} color="#cfa670" />
-                <span>{t.thanksCode.split('KING10').map((part, index) => index === 0 ? <React.Fragment key={index}>{part}</React.Fragment> : <React.Fragment key={index}><strong style={{ color: '#cfa670' }}>KING10</strong>{part}</React.Fragment>)}</span>
+                <span>Vielen Dank! E-Mail wurde gesendet. Dein Gutscheincode: <strong style={{ color: '#cfa670' }}>{createdCode || 'KING10'}</strong></span>
               </motion.div>
             ) : (
               <form 
-                onSubmit={(e) => { e.preventDefault(); if (email) setSubscribed(true); }}
+                onSubmit={async (e) => { 
+                  e.preventDefault(); 
+                  if (email && !isSubmitting) { 
+                    setIsSubmitting(true);
+                    if (addNewsletterSubscriber) addNewsletterSubscriber(email);
+                    const res = await sendNewsletterEmail(email);
+                    if (res.code) setCreatedCode(res.code);
+                    setSubscribed(true);
+                    setIsSubmitting(false);
+                  } 
+                }}
                 style={{ display: 'flex', justifyContent: 'center', gap: '12px', maxWidth: '500px', margin: '0 auto', flexWrap: 'wrap' }}
               >
                 <input 
@@ -596,9 +609,10 @@ export default function Home() {
                 />
                 <button 
                   type="submit"
-                  style={{ background: '#cfa670', color: '#000000', border: 'none', padding: '16px 32px', borderRadius: '40px', fontWeight: '600', letterSpacing: '1px', textTransform: 'uppercase', cursor: 'pointer', transition: 'all 0.2s ease' }}
+                  disabled={isSubmitting}
+                  style={{ background: '#cfa670', color: '#000000', border: 'none', padding: '16px 32px', borderRadius: '40px', fontWeight: '600', letterSpacing: '1px', textTransform: 'uppercase', cursor: 'pointer', transition: 'all 0.2s ease', opacity: isSubmitting ? 0.7 : 1 }}
                 >
-                  {t.subscribe}
+                  {isSubmitting ? 'WIRD GESENDET...' : t.subscribe}
                 </button>
               </form>
             )}

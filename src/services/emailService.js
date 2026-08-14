@@ -58,3 +58,31 @@ export async function sendOrderConfirmationEmail(toEmail, order) {
     return { success: false };
   }
 }
+
+/**
+ * 🎁 3. Newsletter-Gutschein senden
+ */
+export async function sendNewsletterEmail(toEmail) {
+  console.log(`✉️ [EMail-Service] Sende Newsletter Gutschein an ${toEmail} via IONOS Backend...`);
+
+  try {
+    const res = await fetch(`${API_URL}/newsletter/subscribe`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: toEmail })
+    });
+    
+    if (res.ok) {
+      const data = await res.json();
+      console.log('✅ IONOS Backend Newsletter Result:', data);
+      return { success: true, code: data.code };
+    } else {
+      const errorData = await res.json();
+      console.error('❌ IONOS Backend Fehler:', errorData);
+      return { success: false, error: errorData };
+    }
+  } catch (backendErr) {
+    console.error('Backend Server offline oder nicht erreichbar!', backendErr);
+    return { success: false, error: backendErr.message };
+  }
+}

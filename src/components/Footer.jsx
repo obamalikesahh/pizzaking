@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Send } from 'lucide-react';
 import { useAdmin } from '../context/AdminContext';
 import { getTranslation } from '../data/translations';
+import { sendNewsletterEmail } from '../services/emailService';
 import './Footer.css';
 
 export default function Footer() {
@@ -18,19 +19,12 @@ export default function Footer() {
     setStatus('loading');
     
     // Save to Admin Dashboard
-    addNewsletterSubscriber(email);
+    if (addNewsletterSubscriber) addNewsletterSubscriber(email);
 
     // Send Welcome Email
     try {
-      const response = await fetch('http://localhost:3002/api/subscribe-newsletter', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ toEmail: email }),
-      });
-
-      if (response.ok) {
+      const res = await sendNewsletterEmail(email);
+      if (res.success) {
         setStatus('success');
         setEmail('');
         setTimeout(() => setStatus(''), 4000);

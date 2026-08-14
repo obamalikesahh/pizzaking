@@ -232,10 +232,12 @@ app.post('/api/send-order', async (req, res) => {
 });
 
 // --- NEWSLETTER API ---
-app.post('/api/newsletter/subscribe', async (req, res) => {
+const handleNewsletterSubscribe = async (req, res) => {
   try {
-    const { email } = req.body;
+    const email = req.body.email || req.body.toEmail;
     if (!email) return res.status(400).json({ error: 'Email is required' });
+
+    console.log(`✉️ [Server Mailer] Sende Newsletter Gutschein an ${email}...`);
 
     // Generiere einen 10% Rabattcode
     const randomPart = Math.random().toString(36).substring(2, 6).toUpperCase();
@@ -246,39 +248,49 @@ app.post('/api/newsletter/subscribe', async (req, res) => {
     const expiresAt = new Date();
     expiresAt.setMonth(expiresAt.getMonth() + 1);
 
-    const discountCode = await prisma.discountCode.create({
-      data: {
-        code: codeStr,
-        email: email,
-        discount: 10,
-        expiresAt: expiresAt
+    try {
+      if (prisma && prisma.discountCode) {
+        await prisma.discountCode.create({
+          data: {
+            code: codeStr,
+            email: email,
+            discount: 10,
+            expiresAt: expiresAt
+          }
+        });
       }
-    });
+    } catch (dbErr) {
+      console.warn('Prisma save failed for discount code, proceeding to send email:', dbErr.message);
+    }
 
-    // Sende Email
-    await transporter.sendMail({
+    // Sende Email über denselben IONOS Transporter wie den Verifizierungscode
+    const info = await transporter.sendMail({
       from: `"Pizza King Schleswig" <${process.env.SMTP_USER}>`,
       to: email,
-      subject: `🎁 Dein 10% Willkommens-Gutschein für Pizza King!`,
+      subject: `🎁 Dein 10% Willkommens-Gutschein für Pizza King: ${codeStr}`,
       html: `
         <div style="font-family: Arial, sans-serif; padding: 25px; background: #0a0b0a; color: #ffffff; border-radius: 12px; border: 1px solid #cfa670;">
           <h2 style="color: #cfa670; margin-top: 0;">Willkommen im VIP King-Club!</h2>
           <p style="font-size: 16px;">Vielen Dank für deine Anmeldung zum Newsletter.</p>
-          <p>Hier ist dein persönlicher 10% Rabattcode für deine nächste Bestellung:</p>
+          <p>Hier ist dein persönlicher 10% Rabattcode für deine nächste Bestellung bei Pizza King:</p>
           <div style="background: rgba(207, 166, 112, 0.2); border: 2px solid #cfa670; font-size: 28px; font-weight: bold; letter-spacing: 4px; padding: 18px; text-align: center; border-radius: 10px; color: #cfa670; margin: 25px 0;">
             ${codeStr}
           </div>
-          <p style="color: #aaaaaa; font-size: 13px;">Dieser Code ist einmalig einlösbar und gültig bis zum ${expiresAt.toLocaleDateString('de-DE')}.</p>
+          <p style="color: #aaaaaa; font-size: 13px;">Dieser Code ist einmalig einlösbar im Checkout und gültig bis zum ${expiresAt.toLocaleDateString('de-DE')}.</p>
         </div>
       `
     });
 
-    res.json({ success: true, code: codeStr });
+    console.log('IONOS Newsletter Email gesendet:', info.messageId);
+    res.json({ success: true, code: codeStr, messageId: info.messageId });
   } catch (error) {
     console.error('Newsletter Subscribe Error:', error);
     res.status(500).json({ error: error.message });
   }
-});
+};
+
+app.post('/api/newsletter/subscribe', handleNewsletterSubscribe);
+app.post('/api/subscribe-newsletter', handleNewsletterSubscribe);
 
 app.post('/api/discount/validate', async (req, res) => {
   try {
