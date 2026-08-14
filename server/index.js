@@ -6,7 +6,7 @@ const { Pool } = pg;
 import { PrismaPg } from '@prisma/adapter-pg';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import Groq from 'groq-sdk';
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 import path from 'path';
@@ -27,8 +27,8 @@ app.use(cors());
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
-// Gemini
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+// Groq
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 // Nodemailer Transporter
 const transporter = nodemailer.createTransport({
@@ -258,98 +258,91 @@ app.post('/api/send-order', async (req, res) => {
 
 // --- KOCHKING KI CHAT ---
 
-const chatModel = genAI.getGenerativeModel({
-  model: 'gemini-2.5-flash',
-  systemInstruction: "Du bist KochKing, der freundliche, professionelle und hilfreiche KI-Assistent von Pizza King Schleswig. Du hilfst Kunden bei Fragen zu ihrer Bestellung. Du antwortest kurz, prägnant und freundlich. Wenn ein Kunde ein schwerwiegendes Problem meldet (z.B. falsches Essen, kaltes Essen), nutze das escalateToHuman Tool, um ihm anzubieten, sich mit einem Mitarbeiter in Verbindung zu setzen. Wenn ein Kunde nach seiner Bestellung fragt und eine Nummer angibt, nutze das checkOrderStatus Tool.",
-  tools: [
-    {
-      functionDeclarations: [
-        {
-          name: "checkOrderStatus",
-          description: "Überprüft den Status einer Bestellung anhand einer Bestellnummer (kann ein Teil der UUID sein).",
-          parameters: {
-            type: "object",
-            properties: {
-              orderId: {
-                type: "string",
-                description: "Die Bestellnummer (oder ein Teil davon, z.B. 123e456)",
-              }
-            },
-            required: ["orderId"]
+const systemInstruction = "Du bist KochKing, der freundliche, professionelle und hilfreiche KI-Assistent von Pizza King Schleswig. Du hilfst Kunden bei Fragen zu ihrer Bestellung. Du antwortest kurz, prägnant und freundlich. Wenn ein Kunde ein schwerwiegendes Problem meldet (z.B. falsches Essen, kaltes Essen), nutze das escalateToHuman Tool, um ihm anzubieten, sich mit einem Mitarbeiter in Verbindung zu setzen. Wenn ein Kunde nach seiner Bestellung fragt und eine Nummer angibt, nutze das checkOrderStatus Tool.";
+
+const groqTools = [
+  {
+    type: "function",
+    function: {
+      name: "checkOrderStatus",
+      description: "Überprüft den Status einer Bestellung anhand einer Bestellnummer (kann ein Teil der UUID sein).",
+      parameters: {
+        type: "object",
+        properties: {
+          orderId: {
+            type: "string",
+            description: "Die Bestellnummer (oder ein Teil davon, z.B. 123e456)"
           }
         },
-        {
-          name: "escalateToHuman",
-          description: "Leitet das Gespräch an einen menschlichen Mitarbeiter weiter. Nutze dies, wenn der Kunde ein Problem meldet (z.B. Pizza kalt, falsche Lieferung).",
-          parameters: {
-            type: "object",
-            properties: {
-              reason: {
-                type: "string",
-                description: "Der Grund für die Eskalation"
-              }
-            },
-            required: ["reason"]
-          }
-        }
-      ]
+        required: ["orderId"]
+      }
     }
-  ]
-});
+  },
+  {
+    type: "function",
+    function: {
+      name: "escalateToHuman",
+      description: "Leitet das Gespräch an einen menschlichen Mitarbeiter weiter. Nutze dies, wenn der Kunde ein Problem meldet (z.B. Pizza kalt, falsche Lieferung).",
+      parameters: {
+        type: "object",
+        properties: {
+          reason: {
+            type: "string",
+            description: "Der Grund für die Eskalation"
+          }
+        },
+        required: ["reason"]
+      }
+    }
+  }
+];
 
 app.post('/api/chat', async (req, res) => {
   try {
     const { history, message, image } = req.body;
     
-    // Format history for Gemini
-    let formattedHistory = history.map(msg => ({
-      role: msg.role === 'user' ? 'user' : 'model',
-      parts: [{ text: msg.text }]
-    }));
+    // Format history for Groq
+    let formattedMessages = [
+      { role: "system", content: systemInstruction }
+    ];
 
-    // Gemini requires the first message to be from 'user'
-    if (formattedHistory.length > 0 && formattedHistory[0].role === 'model') {
-      formattedHistory.shift();
-    }
-
-    const chat = chatModel.startChat({
-      history: formattedHistory,
+    history.forEach(msg => {
+      formattedMessages.push({
+        role: msg.role === 'user' ? 'user' : 'assistant',
+        content: msg.text
+      });
     });
 
-    let parts = [{ text: message }];
-    if (image) {
-      const matches = image.match(/^data:(.+);base64,(.+)$/);
-      if (matches && matches.length === 3) {
-        parts.push({
-          inlineData: {
-            data: matches[2],
-            mimeType: matches[1]
-          }
-        });
-      }
-    }
+    formattedMessages.push({ role: "user", content: message });
 
-    const result = await chat.sendMessage(parts);
-    let responseText = result.response.text();
     let escalationTriggered = false;
     let escalationReason = null;
 
-    // Check for function calls
-    const calls = result.response.functionCalls ? result.response.functionCalls() : null;
-    if (calls && calls.length > 0) {
-      for (const call of calls) {
-        if (call.name === 'checkOrderStatus') {
-          const orderIdQuery = call.args.orderId;
+    const chatCompletion = await groq.chat.completions.create({
+      messages: formattedMessages,
+      model: "llama-3.3-70b-versatile",
+      tools: groqTools,
+      tool_choice: "auto",
+    });
+
+    let responseMessage = chatCompletion.choices[0].message;
+    let responseText = responseMessage.content || "";
+
+    if (responseMessage.tool_calls && responseMessage.tool_calls.length > 0) {
+      formattedMessages.push(responseMessage); // Add assistant's tool call message
+      
+      for (const toolCall of responseMessage.tool_calls) {
+        const args = JSON.parse(toolCall.function.arguments);
+        
+        if (toolCall.function.name === 'checkOrderStatus') {
+          const orderIdQuery = args.orderId;
           let toolResponseText = '';
           try {
             const order = await prisma.order.findFirst({
               where: {
-                id: {
-                  startsWith: orderIdQuery
-                }
+                id: { startsWith: orderIdQuery }
               }
             });
-            
             if (order) {
               toolResponseText = `Ich habe die Bestellung gefunden. Der Status ist: ${order.status}. Sie wurde am ${order.createdAt.toLocaleString('de-DE')} aufgegeben. (Total: ${order.totalPrice}€, Typ: ${order.orderType})`;
             } else {
@@ -357,31 +350,35 @@ app.post('/api/chat', async (req, res) => {
             }
           } catch (dbError) {
             console.error('Datenbankfehler bei checkOrderStatus:', dbError.message);
-            // Fallback response for the AI if DB is down or invalid
             toolResponseText = `Ich konnte leider keine Bestellung mit der Nummer ${orderIdQuery} finden. Bitte überprüfe die Nummer.`;
           }
           
-          const followUpResult = await chat.sendMessage([{
-            functionResponse: {
-              name: 'checkOrderStatus',
-              response: { result: toolResponseText }
-            }
-          }]);
-          responseText = followUpResult.response.text();
+          formattedMessages.push({
+            role: "tool",
+            tool_call_id: toolCall.id,
+            name: toolCall.function.name,
+            content: toolResponseText
+          });
           
-        } else if (call.name === 'escalateToHuman') {
+        } else if (toolCall.function.name === 'escalateToHuman') {
           escalationTriggered = true;
-          escalationReason = call.args.reason;
+          escalationReason = args.reason;
           
-          const followUpResult = await chat.sendMessage([{
-            functionResponse: {
-              name: 'escalateToHuman',
-              response: { result: "Bitte bestätige dem Kunden, dass wir uns darum kümmern und biete das Kontaktformular für die E-Mail und das Bild an." }
-            }
-          }]);
-          responseText = followUpResult.response.text();
+          formattedMessages.push({
+            role: "tool",
+            tool_call_id: toolCall.id,
+            name: toolCall.function.name,
+            content: "Bitte bestätige dem Kunden, dass wir uns darum kümmern und biete das Kontaktformular für die E-Mail und das Bild an."
+          });
         }
       }
+      
+      // Make follow-up request to get the final response based on tool execution
+      const followUpCompletion = await groq.chat.completions.create({
+        messages: formattedMessages,
+        model: "llama-3.3-70b-versatile"
+      });
+      responseText = followUpCompletion.choices[0].message.content;
     }
 
     res.json({
