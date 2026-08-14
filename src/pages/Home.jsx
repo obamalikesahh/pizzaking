@@ -221,14 +221,14 @@ export default function Home() {
             </div>
 
             <div className="mini-menu-list">
-              {renderMiniMenuItem("500", 0)}
-              {renderMiniMenuItem("19", 0.1)}
-              {renderMiniMenuItem("12", 0.2)}
-              {renderMiniMenuItem("09", 0.3)}
-              {renderMiniMenuItem("01", 0.4)}
-              {renderMiniMenuItem("08", 0.5)}
-              {renderMiniMenuItem("03", 0.6)}
-              {renderMiniMenuItem("13", 0.7)}
+              {React.useMemo(() => {
+                const allItems = menuData.flatMap(cat => cat.items);
+                // Shuffle array
+                const shuffled = allItems.sort(() => 0.5 - Math.random());
+                // Select 8 items
+                const selected = shuffled.slice(0, 8);
+                return selected.map((item, idx) => renderMiniMenuItem(item.id, idx * 0.1));
+              }, [menuData])}
             </div>
             
             <div style={{ textAlign: 'center', marginTop: 'auto', paddingTop: '20px' }}>

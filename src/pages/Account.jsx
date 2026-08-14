@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { sendVerificationEmail } from '../services/emailService';
 
 export default function Account() {
-  const { currentUser, userSignUp, userVerifyAndSetPassword, userLogin, userVerifyLogin, userLogout, orders } = useAdmin();
+  const { currentUser, userSignUp, userVerifyAndSetPassword, userLogin, userVerifyLogin, userLogout, orders, updateOrderStatus } = useAdmin();
 
   // Mode: 'login' | 'login_step2' | 'signup_step1' | 'signup_step2'
   const [mode, setMode] = useState('login');
@@ -137,11 +137,12 @@ export default function Account() {
                       {order.status === 'zubereitung' && 'In Zubereitung'}
                       {order.status === 'zustellung' && 'In Zustellung 🛵'}
                       {order.status === 'erledigt' && 'Zugestellt ✅'}
+                      {order.status === 'storniert' && 'Storniert ❌'}
                     </span>
                   </div>
 
                   <div style={{ fontSize: '0.9rem', color: '#ccc', marginBottom: '12px' }}>
-                    {order.items.map((it, idx) => (
+                    {(order.items || []).map((it, idx) => (
                       <div key={idx}>• {typeof it === 'string' ? it : `${it.quantity}x ${it.name}`}</div>
                     ))}
                   </div>
@@ -150,6 +151,18 @@ export default function Account() {
                     <span>Lieferadresse: <strong style={{ color: '#fff' }}>{order.address}</strong></span>
                     <strong style={{ fontSize: '1.1rem', color: '#cfa670' }}>{(order.total || 0).toFixed(2).replace('.', ',')} €</strong>
                   </div>
+                  
+                  {order.status === 'eingegangen' && (
+                    <div style={{ marginTop: '15px', textAlign: 'right' }}>
+                      <button onClick={() => {
+                        if(window.confirm('Möchten Sie diese Bestellung wirklich stornieren?')) {
+                          updateOrderStatus(order.id, 'storniert');
+                        }
+                      }} className="bestseller-btn" style={{ padding: '8px 16px', fontSize: '0.8rem', background: 'rgba(239,68,68,0.15)', color: '#ef4444', borderColor: 'rgba(239,68,68,0.3)' }}>
+                        Bestellung Stornieren
+                      </button>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

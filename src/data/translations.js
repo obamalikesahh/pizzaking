@@ -75,6 +75,7 @@ export const t = {
 
     // Footer
     navigation: 'Navigation',
+    home: 'Startseite',
     contact: 'Kontakt',
     followUs: 'Folge Uns',
     impressum: 'Impressum',
@@ -82,8 +83,8 @@ export const t = {
     newsletterFooterDesc: 'Werde Teil des exklusiven King-Clubs und erhalte geheime Angebote!',
     rights: 'Alle Rechte vorbehalten.',
 
-    // Contact Page
-    reservation: 'Reservierung',
+    // Kontakt
+    reservation: 'Kontakt',
     reservationDesc: 'Buchen Sie einen Tisch und erleben Sie den königlichen Geschmack von Pizza King.',
     contactInfo: 'Kontaktinformationen',
     address: 'Adresse',
@@ -97,8 +98,8 @@ export const t = {
     emailPlaceholder: 'sie@beispiel.de',
     messageDetails: 'Nachricht / Details',
     messagePlaceholder: 'Datum, Uhrzeit, Anzahl der Gäste...',
-    requestReservation: 'Reservierung anfragen',
-    reservationSuccess: 'Vielen Dank für Ihre Reservierungsanfrage! Wir werden uns in Kürze bei Ihnen melden.'
+    requestReservation: 'Kontakt aufnehmen',
+    reservationSuccess: 'Vielen Dank für Ihre Nachricht! Wir werden uns in Kürze bei Ihnen melden.'
   },
   en: {
     // Header
@@ -176,6 +177,7 @@ export const t = {
 
     // Footer
     navigation: 'Navigation',
+    home: 'Home',
     contact: 'Contact',
     followUs: 'Follow Us',
     impressum: 'Imprint',
@@ -183,8 +185,8 @@ export const t = {
     newsletterFooterDesc: 'Join the exclusive King Club and get secret offers!',
     rights: 'All rights reserved.',
 
-    // Contact Page
-    reservation: 'Reservation',
+    // Kontakt
+    reservation: 'Contact',
     reservationDesc: 'Book a table and experience the royal taste of Pizza King.',
     contactInfo: 'Contact Information',
     address: 'Address',
@@ -198,8 +200,8 @@ export const t = {
     emailPlaceholder: 'you@example.com',
     messageDetails: 'Message / Details',
     messagePlaceholder: 'Date, Time, Number of Guests...',
-    requestReservation: 'Request Reservation',
-    reservationSuccess: 'Thank you for your reservation request! We will confirm shortly.'
+    requestReservation: 'Contact Us',
+    reservationSuccess: 'Thank you for your message! We will get back to you shortly.'
   },
   ru: {
     // Header
@@ -277,6 +279,7 @@ export const t = {
 
     // Footer
     navigation: 'Навигация',
+    home: 'Главная',
     contact: 'Контакты',
     followUs: 'Следите за нами',
     impressum: 'Импрессум',
@@ -284,8 +287,8 @@ export const t = {
     newsletterFooterDesc: 'Присоединяйтесь к эксклюзивному клубу King и получайте секретные предложения!',
     rights: 'Все права защищены.',
 
-    // Contact Page
-    reservation: 'Бронирование',
+    // Kontakt
+    reservation: 'Контакты',
     reservationDesc: 'Забронируйте столик и ощутите королевский вкус Pizza King.',
     contactInfo: 'Контактная информация',
     address: 'Адрес',
@@ -299,8 +302,8 @@ export const t = {
     emailPlaceholder: 'вы@example.com',
     messageDetails: 'Сообщение / Детали',
     messagePlaceholder: 'Дата, Время, Количество гостей...',
-    requestReservation: 'Запросить бронирование',
-    reservationSuccess: 'Спасибо за ваш запрос на бронирование! Мы скоро подтвердим.'
+    requestReservation: 'Связаться',
+    reservationSuccess: 'Спасибо за ваше сообщение! Мы скоро свяжемся с вами.'
   }
 };
 

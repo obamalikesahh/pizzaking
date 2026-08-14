@@ -7,8 +7,10 @@ import Home from './pages/Home';
 import Menu from './pages/Menu';
 import Checkout from './pages/Checkout';
 import DeliveryZones from './pages/DeliveryZones';
+import Cart from './pages/Cart';
 import Account from './pages/Account';
 import Contact from './pages/Contact';
+import ScrollToTop from './components/ScrollToTop';
 import Admin from './pages/Admin';
 import DeliveryZoneModal from './components/DeliveryZoneModal';
 import KochKingChat from './components/KochKingChat';
@@ -82,6 +84,7 @@ function App() {
       <CartProvider>
         <AdminProvider>
           <Router>
+            <ScrollToTop />
             <Helmet>
               <title>Pizza King Schleswig - Lieferservice</title>
               <meta name="description" content="Essen, wie ein König bei Pizza King Schleswig. Pizza bestellen in Schleswig und Umgebung. Frische Zutaten, schnelle Lieferung." />

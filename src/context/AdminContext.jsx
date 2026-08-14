@@ -30,7 +30,7 @@ export function AdminProvider({ children }) {
   const [allUsers, setAllUsers] = useState(() => {
     const saved = localStorage.getItem('pk_all_users');
     if (saved) {
-      try { return JSON.parse(saved); } catch (e) {}
+      try { const parsed = JSON.parse(saved); return Array.isArray(parsed) ? parsed : []; } catch (e) {}
     }
     return [];
   });
@@ -39,7 +39,7 @@ export function AdminProvider({ children }) {
   const [newsletterSubscribers, setNewsletterSubscribers] = useState(() => {
     const saved = localStorage.getItem('pk_newsletter');
     if (saved) {
-      try { return JSON.parse(saved); } catch (e) {}
+      try { const parsed = JSON.parse(saved); return Array.isArray(parsed) ? parsed : []; } catch (e) {}
     }
     return [];
   });
@@ -53,12 +53,12 @@ export function AdminProvider({ children }) {
   useEffect(() => {
     fetch(`${API_URL}/offers`, { cache: 'no-store' })
       .then(res => res.json())
-      .then(data => setOffers(data))
+      .then(data => setOffers(Array.isArray(data) ? data : []))
       .catch(err => console.error("Fehler beim Laden der Angebote:", err));
 
     fetch(`${API_URL}/orders`, { cache: 'no-store' })
       .then(res => res.json())
-      .then(data => setOrders(data))
+      .then(data => setOrders(Array.isArray(data) ? data : []))
       .catch(err => console.error("Fehler beim Laden der Bestellungen:", err));
 
     fetch(`${API_URL}/menu`, { cache: 'no-store' })

@@ -66,3 +66,13 @@ model MenuItem {
   category       MenuCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   createdAt      DateTime     @default(now())
 }
+
+model DiscountCode {
+  id        String   @id @default(uuid())
+  code      String   @unique
+  email     String
+  discount  Int      @default(10) // percentage
+  isUsed    Boolean  @default(false)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}

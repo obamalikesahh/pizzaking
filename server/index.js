@@ -231,6 +231,69 @@ app.post('/api/send-order', async (req, res) => {
   }
 });
 
+// --- NEWSLETTER API ---
+app.post('/api/newsletter/subscribe', async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) return res.status(400).json({ error: 'Email is required' });
+
+    // Generiere einen 10% Rabattcode
+    const randomPart = Math.random().toString(36).substring(2, 6).toUpperCase();
+    const numPart = Math.floor(100 + Math.random() * 900);
+    const codeStr = `KING-${numPart}-${randomPart}`;
+
+    // Ablaufdatum in 1 Monat
+    const expiresAt = new Date();
+    expiresAt.setMonth(expiresAt.getMonth() + 1);
+
+    const discountCode = await prisma.discountCode.create({
+      data: {
+        code: codeStr,
+        email: email,
+        discount: 10,
+        expiresAt: expiresAt
+      }
+    });
+
+    // Sende Email
+    await transporter.sendMail({
+      from: `"Pizza King Schleswig" <${process.env.SMTP_USER}>`,
+      to: email,
+      subject: `🎁 Dein 10% Willkommens-Gutschein für Pizza King!`,
+      html: `
+        <div style="font-family: Arial, sans-serif; padding: 25px; background: #0a0b0a; color: #ffffff; border-radius: 12px; border: 1px solid #cfa670;">
+          <h2 style="color: #cfa670; margin-top: 0;">Willkommen im VIP King-Club!</h2>
+          <p style="font-size: 16px;">Vielen Dank für deine Anmeldung zum Newsletter.</p>
+          <p>Hier ist dein persönlicher 10% Rabattcode für deine nächste Bestellung:</p>
+          <div style="background: rgba(207, 166, 112, 0.2); border: 2px solid #cfa670; font-size: 28px; font-weight: bold; letter-spacing: 4px; padding: 18px; text-align: center; border-radius: 10px; color: #cfa670; margin: 25px 0;">
+            ${codeStr}
+          </div>
+          <p style="color: #aaaaaa; font-size: 13px;">Dieser Code ist einmalig einlösbar und gültig bis zum ${expiresAt.toLocaleDateString('de-DE')}.</p>
+        </div>
+      `
+    });
+
+    res.json({ success: true, code: codeStr });
+  } catch (error) {
+    console.error('Newsletter Subscribe Error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post('/api/discount/validate', async (req, res) => {
+  try {
+    const { code } = req.body;
+    const discountCode = await prisma.discountCode.findUnique({ where: { code } });
+    if (!discountCode) return res.status(400).json({ error: 'Ungültiger Code' });
+    if (discountCode.isUsed) return res.status(400).json({ error: 'Code wurde bereits verwendet' });
+    if (new Date() > new Date(discountCode.expiresAt)) return res.status(400).json({ error: 'Code ist abgelaufen' });
+    
+    res.json({ success: true, discount: discountCode.discount });
+  } catch (error) {
+    res.status(500).json({ error: 'Validierungsfehler' });
+  }
+});
+
 // --- KOCHKING KI CHAT ---
 
 const systemInstruction = "Du bist KochKing, der freundliche, professionelle und hilfreiche KI-Assistent von Pizza King Schleswig. Du hilfst Kunden bei Fragen zu ihrer Bestellung. Du antwortest kurz, prägnant und freundlich. Wenn ein Kunde ein schwerwiegendes Problem meldet (z.B. falsches Essen, kaltes Essen), nutze das escalateToHuman Tool, um ihm anzubieten, sich mit einem Mitarbeiter in Verbindung zu setzen. Wenn ein Kunde nach seiner Bestellung fragt und eine Nummer angibt, nutze das checkOrderStatus Tool.";

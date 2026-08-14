@@ -67,7 +67,7 @@ export default function Footer() {
           <h3>{t.contact}</h3>
           <p>Domziegelhof 12-14</p>
           <p>24837 Schleswig</p>
-          <p style={{ color: 'var(--color-primary)', fontWeight: 'bold', marginTop: '6px' }}>Tel: 04621 / 999 460 oder 04621 / 999 461</p>
+          <p style={{ color: 'var(--color-primary)', fontWeight: 'bold', marginTop: '6px' }}>Tel: 04621 / 999 460<br/>Tel: 04621 / 999 461</p>
           <p style={{ color: 'var(--color-primary)', fontWeight: 'bold' }}>Email: kontakt@pizzaking-schleswig.de</p>
         </div>
 

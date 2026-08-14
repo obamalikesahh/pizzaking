@@ -20,6 +20,34 @@ export default function Checkout() {
   const [plz, setPlz] = useState('24837');
   const [city, setCity] = useState('Schleswig');
 
+  const [discountCode, setDiscountCode] = useState('');
+  const [discountAmount, setDiscountAmount] = useState(0);
+  const [discountError, setDiscountError] = useState('');
+  
+  const finalTotal = cartTotal * (1 - discountAmount / 100);
+
+  const applyDiscount = async () => {
+    setDiscountError('');
+    if (!discountCode) return;
+    try {
+      const { API_URL } = await import('../api');
+      const res = await fetch(`${API_URL}/discount/validate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: discountCode })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setDiscountAmount(data.discount);
+      } else {
+        setDiscountError(data.error || 'Ungültiger Code');
+        setDiscountAmount(0);
+      }
+    } catch (err) {
+      setDiscountError('Fehler bei der Überprüfung');
+    }
+  };
+
   const handleNext = () => setStep(s => s + 1);
   const handlePrev = () => setStep(s => s - 1);
   const handleCheckoutComplete = () => {
@@ -32,8 +60,9 @@ export default function Checkout() {
       phone: phone || 'Keine Angabe',
       address: addressStr,
       items: cartItems.map(i => ({ name: i.name, price: i.price, quantity: i.quantity, image: i.image })),
-      total: cartTotal,
+      total: finalTotal,
       payment: paymentLabel,
+      discount: discountAmount > 0 ? discountCode : null
     });
 
     if (newOrder.customerEmail) {
@@ -169,10 +198,24 @@ export default function Checkout() {
               </div>
             )}
           </div>
+          <div style={{ marginTop: '20px', marginBottom: '20px', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '20px' }}>
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <input 
+                type="text" 
+                placeholder="Rabattcode" 
+                value={discountCode} 
+                onChange={e => setDiscountCode(e.target.value)} 
+                style={{ flex: 1, padding: '10px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', outline: 'none' }} 
+              />
+              <button onClick={applyDiscount} className="bestseller-btn" style={{ padding: '10px 16px', fontSize: '0.8rem' }}>Einlösen</button>
+            </div>
+            {discountError && <div style={{ color: '#ef4444', fontSize: '0.8rem', marginTop: '8px' }}>{discountError}</div>}
+            {discountAmount > 0 && <div style={{ color: '#22c55e', fontSize: '0.8rem', marginTop: '8px' }}>Gutschein aktiv: -{discountAmount}%!</div>}
+          </div>
           <div className="summary-total" style={{ flexDirection: 'column', alignItems: 'stretch' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span>Gesamt</span>
-              <span className="total-price">{cartTotal.toFixed(2).replace('.', ',')} €</span>
+              <span className="total-price">{finalTotal.toFixed(2).replace('.', ',')} €</span>
             </div>
             <span style={{ fontSize: '0.75rem', color: 'rgba(255, 255, 255, 0.5)', textAlign: 'right', marginTop: '4px' }}>
               * Inkl. MwSt. & Pfand bei Flaschen

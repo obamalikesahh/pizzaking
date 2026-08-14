@@ -16,10 +16,10 @@ export default function Header() {
 
   // Translations map for Header links
   const t = {
-    de: { menu: 'SPEISEKARTE', about: 'ÜBER UNS', login: 'ANMELDEN', account: 'MEIN KONTO', cart: 'WARENKORB' },
-    en: { menu: 'MENU', about: 'ABOUT', login: 'LOGIN', account: 'MY ACCOUNT', cart: 'CART' },
-    ru: { menu: 'МЕНЮ', about: 'О НАС', login: 'ВОЙТИ', account: 'КАБИНЕТ', cart: 'КОРЗИНА' }
-  }[language] || { menu: 'MENU', about: 'ABOUT', login: 'LOGIN', account: 'ACCOUNT', cart: 'CART' };
+    de: { menu: 'SPEISEKARTE', about: 'ÜBER UNS', rent: 'SAAL MIETEN', login: 'ANMELDEN', account: 'MEIN KONTO', cart: 'WARENKORB' },
+    en: { menu: 'MENU', about: 'ABOUT', rent: 'RENT HALL', login: 'LOGIN', account: 'MY ACCOUNT', cart: 'CART' },
+    ru: { menu: 'МЕНЮ', about: 'О НАС', rent: 'АРЕНДА ЗАЛА', login: 'ВОЙТИ', account: 'КАБИНЕТ', cart: 'КОРЗИНА' }
+  }[language] || { menu: 'MENU', about: 'ABOUT', rent: 'RENT HALL', login: 'LOGIN', account: 'ACCOUNT', cart: 'CART' };
 
   return (
     <header className="pill-header">
@@ -69,6 +69,7 @@ export default function Header() {
             >
               <Link to="/menu" className="pill-link">{t.menu}</Link>
               <Link to="/about" className="pill-link">{t.about}</Link>
+              <a href="https://www.festsaal-morena.de" target="_blank" rel="noopener noreferrer" className="pill-link">{t.rent}</a>
               
               {/* User Account / Login Link */}
               <Link to="/account" className="pill-link" style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#cfa670' }}>

@@ -377,7 +377,7 @@ export default function Admin() {
                         </td>
                         <td>
                           <div style={{ fontSize: '0.85rem' }}>
-                            {order.items.map((it, idx) => (
+                            {(order.items || []).map((it, idx) => (
                               <div key={idx}>
                                 {typeof it === 'string' ? it : `${it.quantity || 1}x ${it.name} (${(it.price * (it.quantity || 1)).toFixed(2).replace('.', ',')} €)`}
                               </div>
