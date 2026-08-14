@@ -149,5 +149,17 @@
     padding: 5px 0;
     width: 100%;
   }
+  .desktop-only {
+    display: none !important;
+  }
+  .mobile-only {
+    display: flex !important;
+  }
+  .cart-text { display: none; }
 }
-@media (max-width: 900px) { .cart-text { display: none; } }
+
+@media (min-width: 901px) {
+  .mobile-only {
+    display: none !important;
+  }
+}
