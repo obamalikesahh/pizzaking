@@ -1,11 +1,11 @@
 export const t = {
   de: {
     // Header
-    menu: 'SPEISEKARTE',
-    about: 'ÜBER UNS',
-    login: 'ANMELDEN',
-    account: 'MEIN KONTO',
-    cart: 'WARENKORB',
+    menu: 'Speisekarte',
+    about: 'Über uns',
+    login: 'Anmelden',
+    account: 'Mein Konto',
+    cart: 'Warenkorb',
 
     // Home
     ourCulinaryWorkshop: 'UNSER KULINARISCHER WORKSHOP',
@@ -83,11 +83,11 @@ export const t = {
   },
   en: {
     // Header
-    menu: 'MENU',
-    about: 'ABOUT',
-    login: 'LOGIN',
-    account: 'MY ACCOUNT',
-    cart: 'CART',
+    menu: 'Menu',
+    about: 'About',
+    login: 'Login',
+    account: 'My Account',
+    cart: 'Cart',
 
     // Home
     ourCulinaryWorkshop: 'OUR CULINARY WORKSHOP',
@@ -165,11 +165,11 @@ export const t = {
   },
   ru: {
     // Header
-    menu: 'МЕНЮ',
-    about: 'О НАС',
-    login: 'ВОЙТИ',
-    account: 'МОЙ КАБИНЕТ',
-    cart: 'КОРЗИНА',
+    menu: 'Меню',
+    about: 'О нас',
+    login: 'Войти',
+    account: 'Мой кабинет',
+    cart: 'Корзина',
 
     // Home
     ourCulinaryWorkshop: 'НАША КУЛИНАРНАЯ МАСТЕРСКАЯ',
