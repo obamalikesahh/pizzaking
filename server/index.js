@@ -397,7 +397,7 @@ app.post('/api/chat', async (req, res) => {
 
 app.post('/api/chat/escalate', async (req, res) => {
   try {
-    const { email, history, image, reason, description } = req.body;
+    const { email, firstName, lastName, orderId, history, image, reason, description } = req.body;
     
     // HTML für den Verlauf
     const historyHtml = history.map(msg => `
@@ -426,7 +426,9 @@ app.post('/api/chat/escalate', async (req, res) => {
       html: `
         <div style="font-family: Arial, sans-serif; padding: 20px;">
           <h2 style="color: #e53e3e;">Neue Reklamation via Chat</h2>
+          <p><strong>Name:</strong> ${firstName || ''} ${lastName || ''}</p>
           <p><strong>Kunden-Email:</strong> ${email}</p>
+          <p><strong>Bestellnummer:</strong> ${orderId || 'Nicht angegeben'}</p>
           <p><strong>Kunden-Beschreibung:</strong> ${description || 'Keine Beschreibung angegeben'}</p>
           <p><strong>Grund (KI-Einschätzung):</strong> ${reason || 'Unbekannt'}</p>
           ${image ? '<p><strong>Ein Bild wurde angehängt.</strong></p>' : ''}

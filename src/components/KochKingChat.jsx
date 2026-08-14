@@ -14,6 +14,9 @@ const KochKingChat = () => {
   const [escalationTriggered, setEscalationTriggered] = useState(false);
   const [escalationReason, setEscalationReason] = useState('');
   const [escalationEmail, setEscalationEmail] = useState('');
+  const [escalationFirstName, setEscalationFirstName] = useState('');
+  const [escalationLastName, setEscalationLastName] = useState('');
+  const [escalationOrderId, setEscalationOrderId] = useState('');
   const [escalationDescription, setEscalationDescription] = useState('');
   const [escalationImage, setEscalationImage] = useState(null);
   const [escalationStatus, setEscalationStatus] = useState(null); // 'sending', 'success', 'error'
@@ -106,6 +109,9 @@ const KochKingChat = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email: escalationEmail,
+          firstName: escalationFirstName,
+          lastName: escalationLastName,
+          orderId: escalationOrderId,
           history: messages,
           image: escalationImage,
           reason: escalationReason,
@@ -164,16 +170,43 @@ const KochKingChat = () => {
 
             {escalationTriggered && (
               <div className="kochking-escalation-box">
-                <h4><AlertCircle size={16} /> Problem melden</h4>
-                <p>Bitte hinterlasse deine E-Mail und lade ggf. ein Bild hoch, damit wir uns schnell darum kümmern können.</p>
+                <h4><span className="kochking-avatar" style={{fontSize: '18px', marginRight: '8px', padding: '2px 6px'}}>👑</span> Problem melden</h4>
+                <p>Bitte hinterlasse deine Daten und beschreibe dein Problem, damit wir uns schnell darum kümmern können.</p>
                 <form onSubmit={handleEscalationSubmit}>
+                  <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
+                    <input 
+                      type="text" 
+                      placeholder="Vorname" 
+                      value={escalationFirstName}
+                      onChange={(e) => setEscalationFirstName(e.target.value)}
+                      required
+                      style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(0,0,0,0.2)', color: 'white' }}
+                    />
+                    <input 
+                      type="text" 
+                      placeholder="Nachname" 
+                      value={escalationLastName}
+                      onChange={(e) => setEscalationLastName(e.target.value)}
+                      required
+                      style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(0,0,0,0.2)', color: 'white' }}
+                    />
+                  </div>
+                  <input 
+                    type="text" 
+                    placeholder="Bestellnummer (optional)" 
+                    value={escalationOrderId}
+                    onChange={(e) => setEscalationOrderId(e.target.value)}
+                    style={{ width: '100%', marginBottom: '10px', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(0,0,0,0.2)', color: 'white' }}
+                  />
                   <input 
                     type="email" 
                     placeholder="Deine E-Mail Adresse" 
                     value={escalationEmail}
                     onChange={(e) => setEscalationEmail(e.target.value)}
                     required
+                    style={{ width: '100%', marginBottom: '10px', padding: '10px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(0,0,0,0.2)', color: 'white' }}
                   />
+
                   <textarea
                     placeholder="Beschreibe dein Problem..."
                     value={escalationDescription}
