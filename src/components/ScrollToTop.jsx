@@ -6,7 +6,7 @@ export default function ScrollToTop() {
 
   useEffect(() => {
     const toggleVisibility = () => {
-      if (window.pageYOffset > 300) {
+      if (window.pageYOffset > 150) {
         setIsVisible(true);
       } else {
         setIsVisible(false);
@@ -27,12 +27,12 @@ export default function ScrollToTop() {
   return (
     <div style={{
       position: 'fixed',
-      bottom: '30px',
-      right: '30px',
-      zIndex: 1000,
+      bottom: '105px',
+      right: '35px',
+      zIndex: 999,
       opacity: isVisible ? 1 : 0,
       visibility: isVisible ? 'visible' : 'hidden',
-      transition: 'opacity 0.3s ease-in-out, visibility 0.3s ease-in-out'
+      transition: 'all 0.3s ease-in-out'
     }}>
       <button 
         onClick={scrollToTop} 
