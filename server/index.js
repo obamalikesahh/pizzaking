@@ -113,45 +113,33 @@ app.get('/api/products', async (req, res) => {
   }
 });
 
-// ✉️ BACKEND RESEND E-MAIL ENDPOINTS (Sicher vom Node-Server)
+// ✉️ BACKEND IONOS E-MAIL ENDPOINTS
 app.post('/api/send-verification', async (req, res) => {
   try {
     const { toEmail, userName, code } = req.body;
     console.log(`✉️ [Server Mailer] Sende Code ${code} an ${toEmail}...`);
 
-    if (!RESEND_API_KEY) {
-      return res.status(400).json({ error: 'No Resend API Key' });
-    }
-
-    const response = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${RESEND_API_KEY}`
-      },
-      body: JSON.stringify({
-        from: 'Pizza King Schleswig <info@pizzaking-schleswig.com>',
-        to: [toEmail],
-        subject: `🔑 Dein Verifizierungscode für Pizza King: ${code}`,
-        html: `
-          <div style="font-family: Arial, sans-serif; padding: 25px; background: #0a0b0a; color: #ffffff; border-radius: 12px; border: 1px solid #cfa670;">
-            <h2 style="color: #cfa670; margin-top: 0;">Willkommen bei Pizza King Schleswig!</h2>
-            <p style="font-size: 16px;">Hallo <strong>${userName}</strong>,</p>
-            <p>vielen Dank für deine Registrierung. Dein 6-stelliger Verifizierungscode lautet:</p>
-            <div style="background: rgba(207, 166, 112, 0.2); border: 2px solid #cfa670; font-size: 28px; font-weight: bold; letter-spacing: 6px; padding: 18px; text-align: center; border-radius: 10px; color: #cfa670; margin: 25px 0;">
-              ${code}
-            </div>
-            <p style="color: #aaaaaa; font-size: 13px;">Gib diesen Code im Anmeldefenster ein, um dein Kundenkonto zu aktivieren.</p>
+    const info = await transporter.sendMail({
+      from: `"Pizza King Schleswig" <${process.env.SMTP_USER}>`,
+      to: toEmail,
+      subject: `🔑 Dein Verifizierungscode für Pizza King: ${code}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; padding: 25px; background: #0a0b0a; color: #ffffff; border-radius: 12px; border: 1px solid #cfa670;">
+          <h2 style="color: #cfa670; margin-top: 0;">Willkommen bei Pizza King Schleswig!</h2>
+          <p style="font-size: 16px;">Hallo <strong>${userName}</strong>,</p>
+          <p>vielen Dank für deine Registrierung. Dein 6-stelliger Verifizierungscode lautet:</p>
+          <div style="background: rgba(207, 166, 112, 0.2); border: 2px solid #cfa670; font-size: 28px; font-weight: bold; letter-spacing: 6px; padding: 18px; text-align: center; border-radius: 10px; color: #cfa670; margin: 25px 0;">
+            ${code}
           </div>
-        `
-      })
+          <p style="color: #aaaaaa; font-size: 13px;">Gib diesen Code im Anmeldefenster ein, um dein Kundenkonto zu aktivieren.</p>
+        </div>
+      `
     });
 
-    const data = await response.json();
-    console.log('Resend Response from Backend:', data);
-    res.json({ success: response.ok, data });
+    console.log('IONOS Email gesendet:', info.messageId);
+    res.json({ success: true, messageId: info.messageId });
   } catch (error) {
-    console.error('Server Mailer Error:', error);
+    console.error('Server Mailer Error (IONOS):', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -180,78 +168,65 @@ app.post('/api/send-order', async (req, res) => {
     `).join('');
 
     // 1. Kunden Mail
-    await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${RESEND_API_KEY}`
-      },
-      body: JSON.stringify({
-        from: 'Pizza King Schleswig <info@pizzaking-schleswig.com>',
-        to: [toEmail],
-        subject: `🍕 Bestellbestätigung #${order.id} - Pizza King`,
-        html: `
-          <div style="font-family: 'Inter', Helvetica, sans-serif; background-color: #111111; color: #ffffff; padding: 40px 20px; text-align: center;">
-            <div style="max-width: 600px; margin: 0 auto; background-color: #1a1a1a; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #cfa670;">
-              <div style="background: linear-gradient(135deg, #cfa670 0%, #b88645 100%); padding: 30px 20px;">
-                <h1 style="color: #111111; margin: 0; font-size: 28px; text-transform: uppercase; letter-spacing: 2px;">Pizza King</h1>
-                <p style="color: #111111; margin: 10px 0 0; font-weight: 600;">Deine Bestellung ist eingegangen!</p>
-              </div>
-              <div style="padding: 30px 20px; text-align: left;">
-                <h2 style="color: #cfa670; margin-top: 0; font-size: 22px;">Bestellbestätigung #${order.id}</h2>
-                <p style="font-size: 16px; color: #dddddd;">Hallo ${order.customer || 'Kunde'},</p>
-                <p style="font-size: 16px; color: #dddddd; line-height: 1.5;">Vielen Dank für deine Bestellung! Wir haben deine Bestellung erhalten und bereiten sie gerade frisch für dich zu.</p>
-                
-                <h3 style="color: #ffffff; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-top: 30px;">Deine Artikel</h3>
-                <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
-                  ${itemsListHtml}
-                </table>
-                
-                <div style="margin-top: 20px; text-align: right; font-size: 20px; color: #cfa670; font-weight: bold;">
-                  Gesamtsumme: ${(order.total || 0).toFixed(2).replace('.', ',')} €
-                </div>
-              </div>
-              <div style="background-color: #0a0a0a; padding: 25px 20px; font-size: 14px; color: #888888; text-align: center; border-top: 1px solid rgba(255,255,255,0.05);">
-                <p style="margin: 0 0 5px 0;"><strong>Euer Pizza King Team!</strong></p>
-                <p style="margin: 0 0 5px 0;">Adresse: Domziegelhof 12-14, 24837 Schleswig</p>
-                <p style="margin: 0 0 5px 0;">Telefon: 04621/ 999 460 oder 04621/ 999 461</p>
-                <p style="margin: 0;">Email: <a href="mailto:info@pizzaking-schleswig.de" style="color: #cfa670; text-decoration: none;">info@pizzaking-schleswig.de</a></p>
+    await transporter.sendMail({
+      from: `"Pizza King Schleswig" <${process.env.SMTP_USER}>`,
+      to: toEmail,
+      subject: `🍕 Bestellbestätigung #${order.id} - Pizza King`,
+      html: `
+        <div style="font-family: 'Inter', Helvetica, sans-serif; background-color: #111111; color: #ffffff; padding: 40px 20px; text-align: center;">
+          <div style="max-width: 600px; margin: 0 auto; background-color: #1a1a1a; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #cfa670;">
+            <div style="background: linear-gradient(135deg, #cfa670 0%, #b88645 100%); padding: 30px 20px;">
+              <h1 style="color: #111111; margin: 0; font-size: 28px; text-transform: uppercase; letter-spacing: 2px;">Pizza King</h1>
+              <p style="color: #111111; margin: 10px 0 0; font-weight: 600;">Deine Bestellung ist eingegangen!</p>
+            </div>
+            <div style="padding: 30px 20px; text-align: left;">
+              <h2 style="color: #cfa670; margin-top: 0; font-size: 22px;">Bestellbestätigung #${order.id}</h2>
+              <p style="font-size: 16px; color: #dddddd;">Hallo ${order.customer || 'Kunde'},</p>
+              <p style="font-size: 16px; color: #dddddd; line-height: 1.5;">Vielen Dank für deine Bestellung! Wir haben deine Bestellung erhalten und bereiten sie gerade frisch für dich zu.</p>
+              
+              <h3 style="color: #ffffff; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-top: 30px;">Deine Artikel</h3>
+              <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+                ${itemsListHtml}
+              </table>
+              
+              <div style="margin-top: 20px; text-align: right; font-size: 20px; color: #cfa670; font-weight: bold;">
+                Gesamtsumme: ${(order.total || 0).toFixed(2).replace('.', ',')} €
               </div>
             </div>
+            <div style="background-color: #0a0a0a; padding: 25px 20px; font-size: 14px; color: #888888; text-align: center; border-top: 1px solid rgba(255,255,255,0.05);">
+              <p style="margin: 0 0 5px 0;"><strong>Euer Pizza King Team!</strong></p>
+              <p style="margin: 0 0 5px 0;">Adresse: Domziegelhof 12-14, 24837 Schleswig</p>
+              <p style="margin: 0 0 5px 0;">Telefon: 04621/ 999 460 oder 04621/ 999 461</p>
+              <p style="margin: 0;">Email: <a href="mailto:info@pizzaking-schleswig.de" style="color: #cfa670; text-decoration: none;">info@pizzaking-schleswig.de</a></p>
+            </div>
           </div>
-        `
-      })
+        </div>
+      `
     });
 
     // 2. Restaurant Inhaber Mail
-    await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${RESEND_API_KEY}`
-      },
-      body: JSON.stringify({
-        from: 'Pizza King System <info@pizzaking-schleswig.com>',
-        to: [RESTAURANT_EMAIL],
-        subject: `🚨 NEUE BESTELLUNG EINGEGANGEN! (${order.id} - ${(order.total || 0).toFixed(2).replace('.', ',')} €)`,
-        html: `
-          <div style="font-family: Arial, sans-serif; padding: 25px; background: #111111; color: #ffffff; border-radius: 12px; border: 2px solid #22c55e;">
-            <h1 style="color: #22c55e; margin-top: 0;">🚨 NEUE BESTELLUNG EINGEGANGEN!</h1>
-            <p><strong>Kunde:</strong> ${order.customer}</p>
-            <p><strong>Telefon:</strong> ${order.phone}</p>
-            <p><strong>Adresse:</strong> ${order.address}</p>
-            <p><strong>Zahlung:</strong> ${order.payment}</p>
-            <h3>Bestellung:</h3>
-            <ul>${itemsListHtml}</ul>
-            <h2>Gesamtsumme: ${(order.total || 0).toFixed(2).replace('.', ',')} €</h2>
-          </div>
-        `
-      })
+    const adminEmail = process.env.RESTAURANT_EMAIL || process.env.SMTP_USER;
+    await transporter.sendMail({
+      from: `"Pizza King System" <${process.env.SMTP_USER}>`,
+      to: adminEmail,
+      subject: `🚨 NEUE BESTELLUNG EINGEGANGEN! (${order.id} - ${(order.total || 0).toFixed(2).replace('.', ',')} €)`,
+      html: `
+        <div style="font-family: Arial, sans-serif; padding: 25px; background: #111111; color: #ffffff; border-radius: 12px; border: 2px solid #22c55e;">
+          <h1 style="color: #22c55e; margin-top: 0;">🚨 NEUE BESTELLUNG EINGEGANGEN!</h1>
+          <p><strong>Kunde:</strong> ${order.customer}</p>
+          <p><strong>Telefon:</strong> ${order.phone}</p>
+          <p><strong>Adresse:</strong> ${order.address}</p>
+          <p><strong>Zahlung:</strong> ${order.payment}</p>
+          <h3>Bestellung:</h3>
+          <ul>${itemsListHtml}</ul>
+          <h2>Gesamtsumme: ${(order.total || 0).toFixed(2).replace('.', ',')} €</h2>
+        </div>
+      `
     });
 
     res.json({ success: true });
   } catch (error) {
-    console.error('Server Order Mailer Error:', error);
+    console.error('Server Order Mailer Error (IONOS):', error);
     res.status(500).json({ error: error.message });
   }
 });
