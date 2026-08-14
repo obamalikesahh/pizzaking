@@ -60,6 +60,7 @@ export default function Footer() {
           <Link to="/menu">{t.menu}</Link>
           <Link to="/about">{t.about}</Link>
           <Link to="/contact">{t.contact}</Link>
+          <Link to="/impressum">{t.impressum}</Link>
         </div>
 
         <div className="footer-links">

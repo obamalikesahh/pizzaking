@@ -1,0 +1,74 @@
+.impressum-container {
+  padding: 120px 20px 80px 20px;
+  background-color: var(--color-bg);
+  min-height: 100vh;
+  color: var(--color-text);
+  display: flex;
+  justify-content: center;
+}
+
+.impressum-content {
+  max-width: 800px;
+  width: 100%;
+}
+
+.impressum-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  text-align: center;
+  color: var(--color-primary);
+  margin-bottom: 50px;
+  text-transform: uppercase;
+}
+
+.impressum-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.impressum-card h2 {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  color: var(--color-text);
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(207, 166, 112, 0.3);
+  padding-bottom: 10px;
+}
+
+.impressum-card h3 {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  color: var(--color-primary);
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+.impressum-card p {
+  color: var(--color-text-muted);
+  line-height: 1.8;
+  margin-bottom: 20px;
+  font-size: 1.05rem;
+}
+
+.impressum-card a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.impressum-card a:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .impressum-container {
+    padding: 100px 15px 50px 15px;
+  }
+  .impressum-card {
+    padding: 25px;
+  }
+}

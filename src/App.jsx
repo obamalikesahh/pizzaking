@@ -12,6 +12,7 @@ import Contact from './pages/Contact';
 import Admin from './pages/Admin';
 import DeliveryZoneModal from './components/DeliveryZoneModal';
 import KochKingChat from './components/KochKingChat';
+import Impressum from './pages/Impressum';
 import { CartProvider } from './context/CartContext';
 import { AdminProvider } from './context/AdminContext';
 
@@ -39,6 +40,7 @@ function Layout() {
           <Route path="/account" element={<Account />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/impressum" element={<Impressum />} />
         </Routes>
       </main>
 

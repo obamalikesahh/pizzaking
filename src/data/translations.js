@@ -77,6 +77,7 @@ export const t = {
     navigation: 'Navigation',
     contact: 'Kontakt',
     followUs: 'Folge Uns',
+    impressum: 'Impressum',
     newsletter: 'Newsletter',
     newsletterFooterDesc: 'Werde Teil des exklusiven King-Clubs und erhalte geheime Angebote!',
     rights: 'Alle Rechte vorbehalten.'
@@ -159,6 +160,7 @@ export const t = {
     navigation: 'Navigation',
     contact: 'Contact',
     followUs: 'Follow Us',
+    impressum: 'Imprint',
     newsletter: 'Newsletter',
     newsletterFooterDesc: 'Join the exclusive King Club and get secret offers!',
     rights: 'All rights reserved.'
@@ -241,6 +243,7 @@ export const t = {
     navigation: 'Навигация',
     contact: 'Контакты',
     followUs: 'Следите за нами',
+    impressum: 'Импрессум',
     newsletter: 'Рассылка',
     newsletterFooterDesc: 'Присоединяйтесь к эксклюзивному клубу King и получайте секретные предложения!',
     rights: 'Все права защищены.'
