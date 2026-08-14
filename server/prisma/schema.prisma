@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String
+  password  String
+  address   String?
+  createdAt DateTime @default(now())
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  price       Float
+  category    String
+  imageUrl    String?
+  discount    String?
+  isPopular   Boolean  @default(false)
+}
+
+model Order {
+  id          String   @id @default(uuid())
+  userId      String
+  totalPrice  Float
+  status      String   @default("PENDING")
+  orderType   String   @default("DELIVERY")
+  payment     String   @default("PAYPAL")
+  createdAt   DateTime @default(now())
+}

@@ -1,0 +1,172 @@
+﻿/images/aufläufe/auflauf gemüse .jpeg
+/images/aufläufe/auflauf king.jpeg
+/images/aufläufe/auflauf mit schinken champignons.jpeg
+/images/aufläufe/broccoli and blumenkohl auflauf.jpeg
+/images/aufläufe/broccoli auflauf.jpeg
+/images/Burger/Bacon Cheeseburger.jpeg
+/images/Burger/BBQ  Cheeseburger.jpeg
+/images/Burger/Cheeseburger.jpeg
+/images/Burger/Crispy Chicken Burger.jpeg
+/images/Burger/Crispy Chicken Cheeseburger.jpeg
+/images/Burger/Double Cheeseburger.jpeg
+/images/Burger/Double Hamburger.jpeg
+/images/Burger/Hot Chili cheeseburger.jpeg
+/images/Burger Menü/Bacon Cheeseburger Menü.jpeg
+/images/Burger Menü/Barbecue Cheeseburger Menü.jpeg
+/images/Burger Menü/Big Cheeseburger Menü.jpeg
+/images/Burger Menü/Big Hamburger Menü.jpeg
+/images/Burger Menü/Cheeseburger Menü.jpeg
+/images/Burger Menü/Crispy Chicken Cheese Menü.jpeg
+/images/Burger Menü/Crispy Chicken Sweet Chili Menü.jpeg
+/images/Burger Menü/Hamburger Menü.jpeg
+/images/Burger Menü/Hot Chilli Cheeseburger Menü.jpeg
+/images/croques/croque egg.jpeg
+/images/croques/croque ground beef.jpeg
+/images/croques/croque gyros.jpeg
+/images/croques/croque ham and brocolli.jpeg
+/images/croques/croque hawaii.jpeg
+/images/croques/croque salami.jpeg
+/images/croques/croque schinken.jpeg
+/images/croques/croque tuna.jpeg
+/images/fisch/calamari fritti.jpeg
+/images/fisch/Fischplatte King.jpeg
+/images/fisch/Fishfilet with pommes.jpeg
+/images/fisch/seelachsfilet paniert.jpeg
+/images/fladenbrote/Fladenbrot Ground beef.jpeg
+/images/fladenbrote/Fladenbrot Gyros.jpeg
+/images/fladenbrote/Fladenbrot HAm.jpeg
+/images/fladenbrote/Fladenbrot Hawaii.jpeg
+/images/fladenbrote/Fladenbrot King.jpeg
+/images/fladenbrote/Fladenbrot Salami.jpeg
+/images/fladenbrote/Fladenbrot Standart.jpeg
+/images/fladenbrote/Fladenbrot Tuna .jpeg
+/images/gyros/bauernplatte.jpeg
+/images/gyros/cevapcici plate.jpeg
+/images/gyros/grillteller .jpeg
+/images/gyros/grillteller king.jpeg
+/images/gyros/grundgyros mit frittes.jpeg
+/images/gyros/grundgyros mit reis.jpeg
+/images/gyros/gyros mit champignons .jpeg
+/images/gyros/gyros mit tomaten und überbacken.jpeg
+/images/gyros/gyros souvlaki.jpeg
+/images/gyros/hacksteak plate.jpeg
+/images/gyros/king platte.jpeg
+/images/gyros/rhodos platte.jpeg
+/images/gyros/rimini platte.jpeg
+/images/Hammer des Tages/2 pizza 32cm hammer des Tages.jpeg
+/images/Hammer des Tages/2 pizzas 36cm hammer des tages.jpeg
+/images/Hammer des Tages/2 Pizzas and 2 ice cream.jpeg
+/images/Hammer des Tages/3 pizzas 26cm hammer des Tages.jpeg
+/images/Hammer des Tages/4 pizzen 32cm hammer des Tages.jpeg
+/images/Hammer des Tages/Hammer des Tags 1.jpeg
+/images/Hammer des Tages/Party Pizza.jpeg
+/images/Hammer des Tages/Pizza and Ice cream Hammer des Tages.jpeg
+/images/Kids Gerichte/Kiddy Box.jpeg
+/images/Kids Gerichte/KIds Menu schnitzel.jpeg
+/images/Kids Gerichte/Kids Menü Fischstäbchen.jpeg
+/images/Kids Gerichte/Kids pizza menü alternative 1.jpeg
+/images/Kids Gerichte/Kids pizza menü alternative 2.jpeg
+/images/Kids Gerichte/KInder Menü CHicken CHips .jpeg
+/images/Nudeln/croque tifosi.jpeg
+/images/Nudeln/maccheroni del giothonne.jpeg
+/images/Nudeln/maccheroni mit schinken in champignon sauce.jpeg
+/images/Nudeln/maccheroni mit schinken.jpeg
+/images/Nudeln/nudelpfanne spezial 2.jpeg
+/images/Nudeln/nudelpfanne spezial.jpeg
+/images/Nudeln/pasta maccheroni with sahnesauce.jpeg
+/images/Nudeln/spaghetti bolognese.jpeg
+/images/Nudeln/Spaghetti carbonara.jpeg
+/images/Nudeln/spaghetti napoli.jpeg
+/images/Nudeln/tortellini alla panna.jpeg
+/images/Nudeln/tortellini alla romana.jpeg
+/images/Nudeln/tortellini with schinken.jpeg
+/images/pizzen/calzone/calzone a.jpeg
+/images/pizzen/calzone/calzone b.jpeg
+/images/pizzen/calzone/calzone c.jpeg
+/images/pizzen/calzone/calzone d.jpeg
+/images/pizzen/calzone/calzone E.jpeg
+/images/pizzen/calzone/calzone f.jpeg
+/images/pizzen/calzone/Calzone King.jpeg
+/images/pizzen/calzone/Calzone Wish.jpeg
+/images/pizzen/pizzabrötchen/pizzabrötchen alternative 1.jpeg
+/images/pizzen/pizzabrötchen/pizzabrötchen alternative 2.jpeg
+/images/pizzen/pizzabrötchen/pizzabrötchen alternative 3.jpeg
+/images/pizzen/pizzen fisch/pizza fruti di mare.jpeg
+/images/pizzen/pizzen fisch/pizza shrimp with hollandaise.jpeg
+/images/pizzen/pizzen fisch/pizza shrimps.jpeg
+/images/pizzen/pizzen fisch/pizza tonno.jpeg
+/images/pizzen/pizzen fleisch/KING pizza.jpeg
+/images/pizzen/pizzen fleisch/pizza amsterdam.jpeg
+/images/pizzen/pizzen fleisch/pizza bologna.jpeg
+/images/pizzen/pizzen fleisch/pizza bombaa.jpeg
+/images/pizzen/pizzen fleisch/pizza chicken.jpeg
+/images/pizzen/pizzen fleisch/pizza fantasia.jpeg
+/images/pizzen/pizzen fleisch/pizza grande.jpeg
+/images/pizzen/pizzen fleisch/pizza grecco.jpeg
+/images/pizzen/pizzen fleisch/pizza gyros.jpeg
+/images/pizzen/pizzen fleisch/pizza hawaii.jpeg
+/images/pizzen/pizzen fleisch/pizza hotdog.jpeg
+/images/pizzen/pizzen fleisch/pizza inferno.jpeg
+/images/pizzen/pizzen fleisch/pizza king II.jpeg
+/images/pizzen/pizzen fleisch/pizza mykonos.jpeg
+/images/pizzen/pizzen fleisch/pizza nari.jpeg
+/images/pizzen/pizzen fleisch/pizza olli.jpeg
+/images/pizzen/pizzen fleisch/pizza pino.jpeg
+/images/pizzen/pizzen fleisch/pizza proscuitto funghi.jpeg
+/images/pizzen/pizzen fleisch/pizza proscuitto.jpeg
+/images/pizzen/pizzen fleisch/pizza rio.jpeg
+/images/pizzen/pizzen fleisch/pizza romana.jpeg
+/images/pizzen/pizzen fleisch/pizza salami funghi.jpeg
+/images/pizzen/pizzen fleisch/pizza salami proscuitto.jpeg
+/images/pizzen/pizzen fleisch/pizza salami.jpeg
+/images/pizzen/pizzen fleisch/pizza schleswig.jpeg
+/images/pizzen/pizzen fleisch/pizza sucuk.jpeg
+/images/pizzen/pizzen fleisch/pizza texas.jpeg
+/images/pizzen/pizzen fleisch/pizza wisch.jpeg
+/images/pizzen/pizzen vegetarisch/pizza 4 cheese.jpeg
+/images/pizzen/pizzen vegetarisch/pizza bruschetta.jpeg
+/images/pizzen/pizzen vegetarisch/pizza funghi.jpeg
+/images/pizzen/pizzen vegetarisch/pizza king vegetarian 2.jpeg
+/images/pizzen/pizzen vegetarisch/pizza king vetarian 1.jpeg
+/images/pizzen/pizzen vegetarisch/pizza margharita.jpeg
+/images/pizzen/pizzen vegetarisch/pizza mozarella.jpeg
+/images/pizzen/pizzen vegetarisch/pizza vegetables.jpeg
+/images/pizzen/pizzen vegetarisch/pizza verdura.jpeg
+/images/reis/arabische pfanne.jpeg
+/images/reis/reispfanne mit käse überbacken.jpeg
+/images/reis/reispfanne schnitzel.jpeg
+/images/reis/rerispfanne vegetarisch.jpeg
+/images/Salate/Chef Salad.jpeg
+/images/Salate/Grundsalat gro0.jpeg
+/images/Salate/Grundsalat klein.jpeg
+/images/Salate/King Platte Salad.jpeg
+/images/Salate/Salad Bauern.jpeg
+/images/Salate/SAlad Hawaii.jpeg
+/images/Salate/Salad Italia.jpeg
+/images/Salate/Salad King.jpeg
+/images/Salate/Salad Nizza.jpeg
+/images/Salate/Salad Schnitzel.jpeg
+/images/Salate/Tomato Salad .jpeg
+/images/schnitzel/paniertes schnitztel.jpeg
+/images/schnitzel/Schnitzel mit Champignons and onions.jpeg
+/images/schnitzel/SChnitzel mit Zitrone.jpeg
+/images/schnitzel/Schnitzel with broccoli.jpeg
+/images/schnitzel/SCHNITZTEL HAWAII.jpeg
+/images/schnitzel/ziegeunerschnitztel.jpeg
+/images/Snacks/10 chicken wings snacks.jpeg
+/images/Snacks/12 chicken chips snacks.jpeg
+/images/Snacks/15 chicken wings snacks.jpeg
+/images/Snacks/20 chicken chips snacks.jpeg
+/images/Snacks/bauernfrühstück snacks.jpeg
+/images/Snacks/chilli cheese nuggets snacks.jpeg
+/images/Snacks/double riesen currywurst snacks.jpeg
+/images/Snacks/KIng Teller snacks .jpeg
+/images/Snacks/mozarella sticks snacks.jpeg
+/images/Snacks/poppers red and hot snacks.jpeg
+/images/Snacks/pulled pork bites snacks.jpeg
+/images/Snacks/Riesen Currywurst snacks.jpeg
+/images/XXL Wraps/XXL Athen Wrap.jpeg
+/images/XXL Wraps/XXL Wrap Chicken.jpeg
+/images/XXL Wraps/XXL Wrap Siesta.jpeg
+/images/XXL Wraps/XXL Wrap Tifosi.jpeg
+/images/XXL Wraps/XXL Wrap Tuna.jpeg

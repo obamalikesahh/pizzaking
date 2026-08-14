@@ -1,0 +1,452 @@
+import express from 'express';
+import cors from 'cors';
+import { PrismaClient } from '@prisma/client';
+import pg from 'pg';
+const { Pool } = pg;
+import { PrismaPg } from '@prisma/adapter-pg';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import { GoogleGenerativeAI } from '@google/generative-ai';
+import nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+// Load root .env
+dotenv.config({ path: path.join(__dirname, '..', '.env') });
+// Load server .env (overrides root .env if variables conflict)
+dotenv.config({ override: true });
+
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+const adapter = new PrismaPg(pool);
+const prisma = new PrismaClient({ adapter });
+const app = express();
+app.use(cors());
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
+
+// Gemini
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
+// Nodemailer Transporter
+const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST || 'smtp.ionos.de',
+  port: parseInt(process.env.SMTP_PORT || '465'),
+  secure: process.env.SMTP_SECURE === 'true',
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
+  },
+  tls: {
+    rejectUnauthorized: false
+  }
+});
+
+const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret';
+const RESEND_API_KEY = process.env.RESEND_API_KEY || '';
+const RESTAURANT_EMAIL = process.env.RESTAURANT_EMAIL || 'info@pizzaking-schleswig.com';
+
+// Auth Middleware
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  if (!token) return res.sendStatus(401);
+
+  jwt.verify(token, JWT_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403);
+    req.user = user;
+    next();
+  });
+};
+
+app.post('/api/auth/register', async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+    const existingUser = await prisma.user.findUnique({ where: { email } });
+    if (existingUser) return res.status(400).json({ error: 'Email already exists' });
+    
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = await prisma.user.create({
+      data: { name, email, password: hashedPassword }
+    });
+    
+    const token = jwt.sign({ userId: user.id, email: user.email }, JWT_SECRET, { expiresIn: '7d' });
+    res.json({ token, user: { id: user.id, name: user.name, email: user.email } });
+  } catch (error) {
+    res.status(500).json({ error: 'Registration failed' });
+  }
+});
+
+app.post('/api/auth/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await prisma.user.findUnique({ where: { email } });
+    if (!user) return res.status(400).json({ error: 'User not found' });
+    
+    const validPassword = await bcrypt.compare(password, user.password);
+    if (!validPassword) return res.status(401).json({ error: 'Invalid password' });
+    
+    const token = jwt.sign({ userId: user.id, email: user.email }, JWT_SECRET, { expiresIn: '7d' });
+    res.json({ token, user: { id: user.id, name: user.name, email: user.email } });
+  } catch (error) {
+    res.status(500).json({ error: 'Login failed' });
+  }
+});
+
+app.get('/api/user/me', authenticateToken, async (req, res) => {
+  try {
+    const user = await prisma.user.findUnique({ where: { id: req.user.userId } });
+    res.json({ user: { id: user.id, name: user.name, email: user.email, address: user.address } });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch user' });
+  }
+});
+
+app.get('/api/products', async (req, res) => {
+  try {
+    const products = await prisma.product.findMany();
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed' });
+  }
+});
+
+// ✉️ BACKEND RESEND E-MAIL ENDPOINTS (Sicher vom Node-Server)
+app.post('/api/send-verification', async (req, res) => {
+  try {
+    const { toEmail, userName, code } = req.body;
+    console.log(`✉️ [Server Mailer] Sende Code ${code} an ${toEmail}...`);
+
+    if (!RESEND_API_KEY) {
+      return res.status(400).json({ error: 'No Resend API Key' });
+    }
+
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${RESEND_API_KEY}`
+      },
+      body: JSON.stringify({
+        from: 'Pizza King Schleswig <info@pizzaking-schleswig.com>',
+        to: [toEmail],
+        subject: `🔑 Dein Verifizierungscode für Pizza King: ${code}`,
+        html: `
+          <div style="font-family: Arial, sans-serif; padding: 25px; background: #0a0b0a; color: #ffffff; border-radius: 12px; border: 1px solid #cfa670;">
+            <h2 style="color: #cfa670; margin-top: 0;">Willkommen bei Pizza King Schleswig!</h2>
+            <p style="font-size: 16px;">Hallo <strong>${userName}</strong>,</p>
+            <p>vielen Dank für deine Registrierung. Dein 6-stelliger Verifizierungscode lautet:</p>
+            <div style="background: rgba(207, 166, 112, 0.2); border: 2px solid #cfa670; font-size: 28px; font-weight: bold; letter-spacing: 6px; padding: 18px; text-align: center; border-radius: 10px; color: #cfa670; margin: 25px 0;">
+              ${code}
+            </div>
+            <p style="color: #aaaaaa; font-size: 13px;">Gib diesen Code im Anmeldefenster ein, um dein Kundenkonto zu aktivieren.</p>
+          </div>
+        `
+      })
+    });
+
+    const data = await response.json();
+    console.log('Resend Response from Backend:', data);
+    res.json({ success: response.ok, data });
+  } catch (error) {
+    console.error('Server Mailer Error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post('/api/send-order', async (req, res) => {
+  try {
+    const { toEmail, order } = req.body;
+    console.log(`✉️ [Server Mailer] Sende Bestellbestätigung für Order ${order.id}...`);
+
+    if (!RESEND_API_KEY) {
+      return res.status(400).json({ error: 'No Resend API Key' });
+    }
+
+    const itemsListHtml = order.items.map(i => `
+      <tr>
+        <td style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); width: 60px;">
+          ${i.image ? `<img src="https://www.pizzaking-schleswig.com${i.image}" alt="${i.name}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 6px; border: 1px solid #cfa670;" />` : ''}
+        </td>
+        <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05);">
+          <strong style="color: #ffffff;">${i.quantity}x ${i.name}</strong>
+        </td>
+        <td style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); text-align: right; color: #cfa670; font-weight: bold;">
+          ${(i.price * i.quantity).toFixed(2).replace('.', ',')} €
+        </td>
+      </tr>
+    `).join('');
+
+    // 1. Kunden Mail
+    await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${RESEND_API_KEY}`
+      },
+      body: JSON.stringify({
+        from: 'Pizza King Schleswig <info@pizzaking-schleswig.com>',
+        to: [toEmail],
+        subject: `🍕 Bestellbestätigung #${order.id} - Pizza King`,
+        html: `
+          <div style="font-family: 'Inter', Helvetica, sans-serif; background-color: #111111; color: #ffffff; padding: 40px 20px; text-align: center;">
+            <div style="max-width: 600px; margin: 0 auto; background-color: #1a1a1a; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #cfa670;">
+              <div style="background: linear-gradient(135deg, #cfa670 0%, #b88645 100%); padding: 30px 20px;">
+                <h1 style="color: #111111; margin: 0; font-size: 28px; text-transform: uppercase; letter-spacing: 2px;">Pizza King</h1>
+                <p style="color: #111111; margin: 10px 0 0; font-weight: 600;">Deine Bestellung ist eingegangen!</p>
+              </div>
+              <div style="padding: 30px 20px; text-align: left;">
+                <h2 style="color: #cfa670; margin-top: 0; font-size: 22px;">Bestellbestätigung #${order.id}</h2>
+                <p style="font-size: 16px; color: #dddddd;">Hallo ${order.customer || 'Kunde'},</p>
+                <p style="font-size: 16px; color: #dddddd; line-height: 1.5;">Vielen Dank für deine Bestellung! Wir haben deine Bestellung erhalten und bereiten sie gerade frisch für dich zu.</p>
+                
+                <h3 style="color: #ffffff; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-top: 30px;">Deine Artikel</h3>
+                <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+                  ${itemsListHtml}
+                </table>
+                
+                <div style="margin-top: 20px; text-align: right; font-size: 20px; color: #cfa670; font-weight: bold;">
+                  Gesamtsumme: ${(order.total || 0).toFixed(2).replace('.', ',')} €
+                </div>
+              </div>
+              <div style="background-color: #0a0a0a; padding: 25px 20px; font-size: 14px; color: #888888; text-align: center; border-top: 1px solid rgba(255,255,255,0.05);">
+                <p style="margin: 0 0 5px 0;"><strong>Euer Pizza King Team!</strong></p>
+                <p style="margin: 0 0 5px 0;">Adresse: Domziegelhof 12-14, 24837 Schleswig</p>
+                <p style="margin: 0 0 5px 0;">Telefon: 04621/ 999 460 oder 04621/ 999 461</p>
+                <p style="margin: 0;">Email: <a href="mailto:info@pizzaking-schleswig.de" style="color: #cfa670; text-decoration: none;">info@pizzaking-schleswig.de</a></p>
+              </div>
+            </div>
+          </div>
+        `
+      })
+    });
+
+    // 2. Restaurant Inhaber Mail
+    await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${RESEND_API_KEY}`
+      },
+      body: JSON.stringify({
+        from: 'Pizza King System <info@pizzaking-schleswig.com>',
+        to: [RESTAURANT_EMAIL],
+        subject: `🚨 NEUE BESTELLUNG EINGEGANGEN! (${order.id} - ${(order.total || 0).toFixed(2).replace('.', ',')} €)`,
+        html: `
+          <div style="font-family: Arial, sans-serif; padding: 25px; background: #111111; color: #ffffff; border-radius: 12px; border: 2px solid #22c55e;">
+            <h1 style="color: #22c55e; margin-top: 0;">🚨 NEUE BESTELLUNG EINGEGANGEN!</h1>
+            <p><strong>Kunde:</strong> ${order.customer}</p>
+            <p><strong>Telefon:</strong> ${order.phone}</p>
+            <p><strong>Adresse:</strong> ${order.address}</p>
+            <p><strong>Zahlung:</strong> ${order.payment}</p>
+            <h3>Bestellung:</h3>
+            <ul>${itemsListHtml}</ul>
+            <h2>Gesamtsumme: ${(order.total || 0).toFixed(2).replace('.', ',')} €</h2>
+          </div>
+        `
+      })
+    });
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Server Order Mailer Error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// --- KOCHKING KI CHAT ---
+
+const chatModel = genAI.getGenerativeModel({
+  model: 'gemini-2.5-flash',
+  systemInstruction: "Du bist KochKing, der freundliche, professionelle und hilfreiche KI-Assistent von Pizza King Schleswig. Du hilfst Kunden bei Fragen zu ihrer Bestellung. Du antwortest kurz, prägnant und freundlich. Wenn ein Kunde ein schwerwiegendes Problem meldet (z.B. falsches Essen, kaltes Essen), nutze das escalateToHuman Tool, um ihm anzubieten, sich mit einem Mitarbeiter in Verbindung zu setzen. Wenn ein Kunde nach seiner Bestellung fragt und eine Nummer angibt, nutze das checkOrderStatus Tool.",
+  tools: [
+    {
+      functionDeclarations: [
+        {
+          name: "checkOrderStatus",
+          description: "Überprüft den Status einer Bestellung anhand einer Bestellnummer (kann ein Teil der UUID sein).",
+          parameters: {
+            type: "object",
+            properties: {
+              orderId: {
+                type: "string",
+                description: "Die Bestellnummer (oder ein Teil davon, z.B. 123e456)",
+              }
+            },
+            required: ["orderId"]
+          }
+        },
+        {
+          name: "escalateToHuman",
+          description: "Leitet das Gespräch an einen menschlichen Mitarbeiter weiter. Nutze dies, wenn der Kunde ein Problem meldet (z.B. Pizza kalt, falsche Lieferung).",
+          parameters: {
+            type: "object",
+            properties: {
+              reason: {
+                type: "string",
+                description: "Der Grund für die Eskalation"
+              }
+            },
+            required: ["reason"]
+          }
+        }
+      ]
+    }
+  ]
+});
+
+app.post('/api/chat', async (req, res) => {
+  try {
+    const { history, message, image } = req.body;
+    
+    // Format history for Gemini
+    let formattedHistory = history.map(msg => ({
+      role: msg.role === 'user' ? 'user' : 'model',
+      parts: [{ text: msg.text }]
+    }));
+
+    // Gemini requires the first message to be from 'user'
+    if (formattedHistory.length > 0 && formattedHistory[0].role === 'model') {
+      formattedHistory.shift();
+    }
+
+    const chat = chatModel.startChat({
+      history: formattedHistory,
+    });
+
+    let parts = [{ text: message }];
+    if (image) {
+      const matches = image.match(/^data:(.+);base64,(.+)$/);
+      if (matches && matches.length === 3) {
+        parts.push({
+          inlineData: {
+            data: matches[2],
+            mimeType: matches[1]
+          }
+        });
+      }
+    }
+
+    const result = await chat.sendMessage(parts);
+    let responseText = result.response.text();
+    let escalationTriggered = false;
+    let escalationReason = null;
+
+    // Check for function calls
+    const calls = result.response.functionCalls ? result.response.functionCalls() : null;
+    if (calls && calls.length > 0) {
+      for (const call of calls) {
+        if (call.name === 'checkOrderStatus') {
+          const orderIdQuery = call.args.orderId;
+          let toolResponseText = '';
+          try {
+            const order = await prisma.order.findFirst({
+              where: {
+                id: {
+                  startsWith: orderIdQuery
+                }
+              }
+            });
+            
+            if (order) {
+              toolResponseText = `Ich habe die Bestellung gefunden. Der Status ist: ${order.status}. Sie wurde am ${order.createdAt.toLocaleString('de-DE')} aufgegeben. (Total: ${order.totalPrice}€, Typ: ${order.orderType})`;
+            } else {
+              toolResponseText = `Ich konnte leider keine Bestellung mit der Nummer ${orderIdQuery} finden. Bitte überprüfe die Nummer.`;
+            }
+          } catch (dbError) {
+            console.error('Datenbankfehler bei checkOrderStatus:', dbError.message);
+            // Fallback response for the AI if DB is down or invalid
+            toolResponseText = `Ich konnte leider keine Bestellung mit der Nummer ${orderIdQuery} finden. Bitte überprüfe die Nummer.`;
+          }
+          
+          const followUpResult = await chat.sendMessage([{
+            functionResponse: {
+              name: 'checkOrderStatus',
+              response: { result: toolResponseText }
+            }
+          }]);
+          responseText = followUpResult.response.text();
+          
+        } else if (call.name === 'escalateToHuman') {
+          escalationTriggered = true;
+          escalationReason = call.args.reason;
+          
+          const followUpResult = await chat.sendMessage([{
+            functionResponse: {
+              name: 'escalateToHuman',
+              response: { result: "Bitte bestätige dem Kunden, dass wir uns darum kümmern und biete das Kontaktformular für die E-Mail und das Bild an." }
+            }
+          }]);
+          responseText = followUpResult.response.text();
+        }
+      }
+    }
+
+    res.json({
+      text: responseText,
+      escalationTriggered,
+      escalationReason
+    });
+  } catch (error) {
+    console.error('Chat Error:', error);
+    res.status(500).json({ error: 'Failed to process chat message' });
+  }
+});
+
+app.post('/api/chat/escalate', async (req, res) => {
+  try {
+    const { email, history, image, reason, description } = req.body;
+    
+    // HTML für den Verlauf
+    const historyHtml = history.map(msg => `
+      <div style="margin-bottom: 10px;">
+        <strong>${msg.role === 'user' ? 'Kunde' : 'KochKing'}:</strong>
+        <p style="margin: 5px 0;">${msg.text}</p>
+      </div>
+    `).join('');
+
+    let attachments = [];
+    if (image) {
+      const matches = image.match(/^data:(.+);base64,(.+)$/);
+      if (matches && matches.length === 3) {
+        attachments.push({
+          filename: 'reklamation.jpg',
+          content: matches[2],
+          encoding: 'base64'
+        });
+      }
+    }
+
+    await transporter.sendMail({
+      from: `"Pizza King Chat" <${process.env.SMTP_USER}>`,
+      to: 'info@pizzaking-schleswig.de',
+      subject: `🚨 Chat-Reklamation von ${email}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; padding: 20px;">
+          <h2 style="color: #e53e3e;">Neue Reklamation via Chat</h2>
+          <p><strong>Kunden-Email:</strong> ${email}</p>
+          <p><strong>Kunden-Beschreibung:</strong> ${description || 'Keine Beschreibung angegeben'}</p>
+          <p><strong>Grund (KI-Einschätzung):</strong> ${reason || 'Unbekannt'}</p>
+          ${image ? '<p><strong>Ein Bild wurde angehängt.</strong></p>' : ''}
+          <hr/>
+          <h3>Chat-Verlauf:</h3>
+          <div style="background: #f7fafc; padding: 15px; border-radius: 5px; color: #1a202c;">
+            ${historyHtml}
+          </div>
+        </div>
+      `,
+      attachments
+    });
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Escalation Error:', error);
+    res.status(500).json({ error: 'Failed to escalate' });
+  }
+});
+
+app.listen(3001, () => {
+  console.log('Server läuft auf Port 3001');
+});

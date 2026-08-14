@@ -1,0 +1,32 @@
+.delivery-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.delivery-table th, .delivery-table td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.delivery-table th {
+  color: var(--color-brand-secondary);
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+}
+
+.delivery-table tr:last-child td {
+  border-bottom: none;
+}
+
+.delivery-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.highlight-row {
+  background: rgba(230, 57, 70, 0.1) !important;
+}
+
+.highlight-row td {
+  color: var(--color-brand-primary);
+}

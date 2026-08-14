@@ -1,0 +1,192 @@
+/* Qitchen Style Modal Overlay */
+.q-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.q-modal-card {
+  position: relative;
+  background: #121212;
+  border: 1px solid rgba(207, 166, 112, 0.2);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 750px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 30px rgba(207, 166, 112, 0.1);
+  display: flex;
+  flex-direction: column;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+}
+
+.q-modal-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.q-modal-close-btn:hover {
+  background: #cfa670;
+  color: #000000;
+  transform: scale(1.1);
+}
+
+.q-modal-image-header {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
+}
+
+.q-modal-image-header img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.q-modal-image-gradient {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  background: linear-gradient(to top, #121212, transparent);
+}
+
+.q-modal-body {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.q-modal-title {
+  font-family: 'Cinzel', serif;
+  font-size: 2rem;
+  font-weight: 400;
+  color: #ffffff;
+  letter-spacing: 2px;
+  margin: 0;
+}
+
+.q-modal-desc {
+  font-size: 1rem;
+  color: #aaaaaa;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.q-modal-section-title {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #cfa670;
+  margin-bottom: 10px;
+}
+
+.q-modal-sizes-grid {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.q-modal-size-btn {
+  flex: 1;
+  min-width: 120px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s ease;
+}
+
+.q-modal-size-btn.active {
+  background: rgba(207, 166, 112, 0.15);
+  border-color: #cfa670;
+  color: #cfa670;
+}
+
+.q-modal-size-btn:hover {
+  border-color: #cfa670;
+}
+
+.q-modal-size-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.q-modal-size-price {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.q-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: 10px;
+}
+
+.q-modal-final-price {
+  font-family: 'Cinzel', serif;
+  font-size: 2rem;
+  color: #cfa670;
+}
+
+.q-modal-add-btn {
+  background: #cfa670;
+  color: #0a0a0a;
+  border: none;
+  padding: 14px 32px;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.2s ease;
+}
+
+.q-modal-add-btn:hover {
+  background: #e8c08a;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(207, 166, 112, 0.4);
+}
