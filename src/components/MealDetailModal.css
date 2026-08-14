@@ -190,3 +190,46 @@
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(207, 166, 112, 0.4);
 }
+
+@media (max-width: 768px) {
+  .q-modal-overlay {
+    padding: 0;
+    align-items: flex-end;
+  }
+  
+  .q-modal-card {
+    border-radius: 24px 24px 0 0;
+    max-height: 95vh;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    width: 100%;
+  }
+
+  .q-modal-image-header {
+    height: 180px;
+  }
+
+  .q-modal-body {
+    padding: 20px;
+    gap: 15px;
+  }
+
+  .q-modal-title {
+    font-size: 1.5rem;
+  }
+
+  .q-modal-sizes-grid {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .q-modal-add-btn {
+    padding: 12px 20px;
+    font-size: 0.9rem;
+  }
+
+  .q-modal-final-price {
+    font-size: 1.6rem;
+  }
+}
