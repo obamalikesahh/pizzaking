@@ -47,6 +47,12 @@ export default function Home() {
               <div className="bento-label">CONTACT US <ArrowRight size={16} /></div>
             </motion.div>
           </Link>
+          <div className="bento-link" onClick={() => document.querySelector('.kochking-toggle')?.click()}>
+            <motion.div className="bento-box" initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.5 }}>
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(45deg, #1a1a1a, #cfa670)', zIndex: 0, filter: 'brightness(0.5)' }}></div>
+              <div className="bento-label" style={{ background: '#cfa670', color: '#000' }}>🤖 FRAG KOCHKING <ArrowRight size={16} /></div>
+            </motion.div>
+          </div>
         </div>
       </div>
       

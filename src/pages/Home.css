@@ -54,7 +54,7 @@
 
 .bento-side {
   display: grid;
-  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-rows: repeat(4, 1fr);
   gap: 20px;
 }
 
@@ -370,7 +370,7 @@
 
 /* 3. Testimonials Section (New Layout) */
 .testimonials-section {
-  background-color: #1a1e23; /* Dark slate blue/grey from screenshot */
+  background-color: var(--color-bg);
   padding: 100px 20px;
 }
 
@@ -795,7 +795,7 @@
     padding: 30px;
   }
   .bento-side {
-    grid-template-rows: repeat(3, 150px);
+    grid-template-rows: repeat(4, 150px);
   }
   .about-grid {
     grid-template-columns: 1fr;

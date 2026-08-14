@@ -2,11 +2,11 @@
   "name": "pizza-king-server",
   "version": "1.0.0",
   "description": "Backend for Pizza King Emails",
-  "main": "server.js",
+  "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node --watch server.js"
+    "start": "node index.js",
+    "dev": "node --watch index.js"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.9.1",
