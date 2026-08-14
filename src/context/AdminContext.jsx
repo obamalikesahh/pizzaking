@@ -53,22 +53,14 @@ export function AdminProvider({ children }) {
   });
 
   // Active Special Offers (Angebote)
-  const [offers, setOffers] = useState(() => {
-    const saved = localStorage.getItem('pk_offers');
-    if (saved) {
-      try { return JSON.parse(saved); } catch (e) {}
-    }
-    return [
-      {
-        id: "OFFER-1",
-        title: "KÖNIGLICHES WOCHENEND-ANGEBOT",
-        description: "2x Pizza (32 cm nach Wahl) + 1x Flasche Coca-Cola 1l gratis!",
-        badge: "HOT DEAL",
-        price: "26,90 €",
-        image: "/images/pizzen/pizzen%20fleisch/pizza%20king%20II.jpeg"
-      }
-    ];
-  });
+  const [offers, setOffers] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:3001/api/offers', { cache: 'no-store' })
+      .then(res => res.json())
+      .then(data => setOffers(data))
+      .catch(err => console.error("Fehler beim Laden der Angebote:", err));
+  }, []);
 
   // Custom Menu Data
   const [menu, setMenu] = useState(() => {
@@ -101,10 +93,6 @@ export function AdminProvider({ children }) {
   useEffect(() => {
     localStorage.setItem('pk_orders_live', JSON.stringify(orders));
   }, [orders]);
-
-  useEffect(() => {
-    localStorage.setItem('pk_offers', JSON.stringify(offers));
-  }, [offers]);
 
   useEffect(() => {
     localStorage.setItem('pk_menu_data', JSON.stringify(menu));
@@ -195,12 +183,31 @@ export function AdminProvider({ children }) {
   };
 
   // Offer functions
-  const addOffer = (offer) => {
-    setOffers(prev => [{ id: `OFFER-${Date.now()}`, ...offer }, ...prev]);
+  const addOffer = async (offer) => {
+    try {
+      const res = await fetch('http://localhost:3001/api/offers', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(offer)
+      });
+      if (res.ok) {
+        const newOffer = await res.json();
+        setOffers(prev => [newOffer, ...prev]);
+      }
+    } catch (err) {
+      console.error("Fehler beim Hinzufügen:", err);
+    }
   };
 
-  const removeOffer = (offerId) => {
-    setOffers(prev => prev.filter(o => o.id !== offerId));
+  const removeOffer = async (offerId) => {
+    try {
+      const res = await fetch(`http://localhost:3001/api/offers/${offerId}`, { method: 'DELETE' });
+      if (res.ok) {
+        setOffers(prev => prev.filter(o => o.id !== offerId));
+      }
+    } catch (err) {
+      console.error("Fehler beim Löschen:", err);
+    }
   };
 
   // Newsletter functions

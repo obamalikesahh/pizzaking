@@ -35,3 +35,13 @@ model Order {
   payment     String   @default("PAYPAL")
   createdAt   DateTime @default(now())
 }
+
+model Offer {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  badge       String?
+  price       String
+  image       String?
+  createdAt   DateTime @default(now())
+}

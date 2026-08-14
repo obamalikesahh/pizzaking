@@ -272,6 +272,44 @@ const groqTools = [
   }
 ];
 
+// --- Offers API ---
+app.get('/api/offers', async (req, res) => {
+  try {
+    const offers = await prisma.offer.findMany({
+      orderBy: { createdAt: 'desc' }
+    });
+    res.json(offers);
+  } catch (error) {
+    console.error('Error fetching offers:', error);
+    res.status(500).json({ error: 'Failed to fetch offers' });
+  }
+});
+
+app.post('/api/offers', async (req, res) => {
+  try {
+    const { title, description, badge, price, image } = req.body;
+    const offer = await prisma.offer.create({
+      data: { title, description, badge, price, image }
+    });
+    res.status(201).json(offer);
+  } catch (error) {
+    console.error('Error creating offer:', error);
+    res.status(500).json({ error: 'Failed to create offer' });
+  }
+});
+
+app.delete('/api/offers/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    await prisma.offer.delete({ where: { id } });
+    res.status(204).send();
+  } catch (error) {
+    console.error('Error deleting offer:', error);
+    res.status(500).json({ error: 'Failed to delete offer' });
+  }
+});
+// ------------------
+
 app.post('/api/chat', async (req, res) => {
   try {
     const { history, message, image } = req.body;
