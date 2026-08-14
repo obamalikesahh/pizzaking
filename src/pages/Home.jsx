@@ -589,6 +589,7 @@ export default function Home() {
                 <span>Vielen Dank! E-Mail wurde gesendet. Dein Gutscheincode: <strong style={{ color: '#cfa670' }}>{createdCode || 'KING10'}</strong></span>
               </motion.div>
             ) : (
+              <form 
                 onSubmit={async (e) => { 
                   e.preventDefault(); 
                   if (email && !isSubmitting) { 
