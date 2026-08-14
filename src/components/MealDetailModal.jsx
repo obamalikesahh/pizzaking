@@ -411,7 +411,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
             {isPizza && (
               <div>
                 <div className="q-modal-section-title">🍕 EXTRA BELÄGE (MIT AUFPREIS)</div>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '10px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(165px, 1fr))', gap: '10px' }}>
                   {PIZZA_EXTRA_TOPPINGS.map(item => {
                     const isSelected = selectedExtraToppings.some(t => t.id === item.id);
                     return (
@@ -430,9 +430,9 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
                           transition: 'all 0.2s'
                         }}
                       >
-                        <img src={item.image} alt={item.name} style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: '50%' }} />
+                        <img src={item.image} alt={item.name} style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: '50%', flexShrink: 0 }} />
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={{ fontSize: '0.8rem', fontWeight: 'bold', color: isSelected ? '#cfa670' : '#fff', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.name}</div>
+                          <div style={{ fontSize: '0.78rem', fontWeight: 'bold', color: isSelected ? '#cfa670' : '#fff', whiteSpace: 'normal', wordBreak: 'break-word', lineHeight: '1.2', marginBottom: '3px' }}>{item.name}</div>
                           <div style={{ fontSize: '0.75rem', color: '#aaa' }}>+{item.price.toFixed(2).replace('.', ',')} €</div>
                         </div>
                       </div>
@@ -446,7 +446,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
             {isBurger && (
               <div>
                 <div className="q-modal-section-title">🍔 BURGER EXTRAS (MIT AUFPREIS)</div>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '10px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(165px, 1fr))', gap: '10px' }}>
                   {BURGER_EXTRAS.map(item => {
                     const isSelected = selectedBurgerExtras.some(b => b.id === item.id);
                     return (
@@ -465,9 +465,9 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
                           transition: 'all 0.2s'
                         }}
                       >
-                        <img src={item.image} alt={item.name} style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: '50%' }} />
+                        <img src={item.image} alt={item.name} style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: '50%', flexShrink: 0 }} />
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={{ fontSize: '0.78rem', fontWeight: 'bold', color: isSelected ? '#cfa670' : '#fff', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.name}</div>
+                          <div style={{ fontSize: '0.78rem', fontWeight: 'bold', color: isSelected ? '#cfa670' : '#fff', whiteSpace: 'normal', wordBreak: 'break-word', lineHeight: '1.2', marginBottom: '3px' }}>{item.name}</div>
                           <div style={{ fontSize: '0.75rem', color: '#aaa' }}>+{item.price.toFixed(2).replace('.', ',')} €</div>
                         </div>
                       </div>
@@ -480,7 +480,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
             {/* Extra Beilagen */}
             <div>
               <div className="q-modal-section-title">🍟 EXTRA BEILAGEN</div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '10px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(165px, 1fr))', gap: '10px' }}>
                 {EXTRA_BEILAGEN.map(item => {
                   const isSelected = selectedSides.some(s => s.id === item.id);
                   return (
@@ -499,9 +499,9 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
                         transition: 'all 0.2s'
                       }}
                     >
-                      <img src={item.image} alt={item.name} style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: '8px' }} />
+                      <img src={item.image} alt={item.name} style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: '8px', flexShrink: 0 }} />
                       <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ fontSize: '0.78rem', fontWeight: 'bold', color: isSelected ? '#cfa670' : '#fff', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.name}</div>
+                        <div style={{ fontSize: '0.78rem', fontWeight: 'bold', color: isSelected ? '#cfa670' : '#fff', whiteSpace: 'normal', wordBreak: 'break-word', lineHeight: '1.2', marginBottom: '3px' }}>{item.name}</div>
                         <div style={{ fontSize: '0.75rem', color: '#aaa' }}>+{item.price.toFixed(2).replace('.', ',')} €</div>
                       </div>
                     </div>
@@ -513,7 +513,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
             {/* Extra Dressings & Saucen */}
             <div>
               <div className="q-modal-section-title">🥣 EXTRA DRESSINGS / SAUCEN</div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '10px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(165px, 1fr))', gap: '10px' }}>
                 {EXTRA_DRESSINGS.map(item => {
                   const isSelected = selectedDressings.some(d => d.id === item.id);
                   return (
@@ -532,9 +532,9 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
                         transition: 'all 0.2s'
                       }}
                     >
-                      <img src={item.image} alt={item.name} style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: '50%' }} />
+                      <img src={item.image} alt={item.name} style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: '50%', flexShrink: 0 }} />
                       <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ fontSize: '0.78rem', fontWeight: 'bold', color: isSelected ? '#cfa670' : '#fff', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.name}</div>
+                        <div style={{ fontSize: '0.78rem', fontWeight: 'bold', color: isSelected ? '#cfa670' : '#fff', whiteSpace: 'normal', wordBreak: 'break-word', lineHeight: '1.2', marginBottom: '3px' }}>{item.name}</div>
                         <div style={{ fontSize: '0.75rem', color: '#aaa' }}>+{item.price.toFixed(2).replace('.', ',')} €</div>
                       </div>
                     </div>
@@ -546,7 +546,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
             {/* Extra Getränke */}
             <div>
               <div className="q-modal-section-title">🥤 EXTRA GETRÄNKE</div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '10px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(165px, 1fr))', gap: '10px' }}>
                 {EXTRA_DRINKS.map(item => {
                   const isSelected = selectedDrinks.some(dr => dr.id === item.id);
                   return (
@@ -565,9 +565,9 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
                         transition: 'all 0.2s'
                       }}
                     >
-                      <img src={item.image} alt={item.name} style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: '8px' }} />
+                      <img src={item.image} alt={item.name} style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: '8px', flexShrink: 0 }} />
                       <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ fontSize: '0.78rem', fontWeight: 'bold', color: isSelected ? '#cfa670' : '#fff', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.name}</div>
+                        <div style={{ fontSize: '0.78rem', fontWeight: 'bold', color: isSelected ? '#cfa670' : '#fff', whiteSpace: 'normal', wordBreak: 'break-word', lineHeight: '1.2', marginBottom: '3px' }}>{item.name}</div>
                         <div style={{ fontSize: '0.75rem', color: '#aaa' }}>+{item.price.toFixed(2).replace('.', ',')} €</div>
                       </div>
                     </div>
