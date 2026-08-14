@@ -61,7 +61,7 @@ body {
   flex-direction: column;
   overflow-y: auto;
   align-items: center; /* Center content */
-  padding: 40px;
+  padding: 110px 40px 40px 40px;
 }
 
 /* Scrollbar */

@@ -1,5 +1,66 @@
 export const menuData = [
   {
+    "category": "Hammer des Tages",
+    "items": [
+      {
+        "id": "600",
+        "name": "Aktion 600",
+        "desc": {"de":"1 Pizza Ø 32 cm, 12 Chicken Chips mit Pommes (Rot/Weiß) & 1 Hamburger Menü","en":"1 Pizza Ø 32 cm, 12 chicken chips with Pommes (Rot/Weiß) & 1 Hamburger Menü","ru":"1 Pizza Ø 32 cm, 12 куриными чипсами с Pommes (Rot/Weiß) & 1 Hamburger Menü"},
+        "price": "35,90 €",
+        "image": "/images/Hammer des Tages/Hammer des Tags 1.jpeg"
+      },
+      {
+        "id": "601",
+        "name": "Aktion 601",
+        "desc": {"de":"3 Pizzen Ø 26 cm nach Wahl","en":"3 Pizzen Ø 26 cm nach Wahl","ru":"3 Pizzen Ø 26 cm nach Wahl"},
+        "price": "30,90 €",
+        "image": "/images/Hammer des Tages/3 pizzas 26cm hammer des Tages.jpeg"
+      },
+      {
+        "id": "602",
+        "name": "Party Pizza",
+        "desc": {"de":"1 Party Pizza mit bis zu 5 Belägen (60 x 40 cm)","en":"1 Party Pizza with bis zu 5 Belägen (60 x 40 cm)","ru":"1 Party Pizza с bis zu 5 Belägen (60 x 40 cm)"},
+        "price": "35,90 €",
+        "image": "/images/Hammer des Tages/Party Pizza.jpeg"
+      },
+      {
+        "id": "603",
+        "name": "Aktion 603",
+        "desc": {"de":"1 Pizza Ø 26 cm nach Wahl & 1 Eis nach Wahl","en":"1 Pizza Ø 26 cm nach Wahl & 1 Eis nach Wahl","ru":"1 Pizza Ø 26 cm nach Wahl & 1 Eis nach Wahl"},
+        "price": "19,90 €",
+        "image": "/images/Hammer des Tages/Pizza and Ice cream Hammer des Tages.jpeg"
+      },
+      {
+        "id": "604",
+        "name": "Aktion 604",
+        "desc": {"de":"2 Pizzen Ø 32 cm nach Wahl & 2 Eis nach Wahl","en":"2 Pizzen Ø 32 cm nach Wahl & 2 Eis nach Wahl","ru":"2 Pizzen Ø 32 cm nach Wahl & 2 Eis nach Wahl"},
+        "price": "42,90 €",
+        "image": "/images/Hammer des Tages/2 Pizzas and 2 ice cream.jpeg"
+      },
+      {
+        "id": "605",
+        "name": "Aktion 605",
+        "desc": {"de":"2 Pizzen Ø 32 cm nach Wahl","en":"2 Pizzen Ø 32 cm nach Wahl","ru":"2 Pizzen Ø 32 cm nach Wahl"},
+        "price": "30,90 €",
+        "image": "/images/Hammer des Tages/2 pizza 32cm hammer des Tages.jpeg"
+      },
+      {
+        "id": "606",
+        "name": "Aktion 606",
+        "desc": {"de":"2 Pizzen Ø 36 cm nach Wahl","en":"2 Pizzen Ø 36 cm nach Wahl","ru":"2 Pizzen Ø 36 cm nach Wahl"},
+        "price": "36,90 €",
+        "image": "/images/Hammer des Tages/2 pizzas 36cm hammer des tages.jpeg"
+      },
+      {
+        "id": "609",
+        "name": "Aktion 609",
+        "desc": {"de":"4 Pizzen Ø 32 cm nach Wahl","en":"4 Pizzen Ø 32 cm nach Wahl","ru":"4 Pizzen Ø 32 cm nach Wahl"},
+        "price": "54,50 €",
+        "image": "/images/Hammer des Tages/4 pizzen 32cm hammer des Tages.jpeg"
+      }
+    ]
+  },
+  {
     "category": "Döner",
     "items": [
       {
@@ -1496,67 +1557,7 @@ export const menuData = [
       }
     ]
   },
-  {
-    "category": "Hammer des Tages",
-    "items": [
-      {
-        "id": "600",
-        "name": "Aktion 600",
-        "desc": {"de":"1 Pizza Ø 32 cm, 12 Chicken Chips mit Pommes (Rot/Weiß) & 1 Hamburger Menü","en":"1 Pizza Ø 32 cm, 12 chicken chips with Pommes (Rot/Weiß) & 1 Hamburger Menü","ru":"1 Pizza Ø 32 cm, 12 куриными чипсами с Pommes (Rot/Weiß) & 1 Hamburger Menü"},
-        "price": "35,90 €",
-        "image": "/images/Hammer des Tages/Hammer des Tags 1.jpeg"
-      },
-      {
-        "id": "601",
-        "name": "Aktion 601",
-        "desc": {"de":"3 Pizzen Ø 26 cm nach Wahl","en":"3 Pizzen Ø 26 cm nach Wahl","ru":"3 Pizzen Ø 26 cm nach Wahl"},
-        "price": "30,90 €",
-        "image": "/images/Hammer des Tages/3 pizzas 26cm hammer des Tages.jpeg"
-      },
-      {
-        "id": "602",
-        "name": "Party Pizza",
-        "desc": {"de":"1 Party Pizza mit bis zu 5 Belägen (60 x 40 cm)","en":"1 Party Pizza with bis zu 5 Belägen (60 x 40 cm)","ru":"1 Party Pizza с bis zu 5 Belägen (60 x 40 cm)"},
-        "price": "35,90 €",
-        "image": "/images/Hammer des Tages/Party Pizza.jpeg"
-      },
-      {
-        "id": "603",
-        "name": "Aktion 603",
-        "desc": {"de":"1 Pizza Ø 26 cm nach Wahl & 1 Eis nach Wahl","en":"1 Pizza Ø 26 cm nach Wahl & 1 Eis nach Wahl","ru":"1 Pizza Ø 26 cm nach Wahl & 1 Eis nach Wahl"},
-        "price": "19,90 €",
-        "image": "/images/Hammer des Tages/Pizza and Ice cream Hammer des Tages.jpeg"
-      },
-      {
-        "id": "604",
-        "name": "Aktion 604",
-        "desc": {"de":"2 Pizzen Ø 32 cm nach Wahl & 2 Eis nach Wahl","en":"2 Pizzen Ø 32 cm nach Wahl & 2 Eis nach Wahl","ru":"2 Pizzen Ø 32 cm nach Wahl & 2 Eis nach Wahl"},
-        "price": "42,90 €",
-        "image": "/images/Hammer des Tages/2 Pizzas and 2 ice cream.jpeg"
-      },
-      {
-        "id": "605",
-        "name": "Aktion 605",
-        "desc": {"de":"2 Pizzen Ø 32 cm nach Wahl","en":"2 Pizzen Ø 32 cm nach Wahl","ru":"2 Pizzen Ø 32 cm nach Wahl"},
-        "price": "30,90 €",
-        "image": "/images/Hammer des Tages/2 pizza 32cm hammer des Tages.jpeg"
-      },
-      {
-        "id": "606",
-        "name": "Aktion 606",
-        "desc": {"de":"2 Pizzen Ø 36 cm nach Wahl","en":"2 Pizzen Ø 36 cm nach Wahl","ru":"2 Pizzen Ø 36 cm nach Wahl"},
-        "price": "36,90 €",
-        "image": "/images/Hammer des Tages/2 pizzas 36cm hammer des tages.jpeg"
-      },
-      {
-        "id": "609",
-        "name": "Aktion 609",
-        "desc": {"de":"4 Pizzen Ø 32 cm nach Wahl","en":"4 Pizzen Ø 32 cm nach Wahl","ru":"4 Pizzen Ø 32 cm nach Wahl"},
-        "price": "54,50 €",
-        "image": "/images/Hammer des Tages/4 pizzen 32cm hammer des Tages.jpeg"
-      }
-    ]
-  },
+
   {
     "category": "Extra-Beilagen",
     "items": [

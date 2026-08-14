@@ -45,6 +45,21 @@ const PIZZA_EXTRA_TOPPINGS = [
   { id: 't12', name: 'Thunfisch', price: 2.00, image: '/champignons_beef.png' }
 ];
 
+const BURGER_EXTRAS = [
+  { id: 'b1', name: 'Jalapeno', price: 1.50, image: '/images/pizzen/pizzen vegetarisch/pizza vegetables.jpeg' },
+  { id: 'b2', name: 'Extra Burger-Patty (100g) 1 Fleischstück', price: 2.50, image: '/burger_cinematic.png' },
+  { id: 'b3', name: 'Schmelz-Käse', price: 1.00, image: '/mozzarella.png' },
+  { id: 'b4', name: 'Baconstreifen', price: 1.50, image: '/prosciutto_slice.png' },
+  { id: 'b5', name: 'Röstzwiebeln', price: 1.00, image: '/fresh_tomatoes.png' }
+];
+
+const EXTRA_BEILAGEN = [
+  { id: 'side1', name: 'Portion Pommes klein', price: 2.50, image: '/fritten klein.jpeg' },
+  { id: 'side2', name: 'Portion Pommes groß', price: 3.50, image: '/fritten groß.jpeg' },
+  { id: 'side3', name: 'Portion Kroketten', price: 3.20, image: '/kroketten.jpeg' },
+  { id: 'side4', name: 'Portion Gitterpommes', price: 3.50, image: '/fritten groß.jpeg' }
+];
+
 export default function MealDetailModal({ isOpen, onClose, product, addToCart }) {
   const { language } = useAdmin();
   const t = getTranslation(language);
@@ -84,12 +99,15 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
   const [wunschBelag3, setWunschBelag3] = useState('');
   const [wunschBelag4, setWunschBelag4] = useState('');
 
-  // Selected Extra Dressings, Drinks, Toppings
+  // Selected Extra Dressings, Drinks, Toppings, Burger Extras, Sides
   const [selectedDressings, setSelectedDressings] = useState([]);
   const [selectedDrinks, setSelectedDrinks] = useState([]);
   const [selectedExtraToppings, setSelectedExtraToppings] = useState([]);
+  const [selectedBurgerExtras, setSelectedBurgerExtras] = useState([]);
+  const [selectedSides, setSelectedSides] = useState([]);
 
   const isPizzabroetchen = product.name.toLowerCase().includes('pizzabrötchen') || product.name.toLowerCase().includes('pizza brötchen');
+  const isBurger = product.category === 'Burger' || product.name.toLowerCase().includes('burger');
   const fillingOptions = ['Käse (mit Käse gefüllt)', 'Salami', 'Schinken', 'Thunfisch', 'Hackfleisch', 'Gyros', 'Dönerfleisch'];
 
   useEffect(() => {
@@ -103,6 +121,8 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
     setSelectedDressings([]);
     setSelectedDrinks([]);
     setSelectedExtraToppings([]);
+    setSelectedBurgerExtras([]);
+    setSelectedSides([]);
   }, [product]);
 
   const selectedOption = options[selectedOptionIndex] || options[0];
@@ -119,9 +139,27 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
   const extrasDressingsPrice = selectedDressings.reduce((sum, d) => sum + d.price, 0);
   const extrasDrinksPrice = selectedDrinks.reduce((sum, dr) => sum + dr.price, 0);
   const extrasToppingsPrice = selectedExtraToppings.reduce((sum, tp) => sum + tp.price, 0);
+  const burgerExtrasPrice = selectedBurgerExtras.reduce((sum, b) => sum + b.price, 0);
+  const sidesPrice = selectedSides.reduce((sum, s) => sum + s.price, 0);
 
-  const finalPrice = selectedOption.price + getKaeserandPrice() + extrasDressingsPrice + extrasDrinksPrice + extrasToppingsPrice;
+  const finalPrice = selectedOption.price + getKaeserandPrice() + extrasDressingsPrice + extrasDrinksPrice + extrasToppingsPrice + burgerExtrasPrice + sidesPrice;
   const isPizza = product.category === 'Pizza' || (product.imageUrl && product.imageUrl.includes('pizza')) || product.name.toLowerCase().includes('pizza');
+
+  const toggleBurgerExtra = (item) => {
+    if (selectedBurgerExtras.some(b => b.id === item.id)) {
+      setSelectedBurgerExtras(selectedBurgerExtras.filter(b => b.id !== item.id));
+    } else {
+      setSelectedBurgerExtras([...selectedBurgerExtras, item]);
+    }
+  };
+
+  const toggleSide = (item) => {
+    if (selectedSides.some(s => s.id === item.id)) {
+      setSelectedSides(selectedSides.filter(s => s.id !== item.id));
+    } else {
+      setSelectedSides([...selectedSides, item]);
+    }
+  };
 
   const toggleDressing = (item) => {
     if (selectedDressings.some(d => d.id === item.id)) {
@@ -172,6 +210,14 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
     }
     if (kaeserand) {
       itemName += ' + Käserand';
+    }
+
+    if (selectedBurgerExtras.length > 0) {
+      itemName += ` + Burger Extra: ${selectedBurgerExtras.map(b => b.name).join(', ')}`;
+    }
+
+    if (selectedSides.length > 0) {
+      itemName += ` + Beilage: ${selectedSides.map(s => s.name).join(', ')}`;
     }
 
     if (selectedExtraToppings.length > 0) {
@@ -395,6 +441,74 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
                 </div>
               </div>
             )}
+
+            {/* Burger Extras (Mit Aufpreis) */}
+            {isBurger && (
+              <div>
+                <div className="q-modal-section-title">🍔 BURGER EXTRAS (MIT AUFPREIS)</div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '10px' }}>
+                  {BURGER_EXTRAS.map(item => {
+                    const isSelected = selectedBurgerExtras.some(b => b.id === item.id);
+                    return (
+                      <div 
+                        key={item.id}
+                        onClick={() => toggleBurgerExtra(item)}
+                        style={{
+                          background: isSelected ? 'rgba(207, 166, 112, 0.2)' : '#1a1a1a',
+                          border: isSelected ? '1px solid #cfa670' : '1px solid rgba(255,255,255,0.08)',
+                          borderRadius: '12px',
+                          padding: '10px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '10px',
+                          cursor: 'pointer',
+                          transition: 'all 0.2s'
+                        }}
+                      >
+                        <img src={item.image} alt={item.name} style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: '50%' }} />
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ fontSize: '0.78rem', fontWeight: 'bold', color: isSelected ? '#cfa670' : '#fff', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.name}</div>
+                          <div style={{ fontSize: '0.75rem', color: '#aaa' }}>+{item.price.toFixed(2).replace('.', ',')} €</div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Extra Beilagen */}
+            <div>
+              <div className="q-modal-section-title">🍟 EXTRA BEILAGEN</div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '10px' }}>
+                {EXTRA_BEILAGEN.map(item => {
+                  const isSelected = selectedSides.some(s => s.id === item.id);
+                  return (
+                    <div 
+                      key={item.id}
+                      onClick={() => toggleSide(item)}
+                      style={{
+                        background: isSelected ? 'rgba(207, 166, 112, 0.2)' : '#1a1a1a',
+                        border: isSelected ? '1px solid #cfa670' : '1px solid rgba(255,255,255,0.08)',
+                        borderRadius: '12px',
+                        padding: '10px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '10px',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s'
+                      }}
+                    >
+                      <img src={item.image} alt={item.name} style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: '8px' }} />
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontSize: '0.78rem', fontWeight: 'bold', color: isSelected ? '#cfa670' : '#fff', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.name}</div>
+                        <div style={{ fontSize: '0.75rem', color: '#aaa' }}>+{item.price.toFixed(2).replace('.', ',')} €</div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
 
             {/* Extra Dressings & Saucen */}
             <div>
