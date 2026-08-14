@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Send } from 'lucide-react';
+import { Send, Facebook, Instagram } from 'lucide-react';
 import { useAdmin } from '../context/AdminContext';
 import { getTranslation } from '../data/translations';
 import './Footer.css';
@@ -74,8 +74,12 @@ export default function Footer() {
         <div className="footer-social">
           <h3>{t.followUs}</h3>
           <div className="social-icons">
-            <a href="https://www.facebook.com/PizzaKingSL" target="_blank" rel="noopener noreferrer" aria-label="Facebook">FB</a>
-            <a href="https://www.instagram.com/pizza.king.schleswig/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">IG</a>
+            <a href="https://www.facebook.com/PizzaKingSL" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+              <Facebook size={24} />
+            </a>
+            <a href="https://www.instagram.com/pizza.king.schleswig/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <Instagram size={24} />
+            </a>
           </div>
         </div>
         <div className="footer-newsletter" style={{ flex: '1', minWidth: '280px' }}>
