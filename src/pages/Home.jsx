@@ -591,7 +591,7 @@ export default function Home() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
           >
-            <div style={{ width: '60px', height: '60px', borderRadius: '50%', background: 'rgba(207, 166, 112, 0.2)', border: '1px solid #cfa670', display: 'flex', itemsCenter: 'center', justifyContent: 'center', margin: '0 auto 20px', color: '#cfa670' }}>
+            <div style={{ width: '60px', height: '60px', borderRadius: '50%', background: 'rgba(207, 166, 112, 0.2)', border: '1px solid #cfa670', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px', color: '#cfa670' }}>
               <Mail size={28} />
             </div>
             
@@ -614,7 +614,7 @@ export default function Home() {
             ) : (
               <form 
                 onSubmit={(e) => { e.preventDefault(); if (email) setSubscribed(true); }}
-                style={{ display: 'flex', gap: '12px', maxWidth: '500px', margin: '0 auto', flexWrap: 'wrap' }}
+                style={{ display: 'flex', justifyContent: 'center', gap: '12px', maxWidth: '500px', margin: '0 auto', flexWrap: 'wrap' }}
               >
                 <input 
                   type="email" 
