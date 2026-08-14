@@ -7,7 +7,6 @@ import Home from './pages/Home';
 import Menu from './pages/Menu';
 import Checkout from './pages/Checkout';
 import DeliveryZones from './pages/DeliveryZones';
-import Cart from './pages/Cart';
 import Account from './pages/Account';
 import Contact from './pages/Contact';
 import ScrollToTop from './components/ScrollToTop';
