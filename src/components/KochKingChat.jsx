@@ -306,7 +306,7 @@ const KochKingChat = () => {
       {!isOpen && (
         <button className="kochking-toggle" onClick={() => setIsOpen(true)}>
           <span className="kochking-tooltip">Brauchst du Hilfe?</span>
-          <MessageCircle size={28} />
+          <span style={{ fontSize: '26px' }}>👨‍🍳</span>
         </button>
       )}
     </div>
