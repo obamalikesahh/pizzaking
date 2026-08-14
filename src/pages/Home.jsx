@@ -17,13 +17,18 @@ export default function Home() {
   const [subscribed, setSubscribed] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
 
-  const getPizza = (id) => {
-    const pizzaCategory = menuData.find(c => c.category === 'Pizza');
-    return pizzaCategory?.items.find(p => p.id === id);
+  const getProduct = (id) => {
+    for (const category of menuData) {
+      const item = category.items.find(p => p.id === id);
+      if (item) {
+        return { ...item, _category: category.category };
+      }
+    }
+    return null;
   };
 
   const renderMiniMenuItem = (id, delay) => {
-    const pizza = getPizza(id);
+    const pizza = getProduct(id);
     if (!pizza) return null;
     const desc = typeof pizza.desc === 'object' ? (pizza.desc[language] || pizza.desc.de) : pizza.desc;
     
@@ -42,7 +47,7 @@ export default function Home() {
           description: desc,
           imageUrl: pizza.image,
           fullPrice: pizza.price,
-          category: 'Pizza'
+          category: pizza._category
         })}
         style={{ cursor: 'pointer' }}
       >
@@ -59,6 +64,22 @@ export default function Home() {
         </div>
       </motion.div>
     );
+  };
+
+  const handleBestsellerClick = (id) => {
+    const product = getProduct(id);
+    if (product) {
+      const desc = typeof product.desc === 'object' ? (product.desc[language] || product.desc.de) : product.desc;
+      setSelectedProduct({
+        id: product.id,
+        name: product.name,
+        price: parseFloat(product.price.split(' ')[0].replace(',', '.')) || 0,
+        description: desc,
+        imageUrl: product.image,
+        fullPrice: product.price,
+        category: product._category
+      });
+    }
   };
 
   return (
@@ -290,11 +311,13 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }} 
                 viewport={{ once: true }} 
                 transition={{ delay: 0.1 }}
+                onClick={() => handleBestsellerClick("24")}
+                style={{ cursor: 'pointer' }}
               >
                 <img src="/images/pizzen/pizzen%20fleisch/pizza%20king%20II.jpeg" alt="Pizza King II" className="bestseller-img" />
                 <div className="bestseller-content bottom-split">
                   <h3>PIZZA<br/>KING II</h3>
-                  <Link to="/menu" className="bestseller-btn">{t.toMenu} <ArrowRight size={14} /></Link>
+                  <div className="bestseller-btn">{t.orderNow} <ArrowRight size={14} /></div>
                 </div>
               </motion.div>
             </div>
@@ -307,11 +330,13 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }} 
                 viewport={{ once: true }} 
                 transition={{ delay: 0.2 }}
+                onClick={() => handleBestsellerClick("168-M")}
+                style={{ cursor: 'pointer' }}
               >
                 <img src="/images/Burger%20Men%C3%BC/Big%20Cheeseburger%20Men%C3%BC.jpeg" onError={(e) => { e.target.onerror = null; e.target.src = '/burger_cinematic.png'; }} alt="Big Cheeseburger Menü" className="bestseller-img burger-img-offset" />
                 <div className="bestseller-content top-left-content">
                   <h3>BIG CHEESEBURGER<br/>MENÜ</h3>
-                  <Link to="/menu" className="bestseller-btn">{t.orderNow} <ArrowRight size={14} /></Link>
+                  <div className="bestseller-btn">{t.orderNow} <ArrowRight size={14} /></div>
                 </div>
               </motion.div>
               
@@ -322,6 +347,8 @@ export default function Home() {
                   whileInView={{ opacity: 1, y: 0 }} 
                   viewport={{ once: true }} 
                   transition={{ delay: 0.3 }}
+                  onClick={() => handleBestsellerClick("63")}
+                  style={{ cursor: 'pointer' }}
                 >
                   <img src="/images/Nudeln/maccheroni%20del%20giothonne.jpeg" alt="Maccheroni Del Ghiottone" className="bestseller-img" />
                   <div className="bestseller-content bottom-left">
@@ -335,11 +362,13 @@ export default function Home() {
                   whileInView={{ opacity: 1, y: 0 }} 
                   viewport={{ once: true }} 
                   transition={{ delay: 0.4 }}
+                  onClick={() => handleBestsellerClick("140")}
+                  style={{ cursor: 'pointer' }}
                 >
                   <img src="/images/Salate/Salad%20King.jpeg" alt="King-Grundsalat" className="bestseller-img" />
                   <div className="bestseller-content bottom-split">
                     <h3>KING<br/>GRUNDSALAT</h3>
-                    <Link to="/menu" className="bestseller-btn">{t.toMenu} <ArrowRight size={14} /></Link>
+                    <div className="bestseller-btn">{t.orderNow} <ArrowRight size={14} /></div>
                   </div>
                 </motion.div>
               </div>
