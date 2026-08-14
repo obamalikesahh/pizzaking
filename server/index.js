@@ -28,7 +28,7 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // Groq
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY || 'missing-key' });
 
 // Nodemailer Transporter
 const transporter = nodemailer.createTransport({
@@ -404,6 +404,10 @@ app.delete('/api/offers/:id', async (req, res) => {
 
 app.post('/api/chat', async (req, res) => {
   try {
+    if (!process.env.GROQ_API_KEY || process.env.GROQ_API_KEY === 'missing-key') {
+      return res.status(500).json({ error: 'Der GROQ_API_KEY fehlt in den Vercel Environment Variables. Bitte füge ihn in Vercel hinzu.' });
+    }
+    
     const { history, message, image } = req.body;
     
     // Format history for Groq
@@ -554,6 +558,11 @@ app.post('/api/chat/escalate', async (req, res) => {
   }
 });
 
-app.listen(3001, () => {
-  console.log('Server läuft auf Port 3001');
-});
+if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
+  const PORT = process.env.PORT || 3001;
+  app.listen(PORT, () => {
+    console.log(`Server läuft auf Port ${PORT}`);
+  });
+}
+
+export default app;

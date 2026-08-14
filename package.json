@@ -9,11 +9,22 @@
     "backend": "cd server && npm run dev",
     "build": "vite build",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "postinstall": "prisma generate --schema=./server/prisma/schema.prisma"
   },
   "dependencies": {
+    "@prisma/adapter-pg": "^7.9.1",
+    "@prisma/client": "^7.9.1",
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
     "framer-motion": "^13.0.0",
+    "groq-sdk": "^1.5.0",
+    "jsonwebtoken": "^9.0.3",
     "lucide-react": "^1.30.0",
+    "nodemailer": "^9.0.5",
+    "pg": "^8.23.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-helmet-async": "^3.0.0",
@@ -26,6 +37,7 @@
     "@vitejs/plugin-react": "^6.0.4",
     "concurrently": "^10.0.4",
     "oxlint": "^1.75.0",
+    "prisma": "^7.9.1",
     "vite": "^8.2.0"
   }
 }

@@ -57,10 +57,13 @@ const KochKingChat = () => {
       });
 
       let data;
-      try {
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
         data = await response.json();
-      } catch (e) {
-        throw new Error('Entschuldigung, es gab einen Fehler bei der Verbindung. Bitte versuche es später noch einmal.');
+      } else {
+        const text = await response.text();
+        console.error('Server returned non-JSON:', text);
+        throw new Error('Der Server hat eine ungültige Antwort gesendet.');
       }
 
       if (!response.ok) {
