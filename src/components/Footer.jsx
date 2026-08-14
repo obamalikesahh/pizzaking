@@ -74,9 +74,8 @@ export default function Footer() {
         <div className="footer-social">
           <h3>{t.followUs}</h3>
           <div className="social-icons">
-            <a href="#" aria-label="Facebook">FB</a>
-            <a href="#" aria-label="Instagram">IG</a>
-            <a href="#" aria-label="TikTok">TT</a>
+            <a href="https://www.facebook.com/PizzaKingSL" target="_blank" rel="noopener noreferrer" aria-label="Facebook">FB</a>
+            <a href="https://www.instagram.com/pizza.king.schleswig/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">IG</a>
           </div>
         </div>
         <div className="footer-newsletter" style={{ flex: '1', minWidth: '280px' }}>
