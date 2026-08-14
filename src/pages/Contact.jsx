@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
+import { useAdmin } from '../context/AdminContext';
+import { getTranslation } from '../data/translations';
 import './Contact.css';
 
 export default function Contact() {
+  const { language } = useAdmin();
+  const t = getTranslation(language);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert('Thank you for your reservation request! We will confirm shortly.');
+    alert(t.reservationSuccess);
     setFormData({ name: '', email: '', message: '' });
   };
 
@@ -22,8 +26,8 @@ export default function Contact() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h1>Reservation</h1>
-          <p>Book a table and experience the royal taste of Pizza King.</p>
+          <h1>{t.reservation}</h1>
+          <p>{t.reservationDesc}</p>
         </motion.div>
 
         <div className="contact-grid">
@@ -35,12 +39,12 @@ export default function Contact() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <h2>Contact Information</h2>
+            <h2>{t.contactInfo}</h2>
             
             <div className="info-item">
               <MapPin className="info-icon" />
               <div>
-                <h3>Address</h3>
+                <h3>{t.address}</h3>
                 <p>Domziegelhof 12-14</p>
                 <p>24837 Schleswig</p>
               </div>
@@ -49,7 +53,7 @@ export default function Contact() {
             <div className="info-item">
               <Phone className="info-icon" />
               <div>
-                <h3>Phone</h3>
+                <h3>{t.phone}</h3>
                 <p>04621 / 999 460</p>
                 <p>04621 / 999 461</p>
               </div>
@@ -58,16 +62,16 @@ export default function Contact() {
             <div className="info-item">
               <Mail className="info-icon" />
               <div>
-                <h3>Email</h3>
-                <p>kontakt@pizzaking.com</p>
+                <h3>{t.email}</h3>
+                <p>kontakt@pizzaking-schleswig.de</p>
               </div>
             </div>
 
             <div className="info-item">
               <Clock className="info-icon" />
               <div>
-                <h3>Opening Hours</h3>
-                <p>Daily: 11:00 - 23:00</p>
+                <h3>{t.openingHours}</h3>
+                <p>{t.dailyHours}</p>
               </div>
             </div>
           </motion.div>
@@ -79,43 +83,43 @@ export default function Contact() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <h2>Send a Request</h2>
+            <h2>{t.sendRequest}</h2>
             <form onSubmit={handleSubmit} className="contact-form">
               <div className="form-group">
-                <label>Name</label>
+                <label>{t.name}</label>
                 <input 
                   type="text" 
                   required 
                   value={formData.name}
                   onChange={(e) => setFormData({...formData, name: e.target.value})}
-                  placeholder="Your Full Name"
+                  placeholder={t.namePlaceholder}
                 />
               </div>
               
               <div className="form-group">
-                <label>Email</label>
+                <label>{t.email}</label>
                 <input 
                   type="email" 
                   required 
                   value={formData.email}
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
-                  placeholder="you@example.com"
+                  placeholder={t.emailPlaceholder}
                 />
               </div>
 
               <div className="form-group">
-                <label>Message / Details</label>
+                <label>{t.messageDetails}</label>
                 <textarea 
                   required 
                   rows="4"
                   value={formData.message}
                   onChange={(e) => setFormData({...formData, message: e.target.value})}
-                  placeholder="Date, Time, Number of Guests..."
+                  placeholder={t.messagePlaceholder}
                 ></textarea>
               </div>
 
-              <button type="submit" className="btn-primary" style={{ width: '100%', marginTop: '10px' }}>
-                Request Reservation
+              <button type="submit" className="contact-submit-btn">
+                {t.requestReservation}
               </button>
             </form>
           </motion.div>

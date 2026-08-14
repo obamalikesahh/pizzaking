@@ -3,7 +3,7 @@ export const storeData = {
   address: "Domziegelhof 12-14, 24837 Schleswig",
   telephone: ["04621999460", "04621999461"],
   email: "kontakt@pizzaking-schleswig.de",
-  openingHours: "täglich 11:00-23:00 Uhr",
+  openingHours: "täglich 11:00-22:00 Uhr",
   socials: {
     facebook: "https://facebook.com/PizzaKingSL",
     instagram: "https://instagram.com/pizza.king.schleswig"

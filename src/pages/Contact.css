@@ -118,3 +118,26 @@
     grid-template-columns: 1fr;
   }
 }
+
+.contact-submit-btn {
+  background: var(--color-primary);
+  color: #0a0b0a;
+  border: none;
+  padding: 16px 24px;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-top: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+}
+
+.contact-submit-btn:hover {
+  background: #e8c08a;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(207, 166, 112, 0.4);
+}

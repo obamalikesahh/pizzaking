@@ -72,7 +72,7 @@ function App() {
         "@type": "OpeningHoursSpecification",
         "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
         "opens": "11:00",
-        "closes": "23:00"
+        "closes": "22:00"
       }
     ]
   };

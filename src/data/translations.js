@@ -80,7 +80,25 @@ export const t = {
     impressum: 'Impressum',
     newsletter: 'Newsletter',
     newsletterFooterDesc: 'Werde Teil des exklusiven King-Clubs und erhalte geheime Angebote!',
-    rights: 'Alle Rechte vorbehalten.'
+    rights: 'Alle Rechte vorbehalten.',
+
+    // Contact Page
+    reservation: 'Reservierung',
+    reservationDesc: 'Buchen Sie einen Tisch und erleben Sie den königlichen Geschmack von Pizza King.',
+    contactInfo: 'Kontaktinformationen',
+    address: 'Adresse',
+    phone: 'Telefon',
+    email: 'E-Mail',
+    openingHours: 'Öffnungszeiten',
+    dailyHours: 'Täglich: 11:00 - 22:00',
+    sendRequest: 'Anfrage senden',
+    name: 'Name',
+    namePlaceholder: 'Ihr vollständiger Name',
+    emailPlaceholder: 'sie@beispiel.de',
+    messageDetails: 'Nachricht / Details',
+    messagePlaceholder: 'Datum, Uhrzeit, Anzahl der Gäste...',
+    requestReservation: 'Reservierung anfragen',
+    reservationSuccess: 'Vielen Dank für Ihre Reservierungsanfrage! Wir werden uns in Kürze bei Ihnen melden.'
   },
   en: {
     // Header
@@ -163,7 +181,25 @@ export const t = {
     impressum: 'Imprint',
     newsletter: 'Newsletter',
     newsletterFooterDesc: 'Join the exclusive King Club and get secret offers!',
-    rights: 'All rights reserved.'
+    rights: 'All rights reserved.',
+
+    // Contact Page
+    reservation: 'Reservation',
+    reservationDesc: 'Book a table and experience the royal taste of Pizza King.',
+    contactInfo: 'Contact Information',
+    address: 'Address',
+    phone: 'Phone',
+    email: 'Email',
+    openingHours: 'Opening Hours',
+    dailyHours: 'Daily: 11:00 - 22:00',
+    sendRequest: 'Send a Request',
+    name: 'Name',
+    namePlaceholder: 'Your Full Name',
+    emailPlaceholder: 'you@example.com',
+    messageDetails: 'Message / Details',
+    messagePlaceholder: 'Date, Time, Number of Guests...',
+    requestReservation: 'Request Reservation',
+    reservationSuccess: 'Thank you for your reservation request! We will confirm shortly.'
   },
   ru: {
     // Header
@@ -246,7 +282,25 @@ export const t = {
     impressum: 'Импрессум',
     newsletter: 'Рассылка',
     newsletterFooterDesc: 'Присоединяйтесь к эксклюзивному клубу King и получайте секретные предложения!',
-    rights: 'Все права защищены.'
+    rights: 'Все права защищены.',
+
+    // Contact Page
+    reservation: 'Бронирование',
+    reservationDesc: 'Забронируйте столик и ощутите королевский вкус Pizza King.',
+    contactInfo: 'Контактная информация',
+    address: 'Адрес',
+    phone: 'Телефон',
+    email: 'Email',
+    openingHours: 'Часы работы',
+    dailyHours: 'Ежедневно: 11:00 - 22:00',
+    sendRequest: 'Отправить запрос',
+    name: 'Имя',
+    namePlaceholder: 'Ваше полное имя',
+    emailPlaceholder: 'вы@example.com',
+    messageDetails: 'Сообщение / Детали',
+    messagePlaceholder: 'Дата, Время, Количество гостей...',
+    requestReservation: 'Запросить бронирование',
+    reservationSuccess: 'Спасибо за ваш запрос на бронирование! Мы скоро подтвердим.'
   }
 };
 
