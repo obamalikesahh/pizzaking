@@ -4,13 +4,63 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, ChevronDown, Quote, Mail, CheckCircle, Tag } from 'lucide-react';
 import { useAdmin } from '../context/AdminContext';
 import { getTranslation } from '../data/translations';
+import { useCart } from '../context/CartContext';
+import { menuData } from '../data/menu';
+import MealDetailModal from '../components/MealDetailModal';
 import './Home.css';
 
 export default function Home() {
   const { offers, language } = useAdmin();
+  const { addToCart } = useCart();
   const t = getTranslation(language);
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
+  const getPizza = (id) => {
+    const pizzaCategory = menuData.find(c => c.category === 'Pizza');
+    return pizzaCategory?.items.find(p => p.id === id);
+  };
+
+  const renderMiniMenuItem = (id, delay) => {
+    const pizza = getPizza(id);
+    if (!pizza) return null;
+    const desc = typeof pizza.desc === 'object' ? (pizza.desc[language] || pizza.desc.de) : pizza.desc;
+    
+    return (
+      <motion.div 
+        key={id}
+        className="mini-menu-item" 
+        initial={{ opacity: 0, x: 20 }} 
+        whileInView={{ opacity: 1, x: 0 }} 
+        viewport={{ once: true }} 
+        transition={{ delay }}
+        onClick={() => setSelectedProduct({
+          id: pizza.id,
+          name: pizza.name,
+          price: parseFloat(pizza.price.split(' ')[0].replace(',', '.')) || 0,
+          description: desc,
+          imageUrl: pizza.image,
+          fullPrice: pizza.price,
+          category: 'Pizza'
+        })}
+        style={{ cursor: 'pointer' }}
+      >
+        <div className="mini-menu-img">
+          <img src={pizza.image} alt={pizza.name} />
+        </div>
+        <div className="mini-menu-details">
+          <div className="mini-menu-title-row">
+            <h4>{pizza.name.toUpperCase()}</h4>
+            <span className="dotted-leader"></span>
+            <span className="mini-menu-price">{pizza.price.split('|')[0].trim()}</span>
+          </div>
+          <p className="mini-menu-desc">{desc}</p>
+        </div>
+      </motion.div>
+    );
+  };
+
   return (
     <div className="home-container">
       
@@ -150,125 +200,14 @@ export default function Home() {
             </div>
 
             <div className="mini-menu-list">
-              {/* Menu Item 1 */}
-              <motion.div className="mini-menu-item" initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-                <div className="mini-menu-img">
-                  <img src="/pizza_margherita.jpeg" alt="Pizza Margherita" />
-                </div>
-                <div className="mini-menu-details">
-                  <div className="mini-menu-title-row">
-                    <h4>PIZZA MARGHERITA</h4>
-                    <span className="dotted-leader"></span>
-                    <span className="mini-menu-price">€9.90</span>
-                  </div>
-                  <p className="mini-menu-desc">Tomato sauce and cheese.</p>
-                </div>
-              </motion.div>
-
-              {/* Menu Item 2 */}
-              <motion.div className="mini-menu-item" initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
-                <div className="mini-menu-img">
-                  <img src="/pizza_gyros.jpeg" alt="Pizza Gyros" />
-                </div>
-                <div className="mini-menu-details">
-                  <div className="mini-menu-title-row">
-                    <h4>PIZZA GYROS</h4>
-                    <span className="dotted-leader"></span>
-                    <span className="mini-menu-price">€14.90</span>
-                  </div>
-                  <p className="mini-menu-desc">Seasoned gyros meat, sliced red onions, and tzatziki sauce.</p>
-                </div>
-              </motion.div>
-              
-              {/* Menu Item 3 */}
-              <motion.div className="mini-menu-item" initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
-                <div className="mini-menu-img">
-                  <img src="/pizza_salami.jpeg" alt="Pizza Salami" />
-                </div>
-                <div className="mini-menu-details">
-                  <div className="mini-menu-title-row">
-                    <h4>PIZZA SALAMI</h4>
-                    <span className="dotted-leader"></span>
-                    <span className="mini-menu-price">€11.90</span>
-                  </div>
-                  <p className="mini-menu-desc">Salami slices and melted cheese.</p>
-                </div>
-              </motion.div>
-
-              {/* Menu Item 4 */}
-              <motion.div className="mini-menu-item" initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }}>
-                <div className="mini-menu-img">
-                  <img src="/pizza_tonno.jpeg" alt="Pizza Tonno" />
-                </div>
-                <div className="mini-menu-details">
-                  <div className="mini-menu-title-row">
-                    <h4>PIZZA TONNO</h4>
-                    <span className="dotted-leader"></span>
-                    <span className="mini-menu-price">€13.90</span>
-                  </div>
-                  <p className="mini-menu-desc">Flaky tuna, red onions, and fresh spinach.</p>
-                </div>
-              </motion.div>
-
-              {/* Menu Item 5 */}
-              <motion.div className="mini-menu-item" initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }}>
-                <div className="mini-menu-img">
-                  <img src="/pizza_funghi.jpeg" alt="Pizza Funghi" />
-                </div>
-                <div className="mini-menu-details">
-                  <div className="mini-menu-title-row">
-                    <h4>PIZZA FUNGHI</h4>
-                    <span className="dotted-leader"></span>
-                    <span className="mini-menu-price">€12.90</span>
-                  </div>
-                  <p className="mini-menu-desc">Earthy wild mushrooms (champignons), melted cheese, garlic, and parsley.</p>
-                </div>
-              </motion.div>
-
-              {/* Menu Item 6 */}
-              <motion.div className="mini-menu-item" initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: 0.5 }}>
-                <div className="mini-menu-img">
-                  <img src="/pizza_verdura.jpeg" alt="Pizza Verdura" />
-                </div>
-                <div className="mini-menu-details">
-                  <div className="mini-menu-title-row">
-                    <h4>PIZZA VERDURA</h4>
-                    <span className="dotted-leader"></span>
-                    <span className="mini-menu-price">€13.90</span>
-                  </div>
-                  <p className="mini-menu-desc">Champignons mushrooms, green broccoli florets, fresh tomatoes, and sweet corn.</p>
-                </div>
-              </motion.div>
-
-              {/* Menu Item 7 */}
-              <motion.div className="mini-menu-item" initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: 0.6 }}>
-                <div className="mini-menu-img">
-                  <img src="/pizza_4_cheese.jpeg" alt="Pizza 4 Cheese" />
-                </div>
-                <div className="mini-menu-details">
-                  <div className="mini-menu-title-row">
-                    <h4>PIZZA 4 CHEESE</h4>
-                    <span className="dotted-leader"></span>
-                    <span className="mini-menu-price">€14.90</span>
-                  </div>
-                  <p className="mini-menu-desc">Mozzarella, cottage cheese (Weichkäse), gorgonzola, and gouda.</p>
-                </div>
-              </motion.div>
-
-              {/* Menu Item 8 */}
-              <motion.div className="mini-menu-item" initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: 0.7 }}>
-                <div className="mini-menu-img">
-                  <img src="/pizza_prosciutto.jpeg" alt="Pizza Prosciutto" />
-                </div>
-                <div className="mini-menu-details">
-                  <div className="mini-menu-title-row">
-                    <h4>PIZZA PROSCIUTTO</h4>
-                    <span className="dotted-leader"></span>
-                    <span className="mini-menu-price">€13.90</span>
-                  </div>
-                  <p className="mini-menu-desc">Delicate prosciutto ham slices (often paired with fresh arugula and parmesan shavings).</p>
-                </div>
-              </motion.div>
+              {renderMiniMenuItem("500", 0)}
+              {renderMiniMenuItem("19", 0.1)}
+              {renderMiniMenuItem("12", 0.2)}
+              {renderMiniMenuItem("09", 0.3)}
+              {renderMiniMenuItem("01", 0.4)}
+              {renderMiniMenuItem("08", 0.5)}
+              {renderMiniMenuItem("03", 0.6)}
+              {renderMiniMenuItem("13", 0.7)}
             </div>
             
             <div style={{ textAlign: 'center', marginTop: 'auto', paddingTop: '20px' }}>
@@ -638,6 +577,12 @@ export default function Home() {
         </div>
       </section>
 
+      <MealDetailModal 
+        isOpen={!!selectedProduct} 
+        onClose={() => setSelectedProduct(null)} 
+        product={selectedProduct} 
+        addToCart={addToCart} 
+      />
     </div>
   );
 }
