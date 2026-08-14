@@ -38,21 +38,21 @@ export default function Header() {
         </Link>
 
         {/* Mobile: Language Switcher and Cart */}
-        <div className="mobile-only" style={{ display: 'flex', alignItems: 'center', gap: '10px', marginLeft: 'auto' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', padding: '6px 12px', borderRadius: '20px' }}>
+        <div className="mobile-only mobile-actions">
+          <div className="lang-switcher">
             <Globe size={14} color="#cfa670" />
             <select 
               value={language} 
               onChange={(e) => setLanguage(e.target.value)}
-              style={{ background: 'transparent', border: 'none', color: '#ffffff', outline: 'none', cursor: 'pointer', fontSize: '0.8rem', fontWeight: '600', letterSpacing: '0.5px' }}
+              className="lang-select"
             >
-              <option value="de" style={{ background: '#111', color: '#fff' }}>DE</option>
-              <option value="en" style={{ background: '#111', color: '#fff' }}>EN</option>
-              <option value="ru" style={{ background: '#111', color: '#fff' }}>RU</option>
+              <option value="de">DE</option>
+              <option value="en">EN</option>
+              <option value="ru">RU</option>
             </select>
           </div>
 
-          <Link to="/checkout" className="pill-link pill-cta" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <Link to="/checkout" className="pill-link pill-cta cart-btn">
             <ShoppingCart size={14} />
             <span className="cart-text">{t.cart}</span> {totalItems > 0 && `(${totalItems})`}
           </Link>
@@ -78,20 +78,20 @@ export default function Header() {
 
               {/* Desktop: Language Switcher and Cart */}
               <div className="desktop-only" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', padding: '6px 12px', borderRadius: '20px' }}>
+                <div className="lang-switcher">
                   <Globe size={14} color="#cfa670" />
                   <select 
                     value={language} 
                     onChange={(e) => setLanguage(e.target.value)}
-                    style={{ background: 'transparent', border: 'none', color: '#ffffff', outline: 'none', cursor: 'pointer', fontSize: '0.8rem', fontWeight: '600', letterSpacing: '0.5px' }}
+                    className="lang-select"
                   >
-                    <option value="de" style={{ background: '#111', color: '#fff' }}>DE</option>
-                    <option value="en" style={{ background: '#111', color: '#fff' }}>EN</option>
-                    <option value="ru" style={{ background: '#111', color: '#fff' }}>RU</option>
+                    <option value="de">DE</option>
+                    <option value="en">EN</option>
+                    <option value="ru">RU</option>
                   </select>
                 </div>
 
-                <Link to="/checkout" className="pill-link pill-cta" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Link to="/checkout" className="pill-link pill-cta cart-btn">
                   <ShoppingCart size={14} />
                   {t.cart} {totalItems > 0 && `(${totalItems})`}
                 </Link>

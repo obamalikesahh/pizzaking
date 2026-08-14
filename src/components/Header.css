@@ -115,17 +115,60 @@
   border-radius: 50%;
 }
 
+/* Language and Cart Shared Styles */
+.lang-switcher {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 6px 12px;
+  border-radius: 20px;
+}
+
+.lang-select {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  outline: none;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+.lang-select option {
+  background: #111;
+  color: #fff;
+}
+
+.cart-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 @media (max-width: 900px) {
   .pill-header {
     top: 20px;
-    left: 20px;
-    right: 20px;
+    left: 10px;
+    right: 10px;
   }
   .pill-container {
     justify-content: space-between;
     width: 100%;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     position: relative;
+    padding: 6px 10px;
+    gap: 8px;
+  }
+  .pill-brand {
+    font-size: 1.1rem;
+    padding-right: 0;
+  }
+  .pill-menu-btn {
+    width: 35px;
+    height: 35px;
+    min-width: 35px;
   }
   .pill-nav {
     display: flex;
@@ -149,13 +192,33 @@
     padding: 5px 0;
     width: 100%;
   }
+  
   .desktop-only {
     display: none !important;
   }
+  
   .mobile-only {
     display: flex !important;
   }
-  .cart-text { display: none; }
+  
+  .mobile-actions {
+    gap: 6px;
+    margin-left: auto;
+  }
+  
+  .lang-switcher {
+    padding: 4px 8px;
+    gap: 4px;
+  }
+  
+  .cart-btn {
+    padding: 6px 10px;
+    gap: 4px;
+  }
+  
+  .cart-text { 
+    display: none; 
+  }
 }
 
 @media (min-width: 901px) {
