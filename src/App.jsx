@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { HelmetProvider, Helmet } from 'react-helmet-async';
 import Header from './components/Header';
@@ -20,6 +20,10 @@ import { useLocation } from 'react-router-dom';
 function Layout() {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   return (
     <div className="app-container">
