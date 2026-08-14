@@ -105,19 +105,19 @@ export default function Home() {
           <Link to="/menu" className="bento-link">
             <motion.div className="bento-box" initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.2 }}>
               <img src="/cinematic_pizza.png" alt="Menu" className="bento-img" />
-              <div className="bento-label">MENU <ArrowRight size={16} /></div>
+              <div className="bento-label" style={{ textTransform: 'uppercase' }}>{t.menu} <ArrowRight size={16} /></div>
             </motion.div>
           </Link>
           <Link to="/about" className="bento-link">
             <motion.div className="bento-box" initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.3 }}>
               <img src="/burger_cinematic.png" alt="About Us" className="bento-img" />
-              <div className="bento-label">ABOUT US <ArrowRight size={16} /></div>
+              <div className="bento-label" style={{ textTransform: 'uppercase' }}>{t.about} <ArrowRight size={16} /></div>
             </motion.div>
           </Link>
           <Link to="/contact" className="bento-link">
             <motion.div className="bento-box" initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.4 }}>
               <img src="/salad_cinematic.png" alt="Contact Us" className="bento-img" />
-              <div className="bento-label">CONTACT US <ArrowRight size={16} /></div>
+              <div className="bento-label" style={{ textTransform: 'uppercase' }}>{t.contact} <ArrowRight size={16} /></div>
             </motion.div>
           </Link>
         </div>
