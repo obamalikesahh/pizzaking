@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageCircle, X, Send, Paperclip, AlertCircle, Loader2 } from 'lucide-react';
 import './KochKingChat.css';
+import { API_URL } from '../api';
 
 const KochKingChat = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -45,7 +46,7 @@ const KochKingChat = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost:3001/api/chat', {
+      const response = await fetch(`${API_URL}/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -104,7 +105,7 @@ const KochKingChat = () => {
     setEscalationStatus('sending');
 
     try {
-      const response = await fetch('http://localhost:3001/api/chat/escalate', {
+      const response = await fetch(`${API_URL}/chat/escalate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
