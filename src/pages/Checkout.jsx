@@ -74,7 +74,7 @@ export default function Checkout() {
   };
 
   return (
-    <div className="page-container container animate-fade-in" style={{ padding: '40px 20px' }}>
+    <div className="page-container container animate-fade-in" style={{ padding: '120px 20px 40px' }}>
       <h1 className="text-gradient text-center" style={{ marginBottom: '40px' }}>Kasse</h1>
       
       <div className="checkout-layout">
@@ -201,7 +201,7 @@ export default function Checkout() {
           <div style={{ marginTop: '20px', marginBottom: '20px', borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '20px' }}>
             <div style={{ display: 'flex', gap: '10px' }}>
               <input 
-                placeholder="Newsletter- oder Gutscheincode" 
+                placeholder="Newsletter-Code" 
                 value={discountCode} 
                 onChange={e => setDiscountCode(e.target.value)} 
                 style={{ flex: 1, padding: '10px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', outline: 'none' }} 
