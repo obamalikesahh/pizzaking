@@ -123,6 +123,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
   const [selectedAktionPizzas, setSelectedAktionPizzas] = useState([]);
   const [selectedAktionEis, setSelectedAktionEis] = useState([]);
   const [selectedAktionBurgers, setSelectedAktionBurgers] = useState([]);
+  const [selectedAktionBurgerMenu, setSelectedAktionBurgerMenu] = useState(null);
   const [sweetPotatoFries, setSweetPotatoFries] = useState(false);
 
   const isPizzabroetchen = product.name.toLowerCase().includes('pizzabrötchen') || product.name.toLowerCase().includes('pizza brötchen');
@@ -145,6 +146,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
     setSelectedAktionPizzas([]);
     setSelectedAktionEis([]);
     setSelectedAktionBurgers([]);
+    setSelectedAktionBurgerMenu(null);
     setSweetPotatoFries(false);
   }, [product]);
 
@@ -224,6 +226,8 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
   let maxPizzas = 0;
   let maxEis = 0;
   let maxBurgers = 0;
+  let maxBurgerMenus = 0;
+  if (product.id === '600') { maxPizzas = 1; maxBurgerMenus = 1; }
   if (product.id === '601') maxPizzas = 3;
   if (product.id === '603') { maxPizzas = 1; maxEis = 1; }
   if (product.id === '604') { maxPizzas = 2; maxEis = 2; }
@@ -235,6 +239,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
   const availablePizzas = menuData.find(c => c.category === 'Pizza')?.items || [];
   const availableEis = menuData.find(c => c.category === 'Eis')?.items || [];
   const availableBurgers = menuData.find(c => c.category === 'Burger')?.items || [];
+  const availableBurgerMenus = availableBurgers.filter(item => item.name.toLowerCase().includes('menü') || item.id.includes('-M'));
 
   const addAktionBurger = (item) => {
     if (selectedAktionBurgers.length < maxBurgers) {
@@ -286,6 +291,10 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
       alert(`Bitte wählen Sie genau ${maxBurgers} Burger aus.`);
       return;
     }
+    if (maxBurgerMenus > 0 && !selectedAktionBurgerMenu) {
+      alert(`Bitte wählen Sie ein Burger-Menü aus.`);
+      return;
+    }
 
     let itemName = product.name;
     if (options.length > 1) {
@@ -311,6 +320,10 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
     }
     if (selectedAktionEis.length > 0) {
       itemName += ` - Eis: ${selectedAktionEis.map(e => e.name).join(', ')}`;
+    }
+
+    if (selectedAktionBurgerMenu) {
+      itemName += ` - Menü: ${selectedAktionBurgerMenu.name}`;
     }
 
     if (selectedAktionBurgers.length > 0) {
@@ -378,7 +391,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
           </button>
 
           <div className="q-modal-image-header">
-            <img src={product.imageUrl || product.image} alt={product.name} />
+            <img src={product.imageUrl || product.image} alt={product.name} loading="lazy" />
             <div className="q-modal-image-gradient"></div>
           </div>
 
@@ -482,7 +495,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
                           transition: 'all 0.2s'
                         }}
                       >
-                        <img src={item.image} alt={item.name} style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: '50%', flexShrink: 0 }} />
+                        <img src={item.image} alt={item.name} loading="lazy" style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: '50%', flexShrink: 0 }} />
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <div style={{ fontSize: '0.78rem', fontWeight: 'bold', color: isSelected ? '#cfa670' : '#fff', whiteSpace: 'normal', wordBreak: 'break-word', lineHeight: '1.2', marginBottom: '3px' }}>{item.name}</div>
                         </div>
@@ -499,7 +512,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
                 <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                   {selectedAktionPizzas.map(p => (
                     <div key={p.id} onClick={() => toggleAktionPizza(p)} style={{ background: 'rgba(207, 166, 112, 0.2)', border: '1px solid #cfa670', borderRadius: '12px', padding: '10px', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
-                       <img src={p.image} alt={p.name} style={{ width: 24, height: 24, objectFit: 'cover', borderRadius: '50%' }} />
+                       <img src={p.image} alt={p.name} loading="lazy" style={{ width: 24, height: 24, objectFit: 'cover', borderRadius: '50%' }} />
                        <span style={{ fontSize: '0.8rem', color: '#fff' }}>{p.name}</span>
                        <X size={14} color="#cfa670" />
                     </div>
@@ -531,7 +544,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
                           transition: 'all 0.2s'
                         }}
                       >
-                        <img src={item.image} alt={item.name} style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: '50%', flexShrink: 0 }} />
+                        <img src={item.image} alt={item.name} loading="lazy" style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: '50%', flexShrink: 0 }} />
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <div style={{ fontSize: '0.78rem', fontWeight: 'bold', color: isSelected ? '#cfa670' : '#fff', whiteSpace: 'normal', wordBreak: 'break-word', lineHeight: '1.2', marginBottom: '3px' }}>{item.name}</div>
                         </div>
@@ -552,6 +565,49 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
                        <X size={14} color="#cfa670" />
                     </div>
                   ))}
+                </div>
+              </div>
+            )}
+
+            {/* Aktion Burger Menü */}
+            {maxBurgerMenus > 0 && !selectedAktionBurgerMenu && (
+              <div>
+                <div className="q-modal-section-title" style={{ color: '#cfa670' }}>🍔 WÄHLE {maxBurgerMenus} BURGER-MENÜ AUS</div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(165px, 1fr))', gap: '10px', marginBottom: '20px' }}>
+                  {availableBurgerMenus.map(item => (
+                      <div 
+                        key={item.id}
+                        onClick={() => setSelectedAktionBurgerMenu(item)}
+                        style={{
+                          background: '#1a1a1a',
+                          border: '1px solid rgba(255,255,255,0.08)',
+                          borderRadius: '12px',
+                          padding: '10px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '10px',
+                          cursor: 'pointer',
+                          transition: 'all 0.2s'
+                        }}
+                      >
+                        <img src={item.image} alt={item.name} loading="lazy" style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: '50%', flexShrink: 0 }} />
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ fontSize: '0.78rem', fontWeight: 'bold', color: '#fff', whiteSpace: 'normal', wordBreak: 'break-word', lineHeight: '1.2', marginBottom: '3px' }}>{item.name}</div>
+                        </div>
+                      </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            {maxBurgerMenus > 0 && selectedAktionBurgerMenu && (
+              <div style={{ marginBottom: '20px' }}>
+                <div className="q-modal-section-title" style={{ color: '#cfa670' }}>✅ 1 BURGER-MENÜ GEWÄHLT</div>
+                <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                    <div onClick={() => setSelectedAktionBurgerMenu(null)} style={{ background: 'rgba(207, 166, 112, 0.2)', border: '1px solid #cfa670', borderRadius: '12px', padding: '10px', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
+                       <img src={selectedAktionBurgerMenu.image} alt={selectedAktionBurgerMenu.name} loading="lazy" style={{ width: 24, height: 24, objectFit: 'cover', borderRadius: '50%' }} />
+                       <span style={{ fontSize: '0.8rem', color: '#fff' }}>{selectedAktionBurgerMenu.name}</span>
+                       <X size={14} color="#cfa670" />
+                    </div>
                 </div>
               </div>
             )}

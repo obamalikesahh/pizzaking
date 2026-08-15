@@ -59,7 +59,7 @@ export default function Home() {
         style={{ cursor: 'pointer' }}
       >
         <div className="mini-menu-img">
-          <img src={pizza.image} alt={pizza.name} />
+          <img src={pizza.image} alt={pizza.name} loading="lazy" />
         </div>
         <div className="mini-menu-details">
           <div className="mini-menu-title-row">
@@ -142,8 +142,8 @@ export default function Home() {
           
           {/* Column 1: Left Images */}
           <div className="testimonials-side-images" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            <img src="/pasta_cinematic.png" alt="Pasta" className="test-side-img" style={{ height: '50%', objectFit: 'cover', borderRadius: '16px' }} />
-            <img src="/burger_cinematic.png" alt="Burger" className="test-side-img" style={{ height: '50%', objectFit: 'cover', borderRadius: '16px' }} />
+            <img src="/pasta_cinematic.png" alt="Pasta" className="test-side-img" loading="lazy" style={{ height: '50%', objectFit: 'cover', borderRadius: '16px' }} />
+            <img src="/burger_cinematic.png" alt="Burger" className="test-side-img" loading="lazy" style={{ height: '50%', objectFit: 'cover', borderRadius: '16px' }} />
           </div>
 
           {/* Column 2: Center Workshop Content */}
@@ -157,28 +157,28 @@ export default function Home() {
               {/* Ingredients Column */}
               <div className="workshop-ingredients">
                 <motion.div className="ingredient-card tall" initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}>
-                  <img src="/fresh_tomatoes.png" alt="Fresh Tomatoes" className="ingredient-img" />
+                  <img src="/fresh_tomatoes.png" alt="Fresh Tomatoes" className="ingredient-img" loading="lazy" />
                   <div className="ingredient-label">{t.freshTomatoes.split('\n').map((line, i) => <React.Fragment key={i}>{line}{i === 0 && <br/>}</React.Fragment>)}</div>
                 </motion.div>
                 
                 <div className="ingredient-col-small">
                   <motion.div className="ingredient-card small" initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
-                    <img src="/mozzarella.png" alt="Buffalo Mozzarella" className="ingredient-img" />
+                    <img src="/mozzarella.png" alt="Buffalo Mozzarella" className="ingredient-img" loading="lazy" />
                     <div className="ingredient-label small-text">{t.buffaloMozzarella.split('\n').map((line, i) => <React.Fragment key={i}>{line}{i === 0 && <br/>}</React.Fragment>)}</div>
                   </motion.div>
                   <motion.div className="ingredient-card small" initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
-                    <img src="/basil.png" alt="Fresh Basil" className="ingredient-img" />
+                    <img src="/basil.png" alt="Fresh Basil" className="ingredient-img" loading="lazy" />
                     <div className="ingredient-label small-text">{t.freshBasil}</div>
                   </motion.div>
                 </div>
 
                 <div className="ingredient-col-small">
                   <motion.div className="ingredient-card small" initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: 0.3 }}>
-                    <img src="/ham.png" alt="Artisan Ham" className="ingredient-img" />
+                    <img src="/ham.png" alt="Artisan Ham" className="ingredient-img" loading="lazy" />
                     <div className="ingredient-label small-text">{t.artisanHam.split('\n').map((line, i) => <React.Fragment key={i}>{line}{i === 0 && <br/>}</React.Fragment>)}</div>
                   </motion.div>
                   <motion.div className="ingredient-card small" initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: 0.4 }}>
-                    <img src="/champignons_beef.png" alt="Champignons & Beef" className="ingredient-img" />
+                    <img src="/champignons_beef.png" alt="Champignons & Beef" className="ingredient-img" loading="lazy" />
                     <div className="ingredient-label small-text">{t.champignonsBeef.split('\n').map((line, i) => <React.Fragment key={i}>{line}{i === 0 && <br/>}</React.Fragment>)}</div>
                   </motion.div>
                 </div>
@@ -202,7 +202,7 @@ export default function Home() {
 
             <div className="workshop-bottom-row" style={{ marginTop: '20px' }}>
               <motion.div className="workshop-info-box" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-                <img src="/potato_wedge.png" alt="Pairing" className="info-icon-img" style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: '50%' }} />
+                <img src="/potato_wedge.png" alt="Pairing" className="info-icon-img" loading="lazy" style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: '50%' }} />
                 <div>
                   <h4 style={{ color: 'var(--color-text)', fontFamily: 'var(--font-heading)', fontSize: '1.1rem', margin: '0 0 5px 0' }}>{t.chefsSignature}</h4>
                   <p style={{ color: 'var(--color-text-muted)', fontSize: '0.85rem', margin: 0 }}>{t.chefsSignatureDesc}</p>
@@ -267,7 +267,7 @@ export default function Home() {
                 >
                   {offer.image && (
                     <div style={{ height: '180px', overflow: 'hidden', position: 'relative' }}>
-                      <img src={offer.image} alt={offer.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <img src={offer.image} alt={offer.title} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                       {offer.badge && (
                         <span style={{ position: 'absolute', top: '15px', right: '15px', background: '#cfa670', color: '#000', fontWeight: 'bold', fontSize: '0.75rem', padding: '4px 12px', borderRadius: '20px', textTransform: 'uppercase' }}>
                           {offer.badge}
@@ -321,7 +321,7 @@ export default function Home() {
                 onClick={() => handleBestsellerClick("24")}
                 style={{ cursor: 'pointer' }}
               >
-                <img src="/images/pizzen/pizzen%20fleisch/pizza%20king%20II.jpeg" alt="Pizza King II" className="bestseller-img" />
+                <img src="/images/pizzen/pizzen%20fleisch/pizza%20king%20II.jpeg" alt="Pizza King II" className="bestseller-img" loading="lazy" />
                 <div className="bestseller-content bottom-split">
                   <h3>PIZZA<br/>KING II</h3>
                   <div className="bestseller-btn">{t.orderNow} <ArrowRight size={14} /></div>
@@ -340,7 +340,7 @@ export default function Home() {
                 onClick={() => handleBestsellerClick("168-M")}
                 style={{ cursor: 'pointer' }}
               >
-                <img src="/images/Burger%20Men%C3%BC/Big%20Cheeseburger%20Men%C3%BC.jpeg" onError={(e) => { e.target.onerror = null; e.target.src = '/burger_cinematic.png'; }} alt="Big Cheeseburger Menü" className="bestseller-img burger-img-offset" />
+                <img src="/images/Burger%20Men%C3%BC/Big%20Cheeseburger%20Men%C3%BC.jpeg" onError={(e) => { e.target.onerror = null; e.target.src = '/burger_cinematic.png'; }} alt="Big Cheeseburger Menü" className="bestseller-img burger-img-offset" loading="lazy" />
                 <div className="bestseller-content top-left-content">
                   <h3>BIG CHEESEBURGER<br/>MENÜ</h3>
                   <div className="bestseller-btn">{t.orderNow} <ArrowRight size={14} /></div>
@@ -357,7 +357,7 @@ export default function Home() {
                   onClick={() => handleBestsellerClick("63")}
                   style={{ cursor: 'pointer' }}
                 >
-                  <img src="/images/Nudeln/maccheroni%20del%20giothonne.jpeg" alt="Maccheroni Del Ghiottone" className="bestseller-img" />
+                  <img src="/images/Nudeln/maccheroni%20del%20giothonne.jpeg" alt="Maccheroni Del Ghiottone" className="bestseller-img" loading="lazy" />
                   <div className="bestseller-content bottom-left">
                     <h3>MACCHERONI<br/>DEL GHIOTTONE</h3>
                   </div>
@@ -372,7 +372,7 @@ export default function Home() {
                   onClick={() => handleBestsellerClick("140")}
                   style={{ cursor: 'pointer' }}
                 >
-                  <img src="/images/Salate/Salad%20King.jpeg" alt="King-Grundsalat" className="bestseller-img" />
+                  <img src="/images/Salate/Salad%20King.jpeg" alt="King-Grundsalat" className="bestseller-img" loading="lazy" />
                   <div className="bestseller-content bottom-split">
                     <h3>KING<br/>GRUNDSALAT</h3>
                     <div className="bestseller-btn">{t.orderNow} <ArrowRight size={14} /></div>
@@ -449,7 +449,7 @@ export default function Home() {
                   <span style={{ fontSize: '0.75rem', color: '#cfa670', background: 'rgba(255,255,255,0.05)', padding: '6px 12px', borderRadius: '20px' }}>🍲 Döner Auflauf</span>
                 </div>
               </div>
-              <img src="/images/fladenbrote/Fladenbrot Gyros.jpeg" alt="Döner Auflauf" style={{ width: '100%', height: '180px', objectFit: 'cover' }} />
+              <img src="/images/fladenbrote/Fladenbrot Gyros.jpeg" alt="Döner Auflauf" loading="lazy" style={{ width: '100%', height: '180px', objectFit: 'cover' }} />
             </motion.div>
 
             {/* Card 3 */}
@@ -496,7 +496,7 @@ export default function Home() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <img src="/images/pizzen/pizzen%20fleisch/KING%20pizza.jpeg" alt="Pizza King Handwerkskunst" style={{ width: '100%', height: '480px', objectFit: 'cover' }} />
+              <img src="/images/pizzen/pizzen%20fleisch/KING%20pizza.jpeg" alt="Pizza King Handwerkskunst" loading="lazy" style={{ width: '100%', height: '480px', objectFit: 'cover' }} />
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, #070807 0%, transparent 60%)' }}></div>
               
               <div style={{ position: 'absolute', bottom: '25px', left: '25px', right: '25px', display: 'flex', gap: '15px' }}>

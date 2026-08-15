@@ -149,7 +149,7 @@ export default function Menu() {
                         whileHover={{ scale: 1.02, backgroundColor: 'rgba(255, 255, 255, 0.05)' }}
                       >
                         <div className="menu-item-thumb">
-                          <img src={product.image} alt={product.name} />
+                          <img src={product.image} alt={product.name} loading="lazy" />
                         </div>
                         <div className="menu-item-info">
                           <div className="menu-item-header">
