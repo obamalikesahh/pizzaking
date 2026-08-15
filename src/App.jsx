@@ -14,14 +14,16 @@ import Admin from './pages/Admin';
 import DeliveryZoneModal from './components/DeliveryZoneModal';
 import KochKingChat from './components/KochKingChat';
 import Impressum from './pages/Impressum';
-import { CartProvider } from './context/CartContext';
+import { CartProvider, useCart } from './context/CartContext';
 import { AdminProvider } from './context/AdminContext';
+import StoreClosedOverlay from './components/StoreClosedOverlay';
 
 import { useLocation } from 'react-router-dom';
 
 function Layout() {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
+  const { isClosedOverlayVisible, setIsClosedOverlayVisible } = useCart();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -47,6 +49,11 @@ function Layout() {
 
       {!isAdminRoute && <Footer />}
       {!isAdminRoute && <KochKingChat />}
+      
+      <StoreClosedOverlay 
+        isVisible={isClosedOverlayVisible} 
+        onClose={() => setIsClosedOverlayVisible(false)} 
+      />
     </div>
   );
 }

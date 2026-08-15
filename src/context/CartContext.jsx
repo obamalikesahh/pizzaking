@@ -8,6 +8,7 @@ export function useCart() {
 
 export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState([]);
+  const [isClosedOverlayVisible, setIsClosedOverlayVisible] = useState(false);
 
   // Load from local storage if needed, but keeping it simple for now
   
@@ -19,7 +20,7 @@ export function CartProvider({ children }) {
     
     const isClosed = (hours === 21 && minutes >= 55) || hours >= 22 || hours < 11;
     if (isClosed) {
-      alert("Unser Laden hat gerade geschlossen.");
+      setIsClosedOverlayVisible(true);
       return;
     }
 
@@ -61,7 +62,9 @@ export function CartProvider({ children }) {
       updateQuantity,
       clearCart,
       cartTotal,
-      cartCount
+      cartCount,
+      isClosedOverlayVisible,
+      setIsClosedOverlayVisible
     }}>
       {children}
     </CartContext.Provider>

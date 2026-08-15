@@ -3,6 +3,7 @@
   grid-template-columns: 1fr 350px;
   gap: 30px;
   align-items: start;
+  padding-top: 60px;
 }
 
 .checkout-steps {
@@ -56,6 +57,7 @@
   display: flex;
   justify-content: flex-end;
   margin-top: 30px;
+  padding: 10px 0;
 }
 
 .step-actions.split {
