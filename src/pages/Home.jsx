@@ -256,7 +256,7 @@ export default function Home() {
               <h2 style={{ fontFamily: 'Cinzel, serif', color: '#ffffff', fontSize: '2.2rem', margin: '8px 0 0 0' }}>{t.currentOffers}</h2>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '25px', maxWidth: '1100px', margin: '0 auto' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '25px', maxWidth: '1100px', margin: '0 auto' }}>
               {offers.map(offer => (
                 <motion.div 
                   key={offer.id}
@@ -393,7 +393,7 @@ export default function Home() {
             <p style={{ color: '#888888', maxWidth: '600px', margin: '10px auto 40px' }}>{t.realOpinions}</p>
           </motion.div>
 
-          <div className="testimonials-grid-new" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '30px', maxWidth: '1200px', margin: '0 auto' }}>
+          <div className="testimonials-grid-new" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '30px', maxWidth: '1200px', margin: '0 auto' }}>
             
             {/* Card 1 */}
             <motion.div 
