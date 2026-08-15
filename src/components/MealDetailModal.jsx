@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, ShoppingBag, Check, Plus, Minus } from 'lucide-react';
 import { useAdmin } from '../context/AdminContext';
 import { getTranslation } from '../data/translations';
+import { menuData } from '../data/menu';
 import './MealDetailModal.css';
 
 const EXTRA_DRESSINGS = [
@@ -42,7 +43,20 @@ const PIZZA_EXTRA_TOPPINGS = [
   { id: 't9', name: 'Schinken', price: 1.50, image: '/ham.png' },
   { id: 't10', name: 'Salami', price: 1.50, image: '/prosciutto_slice.png' },
   { id: 't11', name: 'Bacon', price: 2.00, image: '/prosciutto_slice.png' },
-  { id: 't12', name: 'Thunfisch', price: 2.00, image: '/champignons_beef.png' }
+  { id: 't12', name: 'Thunfisch', price: 2.00, image: '/champignons_beef.png' },
+  { id: 't13', name: 'Hackfleisch', price: 2.00, image: '/champignons_beef.png' },
+  { id: 't14', name: 'Zwiebeln', price: 1.00, image: '/fresh_tomatoes.png' },
+  { id: 't15', name: 'Paprika', price: 1.00, image: '/fresh_tomatoes.png' },
+  { id: 't16', name: 'Peperoni', price: 1.00, image: '/fresh_tomatoes.png' },
+  { id: 't17', name: 'Oliven', price: 1.00, image: '/fresh_tomatoes.png' },
+  { id: 't18', name: 'Ei', price: 1.00, image: '/mozzarella_piece.png' },
+  { id: 't19', name: 'Putenbrust', price: 2.00, image: '/ham.png' },
+  { id: 't20', name: 'Broccoli', price: 1.50, image: '/fresh_tomatoes.png' },
+  { id: 't21', name: 'Mais', price: 1.00, image: '/fresh_tomatoes.png' },
+  { id: 't22', name: 'Spinat', price: 1.50, image: '/fresh_tomatoes.png' },
+  { id: 't23', name: 'Meeresfrüchte', price: 2.50, image: '/champignons_beef.png' },
+  { id: 't24', name: 'Krabben', price: 2.50, image: '/champignons_beef.png' },
+  { id: 't25', name: 'Spargel', price: 1.50, image: '/fresh_tomatoes.png' }
 ];
 
 const BURGER_EXTRAS = [
@@ -106,6 +120,11 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
   const [selectedBurgerExtras, setSelectedBurgerExtras] = useState([]);
   const [selectedSides, setSelectedSides] = useState([]);
 
+  const [selectedAktionPizzas, setSelectedAktionPizzas] = useState([]);
+  const [selectedAktionEis, setSelectedAktionEis] = useState([]);
+  const [selectedAktionBurgers, setSelectedAktionBurgers] = useState([]);
+  const [sweetPotatoFries, setSweetPotatoFries] = useState(false);
+
   const isPizzabroetchen = product.name.toLowerCase().includes('pizzabrötchen') || product.name.toLowerCase().includes('pizza brötchen');
   const isBurger = product.category === 'Burger' || product.name.toLowerCase().includes('burger');
   const fillingOptions = ['Käse (mit Käse gefüllt)', 'Salami', 'Schinken', 'Thunfisch', 'Hackfleisch', 'Gyros', 'Dönerfleisch'];
@@ -123,6 +142,10 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
     setSelectedExtraToppings([]);
     setSelectedBurgerExtras([]);
     setSelectedSides([]);
+    setSelectedAktionPizzas([]);
+    setSelectedAktionEis([]);
+    setSelectedAktionBurgers([]);
+    setSweetPotatoFries(false);
   }, [product]);
 
   const selectedOption = options[selectedOptionIndex] || options[0];
@@ -138,11 +161,21 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
   // Calculate total price including all selected extras
   const extrasDressingsPrice = selectedDressings.reduce((sum, d) => sum + d.price, 0);
   const extrasDrinksPrice = selectedDrinks.reduce((sum, dr) => sum + dr.price, 0);
-  const extrasToppingsPrice = selectedExtraToppings.reduce((sum, tp) => sum + tp.price, 0);
+  
+  let extrasToppingsPrice = 0;
+  if (product.id === '602') { // Partypizza
+    const sorted = [...selectedExtraToppings].sort((a, b) => b.price - a.price);
+    const chargeable = sorted.slice(5);
+    extrasToppingsPrice = chargeable.reduce((sum, tp) => sum + tp.price, 0);
+  } else {
+    extrasToppingsPrice = selectedExtraToppings.reduce((sum, tp) => sum + tp.price, 0);
+  }
+
   const burgerExtrasPrice = selectedBurgerExtras.reduce((sum, b) => sum + b.price, 0);
   const sidesPrice = selectedSides.reduce((sum, s) => sum + s.price, 0);
+  const sweetPotatoPrice = sweetPotatoFries ? 5.00 : 0;
 
-  const finalPrice = selectedOption.price + getKaeserandPrice() + extrasDressingsPrice + extrasDrinksPrice + extrasToppingsPrice + burgerExtrasPrice + sidesPrice;
+  const finalPrice = selectedOption.price + getKaeserandPrice() + extrasDressingsPrice + extrasDrinksPrice + extrasToppingsPrice + burgerExtrasPrice + sidesPrice + sweetPotatoPrice;
   const isPizza = product.category === 'Pizza' || (product.imageUrl && product.imageUrl.includes('pizza')) || product.name.toLowerCase().includes('pizza');
 
   const toggleBurgerExtra = (item) => {
@@ -185,6 +218,54 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
     }
   };
 
+  const isAktion = product.category === 'Hammer des Tages' && product.name.toLowerCase().includes('aktion');
+  const isPartyPizza = product.id === '602';
+  
+  let maxPizzas = 0;
+  let maxEis = 0;
+  let maxBurgers = 0;
+  if (product.id === '601') maxPizzas = 3;
+  if (product.id === '603') { maxPizzas = 1; maxEis = 1; }
+  if (product.id === '604') { maxPizzas = 2; maxEis = 2; }
+  if (product.id === '605') maxPizzas = 2;
+  if (product.id === '606') maxPizzas = 2;
+  if (product.id === '609') maxPizzas = 4;
+  if (product.id === '610') maxBurgers = 12;
+
+  const availablePizzas = menuData.find(c => c.category === 'Pizza')?.items || [];
+  const availableEis = menuData.find(c => c.category === 'Eis')?.items || [];
+  const availableBurgers = menuData.find(c => c.category === 'Burger')?.items || [];
+
+  const addAktionBurger = (item) => {
+    if (selectedAktionBurgers.length < maxBurgers) {
+      setSelectedAktionBurgers([...selectedAktionBurgers, { instanceId: Date.now() + Math.random(), item }]);
+    }
+  };
+
+  const removeAktionBurger = (instanceId) => {
+    setSelectedAktionBurgers(selectedAktionBurgers.filter(b => b.instanceId !== instanceId));
+  };
+
+  const toggleAktionPizza = (item) => {
+    if (selectedAktionPizzas.some(p => p.id === item.id)) {
+      setSelectedAktionPizzas(selectedAktionPizzas.filter(p => p.id !== item.id));
+    } else {
+      if (selectedAktionPizzas.length < maxPizzas) {
+        setSelectedAktionPizzas([...selectedAktionPizzas, item]);
+      }
+    }
+  };
+
+  const toggleAktionEis = (item) => {
+    if (selectedAktionEis.some(e => e.id === item.id)) {
+      setSelectedAktionEis(selectedAktionEis.filter(e => e.id !== item.id));
+    } else {
+      if (selectedAktionEis.length < maxEis) {
+        setSelectedAktionEis([...selectedAktionEis, item]);
+      }
+    }
+  };
+
   const autofillWunschBelag = (name) => {
     if (!wunschBelag1) setWunschBelag1(name);
     else if (!wunschBelag2) setWunschBelag2(name);
@@ -193,6 +274,19 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
   };
 
   const handleAdd = () => {
+    if (maxPizzas > 0 && selectedAktionPizzas.length !== maxPizzas) {
+      alert(`Bitte wählen Sie genau ${maxPizzas} Pizzen aus.`);
+      return;
+    }
+    if (maxEis > 0 && selectedAktionEis.length !== maxEis) {
+      alert(`Bitte wählen Sie genau ${maxEis} Eis aus.`);
+      return;
+    }
+    if (maxBurgers > 0 && selectedAktionBurgers.length !== maxBurgers) {
+      alert(`Bitte wählen Sie genau ${maxBurgers} Burger aus.`);
+      return;
+    }
+
     let itemName = product.name;
     if (options.length > 1) {
       itemName += ` (${selectedOption.label})`;
@@ -210,6 +304,26 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
     }
     if (kaeserand) {
       itemName += ' + Käserand';
+    }
+
+    if (selectedAktionPizzas.length > 0) {
+      itemName += ` - Pizzen: ${selectedAktionPizzas.map(p => p.name).join(', ')}`;
+    }
+    if (selectedAktionEis.length > 0) {
+      itemName += ` - Eis: ${selectedAktionEis.map(e => e.name).join(', ')}`;
+    }
+
+    if (selectedAktionBurgers.length > 0) {
+      const burgerCounts = {};
+      selectedAktionBurgers.forEach(b => {
+        burgerCounts[b.item.name] = (burgerCounts[b.item.name] || 0) + 1;
+      });
+      const burgerString = Object.entries(burgerCounts).map(([name, count]) => `${count}x ${name}`).join(', ');
+      itemName += ` - Burger: ${burgerString}`;
+    }
+
+    if (sweetPotatoFries) {
+      itemName += ` + Süßkartoffelpommes`;
     }
 
     if (selectedBurgerExtras.length > 0) {
@@ -345,6 +459,176 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
               </div>
             )}
 
+            {/* Aktion Pizzen */}
+            {maxPizzas > 0 && selectedAktionPizzas.length < maxPizzas && (
+              <div>
+                <div className="q-modal-section-title" style={{ color: '#cfa670' }}>🍕 WÄHLE {maxPizzas} PIZZEN AUS</div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(165px, 1fr))', gap: '10px', marginBottom: '20px' }}>
+                  {availablePizzas.map(item => {
+                    const isSelected = selectedAktionPizzas.some(p => p.id === item.id);
+                    return (
+                      <div 
+                        key={item.id}
+                        onClick={() => toggleAktionPizza(item)}
+                        style={{
+                          background: isSelected ? 'rgba(207, 166, 112, 0.2)' : '#1a1a1a',
+                          border: isSelected ? '1px solid #cfa670' : '1px solid rgba(255,255,255,0.08)',
+                          borderRadius: '12px',
+                          padding: '10px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '10px',
+                          cursor: 'pointer',
+                          transition: 'all 0.2s'
+                        }}
+                      >
+                        <img src={item.image} alt={item.name} style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: '50%', flexShrink: 0 }} />
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ fontSize: '0.78rem', fontWeight: 'bold', color: isSelected ? '#cfa670' : '#fff', whiteSpace: 'normal', wordBreak: 'break-word', lineHeight: '1.2', marginBottom: '3px' }}>{item.name}</div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+            {/* Show selected pizzas when max reached */}
+            {maxPizzas > 0 && selectedAktionPizzas.length === maxPizzas && (
+              <div style={{ marginBottom: '20px' }}>
+                <div className="q-modal-section-title" style={{ color: '#cfa670' }}>✅ {maxPizzas} PIZZEN GEWÄHLT</div>
+                <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                  {selectedAktionPizzas.map(p => (
+                    <div key={p.id} onClick={() => toggleAktionPizza(p)} style={{ background: 'rgba(207, 166, 112, 0.2)', border: '1px solid #cfa670', borderRadius: '12px', padding: '10px', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
+                       <img src={p.image} alt={p.name} style={{ width: 24, height: 24, objectFit: 'cover', borderRadius: '50%' }} />
+                       <span style={{ fontSize: '0.8rem', color: '#fff' }}>{p.name}</span>
+                       <X size={14} color="#cfa670" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Aktion Eis */}
+            {maxEis > 0 && selectedAktionEis.length < maxEis && (
+              <div>
+                <div className="q-modal-section-title" style={{ color: '#cfa670' }}>🍦 WÄHLE {maxEis} EIS AUS</div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(165px, 1fr))', gap: '10px', marginBottom: '20px' }}>
+                  {availableEis.map(item => {
+                    const isSelected = selectedAktionEis.some(e => e.id === item.id);
+                    return (
+                      <div 
+                        key={item.id}
+                        onClick={() => toggleAktionEis(item)}
+                        style={{
+                          background: isSelected ? 'rgba(207, 166, 112, 0.2)' : '#1a1a1a',
+                          border: isSelected ? '1px solid #cfa670' : '1px solid rgba(255,255,255,0.08)',
+                          borderRadius: '12px',
+                          padding: '10px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '10px',
+                          cursor: 'pointer',
+                          transition: 'all 0.2s'
+                        }}
+                      >
+                        <img src={item.image} alt={item.name} style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: '50%', flexShrink: 0 }} />
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ fontSize: '0.78rem', fontWeight: 'bold', color: isSelected ? '#cfa670' : '#fff', whiteSpace: 'normal', wordBreak: 'break-word', lineHeight: '1.2', marginBottom: '3px' }}>{item.name}</div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+            {maxEis > 0 && selectedAktionEis.length === maxEis && (
+              <div style={{ marginBottom: '20px' }}>
+                <div className="q-modal-section-title" style={{ color: '#cfa670' }}>✅ {maxEis} EIS GEWÄHLT</div>
+                <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                  {selectedAktionEis.map(e => (
+                    <div key={e.id} onClick={() => toggleAktionEis(e)} style={{ background: 'rgba(207, 166, 112, 0.2)', border: '1px solid #cfa670', borderRadius: '12px', padding: '10px', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
+                       <img src={e.image} alt={e.name} style={{ width: 24, height: 24, objectFit: 'cover', borderRadius: '50%' }} />
+                       <span style={{ fontSize: '0.8rem', color: '#fff' }}>{e.name}</span>
+                       <X size={14} color="#cfa670" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Aktion Burgers */}
+            {maxBurgers > 0 && selectedAktionBurgers.length < maxBurgers && (
+              <div>
+                <div className="q-modal-section-title" style={{ color: '#cfa670' }}>🍔 WÄHLE {maxBurgers - selectedAktionBurgers.length} BURGER AUS ({selectedAktionBurgers.length}/{maxBurgers})</div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(165px, 1fr))', gap: '10px', marginBottom: '20px' }}>
+                  {availableBurgers.map(item => {
+                    const count = selectedAktionBurgers.filter(b => b.item.id === item.id).length;
+                    return (
+                      <div 
+                        key={item.id}
+                        onClick={() => addAktionBurger(item)}
+                        style={{
+                          background: count > 0 ? 'rgba(207, 166, 112, 0.2)' : '#1a1a1a',
+                          border: count > 0 ? '1px solid #cfa670' : '1px solid rgba(255,255,255,0.08)',
+                          borderRadius: '12px',
+                          padding: '10px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '10px',
+                          cursor: 'pointer',
+                          transition: 'all 0.2s'
+                        }}
+                      >
+                        <img src={item.image} alt={item.name} style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: '50%', flexShrink: 0 }} />
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ fontSize: '0.78rem', fontWeight: 'bold', color: count > 0 ? '#cfa670' : '#fff', whiteSpace: 'normal', wordBreak: 'break-word', lineHeight: '1.2', marginBottom: '3px' }}>{item.name}</div>
+                          {count > 0 && <div style={{ fontSize: '0.7rem', color: '#cfa670' }}>{count}x ausgewählt</div>}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+            {maxBurgers > 0 && selectedAktionBurgers.length > 0 && (
+              <div style={{ marginBottom: '20px' }}>
+                <div className="q-modal-section-title" style={{ color: '#cfa670' }}>✅ GEWÄHLTE BURGER ({selectedAktionBurgers.length}/{maxBurgers})</div>
+                <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                  {selectedAktionBurgers.map(b => (
+                    <div key={b.instanceId} onClick={() => removeAktionBurger(b.instanceId)} style={{ background: 'rgba(207, 166, 112, 0.2)', border: '1px solid #cfa670', borderRadius: '12px', padding: '10px', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
+                       <img src={b.item.image} alt={b.item.name} style={{ width: 24, height: 24, objectFit: 'cover', borderRadius: '50%' }} />
+                       <span style={{ fontSize: '0.8rem', color: '#fff' }}>{b.item.name}</span>
+                       <X size={14} color="#cfa670" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Süßkartoffelpommes Option for Burger-Hammer */}
+            {product.id === '610' && (
+              <div>
+                <div className="q-modal-section-title">🍟 EXTRA POMMES</div>
+                <div
+                  className={`q-modal-size-btn ${sweetPotatoFries ? 'active' : ''}`}
+                  onClick={() => setSweetPotatoFries(!sweetPotatoFries)}
+                  style={{ flexDirection: 'row', justifyContent: 'space-between', padding: '14px 20px', marginBottom: '20px' }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <div style={{
+                      width: 20, height: 20, borderRadius: 4,
+                      border: sweetPotatoFries ? 'none' : '1px solid rgba(255,255,255,0.3)',
+                      background: sweetPotatoFries ? '#cfa670' : 'transparent',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center'
+                    }}>
+                      {sweetPotatoFries && <Check size={14} color="#000" />}
+                    </div>
+                    <span>Süßkartoffelpommes (+5,00 €)</span>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* Size selection */}
             {options.length > 1 && (
               <div>
@@ -410,7 +694,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
             {/* Extra Pizza Toppings (Mit Aufpreis) */}
             {isPizza && (
               <div>
-                <div className="q-modal-section-title">🍕 EXTRA BELÄGE (MIT AUFPREIS)</div>
+                <div className="q-modal-section-title">🍕 EXTRA BELÄGE {isPartyPizza ? '(ERSTE 5 GRATIS)' : '(MIT AUFPREIS)'}</div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(165px, 1fr))', gap: '10px' }}>
                   {PIZZA_EXTRA_TOPPINGS.map(item => {
                     const isSelected = selectedExtraToppings.some(t => t.id === item.id);

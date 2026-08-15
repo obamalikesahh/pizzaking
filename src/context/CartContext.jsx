@@ -12,6 +12,17 @@ export function CartProvider({ children }) {
   // Load from local storage if needed, but keeping it simple for now
   
   const addToCart = (item) => {
+    // Bestellstopp ab 21:55 Uhr bis morgens 11:00 Uhr
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    
+    const isClosed = (hours === 21 && minutes >= 55) || hours >= 22 || hours < 11;
+    if (isClosed) {
+      alert("Unser Laden hat gerade geschlossen.");
+      return;
+    }
+
     setCartItems(prevItems => {
       const existing = prevItems.find(i => i.id === item.id);
       if (existing) {
