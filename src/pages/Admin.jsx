@@ -584,8 +584,8 @@ export default function Admin() {
                     </tr>
                   </thead>
                   <tbody>
-                    {menu.flatMap(cat => cat.items.map(item => ({ ...item, category: cat.category })))
-                      .filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase()))
+                    {(menu || []).flatMap(cat => (cat.items || []).map(item => ({ ...item, category: cat.title || cat.category || 'Unkategorisiert' })))
+                      .filter(item => (item.name || '').toLowerCase().includes((searchQuery || '').toLowerCase()))
                       .slice(0, 20)
                       .map(item => (
                         <tr key={item.id}>
