@@ -539,7 +539,7 @@ app.post('/api/chat', async (req, res) => {
 
     const chatCompletion = await groq.chat.completions.create({
       messages: formattedMessages,
-      model: "llama-3.3-70b-versatile",
+      model: "qwen/qwen3.6-27b",
       tools: groqTools,
       tool_choice: "auto",
     });
@@ -595,7 +595,7 @@ app.post('/api/chat', async (req, res) => {
       // Make follow-up request to get the final response based on tool execution
       const followUpCompletion = await groq.chat.completions.create({
         messages: formattedMessages,
-        model: "llama-3.3-70b-versatile"
+        model: "qwen/qwen3.6-27b"
       });
       responseText = followUpCompletion.choices[0].message.content;
     }

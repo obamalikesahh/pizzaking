@@ -120,8 +120,8 @@ export function AdminProvider({ children }) {
     const envPass = import.meta.env.VITE_ADMIN_PASSWORD || 'King';
 
     if (email.toLowerCase() === envEmail.toLowerCase() && password === envPass) {
-      const code = Math.floor(100000 + Math.random() * 900000).toString();
-      return { success: true, requireVerification: true, code, name: 'Admin' };
+      setIsAuthenticated(true);
+      return { success: true };
     }
     return { success: false, message: 'Ungültige Admin-E-Mail oder Passwort!' };
   };

@@ -50,10 +50,7 @@ export default function Admin() {
   const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState('');
 
-  // 2FA Admin Login State
-  const [isVerifying, setIsVerifying] = useState(false);
-  const [generatedAdminCode, setGeneratedAdminCode] = useState('');
-  const [adminVerifyInput, setAdminVerifyInput] = useState('');
+
 
   // Dashboard Tab state
   const [activeTab, setActiveTab] = useState('orders'); // orders, offers, menu, stats, settings
@@ -85,19 +82,6 @@ export default function Admin() {
     e.preventDefault();
     setLoginError('');
     const res = login(loginEmail, loginPassword);
-    if (!res.success) {
-      setLoginError(res.message);
-    } else if (res.requireVerification) {
-      setGeneratedAdminCode(res.code);
-      setIsVerifying(true);
-      await sendVerificationEmail(loginEmail, res.name, res.code);
-    }
-  };
-
-  const handleVerifySubmit = (e) => {
-    e.preventDefault();
-    setLoginError('');
-    const res = verifyAdminLogin(generatedAdminCode, adminVerifyInput);
     if (!res.success) {
       setLoginError(res.message);
     }
@@ -158,88 +142,55 @@ export default function Admin() {
             </div>
           )}
 
-          {!isVerifying ? (
-            <form onSubmit={handleLoginSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-              <div>
-                <label style={{ display: 'block', color: '#cfa670', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>
-                  Admin E-Mail Adresse
-                </label>
-                <div style={{ position: 'relative' }}>
-                  <Mail size={18} color="#666" style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)' }} />
-                  <input 
-                    type="text" 
-                    required
-                    value={loginEmail}
-                    onChange={(e) => setLoginEmail(e.target.value)}
-                    placeholder="admin@pizzaking.de"
-                    style={{ width: '100%', padding: '14px 14px 14px 44px', background: '#1a1b1a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: '#fff', outline: 'none', fontSize: '0.95rem', boxSizing: 'border-box' }}
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label style={{ display: 'block', color: '#cfa670', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>
-                  Passwort
-                </label>
-                <div style={{ position: 'relative' }}>
-                  <Lock size={18} color="#666" style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)' }} />
-                  <input 
-                    type={showPassword ? "text" : "password"} 
-                    required
-                    value={loginPassword}
-                    onChange={(e) => setLoginPassword(e.target.value)}
-                    placeholder="••••••••••••"
-                    style={{ width: '100%', padding: '14px 44px', background: '#1a1b1a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: '#fff', outline: 'none', fontSize: '0.95rem', letterSpacing: showPassword ? 'normal' : '2px', boxSizing: 'border-box' }}
-                  />
-                  <button 
-                    type="button" 
-                    onClick={() => setShowPassword(!showPassword)}
-                    style={{ position: 'absolute', right: '14px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: '#666', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                  >
-                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                  </button>
-                </div>
-              </div>
-
-              <button 
-                type="submit"
-                style={{ background: '#cfa670', color: '#000000', border: 'none', padding: '16px', borderRadius: '12px', fontWeight: 'bold', fontSize: '1rem', letterSpacing: '1px', cursor: 'pointer', marginTop: '10px', transition: 'all 0.2s ease' }}
-              >
-                WEITER
-              </button>
-            </form>
-          ) : (
-            <form onSubmit={handleVerifySubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-              <div>
-                <label style={{ display: 'block', color: '#cfa670', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>
-                  Verifizierungscode (E-Mail)
-                </label>
+          <form onSubmit={handleLoginSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <div>
+              <label style={{ display: 'block', color: '#cfa670', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>
+                Admin E-Mail Adresse
+              </label>
+              <div style={{ position: 'relative' }}>
+                <Mail size={18} color="#666" style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)' }} />
                 <input 
                   type="text" 
                   required
-                  value={adminVerifyInput}
-                  onChange={(e) => setAdminVerifyInput(e.target.value)}
-                  placeholder="6-stelliger Code"
-                  style={{ width: '100%', padding: '14px', background: '#1a1b1a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: '#cfa670', outline: 'none', fontSize: '1.2rem', textAlign: 'center', letterSpacing: '4px', fontWeight: 'bold', boxSizing: 'border-box' }}
+                  value={loginEmail}
+                  onChange={(e) => setLoginEmail(e.target.value)}
+                  placeholder="admin@pizzaking.de"
+                  style={{ width: '100%', padding: '14px 14px 14px 44px', background: '#1a1b1a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: '#fff', outline: 'none', fontSize: '0.95rem', boxSizing: 'border-box' }}
                 />
               </div>
+            </div>
 
-              <button 
-                type="submit"
-                style={{ background: '#cfa670', color: '#000000', border: 'none', padding: '16px', borderRadius: '12px', fontWeight: 'bold', fontSize: '1rem', letterSpacing: '1px', cursor: 'pointer', marginTop: '10px', transition: 'all 0.2s ease' }}
-              >
-                ANMELDEN
-              </button>
-              
-              <button 
-                type="button"
-                onClick={() => setIsVerifying(false)}
-                style={{ background: 'transparent', color: '#888', border: 'none', fontSize: '0.85rem', cursor: 'pointer', marginTop: '10px' }}
-              >
-                Zurück zur Passworteingabe
-              </button>
-            </form>
-          )}
+            <div>
+              <label style={{ display: 'block', color: '#cfa670', fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>
+                Passwort
+              </label>
+              <div style={{ position: 'relative' }}>
+                <Lock size={18} color="#666" style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)' }} />
+                <input 
+                  type={showPassword ? "text" : "password"} 
+                  required
+                  value={loginPassword}
+                  onChange={(e) => setLoginPassword(e.target.value)}
+                  placeholder="••••••••••••"
+                  style={{ width: '100%', padding: '14px 44px', background: '#1a1b1a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', color: '#fff', outline: 'none', fontSize: '0.95rem', letterSpacing: showPassword ? 'normal' : '2px', boxSizing: 'border-box' }}
+                />
+                <button 
+                  type="button" 
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{ position: 'absolute', right: '14px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: '#666', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
+            </div>
+
+            <button 
+              type="submit"
+              style={{ background: '#cfa670', color: '#000000', border: 'none', padding: '16px', borderRadius: '12px', fontWeight: 'bold', fontSize: '1rem', letterSpacing: '1px', cursor: 'pointer', marginTop: '10px', transition: 'all 0.2s ease' }}
+            >
+              ANMELDEN
+            </button>
+          </form>
         </div>
       </div>
     );
