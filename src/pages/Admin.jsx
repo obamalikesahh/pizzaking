@@ -584,20 +584,25 @@ export default function Admin() {
                     </tr>
                   </thead>
                   <tbody>
-                    {(menu || []).flatMap(cat => (cat.items || []).map(item => ({ ...item, category: cat.title || cat.category || 'Unkategorisiert' })))
-                      .filter(item => (item.name || '').toLowerCase().includes((searchQuery || '').toLowerCase()))
-                      .slice(0, 20)
-                      .map(item => (
-                        <tr key={item.id}>
+                    {Array.isArray(menu) ? menu.filter(Boolean).flatMap(cat => 
+                      Array.isArray(cat?.items) ? cat.items.filter(Boolean).map(item => ({ 
+                        ...item, 
+                        category: cat?.title || cat?.category || 'Unkategorisiert' 
+                      })) : []
+                    )
+                    .filter(item => (item?.name || '').toLowerCase().includes((searchQuery || '').toLowerCase()))
+                    .slice(0, 20)
+                    .map((item, index) => (
+                        <tr key={item?.id || index}>
                           <td>
-                            <img src={item.image} alt={item.name} style={{ width: '50px', height: '50px', borderRadius: '8px', objectFit: 'cover', border: '1px solid rgba(255,255,255,0.1)' }} />
+                            <img src={item?.image || ''} alt={item?.name || 'Bild'} style={{ width: '50px', height: '50px', borderRadius: '8px', objectFit: 'cover', border: '1px solid rgba(255,255,255,0.1)' }} />
                           </td>
                           <td>
-                            <strong style={{ color: '#fff', fontSize: '0.95rem' }}>{item.name}</strong>
-                            <span style={{ display: 'block', fontSize: '0.8rem', color: '#888' }}>{item.desc || 'Keine Beschreibung'}</span>
+                            <strong style={{ color: '#fff', fontSize: '0.95rem' }}>{item?.name || 'Unbenannt'}</strong>
+                            <span style={{ display: 'block', fontSize: '0.8rem', color: '#888' }}>{item?.desc || 'Keine Beschreibung'}</span>
                             <div style={{ display: 'flex', gap: '6px', marginTop: '4px' }}>
-                              {item.isSoldOut && <span style={{ fontSize: '0.7rem', background: 'rgba(239,68,68,0.2)', color: '#ef4444', padding: '2px 6px', borderRadius: '4px' }}>Ausverkauft</span>}
-                              {item.isTopSeller && <span style={{ fontSize: '0.7rem', background: 'rgba(34,197,94,0.2)', color: '#22c55e', padding: '2px 6px', borderRadius: '4px' }}>Topseller</span>}
+                              {item?.isSoldOut && <span style={{ fontSize: '0.7rem', background: 'rgba(239,68,68,0.2)', color: '#ef4444', padding: '2px 6px', borderRadius: '4px' }}>Ausverkauft</span>}
+                              {item?.isTopSeller && <span style={{ fontSize: '0.7rem', background: 'rgba(34,197,94,0.2)', color: '#22c55e', padding: '2px 6px', borderRadius: '4px' }}>Topseller</span>}
                             </div>
                           </td>
                           <td>
@@ -623,7 +628,7 @@ export default function Admin() {
                             </button>
                           </td>
                         </tr>
-                    ))}
+                    )) : []}
                   </tbody>
                 </table>
               </div>
