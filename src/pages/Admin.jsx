@@ -587,41 +587,41 @@ export default function Admin() {
                     {Array.isArray(menu) ? menu.filter(Boolean).flatMap(cat => 
                       Array.isArray(cat?.items) ? cat.items.filter(Boolean).map(item => ({ 
                         ...item, 
-                        category: cat?.title || cat?.category || 'Unkategorisiert' 
+                        category: String(cat?.title || cat?.category || 'Unkategorisiert')
                       })) : []
                     )
-                    .filter(item => (item?.name || '').toLowerCase().includes((searchQuery || '').toLowerCase()))
+                    .filter(item => String(item?.name || '').toLowerCase().includes(String(searchQuery || '').toLowerCase()))
                     .slice(0, 20)
                     .map((item, index) => (
-                        <tr key={item?.id || index}>
+                        <tr key={String(item?.id || index)}>
                           <td>
-                            <img src={item?.image || ''} alt={item?.name || 'Bild'} style={{ width: '50px', height: '50px', borderRadius: '8px', objectFit: 'cover', border: '1px solid rgba(255,255,255,0.1)' }} />
+                            <img src={String(item?.image || '')} alt={String(item?.name || 'Bild')} style={{ width: '50px', height: '50px', borderRadius: '8px', objectFit: 'cover', border: '1px solid rgba(255,255,255,0.1)' }} />
                           </td>
                           <td>
-                            <strong style={{ color: '#fff', fontSize: '0.95rem' }}>{item?.name || 'Unbenannt'}</strong>
-                            <span style={{ display: 'block', fontSize: '0.8rem', color: '#888' }}>{item?.desc || 'Keine Beschreibung'}</span>
+                            <strong style={{ color: '#fff', fontSize: '0.95rem' }}>{String(item?.name || 'Unbenannt')}</strong>
+                            <span style={{ display: 'block', fontSize: '0.8rem', color: '#888' }}>{String(item?.desc || 'Keine Beschreibung')}</span>
                             <div style={{ display: 'flex', gap: '6px', marginTop: '4px' }}>
-                              {item?.isSoldOut && <span style={{ fontSize: '0.7rem', background: 'rgba(239,68,68,0.2)', color: '#ef4444', padding: '2px 6px', borderRadius: '4px' }}>Ausverkauft</span>}
-                              {item?.isTopSeller && <span style={{ fontSize: '0.7rem', background: 'rgba(34,197,94,0.2)', color: '#22c55e', padding: '2px 6px', borderRadius: '4px' }}>Topseller</span>}
+                              {Boolean(item?.isSoldOut) && <span style={{ fontSize: '0.7rem', background: 'rgba(239,68,68,0.2)', color: '#ef4444', padding: '2px 6px', borderRadius: '4px' }}>Ausverkauft</span>}
+                              {Boolean(item?.isTopSeller) && <span style={{ fontSize: '0.7rem', background: 'rgba(34,197,94,0.2)', color: '#22c55e', padding: '2px 6px', borderRadius: '4px' }}>Topseller</span>}
                             </div>
                           </td>
                           <td>
-                            <span style={{ fontSize: '0.85rem', color: '#cfa670', background: 'rgba(207,166,112,0.1)', padding: '4px 8px', borderRadius: '6px' }}>{item.category}</span>
+                            <span style={{ fontSize: '0.85rem', color: '#cfa670', background: 'rgba(207,166,112,0.1)', padding: '4px 8px', borderRadius: '6px' }}>{String(item.category)}</span>
                           </td>
                           <td>
-                            <strong style={{ color: '#22c55e', fontSize: '1rem' }}>{item.price}</strong>
+                            <strong style={{ color: '#22c55e', fontSize: '1rem' }}>{String(item?.price || '')}</strong>
                           </td>
                           <td>
                             <button 
                               className="admin-btn"
                               onClick={() => {
                                 setEditingItem(item);
-                                setEditName(item.name);
-                                setEditPrice(item.price);
-                                setEditDesc(item.desc || '');
-                                setEditImage(item.image || '');
-                                setEditIsSoldOut(item.isSoldOut || false);
-                                setEditIsTopSeller(item.isTopSeller || false);
+                                setEditName(String(item?.name || ''));
+                                setEditPrice(String(item?.price || ''));
+                                setEditDesc(String(item?.desc || ''));
+                                setEditImage(String(item?.image || ''));
+                                setEditIsSoldOut(Boolean(item?.isSoldOut));
+                                setEditIsTopSeller(Boolean(item?.isTopSeller));
                               }}
                             >
                               Bearbeiten
