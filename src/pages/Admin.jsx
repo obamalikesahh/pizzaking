@@ -74,6 +74,8 @@ export default function Admin() {
   const [editName, setEditName] = useState('');
   const [editDesc, setEditDesc] = useState('');
   const [editImage, setEditImage] = useState('');
+  const [editIsSoldOut, setEditIsSoldOut] = useState(false);
+  const [editIsTopSeller, setEditIsTopSeller] = useState(false);
 
   // Store Controls
   const [isOpenStore, setIsOpenStore] = useState(true);
@@ -124,7 +126,9 @@ export default function Admin() {
       name: editName,
       price: editPrice.includes('€') ? editPrice : `${editPrice} €`,
       desc: editDesc,
-      image: editImage
+      image: editImage,
+      isSoldOut: editIsSoldOut,
+      isTopSeller: editIsTopSeller
     });
     setEditingItem(null);
   };
@@ -640,6 +644,10 @@ export default function Admin() {
                           <td>
                             <strong style={{ color: '#fff', fontSize: '0.95rem' }}>{item.name}</strong>
                             <span style={{ display: 'block', fontSize: '0.8rem', color: '#888' }}>{item.desc || 'Keine Beschreibung'}</span>
+                            <div style={{ display: 'flex', gap: '6px', marginTop: '4px' }}>
+                              {item.isSoldOut && <span style={{ fontSize: '0.7rem', background: 'rgba(239,68,68,0.2)', color: '#ef4444', padding: '2px 6px', borderRadius: '4px' }}>Ausverkauft</span>}
+                              {item.isTopSeller && <span style={{ fontSize: '0.7rem', background: 'rgba(34,197,94,0.2)', color: '#22c55e', padding: '2px 6px', borderRadius: '4px' }}>Topseller</span>}
+                            </div>
                           </td>
                           <td>
                             <span style={{ fontSize: '0.85rem', color: '#cfa670', background: 'rgba(207,166,112,0.1)', padding: '4px 8px', borderRadius: '6px' }}>{item.category}</span>
@@ -656,6 +664,8 @@ export default function Admin() {
                                 setEditPrice(item.price);
                                 setEditDesc(item.desc || '');
                                 setEditImage(item.image || '');
+                                setEditIsSoldOut(item.isSoldOut || false);
+                                setEditIsTopSeller(item.isTopSeller || false);
                               }}
                             >
                               Bearbeiten
@@ -786,6 +796,17 @@ export default function Admin() {
               <div>
                 <label style={{ display: 'block', fontSize: '0.8rem', color: '#aaa', marginBottom: '6px' }}>Bild Pfad / URL</label>
                 <input type="text" value={editImage} onChange={e => setEditImage(e.target.value)} style={{ width: '100%', padding: '12px', background: '#1a1b1a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', boxSizing: 'border-box' }} />
+              </div>
+
+              <div style={{ display: 'flex', gap: '20px', marginTop: '10px' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#fff', cursor: 'pointer' }}>
+                  <input type="checkbox" checked={editIsSoldOut} onChange={e => setEditIsSoldOut(e.target.checked)} style={{ width: '18px', height: '18px', accentColor: '#ef4444' }} />
+                  Ausverkauft
+                </label>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#fff', cursor: 'pointer' }}>
+                  <input type="checkbox" checked={editIsTopSeller} onChange={e => setEditIsTopSeller(e.target.checked)} style={{ width: '18px', height: '18px', accentColor: '#22c55e' }} />
+                  Topseller (Empfehlung)
+                </label>
               </div>
 
               <button type="submit" style={{ background: '#cfa670', color: '#000', border: 'none', padding: '14px', borderRadius: '10px', fontWeight: 'bold', cursor: 'pointer', marginTop: '10px' }}>

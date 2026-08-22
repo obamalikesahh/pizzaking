@@ -6,19 +6,6 @@ import { getTranslation } from '../data/translations';
 import { menuData } from '../data/menu';
 import './MealDetailModal.css';
 
-const EXTRA_DRESSINGS = [
-  { id: 'd1', name: 'Haus-Dressing (125 ml)', price: 1.50, image: '/mayo.jpeg' },
-  { id: 'd2', name: 'Knoblauch-Dressing (125 ml)', price: 1.50, image: '/mayo.jpeg' },
-  { id: 'd3', name: 'American Dressing (125 ml)', price: 1.50, image: '/mayo.jpeg' },
-  { id: 'd4', name: 'Portion Sauce Hollandaise', price: 1.50, image: '/Sauce_hollandaise_in_gravy_boat_202608121901.jpeg' },
-  { id: 'd5', name: 'Tsatsiki', price: 1.50, image: '/Tzatziki_served_in_ceramic_bowl_202608121901.jpeg' },
-  { id: 'd6', name: 'Barbecue Sauce', price: 1.00, image: '/mayo.jpeg' },
-  { id: 'd7', name: 'Remoulade', price: 1.00, image: '/mayo.jpeg' },
-  { id: 'd8', name: 'Chillisauce', price: 1.00, image: '/mayo.jpeg' },
-  { id: 'd9', name: 'Ketchup', price: 0.50, image: '/ketchuip.jpeg' },
-  { id: 'd10', name: 'Mayo', price: 0.50, image: '/mayo.jpeg' }
-];
-
 const EXTRA_DRINKS = [
   { id: 'dr1', name: 'Coca Cola 1l', price: 2.50, image: '/cola 1l.jpeg' },
   { id: 'dr2', name: 'Fanta 1l', price: 2.50, image: '/Fanta_bottle_served_with_ice_202608121848.jpeg' },
@@ -67,13 +54,6 @@ const BURGER_EXTRAS = [
   { id: 'b5', name: 'Röstzwiebeln', price: 1.00, image: '/fresh_tomatoes.png' }
 ];
 
-const EXTRA_BEILAGEN = [
-  { id: 'side1', name: 'Portion Pommes klein', price: 2.50, image: '/fritten klein.jpeg' },
-  { id: 'side2', name: 'Portion Pommes groß', price: 3.50, image: '/fritten groß.jpeg' },
-  { id: 'side3', name: 'Portion Kroketten', price: 3.20, image: '/kroketten.jpeg' },
-  { id: 'side4', name: 'Portion Gitterpommes', price: 3.50, image: '/fritten groß.jpeg' }
-];
-
 export default function MealDetailModal({ isOpen, onClose, product, addToCart }) {
   const { language } = useAdmin();
   const t = getTranslation(language);
@@ -113,12 +93,11 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
   const [wunschBelag3, setWunschBelag3] = useState('');
   const [wunschBelag4, setWunschBelag4] = useState('');
 
-  // Selected Extra Dressings, Drinks, Toppings, Burger Extras, Sides
-  const [selectedDressings, setSelectedDressings] = useState([]);
+  // Selected Drinks, Toppings, Burger Extras
   const [selectedDrinks, setSelectedDrinks] = useState([]);
   const [selectedExtraToppings, setSelectedExtraToppings] = useState([]);
   const [selectedBurgerExtras, setSelectedBurgerExtras] = useState([]);
-  const [selectedSides, setSelectedSides] = useState([]);
+
 
   const [selectedAktionPizzas, setSelectedAktionPizzas] = useState([]);
   const [selectedAktionEis, setSelectedAktionEis] = useState([]);
@@ -138,11 +117,11 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
     setWunschBelag2('');
     setWunschBelag3('');
     setWunschBelag4('');
-    setSelectedDressings([]);
+
     setSelectedDrinks([]);
     setSelectedExtraToppings([]);
     setSelectedBurgerExtras([]);
-    setSelectedSides([]);
+
     setSelectedAktionPizzas([]);
     setSelectedAktionEis([]);
     setSelectedAktionBurgers([]);
@@ -161,7 +140,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
   };
 
   // Calculate total price including all selected extras
-  const extrasDressingsPrice = selectedDressings.reduce((sum, d) => sum + d.price, 0);
+  const extrasDressingsPrice = 0;
   const extrasDrinksPrice = selectedDrinks.reduce((sum, dr) => sum + dr.price, 0);
   
   let extrasToppingsPrice = 0;
@@ -174,7 +153,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
   }
 
   const burgerExtrasPrice = selectedBurgerExtras.reduce((sum, b) => sum + b.price, 0);
-  const sidesPrice = selectedSides.reduce((sum, s) => sum + s.price, 0);
+  const sidesPrice = 0;
   const sweetPotatoPrice = sweetPotatoFries ? 5.00 : 0;
 
   const finalPrice = selectedOption.price + getKaeserandPrice() + extrasDressingsPrice + extrasDrinksPrice + extrasToppingsPrice + burgerExtrasPrice + sidesPrice + sweetPotatoPrice;
@@ -185,22 +164,6 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
       setSelectedBurgerExtras(selectedBurgerExtras.filter(b => b.id !== item.id));
     } else {
       setSelectedBurgerExtras([...selectedBurgerExtras, item]);
-    }
-  };
-
-  const toggleSide = (item) => {
-    if (selectedSides.some(s => s.id === item.id)) {
-      setSelectedSides(selectedSides.filter(s => s.id !== item.id));
-    } else {
-      setSelectedSides([...selectedSides, item]);
-    }
-  };
-
-  const toggleDressing = (item) => {
-    if (selectedDressings.some(d => d.id === item.id)) {
-      setSelectedDressings(selectedDressings.filter(d => d.id !== item.id));
-    } else {
-      setSelectedDressings([...selectedDressings, item]);
     }
   };
 
@@ -334,16 +297,8 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
       itemName += ` + Burger Extra: ${selectedBurgerExtras.map(b => b.name).join(', ')}`;
     }
 
-    if (selectedSides.length > 0) {
-      itemName += ` + Beilage: ${selectedSides.map(s => s.name).join(', ')}`;
-    }
-
     if (selectedExtraToppings.length > 0) {
       itemName += ` + Extra: ${selectedExtraToppings.map(t => t.name).join(', ')}`;
-    }
-
-    if (selectedDressings.length > 0) {
-      itemName += ` + Dressing: ${selectedDressings.map(d => d.name).join(', ')}`;
     }
 
     if (selectedDrinks.length > 0) {
@@ -654,7 +609,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
             )}
 
             {/* Käserand option for Pizza */}
-            {isPizza && !isPizzabroetchen && (
+            {isPizza && !isPizzabroetchen && !isPartyPizza && (
               <div>
                 <div className="q-modal-section-title">{t.extras}</div>
                 <div
@@ -765,72 +720,6 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
                 </div>
               </div>
             )}
-
-            {/* Extra Beilagen */}
-            <div>
-              <div className="q-modal-section-title">🍟 EXTRA BEILAGEN</div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(165px, 1fr))', gap: '10px' }}>
-                {EXTRA_BEILAGEN.map(item => {
-                  const isSelected = selectedSides.some(s => s.id === item.id);
-                  return (
-                    <div 
-                      key={item.id}
-                      onClick={() => toggleSide(item)}
-                      style={{
-                        background: isSelected ? 'rgba(207, 166, 112, 0.2)' : '#1a1a1a',
-                        border: isSelected ? '1px solid #cfa670' : '1px solid rgba(255,255,255,0.08)',
-                        borderRadius: '12px',
-                        padding: '10px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '10px',
-                        cursor: 'pointer',
-                        transition: 'all 0.2s'
-                      }}
-                    >
-                      <img src={item.image} alt={item.name} style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: '8px', flexShrink: 0 }} />
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ fontSize: '0.78rem', fontWeight: 'bold', color: isSelected ? '#cfa670' : '#fff', whiteSpace: 'normal', wordBreak: 'break-word', lineHeight: '1.2', marginBottom: '3px' }}>{item.name}</div>
-                        <div style={{ fontSize: '0.75rem', color: '#aaa' }}>+{item.price.toFixed(2).replace('.', ',')} €</div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Extra Dressings & Saucen */}
-            <div>
-              <div className="q-modal-section-title">🥣 EXTRA DRESSINGS / SAUCEN</div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(165px, 1fr))', gap: '10px' }}>
-                {EXTRA_DRESSINGS.map(item => {
-                  const isSelected = selectedDressings.some(d => d.id === item.id);
-                  return (
-                    <div 
-                      key={item.id}
-                      onClick={() => toggleDressing(item)}
-                      style={{
-                        background: isSelected ? 'rgba(207, 166, 112, 0.2)' : '#1a1a1a',
-                        border: isSelected ? '1px solid #cfa670' : '1px solid rgba(255,255,255,0.08)',
-                        borderRadius: '12px',
-                        padding: '10px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '10px',
-                        cursor: 'pointer',
-                        transition: 'all 0.2s'
-                      }}
-                    >
-                      <img src={item.image} alt={item.name} style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: '50%', flexShrink: 0 }} />
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ fontSize: '0.78rem', fontWeight: 'bold', color: isSelected ? '#cfa670' : '#fff', whiteSpace: 'normal', wordBreak: 'break-word', lineHeight: '1.2', marginBottom: '3px' }}>{item.name}</div>
-                        <div style={{ fontSize: '0.75rem', color: '#aaa' }}>+{item.price.toFixed(2).replace('.', ',')} €</div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
 
             {/* Extra Getränke */}
             <div>

@@ -9,13 +9,45 @@ import './Menu.css';
 
 export default function Menu() {
   const { addToCart } = useCart();
-  const { language } = useAdmin();
-  const [activeCategory, setActiveCategory] = useState(menuData[0].category);
+  const { language, menu: contextMenu } = useAdmin();
+  const activeMenuData = contextMenu && contextMenu.length > 0 ? contextMenu : menuData;
+
+  const displayMenuData = React.useMemo(() => {
+    let data = activeMenuData.map(cat => ({
+      ...cat,
+      items: cat.items.filter(item => !item.isSoldOut)
+    })).filter(cat => cat.items.length > 0);
+
+    const topSellers = [];
+    data.forEach(cat => {
+      cat.items.forEach(item => {
+        if (item.isTopSeller) {
+          topSellers.push(item);
+        }
+      });
+    });
+
+    if (topSellers.length > 0) {
+      data = [
+        { category: '🔥 EMPFEHLUNGEN', items: topSellers },
+        ...data
+      ];
+    }
+    return data;
+  }, [activeMenuData]);
+
+  const [activeCategory, setActiveCategory] = useState('');
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
 
-  const categories = menuData.map(c => c.category);
-  const activeCategoryData = menuData.find(c => c.category.toLowerCase() === activeCategory.toLowerCase()) || menuData[0];
+  useEffect(() => {
+    if (displayMenuData.length > 0 && !activeCategory) {
+      setActiveCategory(displayMenuData[0].category);
+    }
+  }, [displayMenuData, activeCategory]);
+
+  const categories = displayMenuData.map(c => c.category);
+  const activeCategoryData = displayMenuData.find(c => c.category.toLowerCase() === (activeCategory || '').toLowerCase()) || displayMenuData[0];
   const filteredProducts = activeCategoryData ? activeCategoryData.items : [];
 
   const groupedProducts = filteredProducts.reduce((acc, product) => {
@@ -49,7 +81,7 @@ export default function Menu() {
     return ['/Commercial_ad_for_pizza_meal_202608121746.mp4', '/Lifting_slice_of_pizza_Margherita_202608121747.mp4', '/pizza_hero_video.mp4', '/pizza.mp4']; // fallback for pizza & hammer des tages
   };
 
-  const categoryVideos = getCategoryVideos(activeCategory);
+  const categoryVideos = getCategoryVideos(activeCategory || '');
   const currentVideoSrc = categoryVideos[currentVideoIndex % categoryVideos.length];
 
   useEffect(() => {
@@ -105,7 +137,7 @@ export default function Menu() {
 
           <div className="category-header-row">
             <div className="category-header-line"></div>
-            <h2>{activeCategory.toUpperCase()}</h2>
+            <h2>{(activeCategory || '').toUpperCase()}</h2>
             <div className="category-header-line"></div>
           </div>
 

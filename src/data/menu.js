@@ -2644,22 +2644,7 @@ export const menuData = [
       }
     ]
   },
-  {
-    "category": "Nachtisch / Dessert",
-    "items": [
-      {
-        "id": "800A",
-        "name": "Schoko-Muffin",
-        "desc": {
-          "de": "saftiger Schokoladen-Muffin mit Schokostückchen",
-          "en": "saftiger Schokoladen-Muffin with Schokostückchen",
-          "ru": "saftiger Schokoladen-Muffin с Schokostückchen"
-        },
-        "price": "3,70 €",
-        "image": "/schokomuffin.jpeg"
-      }
-    ]
-  },
+
   {
     "category": "Kukki Cocktails",
     "items": [
