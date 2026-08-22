@@ -7,14 +7,14 @@ export default function DeliveryZoneModal() {
 
   useEffect(() => {
     // Check if the user has already selected a delivery zone
-    const hasSelectedZone = localStorage.getItem('selectedZone');
+    const hasSelectedZone = sessionStorage.getItem('selectedZone');
     if (!hasSelectedZone) {
       setIsOpen(true);
     }
   }, []);
 
   const handleSelectZone = (zone) => {
-    localStorage.setItem('selectedZone', JSON.stringify(zone));
+    sessionStorage.setItem('selectedZone', JSON.stringify(zone));
     setIsOpen(false);
   };
 

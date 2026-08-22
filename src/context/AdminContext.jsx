@@ -139,15 +139,15 @@ export function AdminProvider({ children }) {
   };
 
   // User Auth functions
-  const userSignUp = (email, name) => {
+  const userSignUp = (email, name, address) => {
     const code = Math.floor(100000 + Math.random() * 900000).toString();
-    const tempUser = { email, name, verificationCode: code, isVerified: false };
+    const tempUser = { email, name, address, verificationCode: code, isVerified: false };
     return { success: true, code, tempUser };
   };
 
   const userVerifyAndSetPassword = (tempUser, inputCode, password) => {
     if (tempUser && String(tempUser.verificationCode) === String(inputCode).trim()) {
-      const verifiedUser = { email: tempUser.email, name: tempUser.name, password, isVerified: true, joined: new Date().toLocaleDateString('de-DE') + ' ' + new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }) };
+      const verifiedUser = { email: tempUser.email, name: tempUser.name, address: tempUser.address, password, isVerified: true, joined: new Date().toLocaleDateString('de-DE') + ' ' + new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }) };
       setCurrentUser(verifiedUser);
       setAllUsers(prev => [...prev, verifiedUser]);
       return { success: true };

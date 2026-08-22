@@ -6,6 +6,20 @@
   flex-direction: column;
   overflow-x: hidden;
   max-width: 100vw;
+  position: relative;
+}
+
+.home-container::before {
+  content: '';
+  position: absolute;
+  top: 0%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1200px;
+  height: 1200px;
+  background: radial-gradient(circle, rgba(207, 166, 112, 0.08) 0%, rgba(10, 11, 10, 0) 60%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 /* Bento Hero Section */
@@ -17,6 +31,8 @@
   max-width: 1600px;
   margin: 0 auto;
   width: 100%;
+  position: relative;
+  z-index: 1;
 }
 
 .bento-main {

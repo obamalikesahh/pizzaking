@@ -3,6 +3,7 @@ import { useAdmin } from '../context/AdminContext';
 import { User, Mail, Lock, CheckCircle, Clock, ShieldCheck, Tag, ShoppingBag, LogOut, ArrowRight, KeyRound } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { sendVerificationEmail } from '../services/emailService';
+import { storeData } from '../data/storeData';
 
 export default function Account() {
   const { currentUser, userSignUp, userVerifyAndSetPassword, userLogin, userVerifyLogin, userLogout, orders, updateOrderStatus } = useAdmin();
@@ -23,6 +24,10 @@ export default function Account() {
   // Sign Up Form
   const [nameInput, setNameInput] = useState('');
   const [signUpEmail, setSignUpEmail] = useState('');
+  const [streetInput, setStreetInput] = useState('');
+  const [houseNumberInput, setHouseNumberInput] = useState('');
+  const [zipInput, setZipInput] = useState('');
+  const [cityInput, setCityInput] = useState('');
   const [tempUser, setTempUser] = useState(null);
   const [generatedCode, setGeneratedCode] = useState('');
   const [verifyCodeInput, setVerifyCodeInput] = useState('');
@@ -57,7 +62,8 @@ export default function Account() {
   const handleSignUpStep1 = async (e) => {
     e.preventDefault();
     setErrorMsg('');
-    const res = userSignUp(signUpEmail, nameInput);
+    const fullAddress = `${streetInput} ${houseNumberInput}, ${zipInput} ${cityInput}`;
+    const res = userSignUp(signUpEmail, nameInput, fullAddress);
     setTempUser(res.tempUser);
     setGeneratedCode(res.code);
     
@@ -277,6 +283,40 @@ export default function Account() {
             <div>
               <label style={{ display: 'block', color: '#cfa670', fontSize: '0.8rem', marginBottom: '6px' }}>E-Mail-Adresse</label>
               <input type="email" required value={signUpEmail} onChange={e => setSignUpEmail(e.target.value)} placeholder="deine@email.de" style={{ width: '100%', padding: '14px', background: '#1a1b1a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', color: '#fff', outline: 'none', boxSizing: 'border-box' }} />
+            </div>
+
+            <div style={{ display: 'flex', gap: '15px' }}>
+              <div style={{ flex: 2 }}>
+                <label style={{ display: 'block', color: '#cfa670', fontSize: '0.8rem', marginBottom: '6px' }}>Straße</label>
+                <input type="text" required value={streetInput} onChange={e => setStreetInput(e.target.value)} placeholder="Musterstraße" style={{ width: '100%', padding: '14px', background: '#1a1b1a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', color: '#fff', outline: 'none', boxSizing: 'border-box' }} />
+              </div>
+              <div style={{ flex: 1 }}>
+                <label style={{ display: 'block', color: '#cfa670', fontSize: '0.8rem', marginBottom: '6px' }}>Hausnr.</label>
+                <input type="text" required value={houseNumberInput} onChange={e => setHouseNumberInput(e.target.value)} placeholder="1a" style={{ width: '100%', padding: '14px', background: '#1a1b1a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', color: '#fff', outline: 'none', boxSizing: 'border-box' }} />
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', gap: '15px' }}>
+              <div style={{ flex: 1 }}>
+                <label style={{ display: 'block', color: '#cfa670', fontSize: '0.8rem', marginBottom: '6px' }}>Postleitzahl</label>
+                <input type="text" required value={zipInput} onChange={e => setZipInput(e.target.value)} placeholder="24837" style={{ width: '100%', padding: '14px', background: '#1a1b1a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', color: '#fff', outline: 'none', boxSizing: 'border-box' }} />
+              </div>
+              <div style={{ flex: 2 }}>
+                <label style={{ display: 'block', color: '#cfa670', fontSize: '0.8rem', marginBottom: '6px' }}>Ort</label>
+                <select required value={cityInput} onChange={e => {
+                  setCityInput(e.target.value);
+                  const selectedZone = storeData.deliveryZones.find(z => z.city === e.target.value);
+                  if (selectedZone && selectedZone.zip !== "—") {
+                    setZipInput(selectedZone.zip);
+                  }
+                }} style={{ width: '100%', padding: '14px', background: '#1a1b1a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', color: '#fff', outline: 'none', boxSizing: 'border-box', appearance: 'none' }}>
+                  <option value="" disabled>Ort auswählen...</option>
+                  <option value="Abholung (Vor Ort)">Abholung (Vor Ort)</option>
+                  {storeData.deliveryZones.filter(z => z.zip !== "—").map((zone, idx) => (
+                    <option key={idx} value={zone.city}>{zone.city}</option>
+                  ))}
+                </select>
+              </div>
             </div>
 
             <button type="submit" style={{ background: '#cfa670', color: '#000', border: 'none', padding: '16px', borderRadius: '12px', fontWeight: 'bold', cursor: 'pointer', marginTop: '10px' }}>
