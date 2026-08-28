@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu as MenuIcon, ShoppingCart, User, Globe } from 'lucide-react';
+import { Menu as MenuIcon, ShoppingCart, User, Globe, X, Clock } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../context/CartContext';
@@ -11,6 +11,7 @@ export default function Header() {
   const { language, setLanguage, currentUser } = useAdmin();
   const location = useLocation();
   const [isNavOpen, setIsNavOpen] = useState(true);
+  const [showClosedBanner, setShowClosedBanner] = useState(true);
   
   const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
@@ -23,10 +24,50 @@ export default function Header() {
 
   return (
     <>
-      <div style={{ background: '#ff3333', color: 'white', textAlign: 'center', padding: '8px', fontSize: '0.9rem', fontWeight: 'bold', zIndex: 2000, position: 'relative' }}>
-        Pizza King hat aktuell geschlossen. Die Öfen glühen morgen ab 11:00 Uhr wieder für dich, um frische Pizzen zu backen. <br />
-        <span style={{ fontSize: '0.8rem', fontWeight: 'normal' }}>Täglich von 11:00 Uhr bis 22:00 Uhr GEÖFFNET</span>
-      </div>
+      <AnimatePresence>
+        {showClosedBanner && (
+          <motion.div 
+            initial={{ y: 50, opacity: 0, x: '-50%' }}
+            animate={{ y: 0, opacity: 1, x: '-50%' }}
+            exit={{ y: 50, opacity: 0, x: '-50%' }}
+            style={{
+              position: 'fixed',
+              bottom: '40px',
+              left: '50%',
+              background: 'rgba(15, 15, 15, 0.9)',
+              backdropFilter: 'blur(16px)',
+              border: '1px solid #cfa670',
+              padding: '15px 25px',
+              borderRadius: '20px',
+              zIndex: 9999,
+              display: 'flex',
+              alignItems: 'center',
+              gap: '20px',
+              boxShadow: '0 20px 40px rgba(0,0,0,0.8)',
+              color: 'white',
+              width: '90%',
+              maxWidth: '650px'
+            }}
+          >
+            <div style={{ background: 'rgba(207, 166, 112, 0.15)', padding: '12px', borderRadius: '50%' }}>
+              <Clock size={24} color="#cfa670" />
+            </div>
+            <div style={{ flex: 1 }}>
+              <h4 style={{ margin: 0, fontSize: '1.05rem', color: '#cfa670', fontWeight: '500', letterSpacing: '1px' }}>Pizza King hat aktuell geschlossen.</h4>
+              <p style={{ margin: '4px 0 0', fontSize: '0.9rem', color: '#ccc', lineHeight: '1.4' }}>
+                Die Öfen glühen morgen ab 11:00 Uhr wieder für dich, um frische Pizzen zu backen.
+              </p>
+              <div style={{ fontSize: '0.75rem', color: '#888', marginTop: '6px' }}>Täglich von 11:00 Uhr bis 22:00 Uhr GEÖFFNET</div>
+            </div>
+            <button 
+              onClick={() => setShowClosedBanner(false)}
+              style={{ background: 'rgba(255,255,255,0.05)', border: 'none', color: '#fff', cursor: 'pointer', padding: '8px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            >
+              <X size={18} />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
       <header className="pill-header">
       <div className="pill-container">
         
