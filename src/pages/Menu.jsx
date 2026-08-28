@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../context/CartContext';
-import { Leaf } from 'lucide-react';
+import { Leaf, ChevronDown } from 'lucide-react';
 import MealDetailModal from '../components/MealDetailModal';
 import { menuData } from '../data/menu';
 import { useAdmin } from '../context/AdminContext';
@@ -39,6 +39,7 @@ export default function Menu() {
   const [activeCategory, setActiveCategory] = useState('');
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
     if (displayMenuData.length > 0 && !activeCategory) {
@@ -121,18 +122,37 @@ export default function Menu() {
         {/* Right Side: List & Categories */}
         <div className="menu-split-right">
           
-          <div className="menu-category-nav-wrapper">
-            <div className="menu-category-nav">
-              {categories.map(cat => (
-                <button 
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  className={`menu-cat-btn ${activeCategory === cat ? 'active' : ''}`}
+          <div className="menu-category-dropdown-wrapper">
+            <button 
+              className="menu-dropdown-btn" 
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            >
+              {(activeCategory || 'KATEGORIE WÄHLEN').toUpperCase()}
+              <ChevronDown size={20} style={{ transform: isDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s' }} />
+            </button>
+            <AnimatePresence>
+              {isDropdownOpen && (
+                <motion.div 
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="menu-dropdown-list"
                 >
-                  {cat.toUpperCase()}
-                </button>
-              ))}
-            </div>
+                  {categories.map(cat => (
+                    <button 
+                      key={cat}
+                      onClick={() => {
+                        setActiveCategory(cat);
+                        setIsDropdownOpen(false);
+                      }}
+                      className={`menu-dropdown-item ${activeCategory === cat ? 'active' : ''}`}
+                    >
+                      {cat.toUpperCase()}
+                    </button>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
           <div className="category-header-row">
