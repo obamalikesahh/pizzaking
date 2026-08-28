@@ -114,7 +114,7 @@ export default function Header() {
               transition={{ duration: 0.3, ease: 'easeInOut' }}
             >
               <Link to="/menu" className="pill-link">{t.menu}</Link>
-              <Link to="/about" className="pill-link">{t.about}</Link>
+              <a href="/#about" className="pill-link">{t.about}</a>
               <a href="https://www.festsaal-morena.de" target="_blank" rel="noopener noreferrer" className="pill-link">{t.rent}</a>
               
               {/* User Account / Login Link */}

@@ -116,12 +116,12 @@ export default function Home() {
               <div className="bento-label" style={{ textTransform: 'uppercase' }}>ONLINE BESTELLEN <ArrowRight size={16} /></div>
             </motion.div>
           </Link>
-          <Link to="/about" className="bento-link">
+          <a href="/#about" className="bento-link">
             <motion.div className="bento-box" initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.3 }}>
               <img src="/burger_cinematic.png" alt="About Us" className="bento-img" />
               <div className="bento-label" style={{ textTransform: 'uppercase' }}>{t.about} <ArrowRight size={16} /></div>
             </motion.div>
-          </Link>
+          </a>
           <Link to="/contact" className="bento-link">
             <motion.div className="bento-box" initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.4 }}>
               <img src="/salad_cinematic.png" alt="Contact Us" className="bento-img" />
@@ -398,29 +398,32 @@ export default function Home() {
             
             {/* Card 1 */}
             <motion.div 
-              className="test-card-new text-only" 
-              style={{ background: 'rgba(255,255,255,0.03)', padding: '35px', borderRadius: '20px', border: '1px solid rgba(207, 166, 112, 0.2)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }} 
+              className="test-card-new with-image" 
+              style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '20px', border: '1px solid rgba(207, 166, 112, 0.2)', overflow: 'hidden', display: 'flex', flexDirection: 'column', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }} 
               initial={{ opacity: 0, y: 20 }} 
               whileInView={{ opacity: 1, y: 0 }} 
               viewport={{ once: true }} 
               transition={{ delay: 0.1 }}
             >
-              <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
-                  <div style={{ color: '#cfa670', fontSize: '1.2rem' }}>★★★★★</div>
-                  <span style={{ fontSize: '0.75rem', background: 'rgba(207, 166, 112, 0.15)', color: '#cfa670', padding: '4px 10px', borderRadius: '12px', border: '1px solid rgba(207, 166, 112, 0.3)' }}>{t.verifiedCustomer}</span>
-                </div>
-                <p className="test-quote" style={{ fontSize: '1.1rem', color: '#dddddd', marginBottom: '25px', fontStyle: 'italic', lineHeight: '1.6' }}>
-                  "Absolut überragend! Das ist nicht einfach nur Pizza, das ist Handwerkskunst. Der Teig ist unglaublich luftig, die Zutaten frisch und hochwertig. Für mich die absolute Nummer 1 in Schleswig."
-                </p>
-              </div>
-              <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div className="test-card-content" style={{ padding: '35px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                 <div>
-                  <span style={{ color: '#ffffff', fontWeight: '600', display: 'block' }}>Markus S.</span>
-                  <small style={{ color: '#888888' }}>{t.regularCustomer}</small>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+                    <div style={{ color: '#cfa670', fontSize: '1.2rem' }}>★★★★★</div>
+                    <span style={{ fontSize: '0.75rem', background: 'rgba(207, 166, 112, 0.15)', color: '#cfa670', padding: '4px 10px', borderRadius: '12px', border: '1px solid rgba(207, 166, 112, 0.3)' }}>{t.verifiedCustomer}</span>
+                  </div>
+                  <p className="test-quote" style={{ fontSize: '1.1rem', color: '#dddddd', marginBottom: '25px', fontStyle: 'italic', lineHeight: '1.6' }}>
+                    "Absolut überragend! Das ist nicht einfach nur Pizza, das ist Handwerkskunst. Der Teig ist unglaublich luftig, die Zutaten frisch und hochwertig. Für mich die absolute Nummer 1 in Schleswig."
+                  </p>
                 </div>
-                <span style={{ fontSize: '0.75rem', color: '#cfa670', background: 'rgba(255,255,255,0.05)', padding: '6px 12px', borderRadius: '20px' }}>🍕 Pizza King II</span>
+                <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div>
+                    <span style={{ color: '#ffffff', fontWeight: '600', display: 'block' }}>Markus S.</span>
+                    <small style={{ color: '#888888' }}>{t.regularCustomer}</small>
+                  </div>
+                  <span style={{ fontSize: '0.75rem', color: '#cfa670', background: 'rgba(255,255,255,0.05)', padding: '6px 12px', borderRadius: '20px' }}>🍕 Pizza King II</span>
+                </div>
               </div>
+              <img src="/images/pizzen/pizzen%20fleisch/KING%20pizza.jpeg" alt="Pizza King II" loading="lazy" style={{ width: '100%', height: '180px', objectFit: 'cover' }} />
             </motion.div>
 
             {/* Card 2 with Image */}
@@ -455,29 +458,32 @@ export default function Home() {
 
             {/* Card 3 */}
             <motion.div 
-              className="test-card-new text-only" 
-              style={{ background: 'rgba(255,255,255,0.03)', padding: '35px', borderRadius: '20px', border: '1px solid rgba(207, 166, 112, 0.2)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }} 
+              className="test-card-new with-image" 
+              style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '20px', border: '1px solid rgba(207, 166, 112, 0.2)', overflow: 'hidden', display: 'flex', flexDirection: 'column', boxShadow: '0 10px 30px rgba(0,0,0,0.5)' }} 
               initial={{ opacity: 0, y: 20 }} 
               whileInView={{ opacity: 1, y: 0 }} 
               viewport={{ once: true }} 
               transition={{ delay: 0.3 }}
             >
-              <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
-                  <div style={{ color: '#cfa670', fontSize: '1.2rem' }}>★★★★★</div>
-                  <span style={{ fontSize: '0.75rem', background: 'rgba(207, 166, 112, 0.15)', color: '#cfa670', padding: '4px 10px', borderRadius: '12px', border: '1px solid rgba(207, 166, 112, 0.3)' }}>{t.verifiedCustomer}</span>
-                </div>
-                <p className="test-quote" style={{ fontSize: '1.1rem', color: '#dddddd', marginBottom: '25px', fontStyle: 'italic', lineHeight: '1.6' }}>
-                  "Die Qualität des Fleisches bei den Burgern ist außergewöhnlich gut für einen Lieferdienst. Alles extrem frisch zubereitet, richtig saftig und pünktlich geliefert. Ein Highlight für jeden Feierabend!"
-                </p>
-              </div>
-              <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div className="test-card-content" style={{ padding: '35px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                 <div>
-                  <span style={{ color: '#ffffff', fontWeight: '600', display: 'block' }}>Dennis B.</span>
-                  <small style={{ color: '#888888' }}>{t.deliveryFan}</small>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+                    <div style={{ color: '#cfa670', fontSize: '1.2rem' }}>★★★★★</div>
+                    <span style={{ fontSize: '0.75rem', background: 'rgba(207, 166, 112, 0.15)', color: '#cfa670', padding: '4px 10px', borderRadius: '12px', border: '1px solid rgba(207, 166, 112, 0.3)' }}>{t.verifiedCustomer}</span>
+                  </div>
+                  <p className="test-quote" style={{ fontSize: '1.1rem', color: '#dddddd', marginBottom: '25px', fontStyle: 'italic', lineHeight: '1.6' }}>
+                    "Die Qualität des Fleisches bei den Burgern ist außergewöhnlich gut für einen Lieferdienst. Alles extrem frisch zubereitet, richtig saftig und pünktlich geliefert. Ein Highlight für jeden Feierabend!"
+                  </p>
                 </div>
-                <span style={{ fontSize: '0.75rem', color: '#cfa670', background: 'rgba(255,255,255,0.05)', padding: '6px 12px', borderRadius: '20px' }}>🍔 Big Cheeseburger</span>
+                <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div>
+                    <span style={{ color: '#ffffff', fontWeight: '600', display: 'block' }}>Dennis B.</span>
+                    <small style={{ color: '#888888' }}>{t.deliveryFan}</small>
+                  </div>
+                  <span style={{ fontSize: '0.75rem', color: '#cfa670', background: 'rgba(255,255,255,0.05)', padding: '6px 12px', borderRadius: '20px' }}>🍔 Big Cheeseburger</span>
+                </div>
               </div>
+              <img src="/images/burger/Double%20Cheeseburger.jpeg" alt="Big Cheeseburger" loading="lazy" style={{ width: '100%', height: '180px', objectFit: 'cover' }} />
             </motion.div>
 
           </div>
@@ -485,7 +491,7 @@ export default function Home() {
       </section>
 
       {/* 4. About Us Section */}
-      <section className="luxury-section about-section" style={{ padding: '100px 20px', background: '#070807' }}>
+      <section id="about" className="luxury-section about-section" style={{ padding: '100px 20px', background: '#070807' }}>
         <div className="section-container" style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <div className="about-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'center' }}>
             
@@ -544,9 +550,9 @@ export default function Home() {
                 </div>
               </div>
 
-              <Link to="/about" className="bestseller-btn" style={{ padding: '14px 28px', fontSize: '0.85rem' }}>
+              <a href="/#about" className="bestseller-btn" style={{ padding: '14px 28px', fontSize: '0.85rem' }}>
                 {t.learnMore} <ArrowRight size={16} />
-              </Link>
+              </a>
             </motion.div>
 
           </div>
