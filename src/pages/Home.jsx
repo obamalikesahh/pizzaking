@@ -483,7 +483,7 @@ export default function Home() {
                   <span style={{ fontSize: '0.75rem', color: '#cfa670', background: 'rgba(255,255,255,0.05)', padding: '6px 12px', borderRadius: '20px' }}>🍔 Big Cheeseburger</span>
                 </div>
               </div>
-              <img src="/images/burger/Double%20Cheeseburger.jpeg" alt="Big Cheeseburger" loading="lazy" style={{ width: '100%', height: '180px', objectFit: 'cover' }} />
+              <img src="/images/burger/Cheeseburger.jpeg" alt="Big Cheeseburger" loading="lazy" style={{ width: '100%', height: '180px', objectFit: 'cover' }} />
             </motion.div>
 
           </div>
