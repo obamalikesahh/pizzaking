@@ -61,6 +61,31 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
+// Admin Auth Middleware
+const authenticateAdmin = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+  if (!token) return res.sendStatus(401);
+
+  jwt.verify(token, JWT_SECRET, (err, user) => {
+    if (err || !user.isAdmin) return res.sendStatus(403);
+    req.user = user;
+    next();
+  });
+};
+
+app.post('/api/auth/admin-login', (req, res) => {
+  const { email, password } = req.body;
+  const adminEmail = process.env.VITE_ADMIN_EMAIL || process.env.ADMIN_EMAIL || 'info@pizzaking-schleswig.de';
+  const adminPassword = process.env.VITE_ADMIN_PASSWORD || process.env.ADMIN_PASSWORD || 'King';
+  
+  if (email.toLowerCase() === adminEmail.toLowerCase() && password === adminPassword) {
+    const token = jwt.sign({ isAdmin: true, email }, JWT_SECRET, { expiresIn: '7d' });
+    return res.json({ token, success: true });
+  }
+  return res.status(401).json({ error: 'Invalid admin credentials' });
+});
+
 app.post('/api/auth/register', async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -140,7 +165,7 @@ app.post('/api/send-verification', async (req, res) => {
     res.json({ success: true, messageId: info.messageId });
   } catch (error) {
     console.error('Server Mailer Error (IONOS):', error);
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: 'Ein interner Serverfehler ist aufgetreten.' });
   }
 });
 
@@ -227,7 +252,7 @@ app.post('/api/send-order', async (req, res) => {
     res.json({ success: true });
   } catch (error) {
     console.error('Server Order Mailer Error (IONOS):', error);
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: 'Ein interner Serverfehler ist aufgetreten.' });
   }
 });
 
@@ -320,7 +345,7 @@ const handleNewsletterSubscribe = async (req, res) => {
     res.json({ success: true, code: codeStr, messageId: info.messageId });
   } catch (error) {
     console.error('Newsletter Subscribe Error:', error);
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: 'Ein interner Serverfehler ist aufgetreten.' });
   }
 };
 
@@ -396,7 +421,7 @@ app.get('/api/menu', async (req, res) => {
   }
 });
 
-app.put('/api/menu/item/:id', async (req, res) => {
+app.put('/api/menu/item/:id', authenticateAdmin, async (req, res) => {
   try {
     const { id } = req.params;
     const updateData = req.body;
@@ -411,7 +436,7 @@ app.put('/api/menu/item/:id', async (req, res) => {
   }
 });
 
-app.post('/api/menu/seed', async (req, res) => {
+app.post('/api/menu/seed', authenticateAdmin, async (req, res) => {
   try {
     const { menu } = req.body; // Expecting the defaultMenuData array
     // First clear existing
@@ -447,7 +472,31 @@ app.post('/api/menu/seed', async (req, res) => {
 });
 
 // --- ORDERS API ---
-app.get('/api/orders', async (req, res) => {
+app.get('/api/user/orders', authenticateToken, async (req, res) => {
+  try {
+    const user = await prisma.user.findUnique({ where: { id: req.user.userId } });
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    
+    // In this database, orders don't have userEmail natively, but it might be saved in address or we use something else?
+    // Wait, let's check schema for Order. Does Order have customerEmail? No, it has userId.
+    // Wait, the front end checks `order.customerEmail`. 
+    // In schema.prisma, Order has: id, userId, totalPrice, status, orderType, payment, createdAt.
+    // It doesn't have customerEmail. Wait, what does the frontend check?
+    // Account.jsx: `orders.filter(o => o.customerEmail && currentUser && o.customerEmail.toLowerCase() === currentUser.email.toLowerCase())`
+    // Oh, the frontend order mock had customerEmail. Let me fetch by userId instead!
+    
+    const orders = await prisma.order.findMany({
+      where: { userId: user.id },
+      orderBy: { createdAt: 'desc' }
+    });
+    res.json(orders);
+  } catch (error) {
+    console.error('Error fetching user orders:', error);
+    res.status(500).json({ error: 'Failed to fetch your orders' });
+  }
+});
+
+app.get('/api/orders', authenticateAdmin, async (req, res) => {
   try {
     const orders = await prisma.order.findMany({
       orderBy: { createdAt: 'desc' }
@@ -459,7 +508,7 @@ app.get('/api/orders', async (req, res) => {
   }
 });
 
-app.put('/api/orders/:id/status', async (req, res) => {
+app.put('/api/orders/:id/status', authenticateAdmin, async (req, res) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
@@ -487,7 +536,7 @@ app.get('/api/offers', async (req, res) => {
   }
 });
 
-app.post('/api/offers', async (req, res) => {
+app.post('/api/offers', authenticateAdmin, async (req, res) => {
   try {
     const { title, description, badge, price, image } = req.body;
     const offer = await prisma.offer.create({
@@ -500,7 +549,7 @@ app.post('/api/offers', async (req, res) => {
   }
 });
 
-app.delete('/api/offers/:id', async (req, res) => {
+app.delete('/api/offers/:id', authenticateAdmin, async (req, res) => {
   try {
     const { id } = req.params;
     await prisma.offer.delete({ where: { id } });

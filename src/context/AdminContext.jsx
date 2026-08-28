@@ -45,9 +45,18 @@ export function AdminProvider({ children }) {
   });
 
   // Backend state
+  const [adminToken, setAdminToken] = useState(() => localStorage.getItem('pk_admin_token') || null);
   const [orders, setOrders] = useState([]);
   const [offers, setOffers] = useState([]);
   const [menu, setMenu] = useState([]);
+
+  useEffect(() => {
+    if (adminToken) {
+      localStorage.setItem('pk_admin_token', adminToken);
+    } else {
+      localStorage.removeItem('pk_admin_token');
+    }
+  }, [adminToken]);
 
   // Fetch initial data from backend
   useEffect(() => {
@@ -56,10 +65,15 @@ export function AdminProvider({ children }) {
       .then(data => setOffers(Array.isArray(data) ? data : []))
       .catch(err => console.error("Fehler beim Laden der Angebote:", err));
 
-    fetch(`${API_URL}/orders`, { cache: 'no-store' })
-      .then(res => res.json())
-      .then(data => setOrders(Array.isArray(data) ? data : []))
-      .catch(err => console.error("Fehler beim Laden der Bestellungen:", err));
+    if (adminToken) {
+      fetch(`${API_URL}/orders`, { 
+        cache: 'no-store',
+        headers: { 'Authorization': `Bearer ${adminToken}` }
+      })
+        .then(res => res.json())
+        .then(data => setOrders(Array.isArray(data) ? data : []))
+        .catch(err => console.error("Fehler beim Laden der Bestellungen:", err));
+    }
 
     fetch(`${API_URL}/menu`, { cache: 'no-store' })
       .then(res => res.json())
@@ -89,7 +103,10 @@ export function AdminProvider({ children }) {
     try {
       await fetch(`${API_URL}/menu/seed`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${adminToken}`
+        },
         body: JSON.stringify({ menu: menuData })
       });
       setMenu(menuData);
@@ -115,15 +132,34 @@ export function AdminProvider({ children }) {
   }, [newsletterSubscribers]);
 
   // Auth functions
-  const login = (email, password) => {
-    const envEmail = import.meta.env.VITE_ADMIN_EMAIL || 'info@pizzaking-schleswig.de';
-    const envPass = import.meta.env.VITE_ADMIN_PASSWORD || 'King';
-
-    if (email.toLowerCase() === envEmail.toLowerCase() && password === envPass) {
-      setIsAuthenticated(true);
-      return { success: true };
+  const login = async (email, password) => {
+    try {
+      const res = await fetch(`${API_URL}/auth/admin-login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      const data = await res.json();
+      
+      if (res.ok && data.success) {
+        setAdminToken(data.token);
+        setIsAuthenticated(true);
+        
+        // Fetch orders now that we're admin
+        fetch(`${API_URL}/orders`, { 
+          cache: 'no-store',
+          headers: { 'Authorization': `Bearer ${data.token}` }
+        })
+          .then(r => r.json())
+          .then(ordersData => setOrders(Array.isArray(ordersData) ? ordersData : []))
+          .catch(err => console.error(err));
+          
+        return { success: true };
+      }
+      return { success: false, message: data.error || 'Ungültige Admin-E-Mail oder Passwort!' };
+    } catch (err) {
+      return { success: false, message: 'Serverfehler bei der Anmeldung' };
     }
-    return { success: false, message: 'Ungültige Admin-E-Mail oder Passwort!' };
   };
 
   const verifyAdminLogin = (expectedCode, inputCode) => {
@@ -136,6 +172,7 @@ export function AdminProvider({ children }) {
 
   const logout = () => {
     setIsAuthenticated(false);
+    setAdminToken(null);
   };
 
   // User Auth functions
@@ -195,7 +232,10 @@ export function AdminProvider({ children }) {
     try {
       await fetch(`${API_URL}/orders/${orderId}/status`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${adminToken}`
+        },
         body: JSON.stringify({ status: newStatus })
       });
       setOrders(prev => prev.map(o => o.id === orderId ? { ...o, status: newStatus } : o));
@@ -213,7 +253,10 @@ export function AdminProvider({ children }) {
     try {
       const res = await fetch(`${API_URL}/offers`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${adminToken}`
+        },
         body: JSON.stringify(offer)
       });
       if (res.ok) {
@@ -227,7 +270,10 @@ export function AdminProvider({ children }) {
 
   const removeOffer = async (offerId) => {
     try {
-      const res = await fetch(`${API_URL}/offers/${offerId}`, { method: 'DELETE' });
+      const res = await fetch(`${API_URL}/offers/${offerId}`, { 
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${adminToken}` }
+      });
       if (res.ok) {
         setOffers(prev => prev.filter(o => o.id !== offerId));
       }
@@ -248,7 +294,10 @@ export function AdminProvider({ children }) {
     try {
       const res = await fetch(`${API_URL}/menu/item/${itemId}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${adminToken}`
+        },
         body: JSON.stringify(updatedFields)
       });
       if (res.ok) {
