@@ -54,6 +54,39 @@ const BURGER_EXTRAS = [
   { id: 'b5', name: 'Röstzwiebeln', price: 1.00, image: '/fresh_tomatoes.png' }
 ];
 
+const SIDE_DISHES = [
+  { id: 'sd1', name: 'Pommes frites (klein)', price: 3.50, image: '/fries.png' },
+  { id: 'sd2', name: 'Pommes frites (groß)', price: 4.50, image: '/fries.png' },
+  { id: 'sd3', name: 'Gitterpommes', price: 4.50, image: '/fries.png' },
+  { id: 'sd4', name: 'Kroketten', price: 4.00, image: '/fries.png' },
+  { id: 'sd5', name: 'Bratkartoffeln', price: 4.50, image: '/potato_wedge.png' }
+];
+
+const SAUCES = [
+  { id: 'sc1', name: 'Ketchup', price: 0.50, image: '/sauce.png' },
+  { id: 'sc2', name: 'Mayonnaise', price: 0.50, image: '/sauce.png' },
+  { id: 'sc3', name: 'Snack Sauce', price: 1.00, image: '/sauce.png' },
+  { id: 'sc4', name: 'Dänische Remoulade', price: 1.00, image: '/sauce.png' },
+  { id: 'sc5', name: 'Tzatziki', price: 1.50, image: '/sauce.png' },
+  { id: 'sc6', name: 'Jägersauce', price: 2.00, image: '/sauce.png' },
+  { id: 'sc7', name: 'Sauce Hollandaise', price: 2.00, image: '/sauce.png' }
+];
+
+const DRESSINGS = [
+  { id: 'dr1', name: 'Joghurt-Dressing', price: 1.50, image: '/sauce.png' },
+  { id: 'dr2', name: 'French-Dressing', price: 1.50, image: '/sauce.png' },
+  { id: 'dr3', name: 'Knoblauch-Dressing', price: 1.50, image: '/sauce.png' },
+  { id: 'dr4', name: 'Essig & Öl', price: 1.50, image: '/sauce.png' }
+];
+
+const SALAD_EXTRAS = [
+  { id: 'se1', name: 'Schinken', price: 1.50, image: '/ham.png' },
+  { id: 'se2', name: 'Ei', price: 1.00, image: '/mozzarella_piece.png' },
+  { id: 'se3', name: 'Thunfisch', price: 2.00, image: '/champignons_beef.png' },
+  { id: 'se4', name: 'Weichkäse', price: 2.00, image: '/mozzarella_piece.png' },
+  { id: 'se5', name: 'Putenbrust', price: 2.50, image: '/ham.png' }
+];
+
 export default function MealDetailModal({ isOpen, onClose, product, addToCart }) {
   const { language } = useAdmin();
   const t = getTranslation(language);
@@ -105,9 +138,21 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
   const [selectedAktionBurgerMenu, setSelectedAktionBurgerMenu] = useState(null);
   const [sweetPotatoFries, setSweetPotatoFries] = useState(false);
 
-  const isPizzabroetchen = product.name.toLowerCase().includes('pizzabrötchen') || product.name.toLowerCase().includes('pizza brötchen');
+  const isPizzabroetchen = product.name.toLowerCase().includes('pizzabrötchen') || product.name.toLowerCase().includes('pizza brötchen') || product.category === 'Pizzabrötchen & Calzone';
   const isBurger = product.category === 'Burger' || product.name.toLowerCase().includes('burger');
+  const isSalad = product.category === 'Salat' || product.category === 'Salate' || product.name.toLowerCase().includes('salat');
+  const isSchnitzel = product.category === 'Schnitzel';
+  const isSnack = product.category === 'Snacks';
+  const isPasta = product.category === 'Nudeln' || product.category === 'Pasta';
   const fillingOptions = ['Käse (mit Käse gefüllt)', 'Salami', 'Schinken', 'Thunfisch', 'Hackfleisch', 'Gyros', 'Dönerfleisch'];
+
+  const [itemComment, setItemComment] = useState('');
+  const [pizzaScharf, setPizzaScharf] = useState(false);
+  const [pizzaKnoblauch, setPizzaKnoblauch] = useState(false);
+  const [selectedSideDishes, setSelectedSideDishes] = useState([]);
+  const [selectedSauces, setSelectedSauces] = useState([]);
+  const [selectedDressings, setSelectedDressings] = useState([]);
+  const [selectedSaladExtras, setSelectedSaladExtras] = useState([]);
 
   useEffect(() => {
     setSelectedOptionIndex(0);
@@ -127,6 +172,14 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
     setSelectedAktionBurgers([]);
     setSelectedAktionBurgerMenu(null);
     setSweetPotatoFries(false);
+
+    setItemComment('');
+    setPizzaScharf(false);
+    setPizzaKnoblauch(false);
+    setSelectedSideDishes([]);
+    setSelectedSauces([]);
+    setSelectedDressings([]);
+    setSelectedSaladExtras([]);
   }, [product]);
 
   const selectedOption = options[selectedOptionIndex] || options[0];
@@ -152,18 +205,52 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
     extrasToppingsPrice = selectedExtraToppings.reduce((sum, tp) => sum + tp.price, 0);
   }
 
+  const extraSidesPrice = selectedSideDishes.reduce((sum, s) => sum + s.price, 0);
+  const extraDressingsCost = selectedDressings.length > 1 ? selectedDressings.slice(1).reduce((sum, d) => sum + d.price, 0) : 0;
+  const extraSaucesCost = (isSnack && selectedSauces.length > 0) ? selectedSauces.slice(1).reduce((sum, s) => sum + s.price, 0) : selectedSauces.reduce((sum, s) => sum + s.price, 0);
+  const extraSaladCost = selectedSaladExtras.reduce((sum, s) => sum + s.price, 0);
+
   const burgerExtrasPrice = selectedBurgerExtras.reduce((sum, b) => sum + b.price, 0);
-  const sidesPrice = 0;
+  const sidesPrice = extraSidesPrice + extraDressingsCost + extraSaucesCost + extraSaladCost;
   const sweetPotatoPrice = sweetPotatoFries ? 5.00 : 0;
 
   const finalPrice = selectedOption.price + getKaeserandPrice() + extrasDressingsPrice + extrasDrinksPrice + extrasToppingsPrice + burgerExtrasPrice + sidesPrice + sweetPotatoPrice;
-  const isPizza = product.category === 'Pizza' || (product.imageUrl && product.imageUrl.includes('pizza')) || product.name.toLowerCase().includes('pizza');
+  const isPizza = product.category === 'Pizza' || (product.imageUrl && product.imageUrl.includes('pizza')) || product.name.toLowerCase().includes('pizza') || product.category === 'Pizzabrötchen & Calzone';
 
   const toggleBurgerExtra = (item) => {
     if (selectedBurgerExtras.some(b => b.id === item.id)) {
       setSelectedBurgerExtras(selectedBurgerExtras.filter(b => b.id !== item.id));
     } else {
       setSelectedBurgerExtras([...selectedBurgerExtras, item]);
+    }
+  };
+
+  const toggleSideDish = (item) => {
+    if (selectedSideDishes.some(s => s.id === item.id)) {
+      setSelectedSideDishes(selectedSideDishes.filter(s => s.id !== item.id));
+    } else {
+      setSelectedSideDishes([...selectedSideDishes, item]);
+    }
+  };
+  const toggleSauce = (item) => {
+    if (selectedSauces.some(s => s.id === item.id)) {
+      setSelectedSauces(selectedSauces.filter(s => s.id !== item.id));
+    } else {
+      setSelectedSauces([...selectedSauces, item]);
+    }
+  };
+  const toggleDressing = (item) => {
+    if (selectedDressings.some(d => d.id === item.id)) {
+      setSelectedDressings(selectedDressings.filter(d => d.id !== item.id));
+    } else {
+      setSelectedDressings([...selectedDressings, item]);
+    }
+  };
+  const toggleSaladExtra = (item) => {
+    if (selectedSaladExtras.some(s => s.id === item.id)) {
+      setSelectedSaladExtras(selectedSaladExtras.filter(s => s.id !== item.id));
+    } else {
+      setSelectedSaladExtras([...selectedSaladExtras, item]);
     }
   };
 
@@ -293,6 +380,14 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
       itemName += ` + Süßkartoffelpommes`;
     }
 
+    if (pizzaScharf) itemName += ' + Scharf (gratis)';
+    if (pizzaKnoblauch) itemName += ' + Knoblauch (gratis)';
+    if (selectedSideDishes.length > 0) itemName += ' + Beilagen: ' + selectedSideDishes.map(s => s.name).join(', ');
+    if (selectedSauces.length > 0) itemName += ' + Saucen: ' + selectedSauces.map(s => s.name).join(', ');
+    if (selectedDressings.length > 0) itemName += ' + Dressings: ' + selectedDressings.map(d => d.name).join(', ');
+    if (selectedSaladExtras.length > 0) itemName += ' + Extra: ' + selectedSaladExtras.map(s => s.name).join(', ');
+    if (itemComment) itemName += ' | Anmerkung: ' + itemComment;
+
     if (selectedBurgerExtras.length > 0) {
       itemName += ` + Burger Extra: ${selectedBurgerExtras.map(b => b.name).join(', ')}`;
     }
@@ -403,7 +498,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
                 {/* Quick Add Chips */}
                 <div style={{ fontSize: '0.8rem', color: '#888', marginBottom: '8px' }}>Beliebte Zutaten zum Antippen:</div>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-                  {['Salami', 'Schinken', 'Champignons', 'Sauce Hollandaise', 'Gyros', 'Dönerfleisch', 'Bacon', 'Ananas', 'Mozzarella', 'Zwiebeln', 'Brokkoli', 'Thunfisch', 'Knoblauchwurst', 'Weichkäse', 'Gorgonzola'].map((name, i) => (
+                  {['Salami', 'Schinken', 'Champignons', 'Sauce Hollandaise', 'Gyros', 'Dönerfleisch', 'Bacon', 'Ananas', 'Mozzarella', 'Zwiebeln', 'Broccoli', 'Thunfisch', 'Knoblauchwurst', 'Weichkäse', 'Gorgonzola', 'Paprika', 'Peperoni', 'Mais', 'Oliven', 'Ei'].map((name, i) => (
                     <button 
                       key={i} 
                       onClick={() => autofillWunschBelag(name)}
@@ -608,6 +703,39 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
               </div>
             )}
 
+            
+            {isPizza && !isPizzabroetchen && !isPartyPizza && (
+              <div>
+                <div className="q-modal-section-title">GRATIS EXTRAS</div>
+                <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
+                  <div
+                    className={`q-modal-size-btn ${pizzaScharf ? 'active' : ''}`}
+                    onClick={() => setPizzaScharf(!pizzaScharf)}
+                    style={{ flex: 1, padding: '14px', textAlign: 'center' }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
+                      <div style={{ width: 20, height: 20, borderRadius: 4, border: pizzaScharf ? 'none' : '1px solid rgba(255,255,255,0.3)', background: pizzaScharf ? '#cfa670' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        {pizzaScharf && <Check size={14} color="#000" />}
+                      </div>
+                      <span>Scharf</span>
+                    </div>
+                  </div>
+                  <div
+                    className={`q-modal-size-btn ${pizzaKnoblauch ? 'active' : ''}`}
+                    onClick={() => setPizzaKnoblauch(!pizzaKnoblauch)}
+                    style={{ flex: 1, padding: '14px', textAlign: 'center' }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
+                      <div style={{ width: 20, height: 20, borderRadius: 4, border: pizzaKnoblauch ? 'none' : '1px solid rgba(255,255,255,0.3)', background: pizzaKnoblauch ? '#cfa670' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        {pizzaKnoblauch && <Check size={14} color="#000" />}
+                      </div>
+                      <span>Knoblauch</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* Käserand option for Pizza */}
             {isPizza && !isPizzabroetchen && !isPartyPizza && (
               <div>
@@ -721,6 +849,89 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
               </div>
             )}
 
+            
+            {/* Side Dishes */}
+            {(isBurger || isSchnitzel || isSnack || isPasta) && (
+              <div>
+                <div className="q-modal-section-title">🍟 EXTRA BEILAGEN (MIT AUFPREIS)</div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(165px, 1fr))', gap: '10px', marginBottom: '20px' }}>
+                  {SIDE_DISHES.map(item => {
+                    const isSelected = selectedSideDishes.some(s => s.id === item.id);
+                    return (
+                      <div key={item.id} onClick={() => toggleSideDish(item)} style={{ background: isSelected ? 'rgba(207, 166, 112, 0.2)' : '#1a1a1a', border: isSelected ? '1px solid #cfa670' : '1px solid rgba(255,255,255,0.08)', borderRadius: '12px', padding: '10px', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ fontSize: '0.78rem', fontWeight: 'bold', color: isSelected ? '#cfa670' : '#fff' }}>{item.name}</div>
+                          <div style={{ fontSize: '0.75rem', color: '#aaa' }}>+{item.price.toFixed(2).replace('.', ',')} €</div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Sauces */}
+            {(isBurger || isSnack || isSchnitzel || isPizza || isPizzabroetchen) && (
+              <div>
+                <div className="q-modal-section-title">🥣 SAUCEN {isSnack ? '(1 GRATIS, DANN AUFPREIS)' : '(MIT AUFPREIS)'}</div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(165px, 1fr))', gap: '10px', marginBottom: '20px' }}>
+                  {SAUCES.map(item => {
+                    const isSelected = selectedSauces.some(s => s.id === item.id);
+                    const isFirstFree = isSnack && selectedSauces.length > 0 && selectedSauces[0].id === item.id;
+                    const priceLabel = isFirstFree ? 'Gratis' : `+${item.price.toFixed(2).replace('.', ',')} €`;
+                    return (
+                      <div key={item.id} onClick={() => toggleSauce(item)} style={{ background: isSelected ? 'rgba(207, 166, 112, 0.2)' : '#1a1a1a', border: isSelected ? '1px solid #cfa670' : '1px solid rgba(255,255,255,0.08)', borderRadius: '12px', padding: '10px', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ fontSize: '0.78rem', fontWeight: 'bold', color: isSelected ? '#cfa670' : '#fff' }}>{item.name}</div>
+                          <div style={{ fontSize: '0.75rem', color: isFirstFree ? '#22c55e' : '#aaa' }}>{priceLabel}</div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* Dressings & Salad Extras */}
+            {isSalad && (
+              <>
+                <div>
+                  <div className="q-modal-section-title">🥗 DRESSINGS (1 GRATIS, DANN AUFPREIS)</div>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(165px, 1fr))', gap: '10px', marginBottom: '20px' }}>
+                    {DRESSINGS.map(item => {
+                      const isSelected = selectedDressings.some(d => d.id === item.id);
+                      const isFirstFree = selectedDressings.length > 0 && selectedDressings[0].id === item.id;
+                      const priceLabel = isFirstFree ? 'Gratis' : `+${item.price.toFixed(2).replace('.', ',')} €`;
+                      return (
+                        <div key={item.id} onClick={() => toggleDressing(item)} style={{ background: isSelected ? 'rgba(207, 166, 112, 0.2)' : '#1a1a1a', border: isSelected ? '1px solid #cfa670' : '1px solid rgba(255,255,255,0.08)', borderRadius: '12px', padding: '10px', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
+                          <div style={{ flex: 1, minWidth: 0 }}>
+                            <div style={{ fontSize: '0.78rem', fontWeight: 'bold', color: isSelected ? '#cfa670' : '#fff' }}>{item.name}</div>
+                            <div style={{ fontSize: '0.75rem', color: isFirstFree ? '#22c55e' : '#aaa' }}>{priceLabel}</div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+                <div>
+                  <div className="q-modal-section-title">🥓 EXTRA SALAT-ZUTATEN</div>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(165px, 1fr))', gap: '10px', marginBottom: '20px' }}>
+                    {SALAD_EXTRAS.map(item => {
+                      const isSelected = selectedSaladExtras.some(s => s.id === item.id);
+                      return (
+                        <div key={item.id} onClick={() => toggleSaladExtra(item)} style={{ background: isSelected ? 'rgba(207, 166, 112, 0.2)' : '#1a1a1a', border: isSelected ? '1px solid #cfa670' : '1px solid rgba(255,255,255,0.08)', borderRadius: '12px', padding: '10px', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
+                          <div style={{ flex: 1, minWidth: 0 }}>
+                            <div style={{ fontSize: '0.78rem', fontWeight: 'bold', color: isSelected ? '#cfa670' : '#fff' }}>{item.name}</div>
+                            <div style={{ fontSize: '0.75rem', color: '#aaa' }}>+${item.price.toFixed(2).replace('.', ',')} €</div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </>
+            )}
+
             {/* Extra Getränke */}
             <div>
               <div className="q-modal-section-title">🥤 EXTRA GETRÄNKE</div>
@@ -752,6 +963,18 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
                   );
                 })}
               </div>
+            </div>
+
+            
+            {/* Anmerkung */}
+            <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+              <div className="q-modal-section-title">📝 ANMERKUNG HINZUFÜGEN</div>
+              <textarea 
+                value={itemComment}
+                onChange={e => setItemComment(e.target.value)}
+                placeholder="Besondere Wünsche? (z.B. ohne Zwiebeln, extra knusprig...)"
+                style={{ width: '100%', height: '80px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', padding: '15px', color: '#fff', outline: 'none', resize: 'none', fontFamily: 'var(--q-font)' }}
+              />
             </div>
 
             <div className="q-modal-footer">

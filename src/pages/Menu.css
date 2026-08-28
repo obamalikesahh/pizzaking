@@ -92,8 +92,9 @@ body {
 
 .menu-category-nav {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 15px;
-  overflow-x: auto;
   padding-bottom: 10px;
   max-width: 900px;
 }

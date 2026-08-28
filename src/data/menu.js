@@ -705,7 +705,7 @@ export const menuData = [
         "id": "165",
         "name": "Hamburger (100 g)",
         "desc": {
-          "de": "ca. 100g Rindfleisch, Ketchup & dünn Remoulade",
+          "de": "ca. 100g Rindfleisch, Snack Sauce oder dän. Rem.",
           "en": "approx. 100g beef, ketchup & thin remoulade",
           "ru": "около 100 г говядины, кетчупом & тонким слоем ремулада"
         },
@@ -727,7 +727,7 @@ export const menuData = [
         "id": "166",
         "name": "Big Hamburger (200 g)",
         "desc": {
-          "de": "ca. 200g Rindfleisch, Ketchup & dünn Remoulade",
+          "de": "ca. 200g Rindfleisch, Snack Sauce oder dän. Rem.",
           "en": "approx. 200g beef, ketchup & thin remoulade",
           "ru": "около 200 г говядины, кетчупом & тонким слоем ремулада"
         },

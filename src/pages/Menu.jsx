@@ -185,7 +185,7 @@ export default function Menu() {
                         </div>
                         <div className="menu-item-info">
                           <div className="menu-item-header">
-                            <h3 className="menu-item-title">{product.name.toUpperCase()}</h3>
+                            <h3 className="menu-item-title">{`${product.id}. ${product.name}`.toUpperCase()}</h3>
                             <div className="menu-item-dots"></div>
                             <span className="menu-item-price">{product.price}</span>
                           </div>

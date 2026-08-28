@@ -113,8 +113,9 @@ export default function Footer() {
 
       </div>
       <div className="footer-bottom">
-        <div className="container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <div className="container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
           <p>&copy; {new Date().getFullYear()} Pizza King Schleswig. {t.rights}</p>
+          <p style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', marginTop: '5px' }}>Änderungen und Irrtümer vorbehalten.</p>
         </div>
       </div>
     </footer>

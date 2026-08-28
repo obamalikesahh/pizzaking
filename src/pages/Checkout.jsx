@@ -75,7 +75,10 @@ export default function Checkout() {
 
   return (
     <div className="page-container container animate-fade-in" style={{ padding: '120px 20px 40px' }}>
-      <h1 className="text-gradient text-center" style={{ marginBottom: '40px' }}>Kasse</h1>
+      <h1 className="text-gradient text-center" style={{ marginBottom: '10px' }}>Kasse</h1>
+      <p style={{ textAlign: 'center', color: 'var(--color-primary)', marginBottom: '40px', fontSize: '0.9rem' }}>
+        Unsere Lieferzeiten sind von 11-23 Uhr. Bitte Lieferzeiten beachten, wenn Sie vorbestellen möchten.
+      </p>
       
       <div className="checkout-layout">
         <div className="checkout-steps glass-panel">

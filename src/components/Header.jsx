@@ -22,7 +22,12 @@ export default function Header() {
   }[language] || { menu: 'MENU', about: 'ABOUT', rent: 'RENT HALL', login: 'LOGIN', account: 'ACCOUNT', cart: 'CART' };
 
   return (
-    <header className="pill-header">
+    <>
+      <div style={{ background: '#ff3333', color: 'white', textAlign: 'center', padding: '8px', fontSize: '0.9rem', fontWeight: 'bold', zIndex: 2000, position: 'relative' }}>
+        Pizza King hat aktuell geschlossen. Die Öfen glühen morgen ab 11:00 Uhr wieder für dich, um frische Pizzen zu backen. <br />
+        <span style={{ fontSize: '0.8rem', fontWeight: 'normal' }}>Täglich von 11:00 Uhr bis 22:00 Uhr GEÖFFNET</span>
+      </div>
+      <header className="pill-header">
       <div className="pill-container">
         
         <button 
@@ -102,5 +107,6 @@ export default function Header() {
         </AnimatePresence>
       </div>
     </header>
+    </>
   );
 }
