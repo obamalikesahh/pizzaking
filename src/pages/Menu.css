@@ -78,11 +78,9 @@ body {
 
 .menu-category-nav-wrapper {
   width: 100%;
-  position: sticky;
-  top: 0;
+  position: relative;
   z-index: 10;
-  background: rgba(10, 10, 10, 0.85);
-  backdrop-filter: blur(12px);
+  background: transparent;
   padding: 10px 0 20px 0;
   border-bottom: 1px solid var(--q-border);
   margin-bottom: 40px;
