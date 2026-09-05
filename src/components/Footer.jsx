@@ -116,6 +116,7 @@ export default function Footer() {
         <div className="container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
           <p>&copy; {new Date().getFullYear()} Pizza King Schleswig. {t.rights}</p>
           <p style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', marginTop: '5px' }}>Änderungen und Irrtümer vorbehalten.</p>
+          <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', marginTop: '4px', opacity: 0.8 }}>* Hinweis: Produktabbildungen von Gerichten sind KI-generiert und dienen als Serviervorschlag.</p>
         </div>
       </div>
     </footer>

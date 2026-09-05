@@ -14,16 +14,14 @@ import Admin from './pages/Admin';
 import DeliveryZoneModal from './components/DeliveryZoneModal';
 import JivoChat from './components/JivoChat';
 import Impressum from './pages/Impressum';
-import { CartProvider, useCart } from './context/CartContext';
+import { CartProvider } from './context/CartContext';
 import { AdminProvider } from './context/AdminContext';
-import StoreClosedOverlay from './components/StoreClosedOverlay';
 
 import { useLocation } from 'react-router-dom';
 
 function Layout() {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
-  const { isClosedOverlayVisible, setIsClosedOverlayVisible } = useCart();
 
   useEffect(() => {
     if (location.hash) {
@@ -59,11 +57,6 @@ function Layout() {
 
       {!isAdminRoute && <Footer />}
       {!isAdminRoute && <JivoChat />}
-      
-      <StoreClosedOverlay 
-        isVisible={isClosedOverlayVisible} 
-        onClose={() => setIsClosedOverlayVisible(false)} 
-      />
     </div>
   );
 }

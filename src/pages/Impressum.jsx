@@ -52,6 +52,11 @@ export default function Impressum() {
           <p>
             Wir weisen darauf hin, dass die Datenübertragung im Internet (z.B. bei der Kommunikation per E-Mail) Sicherheitslücken aufweisen kann. Ein lückenloser Schutz der Daten vor dem Zugriff durch Dritte ist nicht möglich.
           </p>
+
+          <h3>Bildrechte & Produktabbildungen</h3>
+          <p>
+            Die auf dieser Website verwendeten Produkt- und Gerichtsabbildungen wurden unter Einsatz künstlicher Intelligenz (KI) generiert und dienen ausschließlich als Beispieldarstellung bzw. Serviervorschlag.
+          </p>
         </div>
       </div>
     </div>
