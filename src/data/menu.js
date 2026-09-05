@@ -1394,7 +1394,7 @@ export const menuData = [
       },
       {
         "id": "63",
-        "name": "Maccheroni del Gliottone",
+        "name": "Maccheroni del Ghiottone",
         "desc": {
           "de": "mit Champignons, Schinken, Hackfleisch & Tomaten",
           "en": "with mushrooms, ham, minced meat & tomatoes",
