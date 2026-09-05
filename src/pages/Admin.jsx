@@ -28,6 +28,16 @@ import { useAdmin } from '../context/AdminContext';
 import { sendVerificationEmail } from '../services/emailService';
 import './Admin.css';
 
+const safeText = (val, fallback = '') => {
+  if (val === null || val === undefined) return fallback;
+  if (typeof val === 'string') return val;
+  if (typeof val === 'number') return String(val);
+  if (typeof val === 'object') {
+    return val.de || val.en || val.ru || val.description || val.title || val.name || fallback;
+  }
+  return String(val);
+};
+
 export default function Admin() {
   const { 
     isAuthenticated, 
@@ -40,6 +50,7 @@ export default function Admin() {
     removeOffer, 
     menu, 
     updateMenuItem,
+    bulkUpdatePrices,
     allUsers,
     newsletterSubscribers
   } = useAdmin();
@@ -50,12 +61,18 @@ export default function Admin() {
   const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState('');
 
-
-
   // Dashboard Tab state
   const [activeTab, setActiveTab] = useState('orders'); // orders, offers, menu, stats, settings
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedOrderDetails, setSelectedOrderDetails] = useState(null);
+
+  // Payment Filter state for Orders
+  const [paymentFilter, setPaymentFilter] = useState('all');
+
+  // Dish Multi-Select & Bulk Pricing State
+  const [selectedItemIds, setSelectedItemIds] = useState([]);
+  const [showBulkPriceModal, setShowBulkPriceModal] = useState(false);
+  const [bulkPriceInput, setBulkPriceInput] = useState('');
 
   // New Offer Form State
   const [showNewOfferModal, setShowNewOfferModal] = useState(false);
@@ -294,14 +311,37 @@ export default function Admin() {
           {/* TAB 1: LIVE ORDERS */}
           {activeTab === 'orders' && (
             <div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px' }}>
-                <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: '1.8rem', color: '#ffffff', margin: 0 }}>
-                  Eingegangene Bestellungen
-                </h2>
-                <div style={{ display: 'flex', gap: '10px' }}>
-                  <span className="status-badge eingegangen">Neu: {orders.filter(o => o.status === 'eingegangen').length}</span>
-                  <span className="status-badge zubereitung">In Küche: {orders.filter(o => o.status === 'zubereitung').length}</span>
-                  <span className="status-badge zustellung">Unterwegs: {orders.filter(o => o.status === 'zustellung').length}</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px', flexWrap: 'wrap', gap: '15px' }}>
+                <div>
+                  <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: '1.8rem', color: '#ffffff', margin: 0 }}>
+                    Eingegangene Bestellungen
+                  </h2>
+                  <p style={{ color: '#888', fontSize: '0.85rem', margin: '4px 0 0 0' }}>
+                    Gefiltert nach Status und Zahlungsart
+                  </p>
+                </div>
+
+                <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
+                  {/* Payment Filter Dropdown */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ fontSize: '0.85rem', color: '#888' }}>Zahlungsart:</span>
+                    <select 
+                      value={paymentFilter} 
+                      onChange={(e) => setPaymentFilter(e.target.value)}
+                      style={{ background: '#121312', color: '#cfa670', border: '1px solid rgba(207,166,112,0.3)', padding: '8px 14px', borderRadius: '10px', outline: 'none', cursor: 'pointer' }}
+                    >
+                      <option value="all">Alle Zahlungsarten</option>
+                      <option value="bar">💵 Barzahlung</option>
+                      <option value="ec">💳 EC / Kartenzahlung</option>
+                      <option value="paypal">💙 PayPal</option>
+                    </select>
+                  </div>
+
+                  <div style={{ display: 'flex', gap: '6px' }}>
+                    <span className="status-badge eingegangen">Neu: {orders.filter(o => o.status === 'eingegangen').length}</span>
+                    <span className="status-badge zubereitung">In Küche: {orders.filter(o => o.status === 'zubereitung').length}</span>
+                    <span className="status-badge zustellung">Unterwegs: {orders.filter(o => o.status === 'zustellung').length}</span>
+                  </div>
                 </div>
               </div>
 
@@ -319,7 +359,14 @@ export default function Admin() {
                     </tr>
                   </thead>
                   <tbody>
-                    {orders.map(order => (
+                    {orders
+                      .filter(order => {
+                        if (paymentFilter === 'bar') return (order.payment || '').toLowerCase().includes('bar');
+                        if (paymentFilter === 'ec') return (order.payment || '').toLowerCase().includes('ec') || (order.payment || '').toLowerCase().includes('kart');
+                        if (paymentFilter === 'paypal') return (order.payment || '').toLowerCase().includes('paypal');
+                        return true;
+                      })
+                      .map(order => (
                       <tr key={order.id}>
                         <td>
                           <strong style={{ color: '#cfa670', display: 'block', fontSize: '1rem' }}>{order.id}</strong>
@@ -548,92 +595,148 @@ export default function Admin() {
           )}
 
           {/* TAB 3: MENU & IMAGE EDITOR */}
-          {activeTab === 'menu' && (
-            <div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px' }}>
-                <div>
-                  <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: '1.8rem', color: '#ffffff', margin: 0 }}>
-                    Speisen & Bilder Editor
-                  </h2>
-                  <p style={{ color: '#888', fontSize: '0.85rem', margin: '4px 0 0 0' }}>
-                    Ändere Preise, Beschreibungen & Bildpfade aller Speisen in Echtzeit.
-                  </p>
+          {activeTab === 'menu' && (() => {
+            const allMenuItems = Array.isArray(menu) ? menu.filter(Boolean).flatMap(cat => 
+              Array.isArray(cat?.items) ? cat.items.filter(Boolean).map(item => ({ 
+                ...item, 
+                category: safeText(cat?.title || cat?.category || 'Unkategorisiert')
+              })) : []
+            ) : [];
+
+            const filteredMenuItems = allMenuItems
+              .filter(item => safeText(item?.name).toLowerCase().includes(String(searchQuery || '').toLowerCase()))
+              .slice(0, 50);
+
+            const isAllSelected = filteredMenuItems.length > 0 && selectedItemIds.length === filteredMenuItems.length;
+
+            return (
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '15px' }}>
+                  <div>
+                    <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: '1.8rem', color: '#ffffff', margin: 0 }}>
+                      Speisen & Bilder Editor
+                    </h2>
+                    <p style={{ color: '#888', fontSize: '0.85rem', margin: '4px 0 0 0' }}>
+                      Ändere Preise, Beschreibungen & Bildpfade aller Speisen in Echtzeit.
+                    </p>
+                  </div>
+
+                  <div style={{ position: 'relative' }}>
+                    <Search size={16} color="#888" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }} />
+                    <input 
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder="Gericht suchen..."
+                      style={{ padding: '10px 14px 10px 38px', background: '#121312', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '10px', color: '#fff', outline: 'none', width: '250px' }}
+                    />
+                  </div>
                 </div>
 
-                <div style={{ position: 'relative' }}>
-                  <Search size={16} color="#888" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }} />
-                  <input 
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Gericht suchen..."
-                    style={{ padding: '10px 14px 10px 38px', background: '#121312', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '10px', color: '#fff', outline: 'none', width: '250px' }}
-                  />
+                {/* Bulk Actions Banner */}
+                {selectedItemIds.length > 0 && (
+                  <div style={{ background: 'rgba(207,166,112,0.15)', border: '1px solid rgba(207,166,112,0.4)', borderRadius: '12px', padding: '14px 20px', marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '15px' }}>
+                    <span style={{ color: '#cfa670', fontWeight: 'bold', fontSize: '0.95rem' }}>
+                      ✓ {selectedItemIds.length} Gerichte ausgewählt
+                    </span>
+                    <div style={{ display: 'flex', gap: '10px' }}>
+                      <button 
+                        className="admin-btn"
+                        style={{ background: '#cfa670', color: '#000', fontWeight: 'bold' }}
+                        onClick={() => setShowBulkPriceModal(true)}
+                      >
+                        ⚡ Preis für alle {selectedItemIds.length} ändern
+                      </button>
+                      <button 
+                        className="admin-btn"
+                        style={{ background: 'rgba(255,255,255,0.1)', color: '#aaa' }}
+                        onClick={() => setSelectedItemIds([])}
+                      >
+                        Auswahl Aufheben
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                <div className="admin-table-wrapper">
+                  <table className="admin-table">
+                    <thead>
+                      <tr>
+                        <th style={{ width: '40px', textAlign: 'center' }}>
+                          <input 
+                            type="checkbox" 
+                            checked={isAllSelected}
+                            onChange={() => {
+                              if (isAllSelected) setSelectedItemIds([]);
+                              else setSelectedItemIds(filteredMenuItems.map(i => i.id));
+                            }}
+                            style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: '#cfa670' }}
+                          />
+                        </th>
+                        <th>Bild</th>
+                        <th>Gerichtsname</th>
+                        <th>Kategorie</th>
+                        <th>Preis</th>
+                        <th>Aktionen</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredMenuItems.map((item, index) => {
+                        const isSelected = selectedItemIds.includes(item.id);
+                        return (
+                          <tr key={String(item?.id || index)} style={{ background: isSelected ? 'rgba(207,166,112,0.08)' : 'transparent' }}>
+                            <td style={{ textAlign: 'center' }}>
+                              <input 
+                                type="checkbox" 
+                                checked={isSelected}
+                                onChange={() => {
+                                  setSelectedItemIds(prev => prev.includes(item.id) ? prev.filter(i => i !== item.id) : [...prev, item.id]);
+                                }}
+                                style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: '#cfa670' }}
+                              />
+                            </td>
+                            <td>
+                              <img src={safeText(item?.image || '')} alt={safeText(item?.name, 'Bild')} style={{ width: '50px', height: '50px', borderRadius: '8px', objectFit: 'cover', border: '1px solid rgba(255,255,255,0.1)' }} />
+                            </td>
+                            <td>
+                              <strong style={{ color: '#fff', fontSize: '0.95rem' }}>{safeText(item?.name, 'Unbenannt')}</strong>
+                              <span style={{ display: 'block', fontSize: '0.8rem', color: '#888' }}>{safeText(item?.desc || item?.description, 'Keine Beschreibung')}</span>
+                              <div style={{ display: 'flex', gap: '6px', marginTop: '4px' }}>
+                                {Boolean(item?.isSoldOut) && <span style={{ fontSize: '0.7rem', background: 'rgba(239,68,68,0.2)', color: '#ef4444', padding: '2px 6px', borderRadius: '4px' }}>Ausverkauft</span>}
+                                {Boolean(item?.isTopSeller) && <span style={{ fontSize: '0.7rem', background: 'rgba(34,197,94,0.2)', color: '#22c55e', padding: '2px 6px', borderRadius: '4px' }}>Topseller</span>}
+                              </div>
+                            </td>
+                            <td>
+                              <span style={{ fontSize: '0.85rem', color: '#cfa670', background: 'rgba(207,166,112,0.1)', padding: '4px 8px', borderRadius: '6px' }}>{safeText(item.category)}</span>
+                            </td>
+                            <td>
+                              <strong style={{ color: '#22c55e', fontSize: '1rem' }}>{safeText(item?.price)}</strong>
+                            </td>
+                            <td>
+                              <button 
+                                className="admin-btn"
+                                onClick={() => {
+                                  setEditingItem(item);
+                                  setEditName(safeText(item?.name));
+                                  setEditPrice(safeText(item?.price));
+                                  setEditDesc(safeText(item?.desc || item?.description));
+                                  setEditImage(safeText(item?.image));
+                                  setEditIsSoldOut(Boolean(item?.isSoldOut));
+                                  setEditIsTopSeller(Boolean(item?.isTopSeller));
+                                }}
+                              >
+                                Bearbeiten
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
                 </div>
               </div>
-
-              <div className="admin-table-wrapper">
-                <table className="admin-table">
-                  <thead>
-                    <tr>
-                      <th>Bild</th>
-                      <th>Gerichtsname</th>
-                      <th>Kategorie</th>
-                      <th>Preis</th>
-                      <th>Aktionen</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {Array.isArray(menu) ? menu.filter(Boolean).flatMap(cat => 
-                      Array.isArray(cat?.items) ? cat.items.filter(Boolean).map(item => ({ 
-                        ...item, 
-                        category: String(cat?.title || cat?.category || 'Unkategorisiert')
-                      })) : []
-                    )
-                    .filter(item => String(item?.name || '').toLowerCase().includes(String(searchQuery || '').toLowerCase()))
-                    .slice(0, 20)
-                    .map((item, index) => (
-                        <tr key={String(item?.id || index)}>
-                          <td>
-                            <img src={String(item?.image || '')} alt={String(item?.name || 'Bild')} style={{ width: '50px', height: '50px', borderRadius: '8px', objectFit: 'cover', border: '1px solid rgba(255,255,255,0.1)' }} />
-                          </td>
-                          <td>
-                            <strong style={{ color: '#fff', fontSize: '0.95rem' }}>{String(item?.name || 'Unbenannt')}</strong>
-                            <span style={{ display: 'block', fontSize: '0.8rem', color: '#888' }}>{String(item?.desc || 'Keine Beschreibung')}</span>
-                            <div style={{ display: 'flex', gap: '6px', marginTop: '4px' }}>
-                              {Boolean(item?.isSoldOut) && <span style={{ fontSize: '0.7rem', background: 'rgba(239,68,68,0.2)', color: '#ef4444', padding: '2px 6px', borderRadius: '4px' }}>Ausverkauft</span>}
-                              {Boolean(item?.isTopSeller) && <span style={{ fontSize: '0.7rem', background: 'rgba(34,197,94,0.2)', color: '#22c55e', padding: '2px 6px', borderRadius: '4px' }}>Topseller</span>}
-                            </div>
-                          </td>
-                          <td>
-                            <span style={{ fontSize: '0.85rem', color: '#cfa670', background: 'rgba(207,166,112,0.1)', padding: '4px 8px', borderRadius: '6px' }}>{String(item.category)}</span>
-                          </td>
-                          <td>
-                            <strong style={{ color: '#22c55e', fontSize: '1rem' }}>{String(item?.price || '')}</strong>
-                          </td>
-                          <td>
-                            <button 
-                              className="admin-btn"
-                              onClick={() => {
-                                setEditingItem(item);
-                                setEditName(String(item?.name || ''));
-                                setEditPrice(String(item?.price || ''));
-                                setEditDesc(String(item?.desc || ''));
-                                setEditImage(String(item?.image || ''));
-                                setEditIsSoldOut(Boolean(item?.isSoldOut));
-                                setEditIsTopSeller(Boolean(item?.isTopSeller));
-                              }}
-                            >
-                              Bearbeiten
-                            </button>
-                          </td>
-                        </tr>
-                    )) : []}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          )}
+            );
+          })()}
 
           {/* TAB 4: REVENUE & ANALYTICS */}
           {activeTab === 'dashboard' && (
@@ -679,6 +782,47 @@ export default function Admin() {
 
         </main>
       </div>
+
+      {/* MODAL 0: BULK PRICE CHANGE */}
+      {showBulkPriceModal && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(10px)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
+          <div style={{ background: '#121312', border: '1px solid rgba(207,166,112,0.3)', borderRadius: '20px', padding: '35px', width: '100%', maxWidth: '460px', color: '#fff' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+              <h3 style={{ fontFamily: 'Cinzel, serif', margin: 0, color: '#cfa670' }}>Preis für {selectedItemIds.length} Gerichte Ändern</h3>
+              <button onClick={() => setShowBulkPriceModal(false)} style={{ background: 'none', border: 'none', color: '#888', cursor: 'pointer' }}><X size={20} /></button>
+            </div>
+
+            <form onSubmit={(e) => {
+              e.preventDefault();
+              if (!bulkPriceInput) return;
+              bulkUpdatePrices(selectedItemIds, bulkPriceInput);
+              setShowBulkPriceModal(false);
+              setBulkPriceInput('');
+              setSelectedItemIds([]);
+            }} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <p style={{ color: '#aaa', fontSize: '0.9rem', margin: 0 }}>
+                Gib den neuen Preis ein, der für alle <strong>{selectedItemIds.length} ausgewählten Gerichte</strong> übernommen werden soll:
+              </p>
+              
+              <div>
+                <label style={{ display: 'block', fontSize: '0.8rem', color: '#cfa670', marginBottom: '6px' }}>Neuer Preis (€)</label>
+                <input 
+                  type="text" 
+                  required 
+                  value={bulkPriceInput} 
+                  onChange={e => setBulkPriceInput(e.target.value)} 
+                  placeholder="z.B. 12,90" 
+                  style={{ width: '100%', padding: '14px', background: '#1a1b1a', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '10px', color: '#fff', fontSize: '1.1rem', boxSizing: 'border-box' }} 
+                />
+              </div>
+
+              <button type="submit" style={{ background: '#cfa670', color: '#000', border: 'none', padding: '14px', borderRadius: '10px', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer', marginTop: '10px' }}>
+                Preis für alle {selectedItemIds.length} Gerichte Speichern
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
 
       {/* MODAL 1: CREATE NEW OFFER */}
       {showNewOfferModal && (
@@ -750,8 +894,29 @@ export default function Admin() {
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '0.8rem', color: '#aaa', marginBottom: '6px' }}>Bild Pfad / URL</label>
-                <input type="text" value={editImage} onChange={e => setEditImage(e.target.value)} style={{ width: '100%', padding: '12px', background: '#1a1b1a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', boxSizing: 'border-box' }} />
+                <label style={{ display: 'block', fontSize: '0.8rem', color: '#aaa', marginBottom: '6px' }}>Bild Pfad / URL oder Datei Hochladen</label>
+                <div style={{ display: 'flex', gap: '10px' }}>
+                  <input type="text" value={editImage} onChange={e => setEditImage(e.target.value)} placeholder="Pfad oder Bild-URL..." style={{ flex: 1, padding: '12px', background: '#1a1b1a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', boxSizing: 'border-box' }} />
+                  <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', background: 'rgba(207,166,112,0.15)', color: '#cfa670', border: '1px solid rgba(207,166,112,0.3)', padding: '0 14px', borderRadius: '8px', cursor: 'pointer', fontSize: '0.85rem', whiteSpace: 'nowrap' }}>
+                    📁 Datei Wählen
+                    <input 
+                      type="file" 
+                      accept="image/*" 
+                      style={{ display: 'none' }} 
+                      onChange={(e) => {
+                        const file = e.target.files[0];
+                        if (file) {
+                          const reader = new FileReader();
+                          reader.onloadend = () => setEditImage(reader.result);
+                          reader.readAsDataURL(file);
+                        }
+                      }} 
+                    />
+                  </label>
+                </div>
+                {editImage && editImage.startsWith('data:image') && (
+                  <span style={{ fontSize: '0.75rem', color: '#22c55e', marginTop: '4px', display: 'block' }}>✓ Bilddatei erfolgreich ausgewählt!</span>
+                )}
               </div>
 
               <div style={{ display: 'flex', gap: '20px', marginTop: '10px' }}>

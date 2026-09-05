@@ -308,6 +308,38 @@ export function AdminProvider({ children }) {
       }
     } catch (err) {
       console.error("Fehler beim Update des Menü-Artikels:", err);
+      // Fallback state update
+      setMenu(prevData => prevData.map(cat => ({
+        ...cat,
+        items: cat.items.map(item => item.id === itemId ? { ...item, ...updatedFields } : item)
+      })));
+    }
+  };
+
+  const bulkUpdatePrices = async (itemIds, newPrice) => {
+    const formattedPrice = newPrice.includes('€') ? newPrice : `${newPrice} €`;
+    const idSet = new Set(itemIds.map(String));
+
+    // Update state immediately in real time across the app
+    setMenu(prevData => prevData.map(cat => ({
+      ...cat,
+      items: cat.items.map(item => idSet.has(String(item.id)) ? { ...item, price: formattedPrice } : item)
+    })));
+
+    // Send backend requests for each item
+    try {
+      await Promise.all(itemIds.map(id => 
+        fetch(`${API_URL}/menu/item/${id}`, {
+          method: 'PUT',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${adminToken}`
+          },
+          body: JSON.stringify({ price: formattedPrice })
+        }).catch(e => console.error("Bulk update item error", id, e))
+      ));
+    } catch (err) {
+      console.error("Fehler beim Bulk Price Update:", err);
     }
   };
 
@@ -336,7 +368,8 @@ export function AdminProvider({ children }) {
       addOffer,
       removeOffer,
       menu,
-      updateMenuItem
+      updateMenuItem,
+      bulkUpdatePrices
     }}>
       {children}
     </AdminContext.Provider>

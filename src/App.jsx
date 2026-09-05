@@ -12,7 +12,7 @@ import Contact from './pages/Contact';
 import ScrollToTop from './components/ScrollToTop';
 import Admin from './pages/Admin';
 import DeliveryZoneModal from './components/DeliveryZoneModal';
-import KochKingChat from './components/KochKingChat';
+import JivoChat from './components/JivoChat';
 import Impressum from './pages/Impressum';
 import { CartProvider, useCart } from './context/CartContext';
 import { AdminProvider } from './context/AdminContext';
@@ -58,7 +58,7 @@ function Layout() {
       </main>
 
       {!isAdminRoute && <Footer />}
-      {!isAdminRoute && <KochKingChat />}
+      {!isAdminRoute && <JivoChat />}
       
       <StoreClosedOverlay 
         isVisible={isClosedOverlayVisible} 
