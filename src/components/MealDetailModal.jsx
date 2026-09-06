@@ -141,7 +141,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
   const isSalad = product.category === 'Salat' || product.category === 'Salate' || product.name.toLowerCase().includes('salat');
   const isSchnitzel = product.category === 'Schnitzel';
   const isSnack = product.category === 'Snacks';
-  const isPasta = product.category === 'Nudeln' || product.category === 'Pasta';
+  const isKidsMenu = product.category === 'Für die Kleinen' || product.id === '158A' || product.name.toLowerCase().includes('kiddi') || product.name.toLowerCase().includes('kinder') || product.name.toLowerCase().includes('kleinen');
 
   // Pizzabrötchen Extra Beläge (je 1,20 €)
   const PIZZABROETCHEN_TOPPINGS = [
@@ -761,7 +761,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
             )}
 
             {/* Käserand option for Pizza */}
-            {isPizza && !isPizzabroetchen && !isPartyPizza && (
+            {isPizza && !isPizzabroetchen && !isPartyPizza && !isKidsMenu && (
               <div>
                 <div className="q-modal-section-title">{t.extras}</div>
                 <div
