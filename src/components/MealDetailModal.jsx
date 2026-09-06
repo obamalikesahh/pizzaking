@@ -135,6 +135,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
   const [selectedAktionBurgers, setSelectedAktionBurgers] = useState([]);
   const [selectedAktionBurgerMenu, setSelectedAktionBurgerMenu] = useState(null);
 
+  const isCalzone = product.name.toLowerCase().includes('calzone') || product.id === '41' || product.id === '42';
   const isPizzabroetchen = product.name.toLowerCase().includes('pizzabrötchen') || product.name.toLowerCase().includes('pizza brötchen') || product.id === '34';
   const isBurger = product.category === 'Burger' || product.name.toLowerCase().includes('burger');
   const isSalad = product.category === 'Salat' || product.category === 'Salate' || product.name.toLowerCase().includes('salat');
@@ -214,7 +215,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
   };
 
   const getExtraToppingUnitPrice = () => {
-    if (selectedOption.label.includes('26')) return 1.90;
+    if (isCalzone || selectedOption.label.includes('26')) return 1.90;
     if (selectedOption.label.includes('32')) return 2.50;
     if (selectedOption.label.includes('36')) return 2.90;
     return 1.90;
