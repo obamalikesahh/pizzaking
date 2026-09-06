@@ -568,7 +568,7 @@ export const menuData = [
         "id": "33C",
         "name": "Hot Dog",
         "desc": {
-          "de": "mit Würstchen, Röstzwiebeln, Gewürzgurken, Snack-Sauce & Ketchup",
+          "de": "mit Würstchen, Röstzwiebeln, Gewürzgurken & Ketchup",
           "en": "with sausages, roasted onions, pickles, snack sauce & ketchup",
           "ru": "с сосисками, жареным луком, маринованными огурцами, соусом & кетчупом"
         },
@@ -585,7 +585,7 @@ export const menuData = [
         "id": "165",
         "name": "Hamburger (ca. 100 g)",
         "desc": {
-          "de": "mit Ketchup, Eisbergsalat, Tomaten, Zwiebeln, Snack-Gurken & dänischer Remoulade",
+          "de": "mit Ketchup, Eisbergsalat, Tomaten, Zwiebeln, Snack-Gurken & Remoulade",
           "en": "with ketchup, lettuce, tomatoes, onions, pickles & remoulade",
           "ru": "с кетчупом, салатом, помидорами, луком, огурцами & ремуладом"
         },
@@ -607,7 +607,7 @@ export const menuData = [
         "id": "166",
         "name": "Big Hamburger (ca. 200 g)",
         "desc": {
-          "de": "ca. 200g Rindfleisch mit Ketchup, Eisbergsalat, Tomaten, Zwiebeln, Snack-Gurken & dänischer Remoulade",
+          "de": "ca. 200g Rindfleisch mit Ketchup, Eisbergsalat, Tomaten, Zwiebeln, Snack-Gurken & Remoulade",
           "en": "approx. 200g beef with ketchup, lettuce, tomatoes, onions, pickles & remoulade",
           "ru": "около 200 г говядины с кетчупом"
         },

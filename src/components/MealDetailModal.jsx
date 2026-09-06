@@ -65,8 +65,7 @@ const SIDE_DISHES = [
 const SAUCES = [
   { id: 'sc1', name: 'Ketchup', price: 0.50, image: '/sauce.png' },
   { id: 'sc2', name: 'Mayonnaise', price: 0.50, image: '/sauce.png' },
-  { id: 'sc3', name: 'Snack Sauce', price: 1.00, image: '/sauce.png' },
-  { id: 'sc4', name: 'Dänische Remoulade', price: 1.00, image: '/sauce.png' },
+  { id: 'sc4', name: 'Remoulade', price: 1.00, image: '/sauce.png' },
   { id: 'sc5', name: 'Tzatziki', price: 1.50, image: '/sauce.png' },
   { id: 'sc6', name: 'Jägersauce', price: 2.00, image: '/sauce.png' },
   { id: 'sc7', name: 'Sauce Hollandaise', price: 2.00, image: '/sauce.png' }
@@ -136,13 +135,38 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
   const [selectedAktionBurgers, setSelectedAktionBurgers] = useState([]);
   const [selectedAktionBurgerMenu, setSelectedAktionBurgerMenu] = useState(null);
 
-  const isPizzabroetchen = product.name.toLowerCase().includes('pizzabrötchen') || product.name.toLowerCase().includes('pizza brötchen') || product.category === 'Pizzabrötchen & Calzone';
+  const isPizzabroetchen = product.name.toLowerCase().includes('pizzabrötchen') || product.name.toLowerCase().includes('pizza brötchen') || product.id === '34';
   const isBurger = product.category === 'Burger' || product.name.toLowerCase().includes('burger');
   const isSalad = product.category === 'Salat' || product.category === 'Salate' || product.name.toLowerCase().includes('salat');
   const isSchnitzel = product.category === 'Schnitzel';
   const isSnack = product.category === 'Snacks';
   const isPasta = product.category === 'Nudeln' || product.category === 'Pasta';
-  const fillingOptions = ['Käse (mit Käse gefüllt)', 'Salami', 'Schinken', 'Thunfisch', 'Hackfleisch', 'Gyros', 'Dönerfleisch'];
+
+  // Pizzabrötchen Extra Beläge (je 1,20 €)
+  const PIZZABROETCHEN_TOPPINGS = [
+    { id: 'pb1', name: 'Salami', price: 1.20 },
+    { id: 'pb2', name: 'Schinken', price: 1.20 },
+    { id: 'pb3', name: 'Thunfisch', price: 1.20 },
+    { id: 'pb4', name: 'Hackfleisch', price: 1.20 },
+    { id: 'pb5', name: 'Gyros', price: 1.20 },
+    { id: 'pb6', name: 'Dönerfleisch', price: 1.20 },
+    { id: 'pb7', name: 'Sucuk', price: 1.20 },
+    { id: 'pb8', name: 'Weichkäse', price: 1.20 },
+    { id: 'pb9', name: 'Ananas', price: 1.20 },
+    { id: 'pb10', name: 'Jalapeños', price: 1.20 },
+    { id: 'pb11', name: 'Champignons', price: 1.20 },
+    { id: 'pb12', name: 'Broccoli', price: 1.20 },
+    { id: 'pb13', name: 'Mais', price: 1.20 }
+  ];
+  const [selectedPbToppings, setSelectedPbToppings] = useState([]);
+
+  const togglePbTopping = (topping) => {
+    if (selectedPbToppings.some(t => t.id === topping.id)) {
+      setSelectedPbToppings(selectedPbToppings.filter(t => t.id !== topping.id));
+    } else {
+      setSelectedPbToppings([...selectedPbToppings, topping]);
+    }
+  };
 
   const [itemComment, setItemComment] = useState('');
   const [pizzaScharf, setPizzaScharf] = useState(false);
@@ -156,6 +180,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
     setSelectedOptionIndex(0);
     setKaeserand(false);
     setSelectedFilling('Käse (mit Käse gefüllt)');
+    setSelectedPbToppings([]);
     setWunschBelag1('');
     setWunschBelag2('');
     setWunschBelag3('');
@@ -208,6 +233,8 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
     extrasToppingsPrice = selectedExtraToppings.length * currentToppingUnitPrice;
   }
 
+  const pbToppingsPrice = selectedPbToppings.length * 1.20;
+
   const extraSidesPrice = selectedSideDishes.reduce((sum, s) => sum + s.price, 0);
   const extraDressingsCost = selectedDressings.length > 1 ? selectedDressings.slice(1).reduce((sum, d) => sum + d.price, 0) : 0;
   const extraSaucesCost = (isSnack && selectedSauces.length > 0) ? selectedSauces.slice(1).reduce((sum, s) => sum + s.price, 0) : selectedSauces.reduce((sum, s) => sum + s.price, 0);
@@ -216,8 +243,8 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
   const burgerExtrasPrice = selectedBurgerExtras.reduce((sum, b) => sum + b.price, 0);
   const sidesPrice = extraSidesPrice + extraDressingsCost + extraSaucesCost + extraSaladCost;
 
-  const finalPrice = selectedOption.price + getKaeserandPrice() + extrasDressingsPrice + extrasToppingsPrice + burgerExtrasPrice + sidesPrice;
-  const isPizza = product.category === 'Pizza' || (product.imageUrl && product.imageUrl.includes('pizza')) || product.name.toLowerCase().includes('pizza') || product.category === 'Pizzabrötchen & Calzone';
+  const finalPrice = selectedOption.price + getKaeserandPrice() + extrasDressingsPrice + extrasToppingsPrice + pbToppingsPrice + burgerExtrasPrice + sidesPrice;
+  const isPizza = (product.category === 'Pizza' || (product.imageUrl && product.imageUrl.includes('pizza')) || product.name.toLowerCase().includes('pizza') || product.category === 'Pizzabrötchen & Calzone') && !isPizzabroetchen;
 
   const toggleBurgerExtra = (item) => {
     if (selectedBurgerExtras.some(b => b.id === item.id)) {
@@ -356,7 +383,9 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
     }
 
     if (isPizzabroetchen) {
-      itemName += ` - Füllung: ${selectedFilling}`;
+      if (selectedPbToppings.length > 0) {
+        itemName += ` + Extras: ${selectedPbToppings.map(t => t.name).join(', ')}`;
+      }
     }
     if (kaeserand) {
       itemName += ' + Käserand';
@@ -754,21 +783,40 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
               </div>
             )}
 
-            {/* Filling selection for Pizzabrötchen */}
+            {/* Extra Beläge for Pizzabrötchen (+1,20 €) */}
             {isPizzabroetchen && (
               <div>
-                <div className="q-modal-section-title">{t.chooseFilling}</div>
-                <div className="q-modal-sizes-grid">
-                  {fillingOptions.map((fill, idx) => (
-                    <div
-                      key={idx}
-                      className={`q-modal-size-btn ${selectedFilling === fill ? 'active' : ''}`}
-                      onClick={() => setSelectedFilling(fill)}
-                      style={{ padding: '12px 14px', textAlign: 'center' }}
-                    >
-                      <span className="q-modal-size-label">{fill}</span>
-                    </div>
-                  ))}
+                <div className="q-modal-section-title">🥖 ZUSÄTZLICHE ZUTATEN (+1,20 € JE ZUTAT)</div>
+                <p style={{ fontSize: '0.85rem', color: '#aaa', margin: '-5px 0 15px 0' }}>
+                  Die Pizzabrötchen (8,90 €) sind standardmäßig mit Käse gefüllt. Wähle hier deine weiteren Wunschbeläge:
+                </p>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(165px, 1fr))', gap: '10px' }}>
+                  {PIZZABROETCHEN_TOPPINGS.map(item => {
+                    const isSelected = selectedPbToppings.some(t => t.id === item.id);
+                    return (
+                      <div
+                        key={item.id}
+                        onClick={() => togglePbTopping(item)}
+                        style={{
+                          background: isSelected ? 'rgba(207, 166, 112, 0.2)' : '#1a1a1a',
+                          border: isSelected ? '1px solid #cfa670' : '1px solid rgba(255,255,255,0.08)',
+                          borderRadius: '12px',
+                          padding: '10px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '10px',
+                          cursor: 'pointer',
+                          transition: 'all 0.2s'
+                        }}
+                      >
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ fontSize: '0.78rem', fontWeight: 'bold', color: isSelected ? '#cfa670' : '#fff' }}>{item.name}</div>
+                          <div style={{ fontSize: '0.75rem', color: '#aaa' }}>+1,20 €</div>
+                        </div>
+                        {isSelected && <Check size={16} color="#cfa670" />}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             )}
