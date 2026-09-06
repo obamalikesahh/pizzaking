@@ -177,11 +177,15 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
   const [selectedDressings, setSelectedDressings] = useState([]);
   const [selectedSaladExtras, setSelectedSaladExtras] = useState([]);
 
+  // Kinder Pizza-Menü (158A) Belag Wahl: Salami oder Schinken
+  const [kidsPizzaBelag, setKidsPizzaBelag] = useState('Salami');
+
   useEffect(() => {
     setSelectedOptionIndex(0);
     setKaeserand(false);
     setSelectedFilling('Käse (mit Käse gefüllt)');
     setSelectedPbToppings([]);
+    setKidsPizzaBelag('Salami');
     setWunschBelag1('');
     setWunschBelag2('');
     setWunschBelag3('');
@@ -387,6 +391,10 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
       if (selectedPbToppings.length > 0) {
         itemName += ` + Extras: ${selectedPbToppings.map(t => t.name).join(', ')}`;
       }
+    }
+
+    if (product.id === '158A' || product.name.toLowerCase().includes('pizza-menü') || product.name.toLowerCase().includes('pizza menü')) {
+      itemName += ` - Belag: ${kidsPizzaBelag}`;
     }
     if (kaeserand) {
       itemName += ' + Käserand';
@@ -727,7 +735,33 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
               </div>
             )}
 
-            
+            {/* Kids Pizza-Menü (158A) Belag-Wahl */}
+            {(product.id === '158A' || product.name.toLowerCase().includes('pizza-menü') || product.name.toLowerCase().includes('pizza menü')) && (
+              <div style={{ marginBottom: '20px' }}>
+                <div className="q-modal-section-title">🍕 BELAG WÄHLEN (SCHINKEN ODER SALAMI)</div>
+                <div style={{ display: 'flex', gap: '12px' }}>
+                  {['Salami', 'Schinken'].map((belag) => {
+                    const isSelected = kidsPizzaBelag === belag;
+                    return (
+                      <div
+                        key={belag}
+                        onClick={() => setKidsPizzaBelag(belag)}
+                        className={`q-modal-size-btn ${isSelected ? 'active' : ''}`}
+                        style={{ flex: 1, padding: '14px', textAlign: 'center', cursor: 'pointer' }}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
+                          <div style={{ width: 20, height: 20, borderRadius: '50%', border: isSelected ? 'none' : '1px solid rgba(255,255,255,0.3)', background: isSelected ? '#cfa670' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            {isSelected && <Check size={14} color="#000" />}
+                          </div>
+                          <span style={{ fontWeight: 'bold', fontSize: '0.95rem' }}>{belag}</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
             {isPizza && !isPizzabroetchen && !isPartyPizza && (
               <div>
                 <div className="q-modal-section-title">GRATIS EXTRAS</div>
