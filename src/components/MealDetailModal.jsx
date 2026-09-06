@@ -119,8 +119,8 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
   const [kaeserand, setKaeserand] = useState(false);
   const [selectedFilling, setSelectedFilling] = useState('Käse (mit Käse gefüllt)');
 
-  // Wunschpizza State (4 Textfelder)
-  const isWunschpizza = product.name.toLowerCase().includes('wunsch') || product.id === '29';
+  // Wunschpizza State (4 Textfelder) - nur für Pizza, nicht für Calzone
+  const isWunschpizza = (product.name.toLowerCase().includes('wunsch') || product.id === '29') && !product.name.toLowerCase().includes('calzone') && product.id !== '41';
   const [wunschBelag1, setWunschBelag1] = useState('');
   const [wunschBelag2, setWunschBelag2] = useState('');
   const [wunschBelag3, setWunschBelag3] = useState('');
@@ -245,7 +245,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
   const sidesPrice = extraSidesPrice + extraDressingsCost + extraSaucesCost + extraSaladCost;
 
   const finalPrice = selectedOption.price + getKaeserandPrice() + extrasDressingsPrice + extrasToppingsPrice + pbToppingsPrice + burgerExtrasPrice + sidesPrice;
-  const isPizza = (product.category === 'Pizza' || (product.imageUrl && product.imageUrl.includes('pizza')) || product.name.toLowerCase().includes('pizza') || product.category === 'Pizzabrötchen & Calzone') && !isPizzabroetchen;
+  const isPizza = (product.category === 'Pizza' || (product.imageUrl && product.imageUrl.includes('pizza')) || product.name.toLowerCase().includes('pizza') || product.category === 'Pizzabrötchen & Calzone') && !isPizzabroetchen && !isCalzone;
 
   const toggleBurgerExtra = (item) => {
     if (selectedBurgerExtras.some(b => b.id === item.id)) {
@@ -823,9 +823,9 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
             )}
 
             {/* Extra Pizza Toppings (Mit Aufpreis) */}
-            {isPizza && (
+            {(isPizza || isCalzone) && (
               <div>
-                <div className="q-modal-section-title">🍕 EXTRA BELÄGE {isPartyPizza ? '(ERSTE 5 GRATIS)' : '(MIT AUFPREIS)'}</div>
+                <div className="q-modal-section-title">🍕 EXTRA BELÄGE (MIT AUFPREIS)</div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(165px, 1fr))', gap: '10px' }}>
                   {PIZZA_EXTRA_TOPPINGS.map(item => {
                     const isSelected = selectedExtraToppings.some(t => t.id === item.id);
