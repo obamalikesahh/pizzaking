@@ -90,6 +90,7 @@ export default function Admin() {
   const [editImage, setEditImage] = useState('');
   const [editIsSoldOut, setEditIsSoldOut] = useState(false);
   const [editIsTopSeller, setEditIsTopSeller] = useState(false);
+  const [editStock, setEditStock] = useState('');
 
   // Store Controls
   const [isOpenStore, setIsOpenStore] = useState(true);
@@ -129,7 +130,8 @@ export default function Admin() {
       desc: editDesc,
       image: editImage,
       isSoldOut: editIsSoldOut,
-      isTopSeller: editIsTopSeller
+      isTopSeller: editIsTopSeller,
+      stock: editStock
     });
     setEditingItem(null);
   };
@@ -701,7 +703,12 @@ export default function Admin() {
                             <td>
                               <strong style={{ color: '#fff', fontSize: '0.95rem' }}>{safeText(item?.name, 'Unbenannt')}</strong>
                               <span style={{ display: 'block', fontSize: '0.8rem', color: '#888' }}>{safeText(item?.desc || item?.description, 'Keine Beschreibung')}</span>
-                              <div style={{ display: 'flex', gap: '6px', marginTop: '4px' }}>
+                              <div style={{ display: 'flex', gap: '6px', marginTop: '4px', flexWrap: 'wrap' }}>
+                                {item?.stock !== undefined && item?.stock !== null && (
+                                  <span style={{ fontSize: '0.7rem', background: Number(item.stock) > 0 ? 'rgba(59,130,246,0.2)' : 'rgba(239,68,68,0.2)', color: Number(item.stock) > 0 ? '#3b82f6' : '#ef4444', padding: '2px 6px', borderRadius: '4px' }}>
+                                    📦 Lager: {item.stock} Stk.
+                                  </span>
+                                )}
                                 {Boolean(item?.isSoldOut) && <span style={{ fontSize: '0.7rem', background: 'rgba(239,68,68,0.2)', color: '#ef4444', padding: '2px 6px', borderRadius: '4px' }}>Ausverkauft</span>}
                                 {Boolean(item?.isTopSeller) && <span style={{ fontSize: '0.7rem', background: 'rgba(34,197,94,0.2)', color: '#22c55e', padding: '2px 6px', borderRadius: '4px' }}>Topseller</span>}
                               </div>
@@ -723,6 +730,7 @@ export default function Admin() {
                                   setEditImage(safeText(item?.image));
                                   setEditIsSoldOut(Boolean(item?.isSoldOut));
                                   setEditIsTopSeller(Boolean(item?.isTopSeller));
+                                  setEditStock(item?.stock !== undefined && item?.stock !== null ? String(item.stock) : '');
                                 }}
                               >
                                 Bearbeiten
@@ -917,6 +925,21 @@ export default function Admin() {
                 {editImage && editImage.startsWith('data:image') && (
                   <span style={{ fontSize: '0.75rem', color: '#22c55e', marginTop: '4px', display: 'block' }}>✓ Bilddatei erfolgreich ausgewählt!</span>
                 )}
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '0.8rem', color: '#cfa670', marginBottom: '6px' }}>📦 Lagerbestand / Verfügbare Stückzahl (z.B. für Eis, Getränke)</label>
+                <input 
+                  type="number" 
+                  min="0"
+                  value={editStock} 
+                  onChange={e => setEditStock(e.target.value)} 
+                  placeholder="z.B. 10 (Leer lassen für unbegrenzt)" 
+                  style={{ width: '100%', padding: '12px', background: '#1a1b1a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', color: '#fff', boxSizing: 'border-box' }} 
+                />
+                <span style={{ fontSize: '0.75rem', color: '#888', marginTop: '4px', display: 'block' }}>
+                  Wenn alle verkauft sind (0 Stück), wird der Artikel automatisch von der Webseite gesperrt.
+                </span>
               </div>
 
               <div style={{ display: 'flex', gap: '20px', marginTop: '10px' }}>

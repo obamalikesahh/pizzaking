@@ -224,7 +224,35 @@ export function AdminProvider({ children }) {
       ...newOrder
     };
     setOrders(prev => [orderWithId, ...prev]);
-    // Also push to backend if needed (optional since checkout handles sending to /api/send-order, but real saving should be here)
+
+    // Automatically deduct stock for items that have tracked stock
+    if (newOrder.items && Array.isArray(newOrder.items)) {
+      setMenu(prevMenu => {
+        return prevMenu.map(cat => ({
+          ...cat,
+          items: cat.items.map(item => {
+            // Find if item was ordered
+            const orderedItem = newOrder.items.find(oi => {
+              if (oi.id && String(oi.id).startsWith(String(item.id))) return true;
+              if (oi.name && oi.name.toLowerCase().includes(item.name.toLowerCase())) return true;
+              return false;
+            });
+
+            if (orderedItem && item.stock !== undefined && item.stock !== null) {
+              const qty = orderedItem.quantity || 1;
+              const newStock = Math.max(0, Number(item.stock) - qty);
+              return {
+                ...item,
+                stock: newStock,
+                isSoldOut: newStock <= 0 ? true : item.isSoldOut
+              };
+            }
+            return item;
+          })
+        }));
+      });
+    }
+
     return orderWithId;
   };
 
@@ -291,6 +319,17 @@ export function AdminProvider({ children }) {
 
   // Menu editing functions
   const updateMenuItem = async (itemId, updatedFields) => {
+    const fieldsToUpdate = { ...updatedFields };
+    if (fieldsToUpdate.stock !== undefined && fieldsToUpdate.stock !== null && fieldsToUpdate.stock !== '') {
+      const stockNum = parseInt(fieldsToUpdate.stock, 10);
+      fieldsToUpdate.stock = isNaN(stockNum) ? null : stockNum;
+      if (fieldsToUpdate.stock !== null && fieldsToUpdate.stock <= 0) {
+        fieldsToUpdate.isSoldOut = true;
+      }
+    } else if (fieldsToUpdate.stock === '') {
+      fieldsToUpdate.stock = null;
+    }
+
     try {
       const res = await fetch(`${API_URL}/menu/item/${itemId}`, {
         method: 'PUT',
@@ -298,12 +337,17 @@ export function AdminProvider({ children }) {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${adminToken}`
         },
-        body: JSON.stringify(updatedFields)
+        body: JSON.stringify(fieldsToUpdate)
       });
       if (res.ok) {
         setMenu(prevData => prevData.map(cat => ({
           ...cat,
-          items: cat.items.map(item => item.id === itemId ? { ...item, ...updatedFields } : item)
+          items: cat.items.map(item => item.id === itemId ? { ...item, ...fieldsToUpdate } : item)
+        })));
+      } else {
+        setMenu(prevData => prevData.map(cat => ({
+          ...cat,
+          items: cat.items.map(item => item.id === itemId ? { ...item, ...fieldsToUpdate } : item)
         })));
       }
     } catch (err) {
@@ -311,7 +355,7 @@ export function AdminProvider({ children }) {
       // Fallback state update
       setMenu(prevData => prevData.map(cat => ({
         ...cat,
-        items: cat.items.map(item => item.id === itemId ? { ...item, ...updatedFields } : item)
+        items: cat.items.map(item => item.id === itemId ? { ...item, ...fieldsToUpdate } : item)
       })));
     }
   };

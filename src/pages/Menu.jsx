@@ -15,7 +15,7 @@ export default function Menu() {
   const displayMenuData = React.useMemo(() => {
     let data = activeMenuData.map(cat => ({
       ...cat,
-      items: cat.items.filter(item => !item.isSoldOut)
+      items: cat.items.filter(item => !item.isSoldOut && (item.stock === undefined || item.stock === null || Number(item.stock) > 0))
     })).filter(cat => cat.items.length > 0);
 
     const topSellers = [];
@@ -205,7 +205,7 @@ export default function Menu() {
                         </div>
                         <div className="menu-item-info">
                           <div className="menu-item-header">
-                            <h3 className="menu-item-title">{`${product.id}. ${product.name}`.toUpperCase()}</h3>
+                            <h3 className="menu-item-title">{`${String(product.id).replace(/-M$/i, '')}. ${product.name}`.toUpperCase()}</h3>
                             <div className="menu-item-dots"></div>
                             <span className="menu-item-price">{product.price}</span>
                           </div>

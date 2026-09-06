@@ -75,8 +75,9 @@ const SAUCES = [
 const DRESSINGS = [
   { id: 'dr1', name: 'Joghurt-Dressing', price: 1.50, image: '/sauce.png' },
   { id: 'dr2', name: 'French-Dressing', price: 1.50, image: '/sauce.png' },
-  { id: 'dr3', name: 'Knoblauch-Dressing', price: 1.50, image: '/sauce.png' },
-  { id: 'dr4', name: 'Essig & Öl', price: 1.50, image: '/sauce.png' }
+  { id: 'dr3', name: 'American-Dressing', price: 1.50, image: '/sauce.png' },
+  { id: 'dr4', name: 'Knoblauch-Dressing', price: 1.50, image: '/sauce.png' },
+  { id: 'dr5', name: 'Kräuter-Dressing', price: 1.50, image: '/sauce.png' }
 ];
 
 const SALAD_EXTRAS = [
@@ -126,17 +127,14 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
   const [wunschBelag3, setWunschBelag3] = useState('');
   const [wunschBelag4, setWunschBelag4] = useState('');
 
-  // Selected Drinks, Toppings, Burger Extras
-  const [selectedDrinks, setSelectedDrinks] = useState([]);
+  // Selected Toppings, Burger Extras
   const [selectedExtraToppings, setSelectedExtraToppings] = useState([]);
   const [selectedBurgerExtras, setSelectedBurgerExtras] = useState([]);
-
 
   const [selectedAktionPizzas, setSelectedAktionPizzas] = useState([]);
   const [selectedAktionEis, setSelectedAktionEis] = useState([]);
   const [selectedAktionBurgers, setSelectedAktionBurgers] = useState([]);
   const [selectedAktionBurgerMenu, setSelectedAktionBurgerMenu] = useState(null);
-  const [sweetPotatoFries, setSweetPotatoFries] = useState(false);
 
   const isPizzabroetchen = product.name.toLowerCase().includes('pizzabrötchen') || product.name.toLowerCase().includes('pizza brötchen') || product.category === 'Pizzabrötchen & Calzone';
   const isBurger = product.category === 'Burger' || product.name.toLowerCase().includes('burger');
@@ -163,7 +161,6 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
     setWunschBelag3('');
     setWunschBelag4('');
 
-    setSelectedDrinks([]);
     setSelectedExtraToppings([]);
     setSelectedBurgerExtras([]);
 
@@ -171,7 +168,6 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
     setSelectedAktionEis([]);
     setSelectedAktionBurgers([]);
     setSelectedAktionBurgerMenu(null);
-    setSweetPotatoFries(false);
 
     setItemComment('');
     setPizzaScharf(false);
@@ -192,17 +188,24 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
     return 2.50;
   };
 
+  const getExtraToppingUnitPrice = () => {
+    if (selectedOption.label.includes('26')) return 1.90;
+    if (selectedOption.label.includes('32')) return 2.50;
+    if (selectedOption.label.includes('36')) return 2.90;
+    return 1.90;
+  };
+
+  const currentToppingUnitPrice = getExtraToppingUnitPrice();
+
   // Calculate total price including all selected extras
   const extrasDressingsPrice = 0;
-  const extrasDrinksPrice = selectedDrinks.reduce((sum, dr) => sum + dr.price, 0);
   
   let extrasToppingsPrice = 0;
   if (product.id === '602') { // Partypizza
-    const sorted = [...selectedExtraToppings].sort((a, b) => b.price - a.price);
-    const chargeable = sorted.slice(5);
-    extrasToppingsPrice = chargeable.reduce((sum, tp) => sum + tp.price, 0);
+    const chargeableCount = Math.max(0, selectedExtraToppings.length - 5);
+    extrasToppingsPrice = chargeableCount * currentToppingUnitPrice;
   } else {
-    extrasToppingsPrice = selectedExtraToppings.reduce((sum, tp) => sum + tp.price, 0);
+    extrasToppingsPrice = selectedExtraToppings.length * currentToppingUnitPrice;
   }
 
   const extraSidesPrice = selectedSideDishes.reduce((sum, s) => sum + s.price, 0);
@@ -212,9 +215,8 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
 
   const burgerExtrasPrice = selectedBurgerExtras.reduce((sum, b) => sum + b.price, 0);
   const sidesPrice = extraSidesPrice + extraDressingsCost + extraSaucesCost + extraSaladCost;
-  const sweetPotatoPrice = sweetPotatoFries ? 5.00 : 0;
 
-  const finalPrice = selectedOption.price + getKaeserandPrice() + extrasDressingsPrice + extrasDrinksPrice + extrasToppingsPrice + burgerExtrasPrice + sidesPrice + sweetPotatoPrice;
+  const finalPrice = selectedOption.price + getKaeserandPrice() + extrasDressingsPrice + extrasToppingsPrice + burgerExtrasPrice + sidesPrice;
   const isPizza = product.category === 'Pizza' || (product.imageUrl && product.imageUrl.includes('pizza')) || product.name.toLowerCase().includes('pizza') || product.category === 'Pizzabrötchen & Calzone';
 
   const toggleBurgerExtra = (item) => {
@@ -376,10 +378,6 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
       itemName += ` - Burger: ${burgerString}`;
     }
 
-    if (sweetPotatoFries) {
-      itemName += ` + Süßkartoffelpommes`;
-    }
-
     if (pizzaScharf) itemName += ' + Scharf (gratis)';
     if (pizzaKnoblauch) itemName += ' + Knoblauch (gratis)';
     if (selectedSideDishes.length > 0) itemName += ' + Beilagen: ' + selectedSideDishes.map(s => s.name).join(', ');
@@ -394,10 +392,6 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
 
     if (selectedExtraToppings.length > 0) {
       itemName += ` + Extra: ${selectedExtraToppings.map(t => t.name).join(', ')}`;
-    }
-
-    if (selectedDrinks.length > 0) {
-      itemName += ` + Getränk: ${selectedDrinks.map(dr => dr.name).join(', ')}`;
     }
 
     addToCart({
@@ -805,7 +799,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
                         <img src={item.image} alt={item.name} style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: '50%', flexShrink: 0 }} />
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <div style={{ fontSize: '0.78rem', fontWeight: 'bold', color: isSelected ? '#cfa670' : '#fff', whiteSpace: 'normal', wordBreak: 'break-word', lineHeight: '1.2', marginBottom: '3px' }}>{item.name}</div>
-                          <div style={{ fontSize: '0.75rem', color: '#aaa' }}>+{item.price.toFixed(2).replace('.', ',')} €</div>
+                          <div style={{ fontSize: '0.75rem', color: '#aaa' }}>+{currentToppingUnitPrice.toFixed(2).replace('.', ',')} €</div>
                         </div>
                       </div>
                     );
@@ -922,7 +916,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
                         <div key={item.id} onClick={() => toggleSaladExtra(item)} style={{ background: isSelected ? 'rgba(207, 166, 112, 0.2)' : '#1a1a1a', border: isSelected ? '1px solid #cfa670' : '1px solid rgba(255,255,255,0.08)', borderRadius: '12px', padding: '10px', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
                           <div style={{ flex: 1, minWidth: 0 }}>
                             <div style={{ fontSize: '0.78rem', fontWeight: 'bold', color: isSelected ? '#cfa670' : '#fff' }}>{item.name}</div>
-                            <div style={{ fontSize: '0.75rem', color: '#aaa' }}>+${item.price.toFixed(2).replace('.', ',')} €</div>
+                            <div style={{ fontSize: '0.75rem', color: '#aaa' }}>+{item.price.toFixed(2).replace('.', ',')} €</div>
                           </div>
                         </div>
                       );
@@ -931,39 +925,6 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
                 </div>
               </>
             )}
-
-            {/* Extra Getränke */}
-            <div>
-              <div className="q-modal-section-title">🥤 EXTRA GETRÄNKE</div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(165px, 1fr))', gap: '10px' }}>
-                {EXTRA_DRINKS.map(item => {
-                  const isSelected = selectedDrinks.some(dr => dr.id === item.id);
-                  return (
-                    <div 
-                      key={item.id}
-                      onClick={() => toggleDrink(item)}
-                      style={{
-                        background: isSelected ? 'rgba(207, 166, 112, 0.2)' : '#1a1a1a',
-                        border: isSelected ? '1px solid #cfa670' : '1px solid rgba(255,255,255,0.08)',
-                        borderRadius: '12px',
-                        padding: '10px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '10px',
-                        cursor: 'pointer',
-                        transition: 'all 0.2s'
-                      }}
-                    >
-                      <img src={item.image} alt={item.name} style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: '8px', flexShrink: 0 }} />
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ fontSize: '0.78rem', fontWeight: 'bold', color: isSelected ? '#cfa670' : '#fff', whiteSpace: 'normal', wordBreak: 'break-word', lineHeight: '1.2', marginBottom: '3px' }}>{item.name}</div>
-                        <div style={{ fontSize: '0.75rem', color: '#aaa' }}>+{item.price.toFixed(2).replace('.', ',')} €</div>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
 
             
             {/* Anmerkung */}

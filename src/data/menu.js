@@ -7,10 +7,10 @@ export const menuData = [
         "name": "Aktion 600",
         "desc": {
           "de": "1 Pizza Ø 32 cm, 12 Chicken Chips mit Pommes (Rot/Weiß) & 1 Hamburger Menü",
-          "en": "1 Pizza Ø 32 cm, 12 chicken chips with Pommes (Rot/Weiß) & 1 Hamburger Menü",
-          "ru": "1 Pizza Ø 32 cm, 12 куриными чипсами с Pommes (Rot/Weiß) & 1 Hamburger Menü"
+          "en": "1 Pizza Ø 32 cm, 12 chicken chips with Pommes & 1 Hamburger Menü",
+          "ru": "1 Pizza Ø 32 cm, 12 куриными чипсами с Pommes & 1 Hamburger Menü"
         },
-        "price": "35,90 €",
+        "price": "39,90 €",
         "image": "/images/Hammer des Tages/Hammer des Tags 1.jpeg"
       },
       {
@@ -21,7 +21,7 @@ export const menuData = [
           "en": "3 Pizzen Ø 26 cm nach Wahl",
           "ru": "3 Pizzen Ø 26 cm nach Wahl"
         },
-        "price": "30,90 €",
+        "price": "39,90 €",
         "image": "/images/Hammer des Tages/3 pizzas 26cm hammer des Tages.jpeg"
       },
       {
@@ -29,7 +29,7 @@ export const menuData = [
         "name": "Party Pizza",
         "desc": {
           "de": "1 Party Pizza mit bis zu 5 Belägen (60 x 40 cm)",
-          "en": "1 Party Pizza with bis zu 5 Belägen (60 x 40 cm)",
+          "en": "1 Party Pizza with up to 5 toppings (60 x 40 cm)",
           "ru": "1 Party Pizza с bis zu 5 Belägen (60 x 40 cm)"
         },
         "price": "35,90 €",
@@ -40,10 +40,10 @@ export const menuData = [
         "name": "Aktion 603",
         "desc": {
           "de": "1 Pizza Ø 26 cm nach Wahl & 1 Eis nach Wahl",
-          "en": "1 Pizza Ø 26 cm nach Wahl & 1 Eis nach Wahl",
-          "ru": "1 Pizza Ø 26 cm nach Wahl & 1 Eis nach Wahl"
+          "en": "1 Pizza Ø 26 cm & 1 Ice Cream",
+          "ru": "1 Pizza Ø 26 cm & 1 Eis"
         },
-        "price": "19,90 €",
+        "price": "21,90 €",
         "image": "/images/Hammer des Tages/Pizza and Ice cream Hammer des Tages.jpeg"
       },
       {
@@ -51,10 +51,10 @@ export const menuData = [
         "name": "Aktion 604",
         "desc": {
           "de": "2 Pizzen Ø 32 cm nach Wahl & 2 Eis nach Wahl",
-          "en": "2 Pizzen Ø 32 cm nach Wahl & 2 Eis nach Wahl",
-          "ru": "2 Pizzen Ø 32 cm nach Wahl & 2 Eis nach Wahl"
+          "en": "2 Pizzen Ø 32 cm & 2 Ice Cream",
+          "ru": "2 Pizzen Ø 32 cm & 2 Eis"
         },
-        "price": "42,90 €",
+        "price": "49,90 €",
         "image": "/images/Hammer des Tages/2 Pizzas and 2 ice cream.jpeg"
       },
       {
@@ -65,7 +65,7 @@ export const menuData = [
           "en": "2 Pizzen Ø 32 cm nach Wahl",
           "ru": "2 Pizzen Ø 32 cm nach Wahl"
         },
-        "price": "30,90 €",
+        "price": "34,90 €",
         "image": "/images/Hammer des Tages/2 pizza 32cm hammer des Tages.jpeg"
       },
       {
@@ -76,7 +76,7 @@ export const menuData = [
           "en": "2 Pizzen Ø 36 cm nach Wahl",
           "ru": "2 Pizzen Ø 36 cm nach Wahl"
         },
-        "price": "36,90 €",
+        "price": "43,90 €",
         "image": "/images/Hammer des Tages/2 pizzas 36cm hammer des tages.jpeg"
       },
       {
@@ -87,7 +87,7 @@ export const menuData = [
           "en": "4 Pizzen Ø 32 cm nach Wahl",
           "ru": "4 Pizzen Ø 32 cm nach Wahl"
         },
-        "price": "54,50 €",
+        "price": "69,90 €",
         "image": "/images/Hammer des Tages/4 pizzen 32cm hammer des Tages.jpeg"
       },
       {
@@ -95,8 +95,8 @@ export const menuData = [
         "name": "Burger-Hammer",
         "desc": {
           "de": "12 kleine Burger nach Wahl, 1 Kilo Pommes, 5 Mayo und Ketchup",
-          "en": "12 small burgers of choice, 1 kilo fries, 5 mayo and ketchup",
-          "ru": "12 маленьких бургеров на выбор, 1 кг картофеля фри, 5 майонеза и кетчупа"
+          "en": "12 small burgers, 1kg fries, 5 mayo & ketchup",
+          "ru": "12 маленьких бургеров, 1 кг фри"
         },
         "price": "33,90 €",
         "image": "/HAmmer Burger Menu.jpeg"
@@ -107,29 +107,7 @@ export const menuData = [
     "category": "Döner",
     "items": [
       {
-        "id": "D2",
-        "name": "Döner-Teller",
-        "desc": {
-          "de": "mit Tzatziki, Krautsalat, Pommes frites oder Reis",
-          "en": "with tzatziki, coleslaw, french fries or rice",
-          "ru": "с дзадзики, капустным салатом, картофелем фри или рисом"
-        },
-        "price": "15,90 €",
-        "image": "/images/gyros/grundgyros mit frittes.jpeg"
-      },
-      {
-        "id": "D3",
-        "name": "Döner-Auflauf",
-        "desc": {
-          "de": "mit Sauce Hollandaise, Käse überbacken & ½ Fladenbrot",
-          "en": "with hollandaise sauce, baked with cheese & ½ flatbread",
-          "ru": "с голландским соусом, запеченный с сыром и ½ лепешки"
-        },
-        "price": "16,90 €",
-        "image": "/images/aufläufe/auflauf king.jpeg"
-      },
-      {
-        "id": "D4",
+        "id": "105A",
         "name": "Dürüm Döner",
         "desc": {
           "de": "mit Zwiebeln, Krautsalat & Tzatziki",
@@ -138,6 +116,28 @@ export const menuData = [
         },
         "price": "12,90 €",
         "image": "/images/XXL Wraps/XXL Athen Wrap.jpeg"
+      },
+      {
+        "id": "79A",
+        "name": "Döner-Teller",
+        "desc": {
+          "de": "mit Tzatziki, Krautsalat, Pommes frites oder Reis",
+          "en": "with tzatziki, coleslaw, french fries or rice",
+          "ru": "с дзадзики, капустным салатом, картофелем фри oder рисом"
+        },
+        "price": "15,90 €",
+        "image": "/images/gyros/grundgyros mit frittes.jpeg"
+      },
+      {
+        "id": "90D",
+        "name": "Döner-Auflauf",
+        "desc": {
+          "de": "mit Sauce Hollandaise & Käse überbacken, dazu ½ Brot",
+          "en": "with hollandaise sauce & baked with cheese, with ½ bread",
+          "ru": "с голландским соусом, запеченный с сыром"
+        },
+        "price": "16,90 €",
+        "image": "/images/aufläufe/auflauf king.jpeg"
       }
     ]
   },
@@ -169,20 +169,8 @@ export const menuData = [
         "subcategory": "Vegetarisch"
       },
       {
-        "id": "02",
-        "name": "Gemüse",
-        "desc": {
-          "de": "mit verschiedenem Gemüse",
-          "en": "with various vegetables",
-          "ru": "с различными овощами"
-        },
-        "price": "13,50 € | 15,70 € | 20,10 €",
-        "image": "/images/pizzen/pizzen vegetarisch/pizza vegetables.jpeg",
-        "subcategory": "Vegetarisch"
-      },
-      {
         "id": "03",
-        "name": "4 Käsesorten",
+        "name": "4 Käse",
         "desc": {
           "de": "mit Mozzarella, Weichkäse, Gorgonzola & Gouda-Käse",
           "en": "with mozzarella, soft cheese, gorgonzola & gouda cheese",
@@ -197,23 +185,11 @@ export const menuData = [
         "name": "King Vegetarisch I",
         "desc": {
           "de": "mit Broccoli, rote & grüne Paprika, Peperoni & Oliven",
-          "en": "with broccoli, red & green peppers, pepperoni (mild chili) & olives",
+          "en": "with broccoli, red & green peppers, pepperoni & olives",
           "ru": "с брокколи, красным и зеленым перцем, острым перцем & оливками"
         },
         "price": "13,90 € | 17,90 € | 21,90 €",
         "image": "/images/pizzen/pizzen vegetarisch/pizza king vetarian 1.jpeg",
-        "subcategory": "Vegetarisch"
-      },
-      {
-        "id": "05",
-        "name": "King Vegetarisch II",
-        "desc": {
-          "de": "mit Broccoli, Blumenkohl, Spargel & Sauce Hollandaise",
-          "en": "with broccoli, cauliflower, asparagus & hollandaise sauce",
-          "ru": "с брокколи, цветной капустой, спаржей & голландским соусом"
-        },
-        "price": "13,80 € | 16,90 € | 21,50 €",
-        "image": "/images/pizzen/pizzen vegetarisch/pizza king vegetarian 2.jpeg",
         "subcategory": "Vegetarisch"
       },
       {
@@ -229,18 +205,6 @@ export const menuData = [
         "subcategory": "Vegetarisch"
       },
       {
-        "id": "06A",
-        "name": "Bruschetta",
-        "desc": {
-          "de": "mit Sahnesauce & extra viel Käse. Am Ende mit Bruschetta-Mix verfeinert",
-          "en": "with cream sauce & extra cheese. Refined with bruschetta mix at the end",
-          "ru": "с сливочным соусом & дополнительным сыром. В конце украшено брускетта-миксом"
-        },
-        "price": "14,80 € | 17,90 € | 22,50 €",
-        "image": "/images/pizzen/pizzen vegetarisch/pizza bruschetta.jpeg",
-        "subcategory": "Vegetarisch"
-      },
-      {
         "id": "08",
         "name": "Verdura",
         "desc": {
@@ -251,18 +215,6 @@ export const menuData = [
         "price": "13,90 € | 17,90 € | 21,90 €",
         "image": "/images/pizzen/pizzen vegetarisch/pizza verdura.jpeg",
         "subcategory": "Vegetarisch"
-      },
-      {
-        "id": "07",
-        "name": "Hollandaise",
-        "desc": {
-          "de": "mit Sauce Hollandaise, Tiefsee-Shrimps & Spinat",
-          "en": "with hollandaise sauce, deep sea shrimps & spinach",
-          "ru": "с голландским соусом, глубоководными креветками & шпинатом"
-        },
-        "price": "14,90 € | 17,50 € | 22,90 €",
-        "image": "/images/pizzen/pizzen fisch/pizza shrimp with hollandaise.jpeg",
-        "subcategory": "Fisch"
       },
       {
         "id": "09",
@@ -290,7 +242,7 @@ export const menuData = [
       },
       {
         "id": "11",
-        "name": "Krabben (Tiefsee-Shrimps)",
+        "name": "Tiefsee-Shrimps",
         "desc": {
           "de": "mit Tiefsee-Shrimps & Knoblauch",
           "en": "with deep sea shrimps & garlic",
@@ -377,7 +329,7 @@ export const menuData = [
         "name": "Grande",
         "desc": {
           "de": "mit Salami, Champignons & Peperoni",
-          "en": "with salami, mushrooms & pepperoni (mild chili)",
+          "en": "with salami, mushrooms & pepperoni",
           "ru": "с салями, шампиньонами & острым перцем"
         },
         "price": "13,50 € | 17,50 € | 21,50 €",
@@ -393,6 +345,18 @@ export const menuData = [
           "ru": "с гиросом & луком"
         },
         "price": "13,90 € | 17,90 € | 22,50 €",
+        "image": "/images/pizzen/pizzen fleisch/pizza gyros.jpeg",
+        "subcategory": "Fleisch"
+      },
+      {
+        "id": "19A",
+        "name": "Döner",
+        "desc": {
+          "de": "mit Dönerfleisch (Halal), Hollandaise & Zwiebeln",
+          "en": "with doner meat (Halal), hollandaise & onions",
+          "ru": "с донер-мясом (халяль), голландским соусом & луком"
+        },
+        "price": "15,50 € | 19,50 € | 23,90 €",
         "image": "/images/pizzen/pizzen fleisch/pizza gyros.jpeg",
         "subcategory": "Fleisch"
       },
@@ -413,7 +377,7 @@ export const menuData = [
         "name": "King",
         "desc": {
           "de": "mit Schinken, Salami, Hackfleisch, Thunfisch, Champignons, Peperoni, Oliven, Zwiebeln, Paprika & Artischocken",
-          "en": "with ham, salami, minced meat, tuna, mushrooms, pepperoni (mild chili), olives, onions, peppers & artichokes",
+          "en": "with ham, salami, minced meat, tuna, mushrooms, pepperoni, olives, onions, peppers & artichokes",
           "ru": "с ветчиной, салями, мясным фаршем, тунцом, шампиньонами, острым перцем, оливками, луком, перцем & артишоками"
         },
         "price": "15,90 € | 19,90 € | 24,90 €",
@@ -424,8 +388,8 @@ export const menuData = [
         "id": "21A",
         "name": "Nari",
         "desc": {
-          "de": "mit Schinken, Weichkäse, Sauce Hollandaise & Gyros",
-          "en": "with ham, soft cheese, hollandaise sauce & gyros",
+          "de": "mit Schinken, Weichkäse, Hollandaise & Gyros",
+          "en": "with ham, soft cheese, hollandaise & gyros",
           "ru": "с ветчиной, мягким сыром, голландским соусом & гиросом"
         },
         "price": "14,90 € | 18,90 € | 23,50 €",
@@ -460,8 +424,8 @@ export const menuData = [
         "id": "24",
         "name": "King II",
         "desc": {
-          "de": "mit Putenbrust, Zwiebeln, Champignons & Sauce Hollandaise",
-          "en": "with turkey breast, onions, mushrooms & hollandaise sauce",
+          "de": "mit Putenbrust, Zwiebeln, Champignons & Hollandaise",
+          "en": "with turkey breast, onions, mushrooms & hollandaise",
           "ru": "с грудкой индейки, луком, шампиньонами & голландским соусом"
         },
         "price": "14,50 € | 18,50 € | 22,90 €",
@@ -472,8 +436,8 @@ export const menuData = [
         "id": "25",
         "name": "Pino",
         "desc": {
-          "de": "mit Putenbrust, Hackfleisch, Champignons & Sauce Hollandaise",
-          "en": "with turkey breast, minced meat, mushrooms & hollandaise sauce",
+          "de": "mit Putenbrust, Hackfleisch, Champignons & Hollandaise",
+          "en": "with turkey breast, minced meat, mushrooms & hollandaise",
           "ru": "с грудкой индейки, мясным фаршем, шампиньонами & голландским соусом"
         },
         "price": "14,90 € | 18,90 € | 23,50 €",
@@ -484,8 +448,8 @@ export const menuData = [
         "id": "26",
         "name": "Fantasia",
         "desc": {
-          "de": "mit Schinken, Broccoli, Champignons & Sauce Hollandaise",
-          "en": "with ham, broccoli, mushrooms & hollandaise sauce",
+          "de": "mit Schinken, Broccoli, Champignons & Hollandaise",
+          "en": "with ham, broccoli, mushrooms & hollandaise",
           "ru": "с ветчиной, брокколи, шампиньонами & голландским соусом"
         },
         "price": "14,90 € | 18,90 € | 23,50 €",
@@ -496,8 +460,8 @@ export const menuData = [
         "id": "27",
         "name": "Amsterdam",
         "desc": {
-          "de": "mit Schinken, Broccoli & Sauce Hollandaise",
-          "en": "with ham, broccoli & hollandaise sauce",
+          "de": "mit Schinken, Broccoli & Hollandaise",
+          "en": "with ham, broccoli & hollandaise",
           "ru": "с ветчиной, брокколи & голландским соусом"
         },
         "price": "14,50 € | 18,50 € | 22,90 €",
@@ -508,9 +472,9 @@ export const menuData = [
         "id": "27A",
         "name": "Chicken",
         "desc": {
-          "de": "mit Hähnchenfleisch, Broccoli & Sauce Hollandaise",
-          "en": "with Hähnchenfleisch, broccoli & hollandaise sauce",
-          "ru": "с Hähnchenfleisch, брокколи & голландским соусом"
+          "de": "mit Hähnchenfleisch, Broccoli & Hollandaise",
+          "en": "with chicken, broccoli & hollandaise",
+          "ru": "с куриным мясом, брокколи & голландским соусом"
         },
         "price": "14,50 € | 18,50 € | 22,90 €",
         "image": "/images/pizzen/pizzen fleisch/pizza chicken.jpeg",
@@ -532,12 +496,24 @@ export const menuData = [
         "id": "28A",
         "name": "Sucuk",
         "desc": {
-          "de": "mit Türk. Knoblauchwurst, Weichkäse & Zwiebeln",
-          "en": "with Türk. Knoblauchwurst, soft cheese & onions",
-          "ru": "с Türk. Knoblauchwurst, мягким сыром & луком"
+          "de": "mit türk. Knoblauchwurst, Weichkäse & Zwiebeln",
+          "en": "with Turkish garlic sausage, soft cheese & onions",
+          "ru": "с турецкой колбасой суджук, мягким сыром & луком"
         },
         "price": "14,50 € | 18,50 € | 22,90 €",
         "image": "/images/pizzen/pizzen fleisch/pizza sucuk.jpeg",
+        "subcategory": "Fleisch"
+      },
+      {
+        "id": "29",
+        "name": "Wunsch-Pizza",
+        "desc": {
+          "de": "mit 4 Zutaten Ihrer Wahl",
+          "en": "with 4 toppings of choice",
+          "ru": "с 4 начинками на выбор"
+        },
+        "price": "14,50 € | 18,50 € | 23,50 €",
+        "image": "/images/pizzen/pizzen fleisch/KING pizza.jpeg",
         "subcategory": "Fleisch"
       },
       {
@@ -545,7 +521,7 @@ export const menuData = [
         "name": "Mykonos",
         "desc": {
           "de": "mit Gyros, Weichkäse, Hackfleisch, Paprika, Peperoni, Oliven & Zwiebeln",
-          "en": "with gyros, soft cheese, minced meat, peppers, pepperoni (mild chili), olives & onions",
+          "en": "with gyros, soft cheese, minced meat, peppers, pepperoni, olives & onions",
           "ru": "с гиросом, мягким сыром, мясным фаршем, перцем, острым перцем, оливками & луком"
         },
         "price": "14,90 € | 18,90 € | 23,90 €",
@@ -554,10 +530,10 @@ export const menuData = [
       },
       {
         "id": "30A",
-        "name": "Bambaaa",
+        "name": "Bombaaa",
         "desc": {
-          "de": "mit Gyros, Putenbrust, Schinken & Sauce Hollandaise",
-          "en": "with gyros, turkey breast, ham & hollandaise sauce",
+          "de": "mit Gyros, Putenbrust, Schinken & Hollandaise",
+          "en": "with gyros, turkey breast, ham & hollandaise",
           "ru": "с гиросом, грудкой индейки, ветчиной & голландским соусом"
         },
         "price": "14,90 € | 18,90 € | 23,90 €",
@@ -568,8 +544,8 @@ export const menuData = [
         "id": "31",
         "name": "Olli",
         "desc": {
-          "de": "mit Schinken, Champignons, Hackfleisch & Sauce Hollandaise",
-          "en": "with ham, mushrooms, minced meat & hollandaise sauce",
+          "de": "mit Schinken, Champignons, Hackfleisch & Hollandaise",
+          "en": "with ham, mushrooms, minced meat & hollandaise",
           "ru": "с ветчиной, шампиньонами, мясным фаршем & голландским соусом"
         },
         "price": "14,90 € | 18,90 € | 23,50 €",
@@ -577,23 +553,11 @@ export const menuData = [
         "subcategory": "Fleisch"
       },
       {
-        "id": "32",
-        "name": "Rio",
-        "desc": {
-          "de": "mit Putenbrust, Ananas & Curry",
-          "en": "with turkey breast, pineapple & curry",
-          "ru": "с грудкой индейки, ананасами & карри"
-        },
-        "price": "13,20 € | 15,90 € | 21,90 €",
-        "image": "/images/pizzen/pizzen fleisch/pizza rio.jpeg",
-        "subcategory": "Fleisch"
-      },
-      {
         "id": "33",
         "name": "Schleswig",
         "desc": {
-          "de": "mit Schinken, Salami, Hackfleisch, Putenbrust, Gyros & Sauce Hollandaise",
-          "en": "with ham, salami, minced meat, turkey breast, gyros & hollandaise sauce",
+          "de": "mit Schinken, Salami, Hackfleisch, Putenbrust, Gyros & Hollandaise",
+          "en": "with ham, salami, minced meat, turkey breast, gyros & hollandaise",
           "ru": "с ветчиной, салями, мясным фаршем, грудкой индейки, гиросом & голландским соусом"
         },
         "price": "15,90 € | 19,90 € | 24,90 €",
@@ -601,99 +565,15 @@ export const menuData = [
         "subcategory": "Fleisch"
       },
       {
-        "id": "33B",
-        "name": "Texas",
-        "desc": {
-          "de": "mit Bacon, Ei & Sauce Hollandaise",
-          "en": "with bacon, egg & hollandaise sauce",
-          "ru": "с беконом, яйцом & голландским соусом"
-        },
-        "price": "13,80 € | 16,30 € | 22,50 €",
-        "image": "/images/pizzen/pizzen fleisch/pizza texas.jpeg",
-        "subcategory": "Fleisch"
-      },
-      {
         "id": "33C",
         "name": "Hot Dog",
         "desc": {
-          "de": "mit Würstchen, Röstzwiebeln, Gewürzgurken, Snack-Saucen & Ketchup",
-          "en": "with Würstchen, roasted onions, pickles, snack sauces & ketchup",
-          "ru": "с Würstchen, жареным луком, маринованными огурцами, соусами для снеков & кетчупом"
+          "de": "mit Würstchen, Röstzwiebeln, Gewürzgurken, Snack-Sauce & Ketchup",
+          "en": "with sausages, roasted onions, pickles, snack sauce & ketchup",
+          "ru": "с сосисками, жареным луком, маринованными огурцами, соусом & кетчупом"
         },
         "price": "13,90 € | 17,90 € | 22,50 €",
         "image": "/images/pizzen/pizzen fleisch/pizza hotdog.jpeg",
-        "subcategory": "Fleisch"
-      },
-      {
-        "id": "11A",
-        "name": "Tiger",
-        "desc": {
-          "de": "mit Tiger Shrimps & Knoblauch",
-          "en": "with tiger shrimps & garlic",
-          "ru": "с тигровыми креветками & чесноком"
-        },
-        "price": "14,40 € | 16,80 € | 25,50 €",
-        "image": "/images/pizzen/pizzen fisch/pizza shrimps.jpeg",
-        "subcategory": "Fisch"
-      },
-      {
-        "id": "11B",
-        "name": "Pizza Lachs",
-        "desc": {
-          "de": "mit Lachs & Spinat",
-          "en": "with salmon & spinach",
-          "ru": "с лососем & шпинатом"
-        },
-        "price": "14,50 € | 16,90 € | 22,50 €",
-        "image": "/images/pizzen/pizzen fisch/pizza shrimp with hollandaise.jpeg",
-        "subcategory": "Fisch"
-      },
-      {
-        "id": "19A",
-        "name": "Döner mit Dönerfleisch",
-        "desc": {
-          "de": "mit Dönerfleisch, Zwiebeln & Tzatziki",
-          "en": "with doner meat, onions & tzatziki",
-          "ru": "с донер-мясом, луком & дзадзики"
-        },
-        "price": "15,50 € | 19,50 € | 23,90 €",
-        "image": "/images/pizzen/pizzen fleisch/pizza gyros.jpeg",
-        "subcategory": "Fleisch"
-      },
-      {
-        "id": "29",
-        "name": "Wunsch-Pizza",
-        "desc": {
-          "de": "mit 4 Belägen nach Wahl",
-          "en": "with 4 toppings of your choice",
-          "ru": "с 4 начинками на выбор"
-        },
-        "price": "14,50 € | 18,50 € | 23,50 €",
-        "image": "/images/pizzen/pizzen fleisch/KING pizza.jpeg",
-        "subcategory": "Fleisch"
-      },
-      {
-        "id": "33D",
-        "name": "Anatolia",
-        "desc": {
-          "de": "mit türkischer Knoblauchwurst, Dönerfleisch (Halal), Weichkäse, Sauce Hollandaise & Zwiebeln",
-          "en": "with Turkish garlic sausage, doner meat (Halal), soft cheese, hollandaise sauce & onions",
-          "ru": "с турецкой колбасой суджук, донер-мясом (халяль), мягким сыром, голландским соусом & луком"
-        },
-        "price": "15,70 € | 18,80 € | 24,90 €",
-        "image": "/images/pizzen/pizzen fleisch/pizza sucuk.jpeg",
-        "subcategory": "Fleisch"
-      },
-      {
-        "id": "1000",
-        "name": "Pizza Spaghetti",
-        "desc": {
-          "de": "mit Spaghetti, Ei, Sauce Hollandaise & Bacon",
-          "en": "with spaghetti, egg, hollandaise sauce & bacon",
-          "ru": "со спагетти, яйцом, голландским соусом & беконом"
-        },
-        "price": "13,75 € | 16,10 € | 22,50 €",
-        "image": "/images/pizzen/pizzen fleisch/pizza bologna.jpeg",
         "subcategory": "Fleisch"
       }
     ]
@@ -703,11 +583,11 @@ export const menuData = [
     "items": [
       {
         "id": "165",
-        "name": "Hamburger (100 g)",
+        "name": "Hamburger (ca. 100 g)",
         "desc": {
-          "de": "ca. 100g Rindfleisch, Snack Sauce oder dän. Rem.",
-          "en": "approx. 100g beef, ketchup & thin remoulade",
-          "ru": "около 100 г говядины, кетчупом & тонким слоем ремулада"
+          "de": "mit Ketchup, Eisbergsalat, Tomaten, Zwiebeln, Snack-Gurken & dänischer Remoulade",
+          "en": "with ketchup, lettuce, tomatoes, onions, pickles & remoulade",
+          "ru": "с кетчупом, салатом, помидорами, луком, огурцами & ремуладом"
         },
         "price": "7,90 €",
         "image": "/images/Burger/Double Hamburger.jpeg"
@@ -725,11 +605,11 @@ export const menuData = [
       },
       {
         "id": "166",
-        "name": "Big Hamburger (200 g)",
+        "name": "Big Hamburger (ca. 200 g)",
         "desc": {
-          "de": "ca. 200g Rindfleisch, Snack Sauce oder dän. Rem.",
-          "en": "approx. 200g beef, ketchup & thin remoulade",
-          "ru": "около 200 г говядины, кетчупом & тонким слоем ремулада"
+          "de": "ca. 200g Rindfleisch mit Ketchup, Eisbergsalat, Tomaten, Zwiebeln, Snack-Gurken & dänischer Remoulade",
+          "en": "approx. 200g beef with ketchup, lettuce, tomatoes, onions, pickles & remoulade",
+          "ru": "около 200 г говядины с кетчупом"
         },
         "price": "9,90 €",
         "image": "/images/Burger/Double Hamburger.jpeg"
@@ -747,11 +627,11 @@ export const menuData = [
       },
       {
         "id": "167",
-        "name": "Cheeseburger (100 g)",
+        "name": "Cheeseburger (ca. 100 g)",
         "desc": {
-          "de": "ca. 100g Rindfleisch mit Cheddar-Käse",
-          "en": "approx. 100g beef with cheddar cheese",
-          "ru": "около 100 г говядины с сыром чеддер"
+          "de": "ca. 100g Rindfleisch mit Cheddar-Käse & Ketchup",
+          "en": "approx. 100g beef with cheddar cheese & ketchup",
+          "ru": "около 100 г говядины с сыром чеддер & кетчупом"
         },
         "price": "8,90 €",
         "image": "/images/Burger/Cheeseburger.jpeg"
@@ -769,11 +649,11 @@ export const menuData = [
       },
       {
         "id": "168",
-        "name": "Big Cheeseburger (200 g)",
+        "name": "Big Cheeseburger (ca. 200 g)",
         "desc": {
-          "de": "ca. 200g Rindfleisch mit Cheddar-Käse",
-          "en": "approx. 200g beef with cheddar cheese",
-          "ru": "около 200 г говядины с сыром чеддер"
+          "de": "ca. 200g Rindfleisch mit Cheddar-Käse & Ketchup",
+          "en": "approx. 200g beef with cheddar cheese & ketchup",
+          "ru": "около 200 г говядины с сыром чеддер & кетчупом"
         },
         "price": "10,90 €",
         "image": "/images/Burger/Double Cheeseburger.jpeg"
@@ -791,18 +671,18 @@ export const menuData = [
       },
       {
         "id": "182",
-        "name": "Hot Chili Cheeseburger",
+        "name": "Hot Chili Cheeseburger (ca. 100 g)",
         "desc": {
-          "de": "mit Cheddar-Käse, Jalapeños",
-          "en": "with cheddar cheese, jalapeños",
-          "ru": "с сыром чеддер, халапеньо"
+          "de": "mit Cheddar-Käse, Jalapeños & Ketchup",
+          "en": "with cheddar cheese, jalapeños & ketchup",
+          "ru": "с сыром чеддер, халапеньо & кетчупом"
         },
         "price": "8,90 €",
         "image": "/images/Burger/Hot Chili cheeseburger.jpeg"
       },
       {
         "id": "182-M",
-        "name": "Hot Chili Cheeseburger Menü",
+        "name": "Menü Hot Chili Cheeseburger",
         "desc": {
           "de": "inkl. Pommes frites & 0,33 l Coca-Cola",
           "en": "incl. french fries & 0.33 l Coca-Cola",
@@ -813,40 +693,40 @@ export const menuData = [
       },
       {
         "id": "183",
-        "name": "BBQ Cheeseburger",
+        "name": "BBQ Cheeseburger (ca. 100 g)",
         "desc": {
-          "de": "mit Cheddar-Käse, BBQ-Sauce, Jalapeños",
-          "en": "with cheddar cheese, BBQ sauce, jalapeños",
-          "ru": "с сыром чеддер, соусом барбекю, халапеньо"
+          "de": "mit Cheddar-Käse, Jalapeños & BBQ-Sauce",
+          "en": "with cheddar cheese, jalapeños & BBQ sauce",
+          "ru": "с сыром чеддер, халапеньо & BBQ соусом"
         },
         "price": "8,90 €",
-        "image": "/images/Burger/BBQ  Cheeseburger.jpeg"
+        "image": "/images/Burger/Bbq Cheeseburger.jpeg"
       },
       {
         "id": "183-M",
-        "name": "BBQ Cheeseburger Menü",
+        "name": "Menü BBQ Cheeseburger",
         "desc": {
           "de": "inkl. Pommes frites & 0,33 l Coca-Cola",
           "en": "incl. french fries & 0.33 l Coca-Cola",
           "ru": "вкл. картофель фри и 0,33 л Coca-Cola"
         },
         "price": "14,80 €",
-        "image": "/images/Burger Menü/Barbecue Cheeseburger Menü.jpeg"
+        "image": "/images/Burger Menü/Bbq Cheeseburger Menü.jpeg"
       },
       {
         "id": "184",
-        "name": "Bacon Cheeseburger",
+        "name": "Bacon Cheeseburger (ca. 100 g)",
         "desc": {
-          "de": "mit 2 Baconstreifen, Cheddar-Käse",
-          "en": "with 2 bacon strips, cheddar cheese",
-          "ru": "с 2 полосками бекона, сыром чеддер"
+          "de": "mit 2 Baconstreifen, Cheddar-Käse & Ketchup",
+          "en": "with 2 bacon strips, cheddar cheese & ketchup",
+          "ru": "с 2 полосками бекона, сыром чеддер & кетчупом"
         },
         "price": "9,90 €",
         "image": "/images/Burger/Bacon Cheeseburger.jpeg"
       },
       {
         "id": "184-M",
-        "name": "Bacon Cheeseburger Menü",
+        "name": "Menü Bacon Cheeseburger",
         "desc": {
           "de": "inkl. Pommes frites & 0,33 l Coca-Cola",
           "en": "incl. french fries & 0.33 l Coca-Cola",
@@ -859,16 +739,16 @@ export const menuData = [
         "id": "180",
         "name": "Crispy Chicken Sweet Chili",
         "desc": {
-          "de": "mit Eisbergsalat, Tomaten & süßer Chili-Sauce",
-          "en": "with iceberg lettuce, tomatoes & sweet chili sauce",
-          "ru": "с салатом айсберг, помидорами & сладким соусом чили"
+          "de": "mit Eisbergsalat & süßer Chili-Sauce",
+          "en": "with lettuce & sweet chili sauce",
+          "ru": "с салатом & сладким чили соусом"
         },
         "price": "7,90 €",
-        "image": "/images/Burger/Crispy Chicken Burger.jpeg"
+        "image": "/images/Burger/Crispy Chicken Sweet chili.jpeg"
       },
       {
         "id": "180-M",
-        "name": "Crispy Chicken Sweet Chili Menü",
+        "name": "Menü Crispy Chicken Sweet Chili",
         "desc": {
           "de": "inkl. Pommes frites & 0,33 l Coca-Cola",
           "en": "incl. french fries & 0.33 l Coca-Cola",
@@ -881,16 +761,16 @@ export const menuData = [
         "id": "181",
         "name": "Crispy Chicken Cheese",
         "desc": {
-          "de": "mit Cheddar-Käse, Tomaten & Mayonnaise",
-          "en": "with cheddar cheese, tomatoes & mayonnaise",
-          "ru": "с сыром чеддер, помидорами & майонезом"
+          "de": "mit Cheddar-Käse, Cheddar Cheese & Mayonnaise",
+          "en": "with cheddar cheese & mayo",
+          "ru": "с сыром чеддер & майонезом"
         },
         "price": "8,90 €",
-        "image": "/images/Burger/Crispy Chicken Cheeseburger.jpeg"
+        "image": "/images/Burger/Crispy Chicken Cheese.jpeg"
       },
       {
         "id": "181-M",
-        "name": "Crispy Chicken Cheese Menü",
+        "name": "Menü Crispy Chicken Cheese",
         "desc": {
           "de": "inkl. Pommes frites & 0,33 l Coca-Cola",
           "en": "incl. french fries & 0.33 l Coca-Cola",
@@ -898,883 +778,165 @@ export const menuData = [
         },
         "price": "14,80 €",
         "image": "/images/Burger Menü/Crispy Chicken Cheese Menü.jpeg"
+      },
+      {
+        "id": "185",
+        "name": "Extra Burger-Patty (100 g)",
+        "desc": {
+          "de": "1 Fleischstück (ca. 100g)",
+          "en": "1 patty (approx 100g)",
+          "ru": "1 говяжья котлета"
+        },
+        "price": "2,90 €",
+        "image": "/images/Burger/Burger Extra Patty.jpeg"
+      },
+      {
+        "id": "186",
+        "name": "Extra Cheddar Cheese",
+        "desc": {
+          "de": "1 Scheibe Cheddar-Käse",
+          "en": "1 slice cheddar cheese",
+          "ru": "1 ломтик чеддера"
+        },
+        "price": "1,50 €",
+        "image": "/images/Burger/Burger Extra Cheese.jpeg"
       }
     ]
   },
   {
-    "category": "Salate",
+    "category": "Gyros",
     "items": [
       {
-        "id": "132",
-        "name": "Grundsalat groß",
+        "id": "79",
+        "name": "Grundgyros vom Schwein",
         "desc": {
-          "de": "Eisbergsalat, Gurken, Tomaten, Paprika, Mais, Peperoni, Zwiebeln & Oliven",
-          "en": "iceberg lettuce, cucumbers, tomatoes, peppers, corn, pepperoni (mild chili), onions & olives",
-          "ru": "салатом айсберг, огурцами, помидорами, перцем, кукурузой, острым перцем, луком & оливками"
-        },
-        "price": "10,90 €",
-        "image": "/images/Salate/Grundsalat gro0.jpeg"
-      },
-      {
-        "id": "133",
-        "name": "Grundsalat klein",
-        "desc": {
-          "de": "wie oben, kleine Portion",
-          "en": "as above, small portion",
-          "ru": "как выше, маленькая порция"
-        },
-        "price": "8,90 €",
-        "image": "/images/Salate/Grundsalat klein.jpeg"
-      },
-      {
-        "id": "133A",
-        "name": "Italia klein",
-        "desc": {
-          "de": "Eisbergsalat, Tomaten & Mozzarella",
-          "en": "iceberg lettuce, tomatoes & mozzarella",
-          "ru": "салатом айсберг, помидорами & моцареллой"
-        },
-        "price": "9,90 €",
-        "image": "/images/Salate/Salad Italia.jpeg"
-      },
-      {
-        "id": "134",
-        "name": "Tomaten klein",
-        "desc": {
-          "de": "nur mit Tomaten & Eisbergsalat",
-          "en": "only with tomatoes & iceberg lettuce",
-          "ru": "только с помидорами & салатом айсберг"
-        },
-        "price": "8,90 €",
-        "image": "/images/Salate/Tomato Salad .jpeg"
-      },
-      {
-        "id": "135",
-        "name": "Chef-Grundsalat groß",
-        "desc": {
-          "de": "Grundsalat (groß) mit Schinken & Ei",
-          "en": "Grundsalat (groß) with ham & egg",
-          "ru": "Grundsalat (groß) с ветчиной & яйцом"
-        },
-        "price": "12,90 €",
-        "image": "/images/Salate/Chef Salad.jpeg"
-      },
-      {
-        "id": "136",
-        "name": "Nizza-Grundsalat groß",
-        "desc": {
-          "de": "Grundsalat (groß) mit Thunfisch & Ei",
-          "en": "Grundsalat (groß) with tuna & egg",
-          "ru": "Grundsalat (groß) с тунцом & яйцом"
-        },
-        "price": "13,90 €",
-        "image": "/images/Salate/Salad Nizza.jpeg"
-      },
-      {
-        "id": "137",
-        "name": "Schnitzel-Grundsalat groß",
-        "desc": {
-          "de": "Grundsalat (groß) mit Schnitzelstreifen, frischen Champignons & Ei",
-          "en": "Grundsalat (groß) with schnitzel strips, fresh mushrooms & egg",
-          "ru": "Grundsalat (groß) с полосками шницеля, свежими шампиньонами & яйцом"
-        },
-        "price": "14,90 €",
-        "image": "/images/Salate/Salad Schnitzel.jpeg"
-      },
-      {
-        "id": "138",
-        "name": "Bauern-Grundsalat groß",
-        "desc": {
-          "de": "Grundsalat (groß) mit Weichkäse",
-          "en": "Grundsalat (groß) with soft cheese",
-          "ru": "Grundsalat (groß) с мягким сыром"
-        },
-        "price": "12,90 €",
-        "image": "/images/Salate/Salad Bauern.jpeg"
-      },
-      {
-        "id": "139",
-        "name": "Hawaii-Grundsalat groß",
-        "desc": {
-          "de": "Grundsalat (groß) mit Schinken & Ananas",
-          "en": "Grundsalat (groß) with ham & pineapple",
-          "ru": "Grundsalat (groß) с ветчиной & ананасами"
-        },
-        "price": "12,90 €",
-        "image": "/images/Salate/SAlad Hawaii.jpeg"
-      },
-      {
-        "id": "140",
-        "name": "King-Grundsalat groß",
-        "desc": {
-          "de": "Grundsalat (groß) mit Schinken, Käse, Weichkäse, Thunfisch & Ei",
-          "en": "Grundsalat (groß) with ham, cheese, soft cheese, tuna & egg",
-          "ru": "Grundsalat (groß) с ветчиной, сыром, мягким сыром, тунцом & яйцом"
-        },
-        "price": "14,90 €",
-        "image": "/images/Salate/Salad King.jpeg"
-      },
-      {
-        "id": "141",
-        "name": "King-Platte groß",
-        "desc": {
-          "de": "Grundsalat (groß) mit Chicken Chips, Ei & Champignons",
-          "en": "Grundsalat (groß) with chicken chips, egg & mushrooms",
-          "ru": "Grundsalat (groß) с куриными чипсами, яйцом & шампиньонами"
-        },
-        "price": "14,90 €",
-        "image": "/images/Salate/King Platte Salad.jpeg"
-      }
-    ]
-  },
-  {
-    "category": "Schnitzel",
-    "items": [
-      {
-        "id": "143",
-        "name": "Grundschnitzel",
-        "desc": {
-          "de": "mit Salatbeilage, Pommes frites & ½ Brot",
-          "en": "with side salad, french fries & ½ bread",
-          "ru": "с гарниром из салата, картофелем фри и ½ хлеба"
-        },
-        "price": "12,40 €",
-        "image": "/images/schnitzel/paniertes schnitztel.jpeg"
-      },
-      {
-        "id": "145",
-        "name": "Schnitzel mit gebratenen Champignons und Zwiebeln",
-        "desc": {
-          "de": "mit gebratenen Champignons & Zwiebeln",
-          "en": "with fried mushrooms & onions",
-          "ru": "с жареными грибами и луком"
-        },
-        "price": "15,90 €",
-        "image": "/images/schnitzel/Schnitzel mit Champignons and onions.jpeg"
-      },
-      {
-        "id": "146",
-        "name": "Schnitzel ungarischer Art",
-        "desc": {
-          "de": "mit Zigeunersauce",
-          "en": "with gypsy sauce",
-          "ru": "с цыганским соусом"
-        },
-        "price": "15,70 €",
-        "image": "/images/schnitzel/ziegeunerschnitztel.jpeg"
-      },
-      {
-        "id": "147",
-        "name": "Schnitzel Hawaii",
-        "desc": {
-          "de": "mit Schinken, Ananas & Käse überbacken",
-          "en": "with ham, pineapple & baked with cheese",
-          "ru": "с ветчиной, ананасами & запеченным с сыром"
+          "de": "mit Tzatziki, Krautsalat & Pommes frites oder Reis",
+          "en": "with tzatziki, coleslaw & french fries or rice",
+          "ru": "с дзадзики, салатом & фри oder рисом"
         },
         "price": "16,90 €",
-        "image": "/images/schnitzel/SCHNITZTEL HAWAII.jpeg"
+        "image": "/images/gyros/grundgyros mit frittes.jpeg"
       },
       {
-        "id": "148",
-        "name": "Schnitzel Broccoli",
+        "id": "81",
+        "name": "Gyros [griechischer Art]",
         "desc": {
-          "de": "mit Schinken, Broccoli & Käse überbacken",
-          "en": "with ham, broccoli & baked with cheese",
-          "ru": "с ветчиной, брокколи & запеченным с сыром"
-        },
-        "price": "16,90 €",
-        "image": "/images/schnitzel/Schnitzel with broccoli.jpeg"
-      },
-      {
-        "id": "150",
-        "name": "Paniertes Schnitzel mit Zitrone",
-        "desc": {
-          "de": "mit Zitrone",
-          "en": "with lemon",
-          "ru": "с лимоном"
-        },
-        "price": "13,90 €",
-        "image": "/images/schnitzel/SChnitzel mit Zitrone.jpeg"
-      },
-      {
-        "id": "143C",
-        "name": "Grundschnitzel mit Champignonsauce",
-        "desc": {
-          "de": "mit Champignonsauce, Pommes & ½ Brot",
-          "en": "with mushroom sauce, fries & ½ bread",
-          "ru": "с грибным соусом, картофелем фри и ½ хлеба"
-        },
-        "price": "16,70 €",
-        "image": "/images/schnitzel/Schnitzel mit Champignons and onions.jpeg"
-      },
-      {
-        "id": "143J",
-        "name": "Jägerschnitzel",
-        "desc": {
-          "de": "mit Jägersauce, Pommes & ½ Brot",
-          "en": "with hunter's sauce, fries & ½ bread",
-          "ru": "с охотничьим соусом, картофелем фри и ½ хлеба"
-        },
-        "price": "16,70 €",
-        "image": "/images/schnitzel/paniertes schnitztel.jpeg"
-      },
-      {
-        "id": "143R",
-        "name": "Rahmschnitzel",
-        "desc": {
-          "de": "mit Rahmsauce, Pommes & ½ Brot",
-          "en": "with cream sauce, fries & ½ bread",
-          "ru": "с сливочным соусом, картофелем фри и ½ хлеба"
-        },
-        "price": "16,70 €",
-        "image": "/images/schnitzel/paniertes schnitztel.jpeg"
-      },
-      {
-        "id": "143S",
-        "name": "Sahneschnitzel",
-        "desc": {
-          "de": "mit Sahnesauce, Pommes & ½ Brot",
-          "en": "with cream sauce, fries & ½ bread",
-          "ru": "с сливочным соусом, картофелем фри и ½ хлеба"
-        },
-        "price": "16,70 €",
-        "image": "/images/schnitzel/paniertes schnitztel.jpeg"
-      }
-    ]
-  },
-  {
-    "category": "Snacks",
-    "items": [
-      {
-        "id": "159",
-        "name": "Chicken Chips (12 Stück)",
-        "desc": {
-          "de": "mit Pommes & 1x Sauce",
-          "en": "with fries & 1x sauce",
-          "ru": "с картофелем фри и 1x соусом"
-        },
-        "price": "12,90 €",
-        "image": "/images/Snacks/12 chicken chips snacks.jpeg"
-      },
-      {
-        "id": "160",
-        "name": "Chicken Chips (20 Stück)",
-        "desc": {
-          "de": "mit Pommes & 1x Sauce",
-          "en": "with fries & 1x sauce",
-          "ru": "с картофелем фри и 1x соусом"
-        },
-        "price": "16,90 €",
-        "image": "/images/Snacks/20 chicken chips snacks.jpeg"
-      },
-      {
-        "id": "161",
-        "name": "Chicken Wings (10 Stück)",
-        "desc": {
-          "de": "mit Pommes & 1x Sauce",
-          "en": "with fries & 1x sauce",
-          "ru": "с картофелем фри и 1x соусом"
-        },
-        "price": "13,90 €",
-        "image": "/images/Snacks/10 chicken wings snacks.jpeg"
-      },
-      {
-        "id": "162",
-        "name": "Chicken Wings (15 Stück)",
-        "desc": {
-          "de": "mit Pommes & 2x Sauce",
-          "en": "with fries & 2x sauce",
-          "ru": "с картофелем фри и 2x соусом"
+          "de": "mit Tomatensalat, Oliven & geraspeltem Weichkäse",
+          "en": "with tomato salad, olives & soft cheese",
+          "ru": "с томатным салатом, оливками & сыром"
         },
         "price": "17,90 €",
-        "image": "/images/Snacks/15 chicken wings snacks.jpeg"
+        "image": "/images/gyros/gyros griechische art.jpeg"
       },
       {
-        "id": "163",
-        "name": "King-Teller",
+        "id": "82",
+        "name": "Gyros mit gebratenen Zwiebeln & Champignons",
         "desc": {
-          "de": "mit 6x Chicken Wings, 10x Chicken Chips, Pommes & 2x Sauce",
-          "en": "with 6x chicken wings, 10x chicken chips, fries & 2x sauce",
-          "ru": "с 6x куриных крылышек, 10x куриных чипсов, картофелем фри и 2x соусом"
+          "de": "mit gebratenen Zwiebeln & frischen Champignons",
+          "en": "with fried onions & mushrooms",
+          "ru": "с жареным луком & шампиньонами"
         },
         "price": "18,90 €",
-        "image": "/images/Snacks/KIng Teller snacks .jpeg"
+        "image": "/images/gyros/gyros mit zwiebeln und champinons.jpeg"
       },
       {
-        "id": "173",
-        "name": "Mozzarella Sticks (6 Stück)",
+        "id": "83",
+        "name": "Rimini-Platte",
         "desc": {
-          "de": "6 Stück",
-          "en": "6 pieces",
-          "ru": "6 штук"
+          "de": "mit Gyros, 2x Fleischspieß [Schwein] & 5 Cevapcici",
+          "en": "with gyros, 2 meat skewers & 5 cevapcici",
+          "ru": "с гиросом, 2 шашлыками & 5 чевапчичи"
         },
-        "price": "8,90 €",
-        "image": "/images/Snacks/mozarella sticks snacks.jpeg"
+        "price": "21,90 €",
+        "image": "/images/gyros/rimini platte.jpeg"
       },
       {
-        "id": "175",
-        "name": "Pulled Pork Bites (6 Stück)",
+        "id": "84",
+        "name": "Rhodos-Platte",
         "desc": {
-          "de": "6 Stück",
-          "en": "6 pieces",
-          "ru": "6 штук"
+          "de": "mit Gyros & Hacksteak",
+          "en": "with gyros & minced steak",
+          "ru": "с гиросом & бифштексом"
         },
-        "price": "5,50 €",
-        "image": "/images/Snacks/pulled pork bites snacks.jpeg"
+        "price": "19,90 €",
+        "image": "/images/gyros/rhodos platte.jpeg"
       },
       {
-        "id": "176",
-        "name": "Peppers „Red & Hot“ (6 Stück)",
+        "id": "85",
+        "name": "Bauern-Platte",
         "desc": {
-          "de": "6 Stück",
-          "en": "6 pieces",
-          "ru": "6 штук"
+          "de": "mit Gyros, Hacksteak, Fleischspieß & Weichkäse",
+          "en": "with gyros, minced steak, skewer & soft cheese",
+          "ru": "с гиросом, бифштексом, шашлыком & сыром"
         },
-        "price": "6,20 €",
-        "image": "/images/Snacks/poppers red and hot snacks.jpeg"
+        "price": "21,90 €",
+        "image": "/images/gyros/bauern platte.jpeg"
       },
       {
-        "id": "177",
-        "name": "Chilli & Cheese Nuggets (6 Stück)",
+        "id": "86",
+        "name": "King-Platte",
         "desc": {
-          "de": "6 Stück",
-          "en": "6 pieces",
-          "ru": "6 штук"
+          "de": "mit Gyros, Hacksteak, Fleischspieß & Schnitzel",
+          "en": "with gyros, minced steak, skewer & schnitzel",
+          "ru": "с гиросом, бифштексом, шашлыком & шницелем"
         },
-        "price": "7,90 €",
-        "image": "/images/Snacks/chilli cheese nuggets snacks.jpeg"
+        "price": "23,90 €",
+        "image": "/images/gyros/king platte.jpeg"
       },
       {
-        "id": "164",
-        "name": "Riesen-Currywurst",
+        "id": "87",
+        "name": "Souvlaki",
         "desc": {
-          "de": "mit Pommes frites",
-          "en": "with french fries",
-          "ru": "с картофелем фри"
+          "de": "mit Gyros & 2 Fleischspießen",
+          "en": "with gyros & 2 skewers",
+          "ru": "с гиросом & 2 шашлыками"
         },
-        "price": "12,90 €",
-        "image": "/images/Snacks/Riesen Currywurst snacks.jpeg"
+        "price": "19,90 €",
+        "image": "/images/gyros/souvlaki mit gyros und 2 spießen.jpeg"
       },
       {
-        "id": "164A",
-        "name": "Double Riesen-Currywurst",
+        "id": "88",
+        "name": "Grillteller",
         "desc": {
-          "de": "mit Pommes frites",
-          "en": "with french fries",
-          "ru": "с картофелем фри"
+          "de": "mit Gyros, Schnitzel, Cevapcici & Hacksteak",
+          "en": "with gyros, schnitzel, cevapcici & minced steak",
+          "ru": "с гиросом, шницелем, чевапчичи & бифштексом"
+        },
+        "price": "23,90 €",
+        "image": "/images/gyros/grillteller.jpeg"
+      },
+      {
+        "id": "89",
+        "name": "Grillteller King [2 Personen]",
+        "desc": {
+          "de": "mit je 2 Schnitzeln, Hacksteaks, Fleischspießen, Cevapcici & Gyros, dazu Bauernsalat, Zwiebeln, Reis & 1 L Cola",
+          "en": "with 2 schnitzels, 2 minced steaks, 2 skewers, cevapcici & gyros, salad, rice & 1L Cola",
+          "ru": "для 2 человек с 1 л колы"
+        },
+        "price": "48,90 €",
+        "image": "/images/gyros/grillteller king 2 personen.jpeg"
+      },
+      {
+        "id": "90",
+        "name": "Cevapcici [12 Stück]",
+        "desc": {
+          "de": "12 Cevapcici mit Knoblauch-Sauce",
+          "en": "12 cevapcici with garlic sauce",
+          "ru": "12 чевапчичи с чесночным соусом"
         },
         "price": "15,90 €",
-        "image": "/images/Snacks/double riesen currywurst snacks.jpeg"
+        "image": "/images/gyros/cevapcici 12 stück.jpeg"
       },
       {
-        "id": "180A",
-        "name": "Bauernfrühstück",
+        "id": "90A",
+        "name": "Hacksteak [360 gramm]",
         "desc": {
-          "de": "mit 3 Eiern, Kartoffelscheiben, Speck & Zwiebeln, dazu Gewürzgurke",
-          "en": "with 3 eggs, potato slices, bacon & onions, served with pickles",
-          "ru": "с 3 яйцами, ломтиками картофеля, беконом и луком, подается с маринованными огурцами"
+          "de": "saftiges Hacksteak (360g)",
+          "en": "juicy minced steak (360g)",
+          "ru": "сочный бифштекс (360г)"
         },
-        "price": "13,90 €",
-        "image": "/images/Snacks/bauernfrühstück snacks.jpeg"
-      },
-      {
-        "id": "180B",
-        "name": "Chili Cheese Pommes",
-        "desc": {
-          "de": "Pommes frites mit pikanter Chili-Cheese-Sauce & Jalapeños",
-          "en": "French fries with spicy chili cheese sauce & jalapeños",
-          "ru": "Картофель фри с острым сырным соусом чили и халапеньо"
-        },
-        "price": "4,90 €",
-        "image": "/images/Snacks/chilli cheese nuggets snacks.jpeg"
-      },
-      {
-        "id": "180C",
-        "name": "Zwiebelringe (6 Stück)",
-        "desc": {
-          "de": "knusprig gebackene Zwiebelringe",
-          "en": "crispy baked onion rings",
-          "ru": "хрустящие жареные луковые кольца"
-        },
-        "price": "4,20 €",
-        "image": "/images/Snacks/mozarella sticks snacks.jpeg"
-      },
-      {
-        "id": "115C",
-        "name": "Chilli Pommes",
-        "desc": {
-          "de": "Pommes frites mit Chili-Sauce",
-          "en": "French fries with chili sauce",
-          "ru": "Картофель фри с соусом чили"
-        },
-        "price": "6,90 €",
-        "image": "/images/Snacks/chilli cheese nuggets snacks.jpeg"
-      },
-      {
-        "id": "174",
-        "name": "Onion Rings (6 Stück)",
-        "desc": {
-          "de": "mit Knoblauchsauce",
-          "en": "with garlic sauce",
-          "ru": "с чесночным соусом"
-        },
-        "price": "8,50 €",
-        "image": "/images/Snacks/mozarella sticks snacks.jpeg"
-      }
-    ]
-  },
-  {
-    "category": "Pasta",
-    "items": [
-      {
-        "id": "57",
-        "name": "Maccheroni mit Spinat & Weichkäse",
-        "desc": {
-          "de": "in Sahnesauce",
-          "en": "in cream sauce",
-          "ru": "in сливочным соусом"
-        },
-        "price": "14,90 €",
-        "image": "/images/Nudeln/pasta maccheroni with sahnesauce.jpeg"
-      },
-      {
-        "id": "58",
-        "name": "Spaghetti Napoli",
-        "desc": {
-          "de": "mit Tomatensauce",
-          "en": "with tomato sauce",
-          "ru": "с томатным соусом"
-        },
-        "price": "9,30 €",
-        "image": "/images/Nudeln/spaghetti napoli.jpeg"
-      },
-      {
-        "id": "59",
-        "name": "Spaghetti Bolognese",
-        "desc": {
-          "de": "mit Tomatensauce & Hackfleisch",
-          "en": "with tomato sauce & minced meat",
-          "ru": "с томатным соусом & мясным фаршем"
-        },
-        "price": "12,50 €",
-        "image": "/images/Nudeln/spaghetti bolognese.jpeg"
-      },
-      {
-        "id": "60",
-        "name": "Spaghetti Carbonara",
-        "desc": {
-          "de": "mit Schinken & Ei in Sahnesauce",
-          "en": "with ham & egg in cream sauce",
-          "ru": "с ветчиной & яйцом in сливочным соусом"
-        },
-        "price": "12,90 €",
-        "image": "/images/Nudeln/Spaghetti carbonara.jpeg"
-      },
-      {
-        "id": "61",
-        "name": "Nudelpfanne",
-        "desc": {
-          "de": "mit Tortellini, Spaghetti, Lasagne, Mozzarella, Champignons & Hackfleisch",
-          "en": "with Tortellini, Spaghetti, Lasagne, mozzarella, mushrooms & minced meat",
-          "ru": "с Tortellini, Spaghetti, Lasagne, моцареллой, шампиньонами & мясным фаршем"
-        },
-        "price": "15,90 €",
-        "image": "/images/Nudeln/nudelpfanne spezial.jpeg"
-      },
-      {
-        "id": "62",
-        "name": "Nudelpfanne Spezial",
-        "desc": {
-          "de": "mit Tortellini, Spaghetti, Lasagne, Maccheroni & Hackfleisch",
-          "en": "with Tortellini, Spaghetti, Lasagne, Maccheroni & minced meat",
-          "ru": "с Tortellini, Spaghetti, Lasagne, Maccheroni & мясным фаршем"
-        },
-        "price": "16,90 €",
-        "image": "/images/Nudeln/nudelpfanne spezial 2.jpeg"
-      },
-      {
-        "id": "63",
-        "name": "Maccheroni del Ghiottone",
-        "desc": {
-          "de": "mit Champignons, Schinken, Hackfleisch & Tomaten",
-          "en": "with mushrooms, ham, minced meat & tomatoes",
-          "ru": "с шампиньонами, ветчиной, мясным фаршем & помидорами"
-        },
-        "price": "14,90 €",
-        "image": "/images/Nudeln/maccheroni del giothonne.jpeg"
-      },
-      {
-        "id": "64",
-        "name": "Maccheroni mit Schinken",
-        "desc": {
-          "de": "in Sahnesauce",
-          "en": "in cream sauce",
-          "ru": "in сливочным соусом"
-        },
-        "price": "10,90 €",
-        "image": "/images/Nudeln/maccheroni mit schinken.jpeg"
-      },
-      {
-        "id": "65",
-        "name": "Maccheroni mit Schinken in Champignons-Sahnesauce",
-        "desc": {
-          "de": "in Champignons-Sahnesauce",
-          "en": "in mushrooms-cream sauce",
-          "ru": "in шампиньонами-сливочным соусом"
-        },
-        "price": "12,90 €",
-        "image": "/images/Nudeln/maccheroni mit schinken in champignon sauce.jpeg"
-      },
-      {
-        "id": "66",
-        "name": "Tortellini alla Panna",
-        "desc": {
-          "de": "mit Schinken & Champignons",
-          "en": "with ham & mushrooms",
-          "ru": "с ветчиной & шампиньонами"
-        },
-        "price": "11,80 €",
-        "image": "/images/Nudeln/tortellini alla panna.jpeg"
-      },
-      {
-        "id": "67",
-        "name": "Tortellini alla Romana",
-        "desc": {
-          "de": "mit Schinken, Champignons & Hackfleisch",
-          "en": "with ham, mushrooms & minced meat",
-          "ru": "с ветчиной, шампиньонами & мясным фаршем"
-        },
-        "price": "14,90 €",
-        "image": "/images/Nudeln/tortellini alla romana.jpeg"
-      },
-      {
-        "id": "68",
-        "name": "Tortellini mit Schinken",
-        "desc": {
-          "de": "in Sahnesauce",
-          "en": "in cream sauce",
-          "ru": "in сливочным соусом"
-        },
-        "price": "12,90 €",
-        "image": "/images/Nudeln/tortellini with schinken.jpeg"
-      },
-      {
-        "id": "58A",
-        "name": "Spaghetti Zozona",
-        "desc": {
-          "de": "mit Schinken, Hackfleisch & Sahne-Tomatensauce",
-          "en": "with ham, minced meat & Sahne-tomato sauce",
-          "ru": "с ветчиной, мясным фаршем & Sahne-томатным соусом"
-        },
-        "price": "12,40 €",
-        "image": "/images/Nudeln/spaghetti bolognese.jpeg"
-      },
-      {
-        "id": "2004",
-        "name": "Spaghetti Lachs",
-        "desc": {
-          "de": "mit Lachs & Sahnesauce",
-          "en": "with salmon & cream sauce",
-          "ru": "с лососем & сливочным соусом"
-        },
-        "price": "14,00 €",
-        "image": "/images/Nudeln/pasta maccheroni with sahnesauce.jpeg"
-      }
-    ]
-  },
-  {
-    "category": "Pizzabrötchen & Calzone",
-    "items": [
-      {
-        "id": "34",
-        "name": "Pizza Brötchen (12 Stück)",
-        "desc": {
-          "de": "12 Stück mit Käse & Füllung nach Wahl",
-          "en": "12 Stück with cheese & Füllung nach Wahl",
-          "ru": "12 Stück с сыром & Füllung nach Wahl"
-        },
-        "price": "8,90 €",
-        "image": "/images/pizzen/pizzabrötchen/pizzabrötchen alternative 1.jpeg"
-      },
-      {
-        "id": "35",
-        "name": "Calzone A",
-        "desc": {
-          "de": "mit verschiedenem Gemüse",
-          "en": "with various vegetables",
-          "ru": "с различными овощами"
-        },
-        "price": "10,80 €",
-        "image": "/images/pizzen/calzone/calzone a.jpeg"
-      },
-      {
-        "id": "36",
-        "name": "Calzone B",
-        "desc": {
-          "de": "mit Schinken & Ananas",
-          "en": "with ham & pineapple",
-          "ru": "с ветчиной & ананасами"
-        },
-        "price": "10,80 €",
-        "image": "/images/pizzen/calzone/calzone b.jpeg"
-      },
-      {
-        "id": "37",
-        "name": "Calzone C",
-        "desc": {
-          "de": "mit Thunfisch & Krabben",
-          "en": "with tuna & Krabben",
-          "ru": "с тунцом & Krabben"
-        },
-        "price": "10,80 €",
-        "image": "/images/pizzen/calzone/calzone c.jpeg"
-      },
-      {
-        "id": "38",
-        "name": "Calzone D",
-        "desc": {
-          "de": "mit Gyros, Zwiebeln & Weichkäse",
-          "en": "with gyros, onions & soft cheese",
-          "ru": "с гиросом, луком & мягким сыром"
-        },
-        "price": "10,80 €",
-        "image": "/images/pizzen/calzone/calzone d.jpeg"
-      },
-      {
-        "id": "39",
-        "name": "Calzone E",
-        "desc": {
-          "de": "mit Hackfleisch, Zwiebeln & Paprika",
-          "en": "with minced meat, onions & peppers",
-          "ru": "с мясным фаршем, луком & перцем"
-        },
-        "price": "10,80 €",
-        "image": "/images/pizzen/calzone/calzone E.jpeg"
-      },
-      {
-        "id": "40",
-        "name": "Calzone F",
-        "desc": {
-          "de": "mit Gyros, Tzatziki & Krautsalat",
-          "en": "with gyros, tzatziki & coleslaw",
-          "ru": "с гиросом, дзадзики & капустным салатом"
-        },
-        "price": "11,40 €",
-        "image": "/images/pizzen/calzone/calzone f.jpeg"
-      },
-      {
-        "id": "42",
-        "name": "Calzone King",
-        "desc": {
-          "de": "mit Salami, Schinken, Zwiebeln, Champignons & Paprika",
-          "en": "with salami, ham, onions, mushrooms & peppers",
-          "ru": "с салями, ветчиной, луком, шампиньонами & перцем"
-        },
-        "price": "12,90 €",
-        "image": "/images/pizzen/calzone/Calzone King.jpeg"
-      },
-      {
-        "id": "41",
-        "name": "Calzone auf Wunsch mit 4 Belägen",
-        "desc": {
-          "de": "4 Beläge nach Wahl",
-          "en": "4 Beläge nach Wahl",
-          "ru": "4 Beläge nach Wahl"
-        },
-        "price": "12,90 €",
-        "image": "/images/pizzen/calzone/Calzone King.jpeg"
-      }
-    ]
-  },
-  {
-    "category": "Fladenbrote & Croques",
-    "items": [
-      {
-        "id": "43",
-        "name": "Fladenbrot Standard",
-        "desc": {
-          "de": "mit Salat, Zwiebeln & Käse",
-          "en": "with Salat, onions & cheese",
-          "ru": "с Salat, луком & сыром"
-        },
-        "price": "7,90 €",
-        "image": "/images/fladenbrote/Fladenbrot Standart.jpeg"
-      },
-      {
-        "id": "44",
-        "name": "Fladenbrot Hawaii",
-        "desc": {
-          "de": "mit Schinken & Ananas",
-          "en": "with ham & pineapple",
-          "ru": "с ветчиной & ананасами"
-        },
-        "price": "8,90 €",
-        "image": "/images/fladenbrote/Fladenbrot Hawaii.jpeg"
-      },
-      {
-        "id": "45",
-        "name": "Fladenbrot Thunfisch",
-        "desc": {
-          "de": "mit Thunfisch",
-          "en": "with tuna",
-          "ru": "с тунцом"
-        },
-        "price": "11,90 €",
-        "image": "/images/fladenbrote/Fladenbrot Tuna .jpeg"
-      },
-      {
-        "id": "46",
-        "name": "Fladenbrot Hackfleisch",
-        "desc": {
-          "de": "mit Hackfleisch",
-          "en": "with minced meat",
-          "ru": "с мясным фаршем"
-        },
-        "price": "11,90 €",
-        "image": "/images/fladenbrote/Fladenbrot Ground beef.jpeg"
-      },
-      {
-        "id": "47",
-        "name": "Fladenbrot Salami",
-        "desc": {
-          "de": "mit Salami",
-          "en": "with salami",
-          "ru": "с салями"
-        },
-        "price": "8,90 €",
-        "image": "/images/fladenbrote/Fladenbrot Salami.jpeg"
-      },
-      {
-        "id": "48",
-        "name": "Fladenbrot Schinken",
-        "desc": {
-          "de": "mit Schinken",
-          "en": "with ham",
-          "ru": "с ветчиной"
-        },
-        "price": "8,90 €",
-        "image": "/images/fladenbrote/Fladenbrot HAm.jpeg"
-      },
-      {
-        "id": "49",
-        "name": "Fladenbrot Gyros",
-        "desc": {
-          "de": "mit Gyros, Tzatziki & Krautsalat",
-          "en": "with gyros, tzatziki & coleslaw",
-          "ru": "с гиросом, дзадзики & капустным салатом"
-        },
-        "price": "12,90 €",
-        "image": "/images/fladenbrote/Fladenbrot Gyros.jpeg"
-      },
-      {
-        "id": "50",
-        "name": "Fladenbrot King",
-        "desc": {
-          "de": "mit Putenbrust, frischen Champignons, Zwiebeln & Sauce Hollandaise",
-          "en": "with turkey breast, fresh mushrooms, onions & hollandaise sauce",
-          "ru": "с грудкой индейки, свежими шампиньонами, луком & голландским соусом"
-        },
-        "price": "13,90 €",
-        "image": "/images/fladenbrote/Fladenbrot King.jpeg"
-      },
-      {
-        "id": "51",
-        "name": "Croque Salami",
-        "desc": {
-          "de": "mit Salami",
-          "en": "with salami",
-          "ru": "с салями"
-        },
-        "price": "11,90 €",
-        "image": "/images/croques/croque salami.jpeg"
-      },
-      {
-        "id": "52",
-        "name": "Croque Schinken",
-        "desc": {
-          "de": "mit Schinken",
-          "en": "with ham",
-          "ru": "с ветчиной"
-        },
-        "price": "11,90 €",
-        "image": "/images/croques/croque schinken.jpeg"
-      },
-      {
-        "id": "53",
-        "name": "Croque Thunfisch mit Zwiebeln",
-        "desc": {
-          "de": "mit Thunfisch & Zwiebeln",
-          "en": "with tuna & onions",
-          "ru": "с тунцом & луком"
-        },
-        "price": "12,90 €",
-        "image": "/images/croques/croque tuna.jpeg"
-      },
-      {
-        "id": "54",
-        "name": "Croque Hawaii",
-        "desc": {
-          "de": "mit Schinken & Ananas",
-          "en": "with ham & pineapple",
-          "ru": "с ветчиной & ананасами"
-        },
-        "price": "12,90 €",
-        "image": "/images/croques/croque hawaii.jpeg"
-      },
-      {
-        "id": "55",
-        "name": "Croque Hackfleisch mit Zwiebeln",
-        "desc": {
-          "de": "mit Hackfleisch & Zwiebeln",
-          "en": "with minced meat & onions",
-          "ru": "с мясным фаршем & луком"
-        },
-        "price": "12,90 €",
-        "image": "/images/croques/croque ground beef.jpeg"
-      },
-      {
-        "id": "56",
-        "name": "Croque Gyros mit Zwiebeln",
-        "desc": {
-          "de": "mit Gyros & Zwiebeln",
-          "en": "with gyros & onions",
-          "ru": "с гиросом & луком"
-        },
-        "price": "13,90 €",
-        "image": "/images/croques/croque gyros.jpeg"
-      },
-      {
-        "id": "56A",
-        "name": "Croque Ei mit Champignons",
-        "desc": {
-          "de": "mit Ei & Champignons",
-          "en": "with egg & mushrooms",
-          "ru": "с яйцом & шампиньонами"
-        },
-        "price": "9,80 €",
-        "image": "/images/croques/croque egg.jpeg"
-      },
-      {
-        "id": "56B",
-        "name": "Croque Prosciutto",
-        "desc": {
-          "de": "mit Schinken & Broccoli",
-          "en": "with ham & broccoli",
-          "ru": "с ветчиной & брокколи"
-        },
-        "price": "9,50 €",
-        "image": "/images/croques/croque ham and brocolli.jpeg"
-      },
-      {
-        "id": "56C",
-        "name": "Croque Tifosi",
-        "desc": {
-          "de": "mit Mozzarella & Tomaten",
-          "en": "with mozzarella & tomatoes",
-          "ru": "с моцареллой & помидорами"
-        },
-        "price": "9,90 €",
-        "image": "/images/Nudeln/croque tifosi.jpeg"
+        "price": "19,90 €",
+        "image": "/images/gyros/hacksteak 360g.jpeg"
       }
     ]
   },
@@ -1787,40 +949,29 @@ export const menuData = [
         "desc": {
           "de": "mit Gyros, Weichkäse, Zwiebeln, Oliven, Krautsalat & Tzatziki",
           "en": "with gyros, soft cheese, onions, olives, coleslaw & tzatziki",
-          "ru": "с гиросом, мягким сыром, луком, оливками, капустным салатом & дзадзики"
+          "ru": "с гиросом, сыром, луком, оливками & дзадзики"
         },
         "price": "14,90 €",
         "image": "/images/XXL Wraps/XXL Athen Wrap.jpeg"
       },
       {
-        "id": "106",
-        "name": "Siesta",
-        "desc": {
-          "de": "mit Gyros, Chili-Sauce, Eisbergsalat, Paprika & Tomaten",
-          "en": "with gyros, Chili-Sauce, iceberg lettuce, peppers & tomatoes",
-          "ru": "с гиросом, Chili-Sauce, салатом айсберг, перцем & помидорами"
-        },
-        "price": "11,70 €",
-        "image": "/images/XXL Wraps/XXL Wrap Siesta.jpeg"
-      },
-      {
         "id": "107",
         "name": "Tifosi",
         "desc": {
-          "de": "mit Mozzarella, Tomaten, Oliven, Eisbergsalat & frischer Petersilie",
-          "en": "with mozzarella, tomatoes, olives, iceberg lettuce & frischer Petersilie",
-          "ru": "с моцареллой, помидорами, оливками, салатом айсберг & frischer Petersilie"
+          "de": "mit Mozzarella, Tomaten, Oliven, Mix-Salat & Remoulade",
+          "en": "with mozzarella, tomatoes, olives, salad & remoulade",
+          "ru": "с моцареллой, помидорами, оливками & ремуладом"
         },
         "price": "11,90 €",
-        "image": "/images/XXL Wraps/XXL Wrap Tifosi.jpeg"
+        "image": "/images/XXL Wraps/XXL Tifosi Wrap.jpeg"
       },
       {
         "id": "108",
         "name": "Thunfisch",
         "desc": {
-          "de": "mit Eisbergsalat, Tomaten & Remoulade",
-          "en": "with iceberg lettuce, tomatoes & Remoulade",
-          "ru": "с салатом айсберг, помидорами & Remoulade"
+          "de": "mit Mix-Salat, Tomaten & Remoulade",
+          "en": "with tuna, salad, tomatoes & remoulade",
+          "ru": "с тунцом, салатом, помидорами & ремуладом"
         },
         "price": "12,90 €",
         "image": "/images/XXL Wraps/XXL Wrap Tuna.jpeg"
@@ -1829,9 +980,9 @@ export const menuData = [
         "id": "109",
         "name": "Chicken",
         "desc": {
-          "de": "mit Eisbergsalat, Tomaten, Mais & Remoulade",
-          "en": "with iceberg lettuce, tomatoes, corn & Remoulade",
-          "ru": "с салатом айсберг, помидорами, кукурузой & Remoulade"
+          "de": "mit Mix-Salat, Tomaten, Mais & Remoulade",
+          "en": "with chicken, salad, tomatoes, corn & remoulade",
+          "ru": "с курицей, салатом, помидорами, кукурузой & ремуладом"
         },
         "price": "13,90 €",
         "image": "/images/XXL Wraps/XXL Wrap Chicken.jpeg"
@@ -1839,304 +990,478 @@ export const menuData = [
     ]
   },
   {
-    "category": "Gyros",
+    "category": "Salate",
     "items": [
       {
-        "id": "G1",
-        "name": "Bauernplatte",
+        "id": "132",
+        "name": "Grundsalat [groß]",
         "desc": {
-          "de": "Gyrosgericht",
-          "en": "Gyrosgericht",
-          "ru": "Gyrosgericht"
+          "de": "mit Eisbergsalat, Gurken, Tomaten, Paprika, Mais, Peperoni, Zwiebeln & Oliven",
+          "en": "large green salad",
+          "ru": "большой зеленый салат"
+        },
+        "price": "10,90 €",
+        "image": "/images/salate/grundsalat.jpeg"
+      },
+      {
+        "id": "133",
+        "name": "Grundsalat [klein]",
+        "desc": {
+          "de": "kleiner frischer Salat",
+          "en": "small fresh salad",
+          "ru": "маленький свежий салат"
+        },
+        "price": "8,90 €",
+        "image": "/images/salate/grundsalat.jpeg"
+      },
+      {
+        "id": "133A",
+        "name": "Italia [klein]",
+        "desc": {
+          "de": "nur mit Eisbergsalat, Tomaten & Mozzarella",
+          "en": "with lettuce, tomatoes & mozzarella",
+          "ru": "с салатом, помидорами & моцареллой"
+        },
+        "price": "9,90 €",
+        "image": "/images/salate/salat italia.jpeg"
+      },
+      {
+        "id": "134",
+        "name": "Tomaten [klein]",
+        "desc": {
+          "de": "nur mit Tomaten & Eisbergsalat",
+          "en": "with tomatoes & lettuce",
+          "ru": "с помидорами & салатом"
+        },
+        "price": "8,90 €",
+        "image": "/images/salate/salat tomaten.jpeg"
+      },
+      {
+        "id": "135",
+        "name": "Chef",
+        "desc": {
+          "de": "Grundsalat [groß] mit Schinken, Käse & Ei",
+          "en": "large salad with ham, cheese & egg",
+          "ru": "большой салат с ветчиной, сыром & яйцом"
         },
         "price": "12,90 €",
-        "image": "/images/gyros/bauernplatte.jpeg"
+        "image": "/images/salate/salat chef.jpeg"
       },
       {
-        "id": "G2",
-        "name": "Cevapcici Plate",
+        "id": "136",
+        "name": "Nizza",
         "desc": {
-          "de": "Gyrosgericht",
-          "en": "Gyrosgericht",
-          "ru": "Gyrosgericht"
-        },
-        "price": "11,90 €",
-        "image": "/images/gyros/cevapcici plate.jpeg"
-      },
-      {
-        "id": "G3",
-        "name": "Grillteller",
-        "desc": {
-          "de": "Gyrosgericht",
-          "en": "Gyrosgericht",
-          "ru": "Gyrosgericht"
-        },
-        "price": "19,90 €",
-        "image": "/images/gyros/grillteller .jpeg"
-      },
-      {
-        "id": "G4",
-        "name": "Grillteller King",
-        "desc": {
-          "de": "Gyrosgericht",
-          "en": "Gyrosgericht",
-          "ru": "Gyrosgericht"
-        },
-        "price": "43,70 €",
-        "image": "/images/gyros/grillteller king.jpeg"
-      },
-      {
-        "id": "G5",
-        "name": "Grundgyros mit Pommes",
-        "desc": {
-          "de": "Gyrosgericht",
-          "en": "Gyrosgericht",
-          "ru": "Gyrosgericht"
-        },
-        "price": "10,90 €",
-        "image": "/images/gyros/grundgyros mit frittes.jpeg"
-      },
-      {
-        "id": "G6",
-        "name": "Grundgyros mit Reis",
-        "desc": {
-          "de": "Gyrosgericht",
-          "en": "Gyrosgericht",
-          "ru": "Gyrosgericht"
-        },
-        "price": "10,90 €",
-        "image": "/images/gyros/grundgyros mit reis.jpeg"
-      },
-      {
-        "id": "G7",
-        "name": "Gyros mit Champignons",
-        "desc": {
-          "de": "Gyrosgericht",
-          "en": "Gyrosgericht",
-          "ru": "Gyrosgericht"
-        },
-        "price": "11,90 €",
-        "image": "/images/gyros/gyros mit champignons .jpeg"
-      },
-      {
-        "id": "G8",
-        "name": "Gyros mit Tomaten überbacken",
-        "desc": {
-          "de": "Gyrosgericht",
-          "en": "Gyrosgericht",
-          "ru": "Gyrosgericht"
-        },
-        "price": "12,50 €",
-        "image": "/images/gyros/gyros mit tomaten und überbacken.jpeg"
-      },
-      {
-        "id": "G9",
-        "name": "Gyros Souvlaki",
-        "desc": {
-          "de": "Gyrosgericht",
-          "en": "Gyrosgericht",
-          "ru": "Gyrosgericht"
+          "de": "Grundsalat [groß] mit Thunfisch & Ei",
+          "en": "large salad with tuna & egg",
+          "ru": "большой салат с тунцом & яйцом"
         },
         "price": "13,90 €",
-        "image": "/images/gyros/gyros souvlaki.jpeg"
+        "image": "/images/salate/salat nizza.jpeg"
       },
       {
-        "id": "G10",
-        "name": "Hacksteak Plate",
+        "id": "137",
+        "name": "Schnitzel",
         "desc": {
-          "de": "Gyrosgericht",
-          "en": "Gyrosgericht",
-          "ru": "Gyrosgericht"
-        },
-        "price": "11,90 €",
-        "image": "/images/gyros/hacksteak plate.jpeg"
-      },
-      {
-        "id": "G11",
-        "name": "King Platte",
-        "desc": {
-          "de": "Gyrosgericht",
-          "en": "Gyrosgericht",
-          "ru": "Gyrosgericht"
-        },
-        "price": "15,90 €",
-        "image": "/images/gyros/king platte.jpeg"
-      },
-      {
-        "id": "G12",
-        "name": "Rhodos Platte",
-        "desc": {
-          "de": "Gyrosgericht",
-          "en": "Gyrosgericht",
-          "ru": "Gyrosgericht"
+          "de": "Grundsalat [groß] mit Schnitzelstreifen, fr. Champignons & Ei",
+          "en": "large salad with schnitzel strips, mushrooms & egg",
+          "ru": "большой салат со шницелем"
         },
         "price": "14,90 €",
-        "image": "/images/gyros/rhodos platte.jpeg"
+        "image": "/images/salate/salat schnitzel.jpeg"
       },
       {
-        "id": "G13",
-        "name": "Rimini Platte",
+        "id": "138",
+        "name": "Bauern",
         "desc": {
-          "de": "Gyrosgericht",
-          "en": "Gyrosgericht",
-          "ru": "Gyrosgericht"
+          "de": "Grundsalat [groß] mit Weichkäse",
+          "en": "large salad with soft cheese",
+          "ru": "греческий салат с сыром"
         },
-        "price": "13,90 €",
-        "image": "/images/gyros/rimini platte.jpeg"
+        "price": "12,90 €",
+        "image": "/images/salate/salat bauern.jpeg"
       },
       {
-        "id": "79",
-        "name": "Grundgyros",
+        "id": "139",
+        "name": "Hawaii",
         "desc": {
-          "de": "mit Pommes frites oder Reis & Tzatziki",
-          "en": "with french fries or rice & tzatziki",
-          "ru": "с картофелем фри или рисом & дзадзики"
+          "de": "Grundsalat [groß] mit Schinken & Ananas",
+          "en": "large salad with ham & pineapple",
+          "ru": "салат с ветчиной & ананасами"
         },
-        "price": "16,90 €",
-        "image": "/images/gyros/grundgyros mit frittes.jpeg"
+        "price": "12,90 €",
+        "image": "/images/salate/salat hawaii.jpeg"
       },
       {
-        "id": "81",
-        "name": "Gyros griechischer Art",
+        "id": "140",
+        "name": "King",
         "desc": {
-          "de": "mit Weichkäse & Zwiebeln",
-          "en": "with soft cheese & onions",
-          "ru": "с мягким сыром & луком"
+          "de": "Grundsalat [groß] mit Schinken, Käse, Weichkäse, Thunfisch & Ei",
+          "en": "large salad with ham, cheese, soft cheese, tuna & egg",
+          "ru": "королевский салат"
         },
-        "price": "17,90 €",
-        "image": "/images/gyros/gyros mit tomaten und überbacken.jpeg"
+        "price": "14,90 €",
+        "image": "/images/salate/salat king.jpeg"
       },
       {
-        "id": "82",
-        "name": "Gyros mit gebratenen Zwiebeln und Champignons",
-        "desc": {
-          "de": "mit gebratenen Zwiebeln & Champignons",
-          "en": "with gebratenen onions & mushrooms",
-          "ru": "с gebratenen луком & шампиньонами"
-        },
-        "price": "18,90 €",
-        "image": "/images/gyros/gyros mit champignons .jpeg"
-      },
-      {
-        "id": "83",
-        "name": "Rimini-Platte",
-        "desc": {
-          "de": "Gyros & Souvlaki",
-          "en": "gyros & Souvlaki",
-          "ru": "гиросом & Souvlaki"
-        },
-        "price": "21,90 €",
-        "image": "/images/gyros/rimini platte.jpeg"
-      },
-      {
-        "id": "84",
-        "name": "Rhodos-Platte",
-        "desc": {
-          "de": "Gyros & Bifteki",
-          "en": "gyros & Bifteki",
-          "ru": "гиросом & Bifteki"
-        },
-        "price": "19,90 €",
-        "image": "/images/gyros/rhodos platte.jpeg"
-      },
-      {
-        "id": "85",
-        "name": "Bauern-Platte",
-        "desc": {
-          "de": "Gyros & Cevapcici",
-          "en": "gyros & Cevapcici",
-          "ru": "гиросом & Cevapcici"
-        },
-        "price": "21,90 €",
-        "image": "/images/gyros/bauernplatte.jpeg"
-      },
-      {
-        "id": "86",
+        "id": "141",
         "name": "King-Platte",
         "desc": {
-          "de": "Gyros, Souvlaki & Cevapcici",
-          "en": "gyros, Souvlaki & Cevapcici",
-          "ru": "гиросом, Souvlaki & Cevapcici"
+          "de": "Grundsalat [groß] mit Chicken Chips, Ei & Champignons",
+          "en": "large salad with chicken chips, egg & mushrooms",
+          "ru": "салат с куриными чипсами"
         },
-        "price": "23,90 €",
-        "image": "/images/gyros/king platte.jpeg"
+        "price": "14,90 €",
+        "image": "/images/salate/salat king platte.jpeg"
+      }
+    ]
+  },
+  {
+    "category": "Schnitzel",
+    "items": [
+      {
+        "id": "150",
+        "name": "Paniertes Schnitzel (280 g)",
+        "desc": {
+          "de": "mit Zitrone, Salatbeilage, Pommes frites & ½ Brot",
+          "en": "breaded schnitzel (280g) with lemon, salad, fries & ½ bread",
+          "ru": "шницель (280г) с лимоном"
+        },
+        "price": "13,90 €",
+        "image": "/images/schnitzel/paniertes schnitzel.jpeg"
       },
       {
-        "id": "87",
-        "name": "Souvlaki",
+        "id": "145",
+        "name": "Schnitzel mit gebratenen Champignons & Zwiebeln",
         "desc": {
-          "de": "2 Fleischspieße mit Pommes",
-          "en": "2 Fleischspieße with Pommes",
-          "ru": "2 Fleischspieße с Pommes"
-        },
-        "price": "19,90 €",
-        "image": "/images/gyros/gyros souvlaki.jpeg"
-      },
-      {
-        "id": "88",
-        "name": "Grillteller",
-        "desc": {
-          "de": "verschiedene Fleischsorten vom Grill",
-          "en": "verschiedene Fleischsorten vom Grill",
-          "ru": "verschiedene Fleischsorten vom Grill"
-        },
-        "price": "23,90 €",
-        "image": "/images/gyros/grillteller .jpeg"
-      },
-      {
-        "id": "89",
-        "name": "Grillteller King für 2 Personen",
-        "desc": {
-          "de": "großer Grillteller für 2 Personen",
-          "en": "großer Grillteller für 2 Personen",
-          "ru": "großer Grillteller für 2 Personen"
-        },
-        "price": "48,90 €",
-        "image": "/images/gyros/grillteller king.jpeg"
-      },
-      {
-        "id": "90",
-        "name": "Cevapcici (12 Stück)",
-        "desc": {
-          "de": "12 Stück mit Pommes",
-          "en": "12 Stück with Pommes",
-          "ru": "12 Stück с Pommes"
+          "de": "mit gebratenen Champignons & Zwiebeln, Salatbeilage, Pommes & ½ Brot",
+          "en": "with fried mushrooms & onions, salad, fries & ½ bread",
+          "ru": "с жареными шампиньонами & луком"
         },
         "price": "15,90 €",
-        "image": "/images/gyros/cevapcici plate.jpeg"
+        "image": "/images/schnitzel/schnitzel mit gebratenen champinons und zwiebeln.jpeg"
       },
       {
-        "id": "90A",
-        "name": "Hacksteak (360g)",
+        "id": "147",
+        "name": "Hawaii Schnitzel",
         "desc": {
-          "de": "gefülltes Hacksteak 360g",
-          "en": "gefülltes Hacksteak 360g",
-          "ru": "gefülltes Hacksteak 360g"
+          "de": "mit Schinken, Ananas & Käse überbacken",
+          "en": "baked with ham, pineapple & cheese",
+          "ru": "запеченный с ветчиной & ананасами"
         },
-        "price": "19,90 €",
-        "image": "/images/gyros/hacksteak plate.jpeg"
+        "price": "16,90 €",
+        "image": "/images/schnitzel/schnitzel hawaii.jpeg"
       },
       {
-        "id": "90B",
-        "name": "3 Souvlaki-Spieße in Metaxasauce",
+        "id": "148",
+        "name": "Broccoli Schnitzel",
         "desc": {
-          "de": "3 Spieße in Metaxasauce",
-          "en": "3 Spieße in Metaxasauce",
-          "ru": "3 Spieße in Metaxasauce"
+          "de": "mit Schinken, Broccoli & Käse überbacken",
+          "en": "baked with ham, broccoli & cheese",
+          "ru": "запеченный с брокколи & сыром"
         },
-        "price": "17,40 €",
-        "image": "/images/gyros/gyros souvlaki.jpeg"
+        "price": "16,90 €",
+        "image": "/images/schnitzel/schnitzel broccoli.jpeg"
       },
       {
-        "id": "90C",
-        "name": "3 Souvlaki-Spieße mit Zwiebeln und Champignons",
+        "id": "144",
+        "name": "Portion Rahmsauce",
         "desc": {
-          "de": "3 Spieße mit Zwiebeln & Champignons",
-          "en": "3 Spieße with onions & mushrooms",
-          "ru": "3 Spieße с луком & шампиньонами"
+          "de": "cremige Rahmsauce",
+          "en": "cream sauce",
+          "ru": "сливочный соус"
         },
-        "price": "17,40 €",
-        "image": "/images/gyros/gyros souvlaki.jpeg"
+        "price": "4,50 €",
+        "image": "/sauce.png"
+      },
+      {
+        "id": "144A",
+        "name": "Portion Jägersauce",
+        "desc": {
+          "de": "würzige Jägersauce",
+          "en": "mushroom hunter sauce",
+          "ru": "грибной соус"
+        },
+        "price": "4,50 €",
+        "image": "/sauce.png"
+      },
+      {
+        "id": "144B",
+        "name": "Portion Sahnesauce",
+        "desc": {
+          "de": "feine Sahnesauce",
+          "en": "fine cream sauce",
+          "ru": "сливочный соус"
+        },
+        "price": "4,50 €",
+        "image": "/sauce.png"
+      },
+      {
+        "id": "144C",
+        "name": "Portion Champignonsauce",
+        "desc": {
+          "de": "leckere Champignonsauce",
+          "en": "mushroom sauce",
+          "ru": "грибной соус"
+        },
+        "price": "4,50 €",
+        "image": "/sauce.png"
+      }
+    ]
+  },
+  {
+    "category": "Pizzabrötchen & Calzone",
+    "items": [
+      {
+        "id": "34",
+        "name": "Pizza Brötchen (12 Stück)",
+        "desc": {
+          "de": "mit Käse gefüllt",
+          "en": "filled with cheese",
+          "ru": "с сыром"
+        },
+        "price": "8,90 €",
+        "image": "/images/pizzabrötchen/pizzabrötchen käse.jpeg"
+      },
+      {
+        "id": "41",
+        "name": "Calzone auf Wunsch",
+        "desc": {
+          "de": "mit 4 Belägen nach Wahl",
+          "en": "with 4 toppings of choice",
+          "ru": "с 4 начинками на выбор"
+        },
+        "price": "12,90 €",
+        "image": "/images/calzone/calzone wunsch.jpeg"
+      },
+      {
+        "id": "42",
+        "name": "Calzone King",
+        "desc": {
+          "de": "mit Salami, Schinken, Zwiebeln, Champignons & Paprika",
+          "en": "with salami, ham, onions, mushrooms & peppers",
+          "ru": "с салями, ветчиной, луком, шампиньонами & перцем"
+        },
+        "price": "12,90 €",
+        "image": "/images/calzone/calzone king.jpeg"
+      }
+    ]
+  },
+  {
+    "category": "Fladenbrote & Croques",
+    "items": [
+      {
+        "id": "45",
+        "name": "Fladenbrot Thunfisch",
+        "desc": {
+          "de": "mit Thunfisch, Gurke, Tomate & Käse",
+          "en": "with tuna, cucumber, tomato & cheese",
+          "ru": "с тунцом, огурцом, помидором & сыром"
+        },
+        "price": "11,90 €",
+        "image": "/images/fladenbrote/fladenbrot thunfisch.jpeg"
+      },
+      {
+        "id": "46",
+        "name": "Fladenbrot Hackfleisch",
+        "desc": {
+          "de": "mit Hackfleisch, Gurke, Tomate & Käse",
+          "en": "with minced meat, cucumber, tomato & cheese",
+          "ru": "с мясным фаршем"
+        },
+        "price": "11,90 €",
+        "image": "/images/fladenbrote/fladenbrot hackfleisch.jpeg"
+      },
+      {
+        "id": "49",
+        "name": "Fladenbrot Gyros",
+        "desc": {
+          "de": "mit Gyros, Tzatziki & Krautsalat",
+          "en": "with gyros, tzatziki & coleslaw",
+          "ru": "с гиросом, дзадзики & капустным салатом"
+        },
+        "price": "12,90 €",
+        "image": "/images/fladenbrote/fladenbrot gyros.jpeg"
+      },
+      {
+        "id": "50",
+        "name": "Fladenbrot King",
+        "desc": {
+          "de": "mit Putenbrust, fr. Champignons, Zwiebeln & Sauce Hollandaise",
+          "en": "with turkey breast, mushrooms, onions & hollandaise",
+          "ru": "королевская лепешка"
+        },
+        "price": "13,90 €",
+        "image": "/images/fladenbrote/fladenbrot king.jpeg"
+      },
+      {
+        "id": "51",
+        "name": "Croque Salami",
+        "desc": {
+          "de": "mit Salami, Gurke, Tomate, Salat & Käse",
+          "en": "with salami, cucumber, tomato, salad & cheese",
+          "ru": "с салями"
+        },
+        "price": "11,90 €",
+        "image": "/images/croques/croque salami.jpeg"
+      },
+      {
+        "id": "52",
+        "name": "Croque Schinken",
+        "desc": {
+          "de": "mit Schinken, Gurke, Tomate, Salat & Käse",
+          "en": "with ham, cucumber, tomato, salad & cheese",
+          "ru": "с ветчиной"
+        },
+        "price": "11,90 €",
+        "image": "/images/croques/croque schinken.jpeg"
+      },
+      {
+        "id": "53",
+        "name": "Croque Thunfisch mit Zwiebeln",
+        "desc": {
+          "de": "mit Thunfisch, Zwiebeln, Gurke, Tomate, Salat & Käse",
+          "en": "with tuna, onions, cucumber, tomato, salad & cheese",
+          "ru": "с тунцом & луком"
+        },
+        "price": "12,90 €",
+        "image": "/images/croques/croque thunfisch.jpeg"
+      },
+      {
+        "id": "54",
+        "name": "Croque Hawaii",
+        "desc": {
+          "de": "mit Schinken, Ananas, Gurke, Tomate, Salat & Käse",
+          "en": "with ham, pineapple, salad & cheese",
+          "ru": "с ветчиной & ананасами"
+        },
+        "price": "12,90 €",
+        "image": "/images/croques/croque hawaii.jpeg"
+      },
+      {
+        "id": "55",
+        "name": "Croque Hackfleisch mit Zwiebeln",
+        "desc": {
+          "de": "mit Hackfleisch, Zwiebeln, Gurke, Tomate, Salat & Käse",
+          "en": "with minced meat, onions, salad & cheese",
+          "ru": "с мясным фаршем & луком"
+        },
+        "price": "12,90 €",
+        "image": "/images/croques/croque hackfleisch.jpeg"
+      },
+      {
+        "id": "56",
+        "name": "Croque Gyros mit Zwiebeln",
+        "desc": {
+          "de": "mit Gyros, Zwiebeln, Gurke, Tomate, Salat & Käse",
+          "en": "with gyros, onions, salad & cheese",
+          "ru": "с гиросом & луком"
+        },
+        "price": "13,90 €",
+        "image": "/images/croques/croque gyros.jpeg"
+      }
+    ]
+  },
+  {
+    "category": "Pasta",
+    "items": [
+      {
+        "id": "57",
+        "name": "Maccheroni mit Spinat & Weichkäse",
+        "desc": {
+          "de": "in Sahnesauce",
+          "en": "in cream sauce",
+          "ru": "в сливочном соусе"
+        },
+        "price": "14,90 €",
+        "image": "/images/pasta/macaroni spinat weichkäse.jpeg"
+      },
+      {
+        "id": "59",
+        "name": "Spaghetti Bolognese",
+        "desc": {
+          "de": "mit Tomatensauce & Hackfleisch",
+          "en": "with tomato sauce & minced meat",
+          "ru": "с томатным соусом & фаршем"
+        },
+        "price": "12,50 €",
+        "image": "/images/pasta/spaghetti bolognese.jpeg"
+      },
+      {
+        "id": "60",
+        "name": "Spaghetti Carbonara",
+        "desc": {
+          "de": "mit Schinken & Ei in Sahnesauce in der Pfanne gebraten",
+          "en": "with ham & egg in cream sauce",
+          "ru": "с ветчиной & яйцом"
+        },
+        "price": "12,90 €",
+        "image": "/images/pasta/spaghetti carbonara.jpeg"
+      },
+      {
+        "id": "61",
+        "name": "Nudelpfanne",
+        "desc": {
+          "de": "mit Tortellini, Spaghetti, Lasagne, Maccheroni, Champignons, Hack-Sauce & Käse überbacken",
+          "en": "with tortellini, spaghetti, lasagne, macaroni, mushrooms, meat sauce & cheese",
+          "ru": "паста-микс с сыром"
+        },
+        "price": "15,90 €",
+        "image": "/images/pasta/nudelpfanne.jpeg"
+      },
+      {
+        "id": "62",
+        "name": "Nudelpfanne Spezial",
+        "desc": {
+          "de": "mit Tortellini, Spaghetti, Lasagne, Maccheroni & Hackfleisch in Sahnesauce & Sauce Hollandaise mit Käse überbacken",
+          "en": "special pasta mix baked with hollandaise",
+          "ru": "специальная паста"
+        },
+        "price": "16,90 €",
+        "image": "/images/pasta/nudelpfanne spezial.jpeg"
+      },
+      {
+        "id": "63",
+        "name": "Maccheroni del Ghiottone",
+        "desc": {
+          "de": "mit Champignons, Schinken, Hackfleisch & Tomaten in Sahnesauce",
+          "en": "with mushrooms, ham, minced meat & tomatoes in cream sauce",
+          "ru": "с шампиньонами, ветчиной & фаршем"
+        },
+        "price": "14,90 €",
+        "image": "/images/pasta/macaroni del ghiottone.jpeg"
+      },
+      {
+        "id": "65",
+        "name": "Maccheroni mit Schinken",
+        "desc": {
+          "de": "in Champignons-Sahnesauce",
+          "en": "in mushroom cream sauce",
+          "ru": "в грибном сливочном соусе"
+        },
+        "price": "12,90 €",
+        "image": "/images/pasta/macaroni schinken.jpeg"
+      },
+      {
+        "id": "67",
+        "name": "Tortellini alla Romana",
+        "desc": {
+          "de": "mit Schinken, Champignons & Hackfleisch in Sahnesauce",
+          "en": "with ham, mushrooms & minced meat in cream sauce",
+          "ru": "с ветчиной, шампиньонами & фаршем"
+        },
+        "price": "14,90 €",
+        "image": "/images/pasta/tortellini alla romana.jpeg"
+      },
+      {
+        "id": "68",
+        "name": "Tortellini mit Schinken",
+        "desc": {
+          "de": "in Sahnesauce",
+          "en": "in cream sauce",
+          "ru": "в сливочном соусе"
+        },
+        "price": "12,90 €",
+        "image": "/images/pasta/tortellini schinken.jpeg"
       }
     ]
   },
@@ -2147,188 +1472,122 @@ export const menuData = [
         "id": "69",
         "name": "Reispfanne vegetarisch",
         "desc": {
-          "de": "mit verschiedenem Gemüse & Tomaten-Sahnesauce",
-          "en": "with various vegetables & tomatoes-cream sauce",
-          "ru": "с различными овощами & помидорами-сливочным соусом"
+          "de": "mit verschiedenem Gemüse & Tomaten-Sahnesauce, serviert mit ½ Brot",
+          "en": "with vegetables & tomato cream sauce, with ½ bread",
+          "ru": "с овощами"
         },
         "price": "12,90 €",
-        "image": "/images/reis/rerispfanne vegetarisch.jpeg"
+        "image": "/images/reispfanne/reispfanne vegetarisch.jpeg"
       },
       {
         "id": "70",
         "name": "Reispfanne Schnitzel",
         "desc": {
-          "de": "mit Schnitzelwürfeln & Sahnesauce",
-          "en": "with Schnitzelwürfeln & cream sauce",
-          "ru": "с Schnitzelwürfeln & сливочным соусом"
+          "de": "mit Schnitzelwürfeln & Sahnesauce, serviert mit ½ Brot",
+          "en": "with schnitzel & cream sauce, with ½ bread",
+          "ru": "с кусочками шницеля"
         },
         "price": "14,90 €",
-        "image": "/images/reis/reispfanne schnitzel.jpeg"
+        "image": "/images/reispfanne/reispfanne schnitzel.jpeg"
       },
       {
         "id": "71",
         "name": "Arabische Pfanne",
         "desc": {
           "de": "Reis mit Gyros, Ananas, Paprika, Rosinen, Mandeln & Curry-Sahnesauce",
-          "en": "Reis with gyros, pineapple, peppers, Rosinen, Mandeln & curry-cream sauce",
-          "ru": "Reis с гиросом, ананасами, перцем, Rosinen, Mandeln & карри-сливочным соусом"
+          "en": "rice with gyros, pineapple, peppers, raisins, almonds & curry sauce",
+          "ru": "арабская сковорода"
         },
         "price": "15,90 €",
-        "image": "/images/reis/arabische pfanne.jpeg"
+        "image": "/images/reispfanne/arabische pfanne.jpeg"
       },
       {
         "id": "72",
         "name": "Reis mit Champignons",
         "desc": {
-          "de": "mit Sahnesauce, Sauce Hollandaise & Käse überbacken",
-          "en": "with cream sauce, hollandaise sauce & baked with cheese",
-          "ru": "с сливочным соусом, голландским соусом & запеченным с сыром"
+          "de": "mit Champignons, Sahnesauce, Sauce Hollandaise & Käse überbacken",
+          "en": "rice with mushrooms baked with cheese",
+          "ru": "рис с шампиньонами"
         },
         "price": "14,90 €",
-        "image": "/images/reis/reispfanne mit käse überbacken.jpeg"
+        "image": "/images/reispfanne/reis mit champinons.jpeg"
       },
       {
         "id": "73",
         "name": "Broccoli-Auflauf",
         "desc": {
-          "de": "mit Schinken, Sahnesauce",
-          "en": "with ham, cream sauce",
-          "ru": "с ветчиной, сливочным соусом"
+          "de": "mit Schinken, Sahnesauce, dazu ½ Brot",
+          "en": "with ham, cream sauce & ½ bread",
+          "ru": "с ветчиной & сливочным соусом"
         },
         "price": "12,90 €",
-        "image": "/images/aufläufe/broccoli auflauf.jpeg"
+        "image": "/images/aufläufe/auflauf broccoli.jpeg"
       },
       {
         "id": "74",
         "name": "Broccoli-Blumenkohl-Auflauf",
         "desc": {
-          "de": "mit Schinken & Sahnesauce",
-          "en": "with ham & cream sauce",
-          "ru": "с ветчиной & сливочным соусом"
+          "de": "mit Schinken & Sahnesauce, dazu ½ Brot",
+          "en": "with ham & cream sauce, & ½ bread",
+          "ru": "с брокколи, цветной капустой"
         },
         "price": "13,90 €",
-        "image": "/images/aufläufe/broccoli and blumenkohl auflauf.jpeg"
+        "image": "/images/aufläufe/auflauf broccoli blumenkohl.jpeg"
       },
       {
         "id": "75",
         "name": "Gemüse-Auflauf",
         "desc": {
-          "de": "mit verschiedenem Gemüse & Sahnesauce",
-          "en": "with various vegetables & cream sauce",
-          "ru": "с различными овощами & сливочным соусом"
+          "de": "mit verschiedenem Gemüse & Sahnesauce, dazu ½ Brot",
+          "en": "with vegetables & cream sauce, & ½ bread",
+          "ru": "овощная запеканка"
         },
         "price": "13,90 €",
-        "image": "/images/aufläufe/auflauf gemüse .jpeg"
+        "image": "/images/aufläufe/auflauf gemüse.jpeg"
       },
       {
         "id": "76",
         "name": "King-Auflauf mit Gyros und Kartoffeln",
         "desc": {
-          "de": "mit Gyros, Kartoffeln & Sauce Hollandaise",
-          "en": "with gyros, Kartoffeln & hollandaise sauce",
-          "ru": "с гиросом, Kartoffeln & голландским соусом"
+          "de": "mit Gyros, Kartoffeln & Sauce Hollandaise, dazu ½ Brot",
+          "en": "with gyros, potatoes & hollandaise, & ½ bread",
+          "ru": "запеканка с гиросом & картофелем"
         },
         "price": "16,90 €",
         "image": "/images/aufläufe/auflauf king.jpeg"
       },
       {
-        "id": "77",
-        "name": "Schinken-Champignon-Auflauf",
-        "desc": {
-          "de": "mit Sahnesauce & Käse überbacken",
-          "en": "with cream sauce & baked with cheese",
-          "ru": "с сливочным соусом & запеченным с сыром"
-        },
-        "price": "9,90 €",
-        "image": "/images/aufläufe/auflauf mit schinken champignons.jpeg"
-      },
-      {
         "id": "152",
         "name": "Calamari Fritti",
         "desc": {
-          "de": "frittiert mit ½ Brot & Knoblauchsauce",
-          "en": "frittiert with ½ Brot & Knoblauchsauce",
-          "ru": "frittiert с ½ Brot & Knoblauchsauce"
+          "de": "frittierte Tintenfischringe mit ½ Brot, Knoblauchsauce, Salatbeilage & Pommes",
+          "en": "fried squid rings with bread, garlic sauce, salad & fries",
+          "ru": "кальмары с чесночным соусом"
         },
         "price": "13,90 €",
         "image": "/images/fisch/calamari fritti.jpeg"
       },
       {
-        "id": "153",
-        "name": "Seelachsfilet",
-        "desc": {
-          "de": "mit Knoblauchsauce",
-          "en": "with garlic sauce",
-          "ru": "с чесночным соусом"
-        },
-        "price": "12,40 €",
-        "image": "/images/fisch/seelachsfilet paniert.jpeg"
-      },
-      {
         "id": "154",
         "name": "Fischfilet mit Sauce Hollandaise",
         "desc": {
-          "de": "mit Sauce Hollandaise",
-          "en": "with hollandaise sauce",
-          "ru": "с голландским соусом"
+          "de": "mit Sauce Hollandaise, Salatbeilage & Pommes",
+          "en": "fish fillet with hollandaise, salad & fries",
+          "ru": "рыбное филе с голландским соусом"
         },
         "price": "15,90 €",
-        "image": "/images/fisch/Fishfilet with pommes.jpeg"
+        "image": "/images/fisch/fischfilet hollandaise.jpeg"
       },
       {
         "id": "155",
         "name": "Fischplatte King",
         "desc": {
-          "de": "verschiedene Sorten Fisch mit Knoblauchsauce",
-          "en": "verschiedene Sorten Fisch with garlic sauce",
-          "ru": "verschiedene Sorten Fisch с чесночным соусом"
+          "de": "verschiedene Sorten Fisch mit Knoblauchsauce, Salatbeilage & Pommes",
+          "en": "mixed fish plate with garlic sauce, salad & fries",
+          "ru": "рыбная тарелка King"
         },
         "price": "17,90 €",
-        "image": "/images/fisch/Fischplatte King.jpeg"
-      },
-      {
-        "id": "2000",
-        "name": "Makkaroniauflauf",
-        "desc": {
-          "de": "mit Schinken, Sahnesauce & Käse überbacken",
-          "en": "with ham, cream sauce & baked with cheese",
-          "ru": "с ветчиной, сливочным соусом & запеченным с сыром"
-        },
-        "price": "11,30 €",
-        "image": "/images/aufläufe/broccoli auflauf.jpeg"
-      },
-      {
-        "id": "2001",
-        "name": "Makkaroniauflauf mit Hähnchenfilet",
-        "desc": {
-          "de": "mit Hähnchenfilet, Sahnesauce & Käse",
-          "en": "with Hähnchenfilet, cream sauce & cheese",
-          "ru": "с Hähnchenfilet, сливочным соусом & сыром"
-        },
-        "price": "15,30 €",
-        "image": "/images/aufläufe/auflauf mit schinken champignons.jpeg"
-      },
-      {
-        "id": "2003",
-        "name": "Gyrosauflauf Metaxa",
-        "desc": {
-          "de": "mit Gyros & Metaxasauce",
-          "en": "with gyros & Metaxasauce",
-          "ru": "с гиросом & Metaxasauce"
-        },
-        "price": "16,20 €",
-        "image": "/images/aufläufe/auflauf king.jpeg"
-      },
-      {
-        "id": "151",
-        "name": "Lachsfilet mit Spinat und Parmesan",
-        "desc": {
-          "de": "mit Spinat & Parmesan",
-          "en": "with spinach & Parmesan",
-          "ru": "с шпинатом & Parmesan"
-        },
-        "price": "15,50 €",
-        "image": "/images/fisch/Fishfilet with pommes.jpeg"
+        "image": "/images/fisch/fischplatte king.jpeg"
       }
     ]
   },
@@ -2339,56 +1598,56 @@ export const menuData = [
         "id": "156",
         "name": "Chicken Chips (6 Stück)",
         "desc": {
-          "de": "mit Pommes & Ketchup/Mayo",
-          "en": "with Pommes & ketchup/Mayo",
-          "ru": "с Pommes & кетчупом/Mayo"
+          "de": "6 Stück mit Pommes & Ketchup/Mayo",
+          "en": "6 pcs with fries & ketchup/mayo",
+          "ru": "6 шт с картофелем фри"
         },
         "price": "6,90 €",
-        "image": "/images/Kids Gerichte/KInder Menü CHicken CHips .jpeg"
+        "image": "/images/für die kleinen/chicken chips 6stk.jpeg"
       },
       {
         "id": "157",
         "name": "Fischstäbchen (6 Stück)",
         "desc": {
-          "de": "mit Pommes & Ketchup/Mayo",
-          "en": "with Pommes & ketchup/Mayo",
-          "ru": "с Pommes & кетчупом/Mayo"
+          "de": "6 Stück mit Pommes & Ketchup/Mayo",
+          "en": "6 pcs with fries & ketchup/mayo",
+          "ru": "6 шт рыбных палочек"
         },
         "price": "6,90 €",
-        "image": "/images/Kids Gerichte/Kids Menü Fischstäbchen.jpeg"
+        "image": "/images/für die kleinen/fischstäbchen 6stk.jpeg"
       },
       {
         "id": "158",
         "name": "Kleines Schnitzel",
         "desc": {
-          "de": "mit Pommes & Salat",
-          "en": "with Pommes & Salat",
-          "ru": "с Pommes & Salat"
+          "de": "kleines Schnitzel mit Pommes",
+          "en": "small schnitzel with fries",
+          "ru": "маленький шницель с фри"
         },
         "price": "8,90 €",
-        "image": "/images/Kids Gerichte/KIds Menu schnitzel.jpeg"
+        "image": "/images/für die kleinen/kleines schnitzel.jpeg"
       },
       {
         "id": "158A",
         "name": "Pizza-Menü (20 cm)",
         "desc": {
-          "de": "Schinken oder Salami, Capri-Sonne & Ü-Ei",
-          "en": "ham oder salami, Capri-Sonne & Ü-egg",
-          "ru": "ветчиной oder салями, Capri-Sonne & Ü-яйцом"
+          "de": "20 cm Schinken- oder Salami-Pizza inkl. Überraschungs-Ei & Capri Sonne",
+          "en": "20 cm pizza with surprise egg & Capri-Sonne",
+          "ru": "детское пицца-меню"
         },
         "price": "9,90 €",
-        "image": "/images/Kids Gerichte/Kids pizza menü alternative 1.jpeg"
+        "image": "/images/für die kleinen/pizza menü 20cm.jpeg"
       },
       {
         "id": "158B",
         "name": "KiddiBox Chicken",
         "desc": {
-          "de": "mit Chicken Chips, Pommes & Capri-Sonne",
-          "en": "with chicken chips, Pommes & Capri-Sonne",
-          "ru": "с куриными чипсами, Pommes & Capri-Sonne"
+          "de": "mit Chicken Chips (4 Stk.), Pommes, Capri Sonne, Lolly & Überraschung",
+          "en": "with 4 chicken chips, fries, Capri-Sonne, lolly & surprise",
+          "ru": "детская коробка с игрушкой"
         },
         "price": "9,90 €",
-        "image": "/images/Kids Gerichte/Kiddy Box.jpeg"
+        "image": "/images/für die kleinen/kiddy box chicken chips.jpeg"
       }
     ]
   },
@@ -2400,110 +1659,44 @@ export const menuData = [
         "name": "Fladenbrot ohne alles",
         "desc": {
           "de": "frisches Fladenbrot",
-          "en": "frisches Fladenbrot",
-          "ru": "frisches Fladenbrot"
+          "en": "fresh flatbread",
+          "ru": "свежая лепешка"
         },
         "price": "3,50 €",
-        "image": "/Fladenbrot_ohne_alles_2K_202608121900.jpeg"
+        "image": "/images/beilagen/fladenbrot.jpeg"
       },
       {
         "id": "111",
-        "name": "Fladenbrot mit Knoblauchsauce",
+        "name": "Fladenbrot mit Tzatziki oder Knoblauchsauce",
         "desc": {
-          "de": "mit Knoblauchsauce",
-          "en": "with garlic sauce",
-          "ru": "с чесночным соусом"
+          "de": "mit Sauce nach Wahl",
+          "en": "with sauce of choice",
+          "ru": "с соусом"
         },
         "price": "4,90 €",
-        "image": "/Fladenbrot_with_garlic_sauce_2K_202608121900.jpeg"
+        "image": "/images/beilagen/fladenbrot.jpeg"
       },
       {
-        "id": "111A",
-        "name": "Fladenbrot mit Tzatziki",
+        "id": "118B",
+        "name": "Portion Tzatziki",
         "desc": {
-          "de": "mit Tzatziki",
-          "en": "with tzatziki",
-          "ru": "с дзадзики"
+          "de": "hausgemachtes Tzatziki",
+          "en": "homemade tzatziki",
+          "ru": "дзадзики"
         },
-        "price": "4,90 €",
-        "image": "/Flatbread_served_with_tzatziki_2K_202608121900.jpeg"
-      },
-      {
-        "id": "112",
-        "name": "Portion Mayo (15 g)",
-        "desc": {
-          "de": "Portion Mayonnaise",
-          "en": "Portion mayonnaise",
-          "ru": "Portion майонезом"
-        },
-        "price": "0,50 €",
-        "image": "/mayo.jpeg"
-      },
-      {
-        "id": "112A",
-        "name": "Portion Ketchup (15 g)",
-        "desc": {
-          "de": "Portion Ketchup",
-          "en": "Portion ketchup",
-          "ru": "Portion кетчупом"
-        },
-        "price": "0,50 €",
-        "image": "/ketchuip.jpeg"
+        "price": "3,40 €",
+        "image": "/Tzatziki_served_in_ceramic_bowl_202608121901.jpeg"
       },
       {
         "id": "113",
-        "name": "Portion milde Peperoni",
+        "name": "Portion Peperoni oder Oliven",
         "desc": {
-          "de": "milde Peperoni",
-          "en": "milde pepperoni (mild chili)",
-          "ru": "milde острым перцем"
+          "de": "milde Peperoni oder Oliven",
+          "en": "pepperoni or olives",
+          "ru": "пеперони oder оливки"
         },
         "price": "4,30 €",
-        "image": "/pepperoni.jpeg"
-      },
-      {
-        "id": "113A",
-        "name": "Portion schwarze Oliven",
-        "desc": {
-          "de": "schwarze Oliven",
-          "en": "schwarze olives",
-          "ru": "schwarze оливками"
-        },
-        "price": "4,30 €",
-        "image": "/oliven.jpeg"
-      },
-      {
-        "id": "115",
-        "name": "Portion Pommes klein",
-        "desc": {
-          "de": "knusprige Pommes frites",
-          "en": "knusprige Pommes frites",
-          "ru": "knusprige Pommes frites"
-        },
-        "price": "3,90 €",
-        "image": "/fritten klein.jpeg"
-      },
-      {
-        "id": "115B",
-        "name": "Portion Pommes groß",
-        "desc": {
-          "de": "große Portion Pommes frites",
-          "en": "große Portion Pommes frites",
-          "ru": "große Portion Pommes frites"
-        },
-        "price": "4,90 €",
-        "image": "/fritten groß.jpeg"
-      },
-      {
-        "id": "115G",
-        "name": "Portion Kroketten klein",
-        "desc": {
-          "de": "knusprige Kroketten",
-          "en": "knusprige Kroketten",
-          "ru": "knusprige Kroketten"
-        },
-        "price": "3,90 €",
-        "image": "/kroketten.jpeg"
+        "image": "/Olives_and_peppers_mixing_202608121902.jpeg"
       },
       {
         "id": "116",
@@ -2511,21 +1704,180 @@ export const menuData = [
         "desc": {
           "de": "Sauce Hollandaise",
           "en": "hollandaise sauce",
-          "ru": "голландским соусом"
+          "ru": "голландский соус"
         },
         "price": "3,40 €",
         "image": "/Sauce_hollandaise_in_gravy_boat_202608121901.jpeg"
       },
       {
-        "id": "118C",
-        "name": "Portion Tzatziki (125 ml)",
+        "id": "112",
+        "name": "Heinz Mayo oder Ketchup",
         "desc": {
-          "de": "hausgemachtes Tzatziki",
-          "en": "hausgemachtes tzatziki",
-          "ru": "hausgemachtes дзадзики"
+          "de": "Portion Mayo oder Ketchup",
+          "en": "portion mayo or ketchup",
+          "ru": "майонез oder кетчуп"
         },
-        "price": "3,40 €",
-        "image": "/Tzatziki_served_in_ceramic_bowl_202608121901.jpeg"
+        "price": "0,50 €",
+        "image": "/sauce.png"
+      },
+      {
+        "id": "115C",
+        "name": "Chili Pommes",
+        "desc": {
+          "de": "mit Chili-Cheese-Sauce & Jalapeños",
+          "en": "with chili cheese sauce & jalapeños",
+          "ru": "чили-фри"
+        },
+        "price": "6,90 €",
+        "image": "/fries.png"
+      },
+      {
+        "id": "115A",
+        "name": "Criss Cut Fries (Gitterpommes)",
+        "desc": {
+          "de": "knusprige Gitterpommes",
+          "en": "waffle fries",
+          "ru": "рифленый картофель фри"
+        },
+        "price": "5,90 €",
+        "image": "/fries.png"
+      },
+      {
+        "id": "115",
+        "name": "Pommes [klein] oder Kroketten",
+        "desc": {
+          "de": "kleine Pommes oder Kroketten",
+          "en": "small fries or croquettes",
+          "ru": "маленький фри oder крокеты"
+        },
+        "price": "3,90 €",
+        "image": "/fries.png"
+      },
+      {
+        "id": "115B",
+        "name": "Pommes [groß]",
+        "desc": {
+          "de": "große Pommes frites",
+          "en": "large fries",
+          "ru": "большой картофель фри"
+        },
+        "price": "4,90 €",
+        "image": "/fries.png"
+      }
+    ]
+  },
+  {
+    "category": "Snacks",
+    "items": [
+      {
+        "id": "159",
+        "name": "Chicken Chips (12 Stück)",
+        "desc": {
+          "de": "12 Stück mit Pommes & 1x Sauce",
+          "en": "12 pcs with fries & 1 sauce",
+          "ru": "12 шт с фри & 1 соус"
+        },
+        "price": "12,90 €",
+        "image": "/images/snacks/chicken chips 12stk.jpeg"
+      },
+      {
+        "id": "160",
+        "name": "Chicken Chips (20 Stück)",
+        "desc": {
+          "de": "20 Stück mit Pommes & 2x Sauce",
+          "en": "20 pcs with fries & 2 sauces",
+          "ru": "20 шт с фри & 2 соуса"
+        },
+        "price": "16,90 €",
+        "image": "/images/snacks/chicken chips 20stk.jpeg"
+      },
+      {
+        "id": "161",
+        "name": "Chicken Wings (10 Stück)",
+        "desc": {
+          "de": "10 Stück mit Pommes & 1x Sauce",
+          "en": "10 pcs with fries & 1 sauce",
+          "ru": "10 крылышек с фри"
+        },
+        "price": "13,90 €",
+        "image": "/images/snacks/chicken wings 10stk.jpeg"
+      },
+      {
+        "id": "162",
+        "name": "Chicken Wings (15 Stück)",
+        "desc": {
+          "de": "15 Stück mit Pommes & 2x Sauce",
+          "en": "15 pcs with fries & 2 sauces",
+          "ru": "15 крылышек с фри"
+        },
+        "price": "17,90 €",
+        "image": "/images/snacks/chicken wings 15stk.jpeg"
+      },
+      {
+        "id": "163",
+        "name": "King-Teller",
+        "desc": {
+          "de": "mit 6x Chicken Wings, 10x Chicken Chips, Pommes & 2x Sauce",
+          "en": "6 wings, 10 chips, fries & 2 sauces",
+          "ru": "королевская тарелка снеков"
+        },
+        "price": "18,90 €",
+        "image": "/images/snacks/king teller snacks.jpeg"
+      },
+      {
+        "id": "173",
+        "name": "Mozzarella Sticks (6 Stück)",
+        "desc": {
+          "de": "6 knusprige Mozzarella Sticks",
+          "en": "6 mozzarella sticks",
+          "ru": "6 сырных палочек"
+        },
+        "price": "8,90 €",
+        "image": "/images/snacks/mozzarella sticks 6stk.jpeg"
+      },
+      {
+        "id": "177",
+        "name": "Chili Cheese Nuggets (6 Stück)",
+        "desc": {
+          "de": "6 Scharfe Chili Cheese Nuggets",
+          "en": "6 chili cheese nuggets",
+          "ru": "6 наггетсов с острым сыром"
+        },
+        "price": "7,90 €",
+        "image": "/images/snacks/chilli cheese nuggets 6stk.jpeg"
+      },
+      {
+        "id": "164",
+        "name": "Riesen-Currywurst",
+        "desc": {
+          "de": "mit Pommes frites",
+          "en": "currywurst with fries",
+          "ru": "карривурст с фри"
+        },
+        "price": "12,90 €",
+        "image": "/images/snacks/riesen currywurst mit pommes.jpeg"
+      },
+      {
+        "id": "164A",
+        "name": "Double Riesen-Currywurst",
+        "desc": {
+          "de": "doppelte Wurst mit Pommes frites",
+          "en": "double currywurst with fries",
+          "ru": "двойная карривурст с фри"
+        },
+        "price": "15,90 €",
+        "image": "/images/snacks/double riesen currywurst.jpeg"
+      },
+      {
+        "id": "180A",
+        "name": "Bauernfrühstück",
+        "desc": {
+          "de": "mit 3 Eiern, Kartoffelscheiben, Speck & Zwiebeln, dazu Gewürzgurken",
+          "en": "farmers breakfast with 3 eggs, potatoes, bacon & onions",
+          "ru": "фермерский завтрак"
+        },
+        "price": "13,90 €",
+        "image": "/images/snacks/bauernfrühstück.jpeg"
       }
     ]
   },
@@ -2534,117 +1886,116 @@ export const menuData = [
     "items": [
       {
         "id": "131A",
-        "name": "Vanilla",
+        "name": "Vanilla (Häagen-Dazs / Ben & Jerry's)",
         "desc": {
-          "de": "cremiges Vanilleeis",
-          "en": "cremiges Vanilleeis",
-          "ru": "cremiges Vanilleeis"
+          "de": "cremiges Vanilleeis (465 ml)",
+          "en": "vanilla ice cream (465 ml)",
+          "ru": "ванильное мороженое (465 мл)"
         },
         "price": "8,50 €",
         "image": "/vanille eis.jpeg"
       },
       {
         "id": "131BA",
-        "name": "Ben & Jerry's Peanut Butter Cup (500 ml)",
+        "name": "Ben & Jerry's Peanut Butter Cup (465 ml)",
         "desc": {
           "de": "Erdnussbutter-Eis mit Erdnussbutter-Cups",
-          "en": "Erdnussbutter-Eis with Erdnussbutter-Cups",
-          "ru": "Erdnussbutter-Eis с Erdnussbutter-Cups"
+          "en": "peanut butter ice cream",
+          "ru": "мороженое с арахисовым маслом"
         },
         "price": "8,50 €",
         "image": "/ben jerrys peanut butter.jpeg"
       },
       {
         "id": "131BC",
-        "name": "Ben & Jerry's Half Baked",
+        "name": "Ben & Jerry's Half Baked (465 ml)",
         "desc": {
           "de": "Schokoladen- & Vanille-Eis mit Cookie Dough & Brownies",
-          "en": "Schokoladen- & Vanille-Eis with Cookie Dough & Brownies",
-          "ru": "Schokoladen- & Vanille-Eis с Cookie Dough & Brownies"
+          "en": "chocolate & vanilla ice cream with brownies",
+          "ru": "шоколадное и ванильное мороженое"
         },
         "price": "8,50 €",
         "image": "/ben and jerrys half bakd.jpeg"
       },
       {
         "id": "131BE",
-        "name": "Cookie Dough S'wich Up",
+        "name": "Cookie Dough S'wich Up (465 ml)",
         "desc": {
           "de": "Vanille-Eis mit Keks-Strudeln & Cookie Dough",
-          "en": "Vanille-Eis with Keks-Strudeln & Cookie Dough",
-          "ru": "Vanille-Eis с Keks-Strudeln & Cookie Dough"
+          "en": "vanilla ice cream with cookie dough",
+          "ru": "ванильное мороженое с печеньем"
         },
         "price": "8,50 €",
         "image": "/ben and jerrys swich up.jpeg"
       },
       {
         "id": "131C",
-        "name": "Macadamia Nut Brittle",
+        "name": "Macadamia Nut Brittle (465 ml)",
         "desc": {
           "de": "Cremiges Eis mit knusprigen Macadamia-Nuss-Stückchen",
-          "en": "Cremiges Eis with knusprigen Macadamia-Nuss-Stückchen",
-          "ru": "Cremiges Eis с knusprigen Macadamia-Nuss-Stückchen"
+          "en": "macadamia nut ice cream",
+          "ru": "мороженое с орехом макадамия"
         },
         "price": "8,50 €",
         "image": "/macadamia nut brittle.jpeg"
       },
       {
         "id": "131CD",
-        "name": "Ben & Jerry's Topped Salted Caramel Brownie",
+        "name": "Ben & Jerry's Topped Salted Caramel Brownie (465 ml)",
         "desc": {
           "de": "mit Salzwasser-Karamell & Brownie-Stückchen",
-          "en": "with Salzwasser-Karamell & Brownie-Stückchen",
-          "ru": "с Salzwasser-Karamell & Brownie-Stückchen"
+          "en": "salted caramel brownie ice cream",
+          "ru": "соленая карамель с брауни"
         },
         "price": "8,50 €",
         "image": "/ben and jerrys top salted caramel.jpeg"
       },
       {
         "id": "131CF",
-        "name": "Ben & Jerry's Cookieeees & Cream",
+        "name": "Ben & Jerry's Cookieeees & Cream (465 ml)",
         "desc": {
           "de": "mit Keksstückchen & Creme",
-          "en": "with Keksstückchen & Creme",
-          "ru": "с Keksstückchen & Creme"
+          "en": "cookies & cream ice cream",
+          "ru": "мороженое с печеньем и кремом"
         },
         "price": "8,50 €",
         "image": "/ben and kerrys brookies and cream.jpeg"
       },
       {
         "id": "131CI",
-        "name": "Ben & Jerry's Cookies on Cookie Dough",
+        "name": "Ben & Jerry's Cookies on Cookie Dough (465 ml)",
         "desc": {
           "de": "mit extra Keksteig-Stückchen",
-          "en": "with extra Keksteig-Stückchen",
-          "ru": "с extra Keksteig-Stückchen"
+          "en": "cookies on cookie dough",
+          "ru": "печенье в теста"
         },
         "price": "8,50 €",
         "image": "/ben and jerrys cokkies on cookie dough.jpeg"
       },
       {
         "id": "131R",
-        "name": "Ben & Jerry's Cookie Dough",
+        "name": "Ben & Jerry's Cookie Dough (465 ml)",
         "desc": {
           "de": "Vanille-Eis mit Riesen-Keksteigstückchen",
-          "en": "Vanille-Eis with Riesen-Keksteigstückchen",
-          "ru": "Vanille-Eis с Riesen-Keksteigstückchen"
+          "en": "vanilla ice cream with cookie dough",
+          "ru": "ванильное мороженое с тестовым печеньем"
         },
         "price": "8,50 €",
         "image": "/Ben and jerrys cookie dough.jpeg"
       },
       {
         "id": "131U",
-        "name": "Ben & Jerry's Chocolate Fudge Brownie",
+        "name": "Ben & Jerry's Chocolate Fudge Brownie (465 ml)",
         "desc": {
           "de": "Schokoladeneis mit saftigen Schoko-Brownie-Stückchen",
-          "en": "Schokoladeneis with saftigen Schoko-Brownie-Stückchen",
-          "ru": "Schokoladeneis с saftigen Schoko-Brownie-Stückchen"
+          "en": "chocolate ice cream with brownies",
+          "ru": "шоколадное мороженое с брауни"
         },
         "price": "8,50 €",
         "image": "/ben and jerrys chocolare fudge.jpeg"
       }
     ]
   },
-
   {
     "category": "Kukki Cocktails",
     "items": [
@@ -2653,10 +2004,10 @@ export const menuData = [
         "name": "Kukki Mojito",
         "desc": {
           "de": "frischer Mojito-Cocktail mit Minze & Rum (ab 18 Jahren)",
-          "en": "frischer Mojito-Cocktail with Minze & Rum (ab 18 Jahren)",
-          "ru": "frischer Mojito-Cocktail с Minze & Rum (ab 18 Jahren)"
+          "en": "mojito cocktail with rum & mint",
+          "ru": "мохито коктейль"
         },
-        "price": "6,50 €",
+        "price": "8,50 €",
         "image": "/Kuuki Mojito.jpeg"
       },
       {
@@ -2664,10 +2015,21 @@ export const menuData = [
         "name": "Kukki Wild Passion Fruit",
         "desc": {
           "de": "fruchtiger Passionsfrucht-Cocktail (ab 18 Jahren)",
-          "en": "fruchtiger Passionsfrucht-Cocktail (ab 18 Jahren)",
-          "ru": "fruchtiger Passionsfrucht-Cocktail (ab 18 Jahren)"
+          "en": "passionfruit cocktail",
+          "ru": "коктейль маракуйя"
         },
-        "price": "6,50 €",
+        "price": "8,50 €",
+        "image": "/Kuuki Wild Passionfruit.jpeg"
+      },
+      {
+        "id": "1303",
+        "name": "Kukki Red Berry",
+        "desc": {
+          "de": "mit Heidelbeersirup, Cranberry, Himbeer & schw. Johannisbeersaft (ab 18 Jahren)",
+          "en": "red berry cocktail",
+          "ru": "ягодный коктейль"
+        },
+        "price": "8,50 €",
         "image": "/Kuuki Wild Passionfruit.jpeg"
       },
       {
@@ -2675,10 +2037,10 @@ export const menuData = [
         "name": "Kukki Colada",
         "desc": {
           "de": "cremige Piña Colada mit Kokos & Ananas (ab 18 Jahren)",
-          "en": "cremige Piña Colada with Kokos & pineapple (ab 18 Jahren)",
-          "ru": "cremige Piña Colada с Kokos & ананасами (ab 18 Jahren)"
+          "en": "pina colada cocktail",
+          "ru": "пина колада"
         },
-        "price": "6,50 €",
+        "price": "8,50 €",
         "image": "/Kuuki Pina Colada.jpeg"
       },
       {
@@ -2686,10 +2048,10 @@ export const menuData = [
         "name": "Kukki El Presidente",
         "desc": {
           "de": "kubanischer Rum-Cocktail mit fruchtiger Note (ab 18 Jahren)",
-          "en": "kubanischer Rum-Cocktail with fruchtiger Note (ab 18 Jahren)",
-          "ru": "kubanischer Rum-Cocktail с fruchtiger Note (ab 18 Jahren)"
+          "en": "rum cocktail",
+          "ru": "кубинский ромовый коктейль"
         },
-        "price": "6,50 €",
+        "price": "8,50 €",
         "image": "/Kuuki El presidente.jpeg"
       },
       {
@@ -2697,10 +2059,10 @@ export const menuData = [
         "name": "Kukki Sex on the Beach",
         "desc": {
           "de": "klassischer Party-Cocktail mit Pfirsich & Cranberry (ab 18 Jahren)",
-          "en": "klassischer Party-Cocktail with Pfirsich & Cranberry (ab 18 Jahren)",
-          "ru": "klassischer Party-Cocktail с Pfirsich & Cranberry (ab 18 Jahren)"
+          "en": "sex on the beach cocktail",
+          "ru": "коктейль секс на пляже"
         },
-        "price": "6,50 €",
+        "price": "8,50 €",
         "image": "/Kuuki Sex on the Beach.jpeg"
       },
       {
@@ -2708,10 +2070,10 @@ export const menuData = [
         "name": "Kukki Pink Grapefruit",
         "desc": {
           "de": "spritziger Grapefruit-Cocktail (ab 18 Jahren)",
-          "en": "spritziger Grapefruit-Cocktail (ab 18 Jahren)",
-          "ru": "spritziger Grapefruit-Cocktail (ab 18 Jahren)"
+          "en": "grapefruit cocktail",
+          "ru": "грейпфрутовый коктейль"
         },
-        "price": "6,50 €",
+        "price": "8,50 €",
         "image": "/Kuuki Pink Grapefruit.jpeg"
       },
       {
@@ -2719,10 +2081,10 @@ export const menuData = [
         "name": "Kukki Caipi",
         "desc": {
           "de": "erfrischender Caipirinha mit Cachaça & Limette (ab 18 Jahren)",
-          "en": "erfrischender Caipirinha with Cachaça & Limette (ab 18 Jahren)",
-          "ru": "erfrischender Caipirinha с Cachaça & Limette (ab 18 Jahren)"
+          "en": "caipirinha cocktail",
+          "ru": "кайпиринья"
         },
-        "price": "6,50 €",
+        "price": "8,50 €",
         "image": "/Kuuki Cairpinha.jpeg"
       }
     ]
@@ -2735,8 +2097,8 @@ export const menuData = [
         "name": "Lucky Strike Authentic Red (22 Stück)",
         "desc": {
           "de": "Nur Barzahlung möglich",
-          "en": "Nur Barzahlung möglich",
-          "ru": "Nur Barzahlung möglich"
+          "en": "Cash payment only",
+          "ru": "Только наличные"
         },
         "price": "9,00 €",
         "image": "/lucky strike authentioc red 22.jpeg"
@@ -2746,8 +2108,8 @@ export const menuData = [
         "name": "Camel Yellow (22 Stück)",
         "desc": {
           "de": "Nur Barzahlung möglich",
-          "en": "Nur Barzahlung möglich",
-          "ru": "Nur Barzahlung möglich"
+          "en": "Cash payment only",
+          "ru": "Только наличные"
         },
         "price": "9,00 €",
         "image": "/camel yellow 22.jpeg"
@@ -2757,8 +2119,8 @@ export const menuData = [
         "name": "West (22 Stück)",
         "desc": {
           "de": "Nur Barzahlung möglich",
-          "en": "Nur Barzahlung möglich",
-          "ru": "Nur Barzahlung möglich"
+          "en": "Cash payment only",
+          "ru": "Только наличные"
         },
         "price": "9,00 €",
         "image": "/730 west 22.jpeg"
@@ -2768,8 +2130,8 @@ export const menuData = [
         "name": "Lucky Strike Blue (24 Stück)",
         "desc": {
           "de": "Nur Barzahlung möglich",
-          "en": "Nur Barzahlung möglich",
-          "ru": "Nur Barzahlung möglich"
+          "en": "Cash payment only",
+          "ru": "Только наличные"
         },
         "price": "10,00 €",
         "image": "/731 lucky strike blue24.jpeg"
@@ -2779,8 +2141,8 @@ export const menuData = [
         "name": "Gauloises rot (22 Stück)",
         "desc": {
           "de": "Nur Barzahlung möglich",
-          "en": "Nur Barzahlung möglich",
-          "ru": "Nur Barzahlung möglich"
+          "en": "Cash payment only",
+          "ru": "Только наличные"
         },
         "price": "9,00 €",
         "image": "/red gauloises 22.jpeg"
@@ -2790,8 +2152,8 @@ export const menuData = [
         "name": "Lucky Strike Original (25 Stück)",
         "desc": {
           "de": "Nur Barzahlung möglich",
-          "en": "Nur Barzahlung möglich",
-          "ru": "Nur Barzahlung möglich"
+          "en": "Cash payment only",
+          "ru": "Только наличные"
         },
         "price": "10,00 €",
         "image": "/lucky strike 25.jpeg"
@@ -2801,8 +2163,8 @@ export const menuData = [
         "name": "Gauloises Blau (25 Stück)",
         "desc": {
           "de": "Nur Barzahlung möglich",
-          "en": "Nur Barzahlung möglich",
-          "ru": "Nur Barzahlung möglich"
+          "en": "Cash payment only",
+          "ru": "Только наличные"
         },
         "price": "10,00 €",
         "image": "/gauloises blue 25.jpeg"
@@ -2812,8 +2174,8 @@ export const menuData = [
         "name": "Marlboro Rot (24 Stück)",
         "desc": {
           "de": "Nur Barzahlung möglich",
-          "en": "Nur Barzahlung möglich",
-          "ru": "Nur Barzahlung möglich"
+          "en": "Cash payment only",
+          "ru": "Только наличные"
         },
         "price": "10,00 €",
         "image": "/marlboror red 24.jpeg"
@@ -2823,8 +2185,8 @@ export const menuData = [
         "name": "Marlboro Gold (24 Stück)",
         "desc": {
           "de": "Nur Barzahlung möglich",
-          "en": "Nur Barzahlung möglich",
-          "ru": "Nur Barzahlung möglich"
+          "en": "Cash payment only",
+          "ru": "Только наличные"
         },
         "price": "10,00 €",
         "image": "/marlboro gold 24.jpeg"
@@ -2834,8 +2196,8 @@ export const menuData = [
         "name": "John Player Special Rot (22 Stück)",
         "desc": {
           "de": "Nur Barzahlung möglich",
-          "en": "Nur Barzahlung möglich",
-          "ru": "Nur Barzahlung möglich"
+          "en": "Cash payment only",
+          "ru": "Только наличные"
         },
         "price": "9,00 €",
         "image": "/john player special red 22.jpeg"
@@ -2845,8 +2207,8 @@ export const menuData = [
         "name": "John Player Special Blau (22 Stück)",
         "desc": {
           "de": "Nur Barzahlung möglich",
-          "en": "Nur Barzahlung möglich",
-          "ru": "Nur Barzahlung möglich"
+          "en": "Cash payment only",
+          "ru": "Только наличные"
         },
         "price": "9,00 €",
         "image": "/john player special blue 22.jpeg"
@@ -2856,8 +2218,8 @@ export const menuData = [
         "name": "Pall Mall Rot (28 Stück)",
         "desc": {
           "de": "Nur Barzahlung möglich",
-          "en": "Nur Barzahlung möglich",
-          "ru": "Nur Barzahlung möglich"
+          "en": "Cash payment only",
+          "ru": "Только наличные"
         },
         "price": "10,00 €",
         "image": "/pall mall red 28.jpeg"
@@ -2867,8 +2229,8 @@ export const menuData = [
         "name": "Pall Mall Blau (26 Stück)",
         "desc": {
           "de": "Nur Barzahlung möglich",
-          "en": "Nur Barzahlung möglich",
-          "ru": "Nur Barzahlung möglich"
+          "en": "Cash payment only",
+          "ru": "Только наличные"
         },
         "price": "10,00 €",
         "image": "/pall mall blue 26.jpeg"
@@ -2878,8 +2240,8 @@ export const menuData = [
         "name": "L&M (22 Stück)",
         "desc": {
           "de": "Nur Barzahlung möglich",
-          "en": "Nur Barzahlung möglich",
-          "ru": "Nur Barzahlung möglich"
+          "en": "Cash payment only",
+          "ru": "Только наличные"
         },
         "price": "9,00 €",
         "image": "/l and m 22.jpeg"
@@ -2889,8 +2251,8 @@ export const menuData = [
         "name": "L&M (26 Stück)",
         "desc": {
           "de": "Nur Barzahlung möglich",
-          "en": "Nur Barzahlung möglich",
-          "ru": "Nur Barzahlung möglich"
+          "en": "Cash payment only",
+          "ru": "Только наличные"
         },
         "price": "10,00 €",
         "image": "/l and m 26.jpeg"
@@ -2900,8 +2262,8 @@ export const menuData = [
         "name": "Winston (28 Stück)",
         "desc": {
           "de": "Nur Barzahlung möglich",
-          "en": "Nur Barzahlung möglich",
-          "ru": "Nur Barzahlung möglich"
+          "en": "Cash payment only",
+          "ru": "Только наличные"
         },
         "price": "10,00 €",
         "image": "/winston 28.jpeg"
@@ -2911,8 +2273,8 @@ export const menuData = [
         "name": "John Player Special (26 Stück)",
         "desc": {
           "de": "Nur Barzahlung möglich",
-          "en": "Nur Barzahlung möglich",
-          "ru": "Nur Barzahlung möglich"
+          "en": "Cash payment only",
+          "ru": "Только наличные"
         },
         "price": "10,00 €",
         "image": "/john player special 26.jpeg"
@@ -2924,57 +2286,57 @@ export const menuData = [
     "items": [
       {
         "id": "119",
-        "name": "Coca-Cola (1 l)",
+        "name": "Coca-Cola (1,0 l)",
         "desc": {
           "de": "erfrischendes Erfrischungsgetränk (inkl. Pfand)",
-          "en": "erfrischendes Erfrischungsgetränk (inkl. Pfand)",
-          "ru": "erfrischendes Erfrischungsgetränk (inkl. Pfand)"
+          "en": "soft drink (incl. deposit)",
+          "ru": "газированный напиток"
         },
-        "price": "3,85 €",
+        "price": "4,25 €",
         "image": "/cola 1l.jpeg"
       },
       {
         "id": "119A",
-        "name": "Cola light (1 l)",
+        "name": "Cola light (1,0 l)",
         "desc": {
           "de": "zuckerfreies Erfrischungsgetränk (inkl. Pfand)",
-          "en": "zuckerfreies Erfrischungsgetränk (inkl. Pfand)",
-          "ru": "zuckerfreies Erfrischungsgetränk (inkl. Pfand)"
+          "en": "sugar-free soft drink",
+          "ru": "безалкогольный напиток"
         },
-        "price": "3,85 €",
+        "price": "4,25 €",
         "image": "/cola light.jpeg"
       },
       {
         "id": "119B",
-        "name": "Sprite (1 l)",
+        "name": "Sprite (1,0 l)",
         "desc": {
           "de": "Zitronen-Limonade (inkl. Pfand)",
-          "en": "Zitronen-Limonade (inkl. Pfand)",
-          "ru": "Zitronen-Limonade (inkl. Pfand)"
+          "en": "lemonade",
+          "ru": "лимонад"
         },
-        "price": "3,85 €",
+        "price": "4,25 €",
         "image": "/Sprite_bottle_with_ice_and_202608121848.jpeg"
       },
       {
         "id": "119C",
-        "name": "Fanta (1 l)",
+        "name": "Fanta (1,0 l)",
         "desc": {
           "de": "Orangen-Limonade (inkl. Pfand)",
-          "en": "Orangen-Limonade (inkl. Pfand)",
-          "ru": "Orangen-Limonade (inkl. Pfand)"
+          "en": "orange soda",
+          "ru": "апельсиновый лимонад"
         },
-        "price": "3,85 €",
+        "price": "4,25 €",
         "image": "/Fanta_bottle_served_with_ice_202608121848.jpeg"
       },
       {
         "id": "119D",
-        "name": "Mezzo Mix (1 l)",
+        "name": "Mezzo Mix (1,0 l)",
         "desc": {
           "de": "Kola-Kuss mit Orangengeschmack (inkl. Pfand)",
-          "en": "Kola-Kuss with Orangengeschmack (inkl. Pfand)",
-          "ru": "Kola-Kuss с Orangengeschmack (inkl. Pfand)"
+          "en": "cola orange mix",
+          "ru": "кола апельсин"
         },
-        "price": "3,85 €",
+        "price": "4,25 €",
         "image": "/Mezzo_Mix_bottle_with_ice_202608121848.jpeg"
       },
       {
@@ -2982,195 +2344,151 @@ export const menuData = [
         "name": "Red Bull Energy Drink (250 ml)",
         "desc": {
           "de": "belebt Geist und Körper (inkl. Pfand)",
-          "en": "belebt Geist and Körper (inkl. Pfand)",
-          "ru": "belebt Geist и Körper (inkl. Pfand)"
+          "en": "energy drink",
+          "ru": "энергетический напиток"
         },
         "price": "4,00 €",
         "image": "/redbull.jpeg"
-      },
-      {
-        "id": "201",
-        "name": "Flensburger Pilsener (0,3 l)",
-        "desc": {
-          "de": "herbes Pilsener (inkl. Pfand)",
-          "en": "herbes Pilsener (inkl. Pfand)",
-          "ru": "herbes Pilsener (inkl. Pfand)"
-        },
-        "price": "2,80 €",
-        "image": "/Flensburger_Pilsener_beer_bottle_2K_202608121849.jpeg"
       },
       {
         "id": "202",
         "name": "Flensburger Pilsener (0,3 l)",
         "desc": {
           "de": "herbes Pilsener (inkl. Pfand)",
-          "en": "herbes Pilsener (inkl. Pfand)",
-          "ru": "herbes Pilsener (inkl. Pfand)"
+          "en": "pilsner beer",
+          "ru": "пиво пильзнер"
         },
-        "price": "2,80 €",
-        "image": "/Flensburger_Pilsener_bottle_and_…_202608121849.jpeg"
-      },
-      {
-        "id": "202A",
-        "name": "Flensburger Strand Lager (0,3 l)",
-        "desc": {
-          "de": "süffiges Lagerbier (inkl. Pfand)",
-          "en": "süffiges Lagerbier (inkl. Pfand)",
-          "ru": "süffiges Lagerbier (inkl. Pfand)"
-        },
-        "price": "2,80 €",
-        "image": "/Flensburger_Strand_Lager_bottle_…_202608121849.jpeg"
+        "price": "3,50 €",
+        "image": "/Flensburger_Pilsener_beer_bottle_2K_202608121849.jpeg"
       },
       {
         "id": "202B",
         "name": "Flensburger alkoholfreies Pilsener (0,3 l)",
         "desc": {
           "de": "alkoholfreies Pils (inkl. Pfand)",
-          "en": "alkoholfreies Pils (inkl. Pfand)",
-          "ru": "alkoholfreies Pils (inkl. Pfand)"
+          "en": "non-alcoholic pilsner",
+          "ru": "безалкогольное пиво"
         },
-        "price": "2,80 €",
+        "price": "3,50 €",
         "image": "/flensburger alkoholfrei pilsener.jpeg"
-      },
-      {
-        "id": "202C",
-        "name": "Flensburger Wasser (0,3 l)",
-        "desc": {
-          "de": "Mineralwasser (inkl. Pfand)",
-          "en": "Mineralwasser (inkl. Pfand)",
-          "ru": "Mineralwasser (inkl. Pfand)"
-        },
-        "price": "2,80 €",
-        "image": "/flensburger Wasser.jpeg"
-      },
-      {
-        "id": "202D",
-        "name": "Flensburger Edles Helles (0,3 l)",
-        "desc": {
-          "de": "mildes Helles (inkl. Pfand)",
-          "en": "mildes Helles (inkl. Pfand)",
-          "ru": "mildes Helles (inkl. Pfand)"
-        },
-        "price": "2,80 €",
-        "image": "/Flensburger_Edles_Helles_bottle_…_202608121849.jpeg"
       },
       {
         "id": "202E",
         "name": "Flensburger Radler (0,3 l)",
         "desc": {
           "de": "Bier mit Zitronenlimonade (inkl. Pfand)",
-          "en": "Bier with Zitronenlimonade (inkl. Pfand)",
-          "ru": "Bier с Zitronenlimonade (inkl. Pfand)"
+          "en": "radler beer",
+          "ru": "радлер"
         },
-        "price": "2,80 €",
+        "price": "3,50 €",
         "image": "/flensburger radler.jpeg"
-      },
-      {
-        "id": "202F",
-        "name": "Flensburger Gold (0,3 l)",
-        "desc": {
-          "de": "milder Geschmack (inkl. Pfand)",
-          "en": "milder Geschmack (inkl. Pfand)",
-          "ru": "milder Geschmack (inkl. Pfand)"
-        },
-        "price": "2,80 €",
-        "image": "/flensburger gold.jpeg"
       },
       {
         "id": "202G",
         "name": "Flensburger Radler Frei (0,3 l)",
         "desc": {
           "de": "alkoholfreies Radler (inkl. Pfand)",
-          "en": "alkoholfreies Radler (inkl. Pfand)",
-          "ru": "alkoholfreies Radler (inkl. Pfand)"
+          "en": "non-alcoholic radler",
+          "ru": "безалкогольный радлер"
         },
-        "price": "2,80 €",
+        "price": "3,50 €",
         "image": "/Flensburger_Radler_Frei_bottle_s…_202608121850.jpeg"
       },
       {
-        "id": "202H",
-        "name": "Flensburger Kellerbier (0,3 l)",
+        "id": "202D",
+        "name": "Flensburger Edles Helles (0,3 l)",
         "desc": {
-          "de": "naturtrübes Kellerbier (inkl. Pfand)",
-          "en": "naturtrübes Kellerbier (inkl. Pfand)",
-          "ru": "naturtrübes Kellerbier (inkl. Pfand)"
+          "de": "mildes Helles (inkl. Pfand)",
+          "en": "pale lager",
+          "ru": "светлое пиво"
         },
-        "price": "2,80 €",
-        "image": "/Flensburger_Kellerbier_bottle_an…_2K_202608121850.jpeg"
+        "price": "3,50 €",
+        "image": "/Flensburger_Edles_Helles_bottle_…_202608121849.jpeg"
       },
       {
         "id": "202I",
         "name": "Flensburger Dunkel (0,3 l)",
         "desc": {
           "de": "dunkles Vollbier (inkl. Pfand)",
-          "en": "dunkles Vollbier (inkl. Pfand)",
-          "ru": "dunkles Vollbier (inkl. Pfand)"
+          "en": "dark beer",
+          "ru": "темное пиво"
         },
-        "price": "2,80 €",
+        "price": "3,50 €",
         "image": "/flensburger dunkel.jpeg"
       },
       {
-        "id": "202J",
-        "name": "Schneider Weisse Original (0,5 l)",
+        "id": "202F",
+        "name": "Flensburger Gold (0,3 l)",
         "desc": {
-          "de": "bayerisches Weissbier (inkl. Pfand)",
-          "en": "bayerisches Weissbier (inkl. Pfand)",
-          "ru": "bayerisches Weissbier (inkl. Pfand)"
+          "de": "milder Geschmack (inkl. Pfand)",
+          "en": "gold lager",
+          "ru": "золотое пиво"
         },
-        "price": "3,55 €",
-        "image": "/schneider weisse original.jpeg"
+        "price": "3,50 €",
+        "image": "/flensburger gold.jpeg"
       },
       {
-        "id": "202K",
-        "name": "Schneider Weisse alkoholfrei (0,5 l)",
+        "id": "202H",
+        "name": "Flensburger Kellerbier (0,3 l)",
         "desc": {
-          "de": "alkoholfreies Weissbier (inkl. Pfand)",
-          "en": "alkoholfreies Weissbier (inkl. Pfand)",
-          "ru": "alkoholfreies Weissbier (inkl. Pfand)"
+          "de": "naturtrübes Kellerbier (inkl. Pfand)",
+          "en": "unfiltered beer",
+          "ru": "нефильтрованное пиво"
         },
-        "price": "3,55 €",
-        "image": "/schneider weisse alkoholfrei.jpeg"
+        "price": "3,50 €",
+        "image": "/Flensburger_Kellerbier_bottle_an…_2K_202608121850.jpeg"
       },
       {
-        "id": "202L",
-        "name": "Flensburger Küstenlimo Orange (0,3 l)",
+        "id": "202A",
+        "name": "Flensburger Strand Lager (0,3 l)",
         "desc": {
-          "de": "Orangenlimonade (inkl. Pfand)",
-          "en": "Orangenlimonade (inkl. Pfand)",
-          "ru": "Orangenlimonade (inkl. Pfand)"
+          "de": "süffiges Lagerbier (inkl. Pfand)",
+          "en": "beach lager",
+          "ru": "пляжный лагер"
         },
-        "price": "2,65 €",
-        "image": "/flensburger küstenlimo orange.jpeg"
-      },
-      {
-        "id": "202M",
-        "name": "Flensburger Küstenlimo Mix Cola + Orange (0,3 l)",
-        "desc": {
-          "de": "Cola-Orangen-Mix (inkl. Pfand)",
-          "en": "Cola-Orangen-Mix (inkl. Pfand)",
-          "ru": "Cola-Orangen-Mix (inkl. Pfand)"
-        },
-        "price": "2,65 €",
-        "image": "/flensburger küstenlimo orange +cola.jpeg"
+        "price": "3,50 €",
+        "image": "/Flensburger_Strand_Lager_bottle_…_202608121849.jpeg"
       },
       {
         "id": "202N",
         "name": "Flensburger Küsten Cola (0,3 l)",
         "desc": {
           "de": "Küsten-Cola (inkl. Pfand)",
-          "en": "Küsten-Cola (inkl. Pfand)",
-          "ru": "Küsten-Cola (inkl. Pfand)"
+          "en": "coastal cola",
+          "ru": "коста-кола"
         },
-        "price": "2,65 €",
+        "price": "3,50 €",
         "image": "/flensburger küsten cola.jpeg"
+      },
+      {
+        "id": "202L",
+        "name": "Flensburger Küsten Limo Orange (0,3 l)",
+        "desc": {
+          "de": "Orangenlimonade (inkl. Pfand)",
+          "en": "orange lemonade",
+          "ru": "апельсиновый лимонад"
+        },
+        "price": "3,50 €",
+        "image": "/flensburger küstenlimo orange.jpeg"
+      },
+      {
+        "id": "202M",
+        "name": "Flensburger Küsten Mix Cola & Orange (0,3 l)",
+        "desc": {
+          "de": "Cola-Orangen-Mix (inkl. Pfand)",
+          "en": "cola orange mix",
+          "ru": "кола апельсин микс"
+        },
+        "price": "3,50 €",
+        "image": "/flensburger küstenlimo orange +cola.jpeg"
       },
       {
         "id": "127",
         "name": "Absolut Wodka (0,7 l)",
         "desc": {
           "de": "schwedischer Premium Wodka (ab 18 Jahren, inkl. Pfand)",
-          "en": "schwedischer Premium Wodka (ab 18 Jahren, inkl. Pfand)",
-          "ru": "schwedischer Premium Wodka (ab 18 Jahren, inkl. Pfand)"
+          "en": "premium vodka",
+          "ru": "премиум водка"
         },
         "price": "43,80 €",
         "image": "/Absolut_Wodka,_0,7_l_2K_202608121906.jpeg"
@@ -3180,8 +2498,8 @@ export const menuData = [
         "name": "Wodka Gorbatschow (0,7 l)",
         "desc": {
           "de": "klassischer Wodka (ab 18 Jahren, inkl. Pfand)",
-          "en": "klassischer Wodka (ab 18 Jahren, inkl. Pfand)",
-          "ru": "klassischer Wodka (ab 18 Jahren, inkl. Pfand)"
+          "en": "classic vodka",
+          "ru": "классическая водка"
         },
         "price": "20,00 €",
         "image": "/Vodka_bottle_on_marble_table_202608121906.jpeg"
@@ -3191,8 +2509,8 @@ export const menuData = [
         "name": "Oldesloer (0,7 l)",
         "desc": {
           "de": "Weizenkorn Spirituose (ab 18 Jahren, inkl. Pfand)",
-          "en": "Weizenkorn Spirituose (ab 18 Jahren, inkl. Pfand)",
-          "ru": "Weizenkorn Spirituose (ab 18 Jahren, inkl. Pfand)"
+          "en": "grain spirit",
+          "ru": "зерновой спирт"
         },
         "price": "20,00 €",
         "image": "/Oldesloer_Korn_bottle_on_table_202608121906.jpeg"
@@ -3202,8 +2520,8 @@ export const menuData = [
         "name": "Smirnoff Wodka (0,7 l)",
         "desc": {
           "de": "Triple Distilled Premium Vodka (ab 18 Jahren, inkl. Pfand)",
-          "en": "Triple Distilled Premium Vodka (ab 18 Jahren, inkl. Pfand)",
-          "ru": "Triple Distilled Premium Vodka (ab 18 Jahren, inkl. Pfand)"
+          "en": "smirnoff vodka",
+          "ru": "водка смирнофф"
         },
         "price": "31,30 €",
         "image": "/Smirnoff_Vodka_bottle_on_table_202608121907.jpeg"
@@ -3213,8 +2531,8 @@ export const menuData = [
         "name": "Jameson (0,7 l)",
         "desc": {
           "de": "Irish Whiskey (ab 18 Jahren, inkl. Pfand)",
-          "en": "Irish Whiskey (ab 18 Jahren, inkl. Pfand)",
-          "ru": "Irish Whiskey (ab 18 Jahren, inkl. Pfand)"
+          "en": "irish whiskey",
+          "ru": "ирландский виски"
         },
         "price": "45,00 €",
         "image": "/Jameson_whiskey_bottle_on_table_202608121907.jpeg"
@@ -3224,8 +2542,8 @@ export const menuData = [
         "name": "Chivas Regal 12",
         "desc": {
           "de": "Blended Scotch Whisky (ab 18 Jahren, inkl. Pfand)",
-          "en": "Blended Scotch Whisky (ab 18 Jahren, inkl. Pfand)",
-          "ru": "Blended Scotch Whisky (ab 18 Jahren, inkl. Pfand)"
+          "en": "scotch whisky",
+          "ru": "шотландский виски"
         },
         "price": "70,00 €",
         "image": "/Chivas_Regal_bottle_on_table_202608121907.jpeg"
@@ -3235,8 +2553,8 @@ export const menuData = [
         "name": "Jack Daniel's (0,7 l)",
         "desc": {
           "de": "Old No. 7 Tennessee Whiskey (ab 18 Jahren, inkl. Pfand)",
-          "en": "Old No. 7 Tennessee Whiskey (ab 18 Jahren, inkl. Pfand)",
-          "ru": "Old No. 7 Tennessee Whiskey (ab 18 Jahren, inkl. Pfand)"
+          "en": "tennessee whiskey",
+          "ru": "теннесси виски"
         },
         "price": "45,00 €",
         "image": "/Whiskey_bottle_on_marble_table_202608121907.jpeg"
