@@ -845,7 +845,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
 
             
             {/* Side Dishes */}
-            {(isBurger || isSchnitzel || isSnack || isPasta) && (
+            {(isBurger || isSnack || isPasta) && (
               <div>
                 <div className="q-modal-section-title">🍟 EXTRA BEILAGEN (MIT AUFPREIS)</div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(165px, 1fr))', gap: '10px', marginBottom: '20px' }}>

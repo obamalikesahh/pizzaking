@@ -1,4 +1,4 @@
-export const menuData = [
+const menuData = [
   {
     "category": "Hammer des Tages",
     "items": [
@@ -700,7 +700,7 @@ export const menuData = [
           "ru": "с сыром чеддер, халапеньо & BBQ соусом"
         },
         "price": "8,90 €",
-        "image": "/images/Burger/BBQ  Cheeseburger.jpeg"
+        "image": "/images/Burger/Bbq Cheeseburger.jpeg"
       },
       {
         "id": "183-M",
@@ -711,7 +711,7 @@ export const menuData = [
           "ru": "вкл. картофель фри и 0,33 л Coca-Cola"
         },
         "price": "14,80 €",
-        "image": "/images/Burger/BBQ  Cheeseburger.jpeg"
+        "image": "/images/Burger Menü/Bbq Cheeseburger Menü.jpeg"
       },
       {
         "id": "184",
@@ -744,7 +744,7 @@ export const menuData = [
           "ru": "с салатом & сладким чили соусом"
         },
         "price": "7,90 €",
-        "image": "/images/Burger Menü/Crispy Chicken Sweet Chili Menü.jpeg"
+        "image": "/images/Burger/Crispy Chicken Sweet chili.jpeg"
       },
       {
         "id": "180-M",
@@ -766,7 +766,7 @@ export const menuData = [
           "ru": "с сыром чеддер & майонезом"
         },
         "price": "8,90 €",
-        "image": "/images/Burger/Crispy Chicken Cheeseburger.jpeg"
+        "image": "/images/Burger/Crispy Chicken Cheese.jpeg"
       },
       {
         "id": "181-M",
@@ -788,7 +788,7 @@ export const menuData = [
           "ru": "1 говяжья котлета"
         },
         "price": "2,90 €",
-        "image": "/images/Burger/Bacon Cheeseburger.jpeg"
+        "image": "/images/Burger/Burger Extra Patty.jpeg"
       },
       {
         "id": "186",
@@ -799,7 +799,7 @@ export const menuData = [
           "ru": "1 ломтик чеддера"
         },
         "price": "1,50 €",
-        "image": "/images/Burger/Bacon Cheeseburger.jpeg"
+        "image": "/images/Burger/Burger Extra Cheese.jpeg"
       }
     ]
   },
@@ -826,7 +826,7 @@ export const menuData = [
           "ru": "с томатным салатом, оливками & сыром"
         },
         "price": "17,90 €",
-        "image": "/images/gyros/grundgyros mit frittes.jpeg"
+        "image": "/images/gyros/gyros griechische art.jpeg"
       },
       {
         "id": "82",
@@ -837,7 +837,7 @@ export const menuData = [
           "ru": "с жареным луком & шампиньонами"
         },
         "price": "18,90 €",
-        "image": "/images/gyros/grundgyros mit frittes.jpeg"
+        "image": "/images/gyros/gyros mit zwiebeln und champinons.jpeg"
       },
       {
         "id": "83",
@@ -870,7 +870,7 @@ export const menuData = [
           "ru": "с гиросом, бифштексом, шашлыком & сыром"
         },
         "price": "21,90 €",
-        "image": "/images/gyros/bauernplatte.jpeg"
+        "image": "/images/gyros/bauern platte.jpeg"
       },
       {
         "id": "86",
@@ -892,7 +892,7 @@ export const menuData = [
           "ru": "с гиросом & 2 шашлыками"
         },
         "price": "19,90 €",
-        "image": "/images/gyros/grundgyros mit frittes.jpeg"
+        "image": "/images/gyros/souvlaki mit gyros und 2 spießen.jpeg"
       },
       {
         "id": "88",
@@ -903,7 +903,7 @@ export const menuData = [
           "ru": "с гиросом, шницелем, чевапчичи & бифштексом"
         },
         "price": "23,90 €",
-        "image": "/images/gyros/grillteller .jpeg"
+        "image": "/images/gyros/grillteller.jpeg"
       },
       {
         "id": "89",
@@ -914,7 +914,7 @@ export const menuData = [
           "ru": "для 2 человек с 1 л колы"
         },
         "price": "48,90 €",
-        "image": "/images/gyros/grillteller king.jpeg"
+        "image": "/images/gyros/grillteller king 2 personen.jpeg"
       },
       {
         "id": "90",
@@ -925,7 +925,7 @@ export const menuData = [
           "ru": "12 чевапчичи с чесночным соусом"
         },
         "price": "15,90 €",
-        "image": "/images/gyros/cevapcici plate.jpeg"
+        "image": "/images/gyros/cevapcici 12 stück.jpeg"
       },
       {
         "id": "90A",
@@ -936,7 +936,7 @@ export const menuData = [
           "ru": "сочный бифштекс (360г)"
         },
         "price": "19,90 €",
-        "image": "/images/gyros/hacksteak plate.jpeg"
+        "image": "/images/gyros/hacksteak 360g.jpeg"
       }
     ]
   },
@@ -963,7 +963,7 @@ export const menuData = [
           "ru": "с моцареллой, помидорами, оливками & ремуладом"
         },
         "price": "11,90 €",
-        "image": "/images/XXL Wraps/XXL Wrap Tifosi.jpeg"
+        "image": "/images/XXL Wraps/XXL Tifosi Wrap.jpeg"
       },
       {
         "id": "108",
@@ -1001,7 +1001,7 @@ export const menuData = [
           "ru": "большой зеленый салат"
         },
         "price": "10,90 €",
-        "image": "/images/Salate/Grundsalat gro0.jpeg"
+        "image": "/images/salate/grundsalat.jpeg"
       },
       {
         "id": "133",
@@ -1012,7 +1012,7 @@ export const menuData = [
           "ru": "маленький свежий салат"
         },
         "price": "8,90 €",
-        "image": "/images/Salate/Grundsalat gro0.jpeg"
+        "image": "/images/salate/grundsalat.jpeg"
       },
       {
         "id": "133A",
@@ -1023,7 +1023,7 @@ export const menuData = [
           "ru": "с салатом, помидорами & моцареллой"
         },
         "price": "9,90 €",
-        "image": "/images/Salate/Grundsalat gro0.jpeg"
+        "image": "/images/salate/salat italia.jpeg"
       },
       {
         "id": "134",
@@ -1034,7 +1034,7 @@ export const menuData = [
           "ru": "с помидорами & салатом"
         },
         "price": "8,90 €",
-        "image": "/images/Salate/Grundsalat gro0.jpeg"
+        "image": "/images/salate/salat tomaten.jpeg"
       },
       {
         "id": "135",
@@ -1045,7 +1045,7 @@ export const menuData = [
           "ru": "большой салат с ветчиной, сыром & яйцом"
         },
         "price": "12,90 €",
-        "image": "/images/Salate/Chef Salad.jpeg"
+        "image": "/images/salate/salat chef.jpeg"
       },
       {
         "id": "136",
@@ -1056,7 +1056,7 @@ export const menuData = [
           "ru": "большой салат с тунцом & яйцом"
         },
         "price": "13,90 €",
-        "image": "/images/Salate/Grundsalat gro0.jpeg"
+        "image": "/images/salate/salat nizza.jpeg"
       },
       {
         "id": "137",
@@ -1067,7 +1067,7 @@ export const menuData = [
           "ru": "большой салат со шницелем"
         },
         "price": "14,90 €",
-        "image": "/images/Salate/Grundsalat gro0.jpeg"
+        "image": "/images/salate/salat schnitzel.jpeg"
       },
       {
         "id": "138",
@@ -1078,7 +1078,7 @@ export const menuData = [
           "ru": "греческий салат с сыром"
         },
         "price": "12,90 €",
-        "image": "/images/Salate/Grundsalat gro0.jpeg"
+        "image": "/images/salate/salat bauern.jpeg"
       },
       {
         "id": "139",
@@ -1089,7 +1089,7 @@ export const menuData = [
           "ru": "салат с ветчиной & ананасами"
         },
         "price": "12,90 €",
-        "image": "/images/Salate/Grundsalat gro0.jpeg"
+        "image": "/images/salate/salat hawaii.jpeg"
       },
       {
         "id": "140",
@@ -1100,7 +1100,7 @@ export const menuData = [
           "ru": "королевский салат"
         },
         "price": "14,90 €",
-        "image": "/images/Salate/Grundsalat gro0.jpeg"
+        "image": "/images/salate/salat king.jpeg"
       },
       {
         "id": "141",
@@ -1111,7 +1111,7 @@ export const menuData = [
           "ru": "салат с куриными чипсами"
         },
         "price": "14,90 €",
-        "image": "/images/Salate/King Platte Salad.jpeg"
+        "image": "/images/salate/salat king platte.jpeg"
       }
     ]
   },
@@ -1127,7 +1127,7 @@ export const menuData = [
           "ru": "шницель (280г) с лимоном"
         },
         "price": "13,90 €",
-        "image": "/images/schnitzel/paniertes schnitztel.jpeg"
+        "image": "/images/schnitzel/paniertes schnitzel.jpeg"
       },
       {
         "id": "145",
@@ -1138,7 +1138,7 @@ export const menuData = [
           "ru": "с жареными шампиньонами & луком"
         },
         "price": "15,90 €",
-        "image": "/images/schnitzel/Schnitzel mit Champignons and onions.jpeg"
+        "image": "/images/schnitzel/schnitzel mit gebratenen champinons und zwiebeln.jpeg"
       },
       {
         "id": "147",
@@ -1149,7 +1149,7 @@ export const menuData = [
           "ru": "запеченный с ветчиной & ананасами"
         },
         "price": "16,90 €",
-        "image": "/images/schnitzel/SCHNITZTEL HAWAII.jpeg"
+        "image": "/images/schnitzel/schnitzel hawaii.jpeg"
       },
       {
         "id": "148",
@@ -1160,7 +1160,7 @@ export const menuData = [
           "ru": "запеченный с брокколи & сыром"
         },
         "price": "16,90 €",
-        "image": "/images/schnitzel/Schnitzel with broccoli.jpeg"
+        "image": "/images/schnitzel/schnitzel broccoli.jpeg"
       },
       {
         "id": "144",
@@ -1171,7 +1171,7 @@ export const menuData = [
           "ru": "сливочный соус"
         },
         "price": "4,50 €",
-        "image": "/Fladenbrot_with_garlic_sauce_2K_202608121900.jpeg"
+        "image": "/sauce.png"
       },
       {
         "id": "144A",
@@ -1182,7 +1182,7 @@ export const menuData = [
           "ru": "грибной соус"
         },
         "price": "4,50 €",
-        "image": "/Fladenbrot_with_garlic_sauce_2K_202608121900.jpeg"
+        "image": "/sauce.png"
       },
       {
         "id": "144B",
@@ -1193,7 +1193,7 @@ export const menuData = [
           "ru": "сливочный соус"
         },
         "price": "4,50 €",
-        "image": "/Fladenbrot_with_garlic_sauce_2K_202608121900.jpeg"
+        "image": "/sauce.png"
       },
       {
         "id": "144C",
@@ -1204,7 +1204,7 @@ export const menuData = [
           "ru": "грибной соус"
         },
         "price": "4,50 €",
-        "image": "/Fladenbrot_with_garlic_sauce_2K_202608121900.jpeg"
+        "image": "/sauce.png"
       }
     ]
   },
@@ -1220,7 +1220,7 @@ export const menuData = [
           "ru": "с сыром"
         },
         "price": "8,90 €",
-        "image": "/images/pizzen/pizzabrötchen/pizzabrötchen alternative 1.jpeg"
+        "image": "/images/pizzabrötchen/pizzabrötchen käse.jpeg"
       },
       {
         "id": "41",
@@ -1231,7 +1231,7 @@ export const menuData = [
           "ru": "с 4 начинками на выбор"
         },
         "price": "12,90 €",
-        "image": "/images/pizzen/calzone/Calzone Wish.jpeg"
+        "image": "/images/calzone/calzone wunsch.jpeg"
       },
       {
         "id": "42",
@@ -1242,7 +1242,7 @@ export const menuData = [
           "ru": "с салями, ветчиной, луком, шампиньонами & перцем"
         },
         "price": "12,90 €",
-        "image": "/images/pizzen/calzone/Calzone King.jpeg"
+        "image": "/images/calzone/calzone king.jpeg"
       }
     ]
   },
@@ -1258,7 +1258,7 @@ export const menuData = [
           "ru": "с тунцом, огурцом, помидором & сыром"
         },
         "price": "11,90 €",
-        "image": "/images/fladenbrote/Fladenbrot Ground beef.jpeg"
+        "image": "/images/fladenbrote/fladenbrot thunfisch.jpeg"
       },
       {
         "id": "46",
@@ -1269,7 +1269,7 @@ export const menuData = [
           "ru": "с мясным фаршем"
         },
         "price": "11,90 €",
-        "image": "/images/fladenbrote/Fladenbrot Ground beef.jpeg"
+        "image": "/images/fladenbrote/fladenbrot hackfleisch.jpeg"
       },
       {
         "id": "49",
@@ -1280,7 +1280,7 @@ export const menuData = [
           "ru": "с гиросом, дзадзики & капустным салатом"
         },
         "price": "12,90 €",
-        "image": "/images/fladenbrote/Fladenbrot Gyros.jpeg"
+        "image": "/images/fladenbrote/fladenbrot gyros.jpeg"
       },
       {
         "id": "50",
@@ -1291,7 +1291,7 @@ export const menuData = [
           "ru": "королевская лепешка"
         },
         "price": "13,90 €",
-        "image": "/images/fladenbrote/Fladenbrot King.jpeg"
+        "image": "/images/fladenbrote/fladenbrot king.jpeg"
       },
       {
         "id": "51",
@@ -1324,7 +1324,7 @@ export const menuData = [
           "ru": "с тунцом & луком"
         },
         "price": "12,90 €",
-        "image": "/images/croques/croque egg.jpeg"
+        "image": "/images/croques/croque thunfisch.jpeg"
       },
       {
         "id": "54",
@@ -1346,7 +1346,7 @@ export const menuData = [
           "ru": "с мясным фаршем & луком"
         },
         "price": "12,90 €",
-        "image": "/images/croques/croque egg.jpeg"
+        "image": "/images/croques/croque hackfleisch.jpeg"
       },
       {
         "id": "56",
@@ -1373,7 +1373,7 @@ export const menuData = [
           "ru": "в сливочном соусе"
         },
         "price": "14,90 €",
-        "image": "/images/Nudeln/pasta maccheroni with sahnesauce.jpeg"
+        "image": "/images/pasta/macaroni spinat weichkäse.jpeg"
       },
       {
         "id": "59",
@@ -1384,7 +1384,7 @@ export const menuData = [
           "ru": "с томатным соусом & фаршем"
         },
         "price": "12,50 €",
-        "image": "/images/Nudeln/spaghetti bolognese.jpeg"
+        "image": "/images/pasta/spaghetti bolognese.jpeg"
       },
       {
         "id": "60",
@@ -1395,7 +1395,7 @@ export const menuData = [
           "ru": "с ветчиной & яйцом"
         },
         "price": "12,90 €",
-        "image": "/images/Nudeln/Spaghetti carbonara.jpeg"
+        "image": "/images/pasta/spaghetti carbonara.jpeg"
       },
       {
         "id": "61",
@@ -1406,7 +1406,7 @@ export const menuData = [
           "ru": "паста-микс с сыром"
         },
         "price": "15,90 €",
-        "image": "/images/Nudeln/nudelpfanne spezial.jpeg"
+        "image": "/images/pasta/nudelpfanne.jpeg"
       },
       {
         "id": "62",
@@ -1417,7 +1417,7 @@ export const menuData = [
           "ru": "специальная паста"
         },
         "price": "16,90 €",
-        "image": "/images/Nudeln/nudelpfanne spezial 2.jpeg"
+        "image": "/images/pasta/nudelpfanne spezial.jpeg"
       },
       {
         "id": "63",
@@ -1428,7 +1428,7 @@ export const menuData = [
           "ru": "с шампиньонами, ветчиной & фаршем"
         },
         "price": "14,90 €",
-        "image": "/images/Nudeln/maccheroni del giothonne.jpeg"
+        "image": "/images/pasta/macaroni del ghiottone.jpeg"
       },
       {
         "id": "65",
@@ -1439,7 +1439,7 @@ export const menuData = [
           "ru": "в грибном сливочном соусе"
         },
         "price": "12,90 €",
-        "image": "/images/Nudeln/maccheroni mit schinken.jpeg"
+        "image": "/images/pasta/macaroni schinken.jpeg"
       },
       {
         "id": "67",
@@ -1450,7 +1450,7 @@ export const menuData = [
           "ru": "с ветчиной, шампиньонами & фаршем"
         },
         "price": "14,90 €",
-        "image": "/images/Nudeln/tortellini alla romana.jpeg"
+        "image": "/images/pasta/tortellini alla romana.jpeg"
       },
       {
         "id": "68",
@@ -1461,7 +1461,7 @@ export const menuData = [
           "ru": "в сливочном соусе"
         },
         "price": "12,90 €",
-        "image": "/images/Nudeln/tortellini with schinken.jpeg"
+        "image": "/images/pasta/tortellini schinken.jpeg"
       }
     ]
   },
@@ -1477,7 +1477,7 @@ export const menuData = [
           "ru": "с овощами"
         },
         "price": "12,90 €",
-        "image": "/images/reis/reispfanne mit käse überbacken.jpeg"
+        "image": "/images/reispfanne/reispfanne vegetarisch.jpeg"
       },
       {
         "id": "70",
@@ -1488,7 +1488,7 @@ export const menuData = [
           "ru": "с кусочками шницеля"
         },
         "price": "14,90 €",
-        "image": "/images/reis/reispfanne schnitzel.jpeg"
+        "image": "/images/reispfanne/reispfanne schnitzel.jpeg"
       },
       {
         "id": "71",
@@ -1499,7 +1499,7 @@ export const menuData = [
           "ru": "арабская сковорода"
         },
         "price": "15,90 €",
-        "image": "/images/reis/arabische pfanne.jpeg"
+        "image": "/images/reispfanne/arabische pfanne.jpeg"
       },
       {
         "id": "72",
@@ -1510,7 +1510,7 @@ export const menuData = [
           "ru": "рис с шампиньонами"
         },
         "price": "14,90 €",
-        "image": "/images/reis/reispfanne mit käse überbacken.jpeg"
+        "image": "/images/reispfanne/reis mit champinons.jpeg"
       },
       {
         "id": "73",
@@ -1521,7 +1521,7 @@ export const menuData = [
           "ru": "с ветчиной & сливочным соусом"
         },
         "price": "12,90 €",
-        "image": "/images/aufläufe/broccoli and blumenkohl auflauf.jpeg"
+        "image": "/images/aufläufe/auflauf broccoli.jpeg"
       },
       {
         "id": "74",
@@ -1532,7 +1532,7 @@ export const menuData = [
           "ru": "с брокколи, цветной капустой"
         },
         "price": "13,90 €",
-        "image": "/images/aufläufe/broccoli and blumenkohl auflauf.jpeg"
+        "image": "/images/aufläufe/auflauf broccoli blumenkohl.jpeg"
       },
       {
         "id": "75",
@@ -1543,7 +1543,7 @@ export const menuData = [
           "ru": "овощная запеканка"
         },
         "price": "13,90 €",
-        "image": "/images/aufläufe/auflauf gemüse .jpeg"
+        "image": "/images/aufläufe/auflauf gemüse.jpeg"
       },
       {
         "id": "76",
@@ -1576,7 +1576,7 @@ export const menuData = [
           "ru": "рыбное филе с голландским соусом"
         },
         "price": "15,90 €",
-        "image": "/images/fisch/Fishfilet with pommes.jpeg"
+        "image": "/images/fisch/fischfilet hollandaise.jpeg"
       },
       {
         "id": "155",
@@ -1587,7 +1587,7 @@ export const menuData = [
           "ru": "рыбная тарелка King"
         },
         "price": "17,90 €",
-        "image": "/images/fisch/Fischplatte King.jpeg"
+        "image": "/images/fisch/fischplatte king.jpeg"
       }
     ]
   },
@@ -1603,7 +1603,7 @@ export const menuData = [
           "ru": "6 шт с картофелем фри"
         },
         "price": "6,90 €",
-        "image": "/images/Kids Gerichte/KInder Menü CHicken CHips .jpeg"
+        "image": "/images/für die kleinen/chicken chips 6stk.jpeg"
       },
       {
         "id": "157",
@@ -1614,7 +1614,7 @@ export const menuData = [
           "ru": "6 шт рыбных палочек"
         },
         "price": "6,90 €",
-        "image": "/images/Kids Gerichte/Kids Menü Fischstäbchen.jpeg"
+        "image": "/images/für die kleinen/fischstäbchen 6stk.jpeg"
       },
       {
         "id": "158",
@@ -1625,7 +1625,7 @@ export const menuData = [
           "ru": "маленький шницель с фри"
         },
         "price": "8,90 €",
-        "image": "/images/Kids Gerichte/KIds Menu schnitzel.jpeg"
+        "image": "/images/für die kleinen/kleines schnitzel.jpeg"
       },
       {
         "id": "158A",
@@ -1636,7 +1636,7 @@ export const menuData = [
           "ru": "детское пицца-меню"
         },
         "price": "9,90 €",
-        "image": "/images/Kids Gerichte/Kids pizza menü alternative 1.jpeg"
+        "image": "/images/für die kleinen/pizza menü 20cm.jpeg"
       },
       {
         "id": "158B",
@@ -1647,7 +1647,7 @@ export const menuData = [
           "ru": "детская коробка с игрушкой"
         },
         "price": "9,90 €",
-        "image": "/images/Kids Gerichte/Kiddy Box.jpeg"
+        "image": "/images/für die kleinen/kiddy box chicken chips.jpeg"
       }
     ]
   },
@@ -1663,7 +1663,7 @@ export const menuData = [
           "ru": "свежая лепешка"
         },
         "price": "3,50 €",
-        "image": "/images/fladenbrote/Fladenbrot Standart.jpeg"
+        "image": "/images/beilagen/fladenbrot.jpeg"
       },
       {
         "id": "111",
@@ -1674,7 +1674,7 @@ export const menuData = [
           "ru": "с соусом"
         },
         "price": "4,90 €",
-        "image": "/images/fladenbrote/Fladenbrot Standart.jpeg"
+        "image": "/images/beilagen/fladenbrot.jpeg"
       },
       {
         "id": "118B",
@@ -1696,7 +1696,7 @@ export const menuData = [
           "ru": "пеперони oder оливки"
         },
         "price": "4,30 €",
-        "image": "/Olives_and_peppers_mixing_202608121902.mp4"
+        "image": "/Olives_and_peppers_mixing_202608121902.jpeg"
       },
       {
         "id": "116",
@@ -1718,7 +1718,7 @@ export const menuData = [
           "ru": "майонез oder кетчуп"
         },
         "price": "0,50 €",
-        "image": "/Fladenbrot_with_garlic_sauce_2K_202608121900.jpeg"
+        "image": "/sauce.png"
       },
       {
         "id": "115C",
@@ -1729,7 +1729,7 @@ export const menuData = [
           "ru": "чили-фри"
         },
         "price": "6,90 €",
-        "image": "/Döner_Teller_served_with_fries_202608121730.jpeg"
+        "image": "/fries.png"
       },
       {
         "id": "115A",
@@ -1740,7 +1740,7 @@ export const menuData = [
           "ru": "рифленый картофель фри"
         },
         "price": "5,90 €",
-        "image": "/Döner_Teller_served_with_fries_202608121730.jpeg"
+        "image": "/fries.png"
       },
       {
         "id": "115",
@@ -1751,7 +1751,7 @@ export const menuData = [
           "ru": "маленький фри oder крокеты"
         },
         "price": "3,90 €",
-        "image": "/Döner_Teller_served_with_fries_202608121730.jpeg"
+        "image": "/fries.png"
       },
       {
         "id": "115B",
@@ -1762,7 +1762,7 @@ export const menuData = [
           "ru": "большой картофель фри"
         },
         "price": "4,90 €",
-        "image": "/Döner_Teller_served_with_fries_202608121730.jpeg"
+        "image": "/fries.png"
       }
     ]
   },
@@ -1778,7 +1778,7 @@ export const menuData = [
           "ru": "12 шт с фри & 1 соус"
         },
         "price": "12,90 €",
-        "image": "/images/Snacks/12 chicken chips snacks.jpeg"
+        "image": "/images/snacks/chicken chips 12stk.jpeg"
       },
       {
         "id": "160",
@@ -1789,7 +1789,7 @@ export const menuData = [
           "ru": "20 шт с фри & 2 соуса"
         },
         "price": "16,90 €",
-        "image": "/images/Snacks/12 chicken chips snacks.jpeg"
+        "image": "/images/snacks/chicken chips 20stk.jpeg"
       },
       {
         "id": "161",
@@ -1800,7 +1800,7 @@ export const menuData = [
           "ru": "10 крылышек с фри"
         },
         "price": "13,90 €",
-        "image": "/images/Snacks/10 chicken wings snacks.jpeg"
+        "image": "/images/snacks/chicken wings 10stk.jpeg"
       },
       {
         "id": "162",
@@ -1811,7 +1811,7 @@ export const menuData = [
           "ru": "15 крылышек с фри"
         },
         "price": "17,90 €",
-        "image": "/images/Snacks/10 chicken wings snacks.jpeg"
+        "image": "/images/snacks/chicken wings 15stk.jpeg"
       },
       {
         "id": "163",
@@ -1822,7 +1822,7 @@ export const menuData = [
           "ru": "королевская тарелка снеков"
         },
         "price": "18,90 €",
-        "image": "/images/Snacks/KIng Teller snacks .jpeg"
+        "image": "/images/snacks/king teller snacks.jpeg"
       },
       {
         "id": "173",
@@ -1833,7 +1833,7 @@ export const menuData = [
           "ru": "6 сырных палочек"
         },
         "price": "8,90 €",
-        "image": "/images/Snacks/mozarella sticks snacks.jpeg"
+        "image": "/images/snacks/mozzarella sticks 6stk.jpeg"
       },
       {
         "id": "177",
@@ -1844,7 +1844,7 @@ export const menuData = [
           "ru": "6 наггетсов с острым сыром"
         },
         "price": "7,90 €",
-        "image": "/images/Snacks/chilli cheese nuggets snacks.jpeg"
+        "image": "/images/snacks/chilli cheese nuggets 6stk.jpeg"
       },
       {
         "id": "164",
@@ -1855,7 +1855,7 @@ export const menuData = [
           "ru": "карривурст с фри"
         },
         "price": "12,90 €",
-        "image": "/images/Snacks/double riesen currywurst snacks.jpeg"
+        "image": "/images/snacks/riesen currywurst mit pommes.jpeg"
       },
       {
         "id": "164A",
@@ -1866,7 +1866,7 @@ export const menuData = [
           "ru": "двойная карривурст с фри"
         },
         "price": "15,90 €",
-        "image": "/images/Snacks/double riesen currywurst snacks.jpeg"
+        "image": "/images/snacks/double riesen currywurst.jpeg"
       },
       {
         "id": "180A",
@@ -1877,7 +1877,7 @@ export const menuData = [
           "ru": "фермерский завтрак"
         },
         "price": "13,90 €",
-        "image": "/images/Snacks/bauernfrühstück snacks.jpeg"
+        "image": "/images/snacks/bauernfrühstück.jpeg"
       }
     ]
   },
@@ -2562,3 +2562,4 @@ export const menuData = [
     ]
   }
 ];
+; module.exports = menuData;
