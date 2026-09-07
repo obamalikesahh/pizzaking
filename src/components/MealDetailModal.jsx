@@ -142,6 +142,10 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
   const isSchnitzel = product.category === 'Schnitzel';
   const isSnack = product.category === 'Snacks';
   const isKidsMenu = product.category === 'Für die Kleinen' || product.id === '158A' || product.name.toLowerCase().includes('kiddi') || product.name.toLowerCase().includes('kinder') || product.name.toLowerCase().includes('kleinen');
+  const isPasta = product.category === 'Pasta' || product.category === 'Nudeln' || product.name.toLowerCase().includes('pasta') || product.name.toLowerCase().includes('spaghetti') || product.name.toLowerCase().includes('maccheroni') || product.name.toLowerCase().includes('lasagne') || product.name.toLowerCase().includes('tortellini') || product.name.toLowerCase().includes('penne');
+
+  const [sweetPotatoFries, setSweetPotatoFries] = useState(false);
+  const [selectedDrinks, setSelectedDrinks] = useState([]);
 
   // Pizzabrötchen Extra Beläge (je 1,20 €)
   const PIZZABROETCHEN_TOPPINGS = [
@@ -198,6 +202,8 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
     setSelectedAktionEis([]);
     setSelectedAktionBurgers([]);
     setSelectedAktionBurgerMenu(null);
+    setSweetPotatoFries(false);
+    setSelectedDrinks([]);
 
     setItemComment('');
     setPizzaScharf(false);
@@ -247,8 +253,9 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
 
   const burgerExtrasPrice = selectedBurgerExtras.reduce((sum, b) => sum + b.price, 0);
   const sidesPrice = extraSidesPrice + extraDressingsCost + extraSaucesCost + extraSaladCost;
+  const sweetPotatoPrice = (product.id === '610' && sweetPotatoFries) ? 5.00 : 0;
 
-  const finalPrice = selectedOption.price + getKaeserandPrice() + extrasDressingsPrice + extrasToppingsPrice + pbToppingsPrice + burgerExtrasPrice + sidesPrice;
+  const finalPrice = selectedOption.price + getKaeserandPrice() + extrasDressingsPrice + extrasToppingsPrice + pbToppingsPrice + burgerExtrasPrice + sidesPrice + sweetPotatoPrice;
   const isPizza = (product.category === 'Pizza' || (product.imageUrl && product.imageUrl.includes('pizza')) || product.name.toLowerCase().includes('pizza') || product.category === 'Pizzabrötchen & Calzone') && !isPizzabroetchen && !isCalzone;
 
   const toggleBurgerExtra = (item) => {
