@@ -1799,7 +1799,7 @@ export const menuData = [
           "en": "portion remoulade",
           "ru": "ремулад"
         },
-        "price": "2,40 €",
+        "price": "2,50 €",
         "image": "/Fladenbrot_with_garlic_sauce_2K_202608121900.jpeg"
       },
       {
@@ -1832,7 +1832,7 @@ export const menuData = [
           "en": "cream sauce",
           "ru": "сливочный соус"
         },
-        "price": "2,40 €",
+        "price": "2,50 €",
         "image": "/Fladenbrot_with_garlic_sauce_2K_202608121900.jpeg"
       },
       {
@@ -1843,7 +1843,7 @@ export const menuData = [
           "en": "mushroom hunter sauce",
           "ru": "грибной соус"
         },
-        "price": "2,40 €",
+        "price": "2,50 €",
         "image": "/Fladenbrot_with_garlic_sauce_2K_202608121900.jpeg"
       },
       {
@@ -1854,7 +1854,7 @@ export const menuData = [
           "en": "fine cream sauce",
           "ru": "сливочный соус"
         },
-        "price": "2,40 €",
+        "price": "2,50 €",
         "image": "/Fladenbrot_with_garlic_sauce_2K_202608121900.jpeg"
       },
       {
@@ -1865,7 +1865,7 @@ export const menuData = [
           "en": "mushroom sauce",
           "ru": "грибной соус"
         },
-        "price": "2,40 €",
+        "price": "2,50 €",
         "image": "/Fladenbrot_with_garlic_sauce_2K_202608121900.jpeg"
       }
     ]

@@ -67,12 +67,12 @@ const SAUCES = [
   { id: 'sc2', name: 'Mayonnaise', price: 0.50, image: '/Portion_Mayo_2K_202609082103.jpeg' },
   { id: 'sc3', name: 'Knoblauch-Sauce', price: 1.00, image: '/sauce.png' },
   { id: 'sc3b', name: 'American-Sauce', price: 1.00, image: '/sauce.png' },
-  { id: 'sc4', name: 'Remoulade', price: 2.40, image: '/sauce.png' },
+  { id: 'sc4', name: 'Remoulade', price: 2.50, image: '/sauce.png' },
   { id: 'sc5', name: 'Tzatziki', price: 1.50, image: '/sauce.png' },
-  { id: 'sc6', name: 'Jägersauce', price: 2.40, image: '/sauce.png' },
-  { id: 'sc6b', name: 'Rahmsauce', price: 2.40, image: '/sauce.png' },
-  { id: 'sc6c', name: 'Sahnesauce', price: 2.40, image: '/sauce.png' },
-  { id: 'sc6d', name: 'Champignonsauce', price: 2.40, image: '/sauce.png' },
+  { id: 'sc6', name: 'Jägersauce', price: 2.50, image: '/sauce.png' },
+  { id: 'sc6b', name: 'Rahmsauce', price: 2.50, image: '/sauce.png' },
+  { id: 'sc6c', name: 'Sahnesauce', price: 2.50, image: '/sauce.png' },
+  { id: 'sc6d', name: 'Champignonsauce', price: 2.50, image: '/sauce.png' },
   { id: 'sc7', name: 'Sauce Hollandaise', price: 2.00, image: '/sauce.png' }
 ];
 
@@ -915,7 +915,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
             )}
 
             {/* Burger Extras (Mit Aufpreis) */}
-            {isBurger && (
+            {isBurger && product.id !== '610' && (
               <div>
                 <div className="q-modal-section-title">🍔 BURGER EXTRAS (MIT AUFPREIS)</div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(165px, 1fr))', gap: '10px' }}>
@@ -951,7 +951,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
 
             
             {/* Side Dishes */}
-            {(isBurger || isSnack || isPasta) && (
+            {((isBurger && product.id !== '610') || isSnack || isPasta) && (
               <div>
                 <div className="q-modal-section-title">🍟 EXTRA BEILAGEN (MIT AUFPREIS)</div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(165px, 1fr))', gap: '10px', marginBottom: '20px' }}>
@@ -971,7 +971,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
             )}
 
             {/* Sauces */}
-            {(isBurger || isSnack || isSchnitzel || isPizzabroetchen || isFladenbrot || isCroque) && (
+            {(((isBurger && product.id !== '610') || isSnack || isSchnitzel || isPizzabroetchen || isFladenbrot || isCroque)) && (
               <div>
                 <div className="q-modal-section-title">🥣 SAUCEN NACH WAHL {(isFladenbrot || isCroque || isSnack) ? '(1 GRATIS, DANN AUFPREIS)' : '(MIT AUFPREIS)'}</div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(165px, 1fr))', gap: '10px', marginBottom: '20px' }}>
