@@ -157,15 +157,19 @@ export default function Checkout() {
             <div className="step-content animate-fade-in">
               <h2>3. Zahlart</h2>
               <div className="options-list">
-                {storeData.paymentMethods.map(method => {
-                  if (orderType !== 'delivery' && method.id === 'ec') return null;
-                  return (
-                    <label key={method.id} className={`payment-option ${payment === method.id ? 'active' : ''}`}>
-                      <input type="radio" name="payment" value={method.id} checked={payment === method.id} onChange={() => setPayment(method.id)} />
-                      <span>{method.label}</span>
-                    </label>
-                  );
-                })}
+                {storeData.paymentMethods.map(method => (
+                  <label key={method.id} className={`payment-option ${payment === method.id ? 'active' : ''}`}>
+                    <input type="radio" name="payment" value={method.id} checked={payment === method.id} onChange={() => setPayment(method.id)} />
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                      <span style={{ fontWeight: '600' }}>{method.label}</span>
+                      {method.id === 'ec' && (
+                        <small style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.8rem', marginTop: '2px' }}>
+                          Die Zahlung erfolgt unkompliziert per mobilem Kartengerät direkt beim Lieferanten oder an der Kasse.
+                        </small>
+                      )}
+                    </div>
+                  </label>
+                ))}
               </div>
               <div className="step-actions split">
                 <button className="btn btn-outline" onClick={handlePrev}><ArrowLeft size={20} className="mr-2"/> Zurück</button>
@@ -191,13 +195,16 @@ export default function Checkout() {
           <div className="summary-items">
             {cartItems.map(item => (
               <div key={item.id} className="summary-item">
-                <span>{item.quantity}x {item.name}</span>
-                <span>{(item.price * item.quantity).toFixed(2).replace('.', ',')} €</span>
+                <div className="summary-item-info">
+                  <span className="summary-item-qty">{item.quantity}x</span>
+                  <span className="summary-item-name">{item.name}</span>
+                </div>
+                <span className="summary-item-price">{(item.price * item.quantity).toFixed(2).replace('.', ',')} €</span>
               </div>
             ))}
             {cartItems.length === 0 && (
               <div className="summary-item">
-                <span>Ihr Warenkorb ist leer.</span>
+                <span className="summary-item-name" style={{ color: 'rgba(255,255,255,0.5)' }}>Ihr Warenkorb ist leer.</span>
               </div>
             )}
           </div>

@@ -152,7 +152,43 @@
 .summary-item {
   display: flex;
   justify-content: space-between;
-  color: var(--color-text-muted);
+  align-items: flex-start;
+  gap: 15px;
+  padding: 10px 0;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+}
+
+.summary-item:last-child {
+  border-bottom: none;
+}
+
+.summary-item-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.summary-item-qty {
+  font-weight: 600;
+  color: var(--color-brand-secondary, #cfa670);
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.summary-item-name {
+  color: #efefef;
+  font-size: 0.9rem;
+  line-height: 1.35;
+  word-break: break-word;
+}
+
+.summary-item-price {
+  font-weight: 600;
+  color: #ffffff;
+  font-size: 0.95rem;
+  white-space: nowrap;
 }
 
 .summary-total {

@@ -108,8 +108,16 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
       if (part.includes(':')) {
         const splitColon = part.split(':');
         label = splitColon[0].trim();
+      } else {
+        // If part contains text like "26 cm 10,90 €", extract size portion
+        const cmMatch = part.match(/(\d+\s*cm)/i);
+        if (cmMatch) {
+          label = cmMatch[1];
+        }
       }
-      const priceVal = parseFloat(part.replace(',', '.').replace(/[^\d\.]/g, '')) || 0;
+      // Extract price accurately from the price string (e.g. 10,90)
+      const matches = part.match(/(\d+[\.,]\d{2})/);
+      const priceVal = matches ? parseFloat(matches[1].replace(',', '.')) : (parseFloat(part.replace(',', '.').replace(/[^\d\.]/g, '')) || 0);
       return { label, price: priceVal, rawStr: part };
     });
   };
@@ -383,7 +391,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
     }
 
     let itemName = product.name;
-    if (options.length > 1) {
+    if (options.length > 1 && selectedOption.label !== 'Standard') {
       itemName += ` (${selectedOption.label})`;
     }
 

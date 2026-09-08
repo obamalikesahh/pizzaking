@@ -10,9 +10,9 @@ export const storeData = {
   },
   description: "„Essen, wie ein König bei Pizza King Schleswig.“ In eleganter und stilvoller Atmosphäre werden internationale Speisen serviert – frisch, lecker, zu fairen Preisen. Das neu gestaltete Restaurant bietet ca. 30 Sitzplätze mit angrenzendem, separatem Bereich.",
   paymentMethods: [
-    { id: 'cash', label: 'Bar (bei Lieferung/Abholung)' },
-    { id: 'ec', label: 'EC-Kartenzahlung (bei Lieferung, PIN erforderlich)' },
-    { id: 'paypal', label: 'PayPal' }
+    { id: 'cash', label: 'Barzahlung (bei Lieferung / Abholung)' },
+    { id: 'ec', label: 'EC-Kartenzahlung (erfolgt bei der Lieferung / vor Ort)' },
+    { id: 'paypal', label: 'PayPal (Online-Zahlung)' }
   ],
   deliveryZones: [
     { zip: "24837", city: "Schleswig", minOrder: 10.00 },
