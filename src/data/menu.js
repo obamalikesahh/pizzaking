@@ -1163,48 +1163,48 @@ export const menuData = [
         "image": "/images/schnitzel/Schnitzel with broccoli.jpeg"
       },
       {
-        "id": "144",
-        "name": "Portion Rahmsauce",
+        "id": "143C",
+        "name": "Grundschnitzel mit Champignonsauce",
         "desc": {
-          "de": "cremige Rahmsauce",
-          "en": "cream sauce",
-          "ru": "сливочный соус"
+          "de": "mit Champignonsauce, Pommes & ½ Brot",
+          "en": "with mushroom sauce, fries & ½ bread",
+          "ru": "со шницелем и грибным соусом"
         },
-        "price": "4,50 €",
-        "image": "/Fladenbrot_with_garlic_sauce_2K_202608121900.jpeg"
+        "price": "15,90 €",
+        "image": "/images/schnitzel/Schnitzel mit Champignons and onions.jpeg"
       },
       {
-        "id": "144A",
-        "name": "Portion Jägersauce",
+        "id": "143J",
+        "name": "Grundschnitzel mit Jägersauce",
         "desc": {
-          "de": "würzige Jägersauce",
-          "en": "mushroom hunter sauce",
-          "ru": "грибной соус"
+          "de": "mit Jägersauce, Pommes & ½ Brot",
+          "en": "with hunter sauce, fries & ½ bread",
+          "ru": "со шницелем и охотничьим соусом"
         },
-        "price": "4,50 €",
-        "image": "/Fladenbrot_with_garlic_sauce_2K_202608121900.jpeg"
+        "price": "15,90 €",
+        "image": "/images/schnitzel/paniertes schnitztel.jpeg"
       },
       {
-        "id": "144B",
-        "name": "Portion Sahnesauce",
+        "id": "143R",
+        "name": "Grundschnitzel mit Rahmsauce",
         "desc": {
-          "de": "feine Sahnesauce",
-          "en": "fine cream sauce",
-          "ru": "сливочный соус"
+          "de": "mit Rahmsauce, Pommes & ½ Brot",
+          "en": "with cream sauce, fries & ½ bread",
+          "ru": "со шницелем и сливочным соусом"
         },
-        "price": "4,50 €",
-        "image": "/Fladenbrot_with_garlic_sauce_2K_202608121900.jpeg"
+        "price": "15,90 €",
+        "image": "/images/schnitzel/paniertes schnitztel.jpeg"
       },
       {
-        "id": "144C",
-        "name": "Portion Champignonsauce",
+        "id": "143S",
+        "name": "Grundschnitzel mit Sahnesauce",
         "desc": {
-          "de": "leckere Champignonsauce",
-          "en": "mushroom sauce",
-          "ru": "грибной соус"
+          "de": "mit Sahnesauce, Pommes & ½ Brot",
+          "en": "with fine cream sauce, fries & ½ bread",
+          "ru": "со шницелем и сливочным соусом"
         },
-        "price": "4,50 €",
-        "image": "/Fladenbrot_with_garlic_sauce_2K_202608121900.jpeg"
+        "price": "15,90 €",
+        "image": "/images/schnitzel/paniertes schnitztel.jpeg"
       }
     ]
   },
@@ -1729,7 +1729,7 @@ export const menuData = [
           "ru": "чили-фри"
         },
         "price": "6,90 €",
-        "image": "/Döner_Teller_served_with_fries_202608121730.jpeg"
+        "image": "/chili_pommes_basket.jpeg"
       },
       {
         "id": "115A",
