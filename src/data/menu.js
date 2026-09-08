@@ -1711,7 +1711,7 @@ export const menuData = [
       },
       {
         "id": "112",
-        "name": "Heinz Mayo oder Ketchup",
+        "name": "Mayo oder Ketchup",
         "desc": {
           "de": "Portion Mayo oder Ketchup",
           "en": "portion mayo or ketchup",

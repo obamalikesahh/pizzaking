@@ -75,10 +75,9 @@ const SAUCES = [
 
 const DRESSINGS = [
   { id: 'dr1', name: 'Joghurt-Dressing', price: 1.50, image: '/sauce.png' },
-  { id: 'dr2', name: 'French-Dressing', price: 1.50, image: '/sauce.png' },
-  { id: 'dr3', name: 'American-Dressing', price: 1.50, image: '/sauce.png' },
   { id: 'dr4', name: 'Knoblauch-Dressing', price: 1.50, image: '/sauce.png' },
-  { id: 'dr5', name: 'Kräuter-Dressing', price: 1.50, image: '/sauce.png' }
+  { id: 'dr5', name: 'Kräuter-Dressing', price: 1.50, image: '/sauce.png' },
+  { id: 'dr6', name: 'Essig & Öl', price: 1.50, image: '/sauce.png' }
 ];
 
 const SALAD_EXTRAS = [
@@ -337,7 +336,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
   if (product.id === '605') maxPizzas = 2;
   if (product.id === '606') maxPizzas = 2;
   if (product.id === '609') maxPizzas = 4;
-  if (product.id === '610') maxBurgers = 12;
+  // Burger-Hammer (610): 12 normale Hamburger fest enthalten
 
   const availablePizzas = menuData.find(c => c.category === 'Pizza')?.items || [];
   const availableEis = menuData.find(c => c.category === 'Eis')?.items || [];
@@ -968,7 +967,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
             )}
 
             {/* Sauces */}
-            {(isBurger || isSnack || isSchnitzel || isPizza || isPizzabroetchen || isFladenbrot || isCroque) && (
+            {(isBurger || isSnack || isSchnitzel || isPizzabroetchen || isFladenbrot || isCroque) && (
               <div>
                 <div className="q-modal-section-title">🥣 SAUCEN NACH WAHL {(isFladenbrot || isCroque || isSnack) ? '(1 GRATIS, DANN AUFPREIS)' : '(MIT AUFPREIS)'}</div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(165px, 1fr))', gap: '10px', marginBottom: '20px' }}>
