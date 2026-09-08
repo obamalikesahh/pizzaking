@@ -330,7 +330,6 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
   };
 
   const isAktion = product.category === 'Hammer des Tages' && product.name.toLowerCase().includes('aktion');
-  const isPartyPizza = product.id === '602';
   
   let maxPizzas = 0;
   let maxEis = 0;
