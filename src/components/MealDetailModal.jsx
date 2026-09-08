@@ -48,8 +48,8 @@ const PIZZA_EXTRA_TOPPINGS = [
 
 const BURGER_EXTRAS = [
   { id: 'b1', name: 'Jalapeno', price: 1.50, image: '/images/pizzen/pizzen vegetarisch/pizza vegetables.jpeg' },
-  { id: 'b2', name: 'Extra Burger-Patty (100g) 1 Fleischstück', price: 2.50, image: '/burger_cinematic.png' },
-  { id: 'b3', name: 'Schmelz-Käse', price: 1.00, image: '/mozzarella.png' },
+  { id: 'b2', name: 'Extra Burger-Patty (100g) 1 Fleischstück', price: 2.90, image: '/burger_cinematic.png' },
+  { id: 'b3', name: 'Extra Cheddar Cheese 1 Scheibe', price: 1.50, image: '/mozzarella.png' },
   { id: 'b4', name: 'Baconstreifen', price: 1.50, image: '/prosciutto_slice.png' },
   { id: 'b5', name: 'Röstzwiebeln', price: 1.00, image: '/fresh_tomatoes.png' }
 ];
