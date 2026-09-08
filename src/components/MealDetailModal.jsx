@@ -441,7 +441,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
       itemName += ` - Burger: ${burgerString}`;
     }
 
-    if (product.id === '610' && sweetPotatoFries) itemName += ' + Cheddar Cheese (+5,00 €)';
+    if (product.id === '610' && sweetPotatoFries) itemName += ' + Alle Burger mit Cheddar Cheese (+5,00 €)';
     if (pizzaScharf) itemName += ' + Scharf (gratis)';
     if (pizzaKnoblauch) itemName += ' + Knoblauch (gratis)';
     if (selectedSideDishes.length > 0) itemName += ' + Beilagen: ' + selectedSideDishes.map(s => s.name).join(', ');
@@ -721,7 +721,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
             {/* Cheddar Cheese Option for Burger-Hammer */}
             {product.id === '610' && (
               <div>
-                <div className="q-modal-section-title">🧀 CHEDDAR CHEESE</div>
+                <div className="q-modal-section-title">🧀 CHEDDAR CHEESE UPGRADE</div>
                 <div
                   className={`q-modal-size-btn ${sweetPotatoFries ? 'active' : ''}`}
                   onClick={() => setSweetPotatoFries(!sweetPotatoFries)}
@@ -736,7 +736,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
                     }}>
                       {sweetPotatoFries && <Check size={14} color="#000" />}
                     </div>
-                    <span>Cheddar Cheese (+5,00 €)</span>
+                    <span>Alle Burger mit Cheddar Cheese (+5,00 €)</span>
                   </div>
                 </div>
               </div>
