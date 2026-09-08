@@ -48,9 +48,13 @@ export default function Checkout() {
     }
   };
 
-  const handleNext = () => setStep(s => s + 1);
+  const handleNext = () => {
+    if (cartItems.length === 0) return;
+    setStep(s => s + 1);
+  };
   const handlePrev = () => setStep(s => s - 1);
   const handleCheckoutComplete = () => {
+    if (cartItems.length === 0) return;
     const paymentLabel = storeData.paymentMethods.find(p => p.id === payment)?.label || payment;
     const addressStr = orderType === 'delivery' ? `${street}, ${plz} ${city}` : 'Abholung im Restaurant (Domziegelhof 12-14)';
     
@@ -72,6 +76,22 @@ export default function Checkout() {
     setStep(4);
     clearCart();
   };
+
+  if (cartItems.length === 0 && step !== 4) {
+    return (
+      <div className="page-container container animate-fade-in" style={{ padding: '140px 20px 60px', textAlign: 'center' }}>
+        <div className="glass-panel" style={{ maxWidth: '600px', margin: '0 auto', padding: '50px 30px' }}>
+          <h1 className="text-gradient" style={{ marginBottom: '15px', fontSize: '2rem' }}>Ihr Warenkorb ist leer</h1>
+          <p style={{ color: 'var(--color-text-muted)', marginBottom: '30px' }}>
+            Sie haben noch keine leckeren Gerichte zu Ihrer Bestellung hinzugefügt.
+          </p>
+          <a href="/menu" className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', textDecoration: 'none' }}>
+            Zur Speisekarte <ArrowRight size={20} />
+          </a>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="page-container container animate-fade-in" style={{ padding: '120px 20px 40px' }}>
