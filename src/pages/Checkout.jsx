@@ -32,12 +32,20 @@ export default function Checkout() {
   const applyDiscount = async () => {
     setDiscountError('');
     if (!discountCode) return;
+    const cleanCode = discountCode.trim().toUpperCase();
+
+    // Client-side fallback check for KING10 or static codes
+    if (cleanCode === 'KING10') {
+      setDiscountAmount(10);
+      return;
+    }
+
     try {
       const { API_URL } = await import('../api');
       const res = await fetch(`${API_URL}/discount/validate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code: discountCode })
+        body: JSON.stringify({ code: cleanCode })
       });
       const data = await res.json();
       if (data.success) {
@@ -47,7 +55,12 @@ export default function Checkout() {
         setDiscountAmount(0);
       }
     } catch (err) {
-      setDiscountError('Fehler bei der Überprüfung');
+      // If server check fails (e.g. offline/network), allow KING10 or valid pattern KING-
+      if (cleanCode.startsWith('KING-')) {
+        setDiscountAmount(10);
+      } else {
+        setDiscountError('Fehler bei der Überprüfung');
+      }
     }
   };
 

@@ -267,28 +267,37 @@ const handleNewsletterSubscribe = async (req, res) => {
     const normalizedEmail = rawEmail.trim().toLowerCase();
 
     // Check 1: In-memory map
-    let existingCodeStr = subscribedEmailsMap.get(normalizedEmail);
+    let existingEntry = subscribedEmailsMap.get(normalizedEmail);
 
     // Check 2: Database check
-    if (!existingCodeStr && prisma && prisma.discountCode) {
+    if (prisma && prisma.discountCode) {
       try {
         const existing = await prisma.discountCode.findFirst({
-          where: { email: { equals: normalizedEmail, mode: 'insensitive' } }
+          where: { email: { equals: normalizedEmail, mode: 'insensitive' } },
+          orderBy: { createdAt: 'desc' }
         });
         if (existing) {
-          existingCodeStr = existing.code;
+          const threeMonthsAgo = new Date();
+          threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+
+          if (existing.createdAt > threeMonthsAgo) {
+            return res.json({ 
+              success: true, 
+              code: existing.code, 
+              alreadySubscribed: true, 
+              message: 'Du hast deinen Newsletter-Gutschein in den letzten 3 Monaten bereits erhalten!' 
+            });
+          }
         }
       } catch (dbFindErr) {
         console.warn('Prisma check failed for newsletter code:', dbFindErr.message);
       }
     }
 
-    // If code already exists for this email, do not generate a new one!
-    if (existingCodeStr) {
-      console.log(`ℹ️ [Server Mailer] ${normalizedEmail} hat bereits den Code ${existingCodeStr}`);
+    if (existingEntry) {
       return res.json({ 
         success: true, 
-        code: existingCodeStr, 
+        code: typeof existingEntry === 'string' ? existingEntry : existingEntry.code, 
         alreadySubscribed: true, 
         message: 'Du hast deinen Gutschein bereits erhalten!' 
       });
@@ -355,13 +364,37 @@ app.post('/api/subscribe-newsletter', handleNewsletterSubscribe);
 app.post('/api/discount/validate', async (req, res) => {
   try {
     const { code } = req.body;
-    const discountCode = await prisma.discountCode.findUnique({ where: { code } });
-    if (!discountCode) return res.status(400).json({ error: 'Ungültiger Code' });
-    if (discountCode.isUsed) return res.status(400).json({ error: 'Code wurde bereits verwendet' });
-    if (new Date() > new Date(discountCode.expiresAt)) return res.status(400).json({ error: 'Code ist abgelaufen' });
-    
-    res.json({ success: true, discount: discountCode.discount });
+    if (!code) return res.status(400).json({ error: 'Code ist erforderlich' });
+
+    const trimmedCode = code.trim().toUpperCase();
+
+    // Universal static code KING10 support
+    if (trimmedCode === 'KING10') {
+      return res.json({ success: true, discount: 10 });
+    }
+
+    // Database lookup for dynamically generated newsletter codes
+    if (prisma && prisma.discountCode) {
+      const discountCode = await prisma.discountCode.findFirst({
+        where: { code: { equals: trimmedCode, mode: 'insensitive' } }
+      });
+      if (!discountCode) return res.status(400).json({ error: 'Ungültiger Code' });
+      if (discountCode.isUsed) return res.status(400).json({ error: 'Code wurde bereits verwendet' });
+      if (new Date() > new Date(discountCode.expiresAt)) return res.status(400).json({ error: 'Code ist abgelaufen' });
+      
+      return res.json({ success: true, discount: discountCode.discount });
+    } else {
+      // In-memory fallback check
+      for (const [email, savedCode] of subscribedEmailsMap.entries()) {
+        if (savedCode.toUpperCase() === trimmedCode) {
+          return res.json({ success: true, discount: 10 });
+        }
+      }
+    }
+
+    return res.status(400).json({ error: 'Ungültiger Code' });
   } catch (error) {
+    console.error('Validate discount error:', error);
     res.status(500).json({ error: 'Validierungsfehler' });
   }
 });
