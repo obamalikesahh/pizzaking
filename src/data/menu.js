@@ -1466,7 +1466,7 @@ export const menuData = [
     ]
   },
   {
-    "category": "Reis, Aufläufe & Fisch",
+    "category": "Reis & Aufläufe",
     "items": [
       {
         "id": "69",
@@ -1555,7 +1555,12 @@ export const menuData = [
         },
         "price": "16,90 €",
         "image": "/images/aufläufe/auflauf king.jpeg"
-      },
+      }
+    ]
+  },
+  {
+    "category": "Fisch",
+    "items": [
       {
         "id": "152",
         "name": "Calamari Fritti",
