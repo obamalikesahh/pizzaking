@@ -65,6 +65,8 @@ const SIDE_DISHES = [
 const SAUCES = [
   { id: 'sc1', name: 'Ketchup', price: 0.50, image: '/sauce.png' },
   { id: 'sc2', name: 'Mayonnaise', price: 0.50, image: '/sauce.png' },
+  { id: 'sc3', name: 'Knoblauch-Sauce', price: 1.00, image: '/sauce.png' },
+  { id: 'sc3b', name: 'American-Sauce', price: 1.00, image: '/sauce.png' },
   { id: 'sc4', name: 'Remoulade', price: 1.00, image: '/sauce.png' },
   { id: 'sc5', name: 'Tzatziki', price: 1.50, image: '/sauce.png' },
   { id: 'sc6', name: 'Jägersauce', price: 2.00, image: '/sauce.png' },
@@ -150,6 +152,8 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
   const isSchnitzel = product.category === 'Schnitzel';
   const isSnack = product.category === 'Snacks';
   const isKidsMenu = product.category === 'Für die Kleinen' || product.id === '158A' || product.name.toLowerCase().includes('kiddi') || product.name.toLowerCase().includes('kinder') || product.name.toLowerCase().includes('kleinen');
+  const isFladenbrot = product.category === 'Fladenbrote' || product.category === 'Fladenbrote & Croques' || product.name.toLowerCase().includes('fladenbrot');
+  const isCroque = product.category === 'Croques' || product.name.toLowerCase().includes('croque');
   const isPasta = product.category === 'Pasta' || product.category === 'Nudeln' || product.name.toLowerCase().includes('pasta') || product.name.toLowerCase().includes('spaghetti') || product.name.toLowerCase().includes('maccheroni') || product.name.toLowerCase().includes('lasagne') || product.name.toLowerCase().includes('tortellini') || product.name.toLowerCase().includes('penne');
 
   const [sweetPotatoFries, setSweetPotatoFries] = useState(false);
@@ -256,7 +260,8 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
 
   const extraSidesPrice = selectedSideDishes.reduce((sum, s) => sum + s.price, 0);
   const extraDressingsCost = selectedDressings.length > 1 ? selectedDressings.slice(1).reduce((sum, d) => sum + d.price, 0) : 0;
-  const extraSaucesCost = (isSnack && selectedSauces.length > 0) ? selectedSauces.slice(1).reduce((sum, s) => sum + s.price, 0) : selectedSauces.reduce((sum, s) => sum + s.price, 0);
+  const hasFreeFirstSauce = isSnack || isFladenbrot || isCroque;
+  const extraSaucesCost = (hasFreeFirstSauce && selectedSauces.length > 0) ? selectedSauces.slice(1).reduce((sum, s) => sum + s.price, 0) : selectedSauces.reduce((sum, s) => sum + s.price, 0);
   const extraSaladCost = selectedSaladExtras.reduce((sum, s) => sum + s.price, 0);
 
   const burgerExtrasPrice = selectedBurgerExtras.reduce((sum, b) => sum + b.price, 0);
@@ -963,13 +968,13 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
             )}
 
             {/* Sauces */}
-            {(isBurger || isSnack || isSchnitzel || isPizza || isPizzabroetchen) && (
+            {(isBurger || isSnack || isSchnitzel || isPizza || isPizzabroetchen || isFladenbrot || isCroque) && (
               <div>
-                <div className="q-modal-section-title">🥣 SAUCEN {isSnack ? '(1 GRATIS, DANN AUFPREIS)' : '(MIT AUFPREIS)'}</div>
+                <div className="q-modal-section-title">🥣 SAUCEN NACH WAHL {(isFladenbrot || isCroque || isSnack) ? '(1 GRATIS, DANN AUFPREIS)' : '(MIT AUFPREIS)'}</div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(165px, 1fr))', gap: '10px', marginBottom: '20px' }}>
                   {SAUCES.map(item => {
                     const isSelected = selectedSauces.some(s => s.id === item.id);
-                    const isFirstFree = isSnack && selectedSauces.length > 0 && selectedSauces[0].id === item.id;
+                    const isFirstFree = hasFreeFirstSauce && selectedSauces.length > 0 && selectedSauces[0].id === item.id;
                     const priceLabel = isFirstFree ? 'Gratis' : `+${item.price.toFixed(2).replace('.', ',')} €`;
                     return (
                       <div key={item.id} onClick={() => toggleSauce(item)} style={{ background: isSelected ? 'rgba(207, 166, 112, 0.2)' : '#1a1a1a', border: isSelected ? '1px solid #cfa670' : '1px solid rgba(255,255,255,0.08)', borderRadius: '12px', padding: '10px', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>

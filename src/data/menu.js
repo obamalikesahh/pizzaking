@@ -910,8 +910,8 @@ export const menuData = [
         "name": "Grillteller King [2 Personen]",
         "desc": {
           "de": "mit je 2 Schnitzeln, Hacksteaks, Fleischspießen, Cevapcici & Gyros, dazu Bauernsalat, Zwiebeln, Reis & 1 L Cola",
-          "en": "with 2 schnitzels, 2 minced steaks, 2 skewers, cevapcici & gyros, salad, rice & 1L Cola",
-          "ru": "для 2 человек с 1 л колы"
+          "en": "with 2 schnitzels, 2 minced steaks, 2 skewers, cevapcici & gyros, farmer salad, onions, rice & 1L Cola",
+          "ru": "с 2 шницелями, 2 бифштексами, 2 шашлыками, чевапчичи & гиросом, греческим салатом, луком, рисом & 1 л колы"
         },
         "price": "48,90 €",
         "image": "/images/gyros/grillteller king.jpeg"
