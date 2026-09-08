@@ -1778,7 +1778,7 @@ export const menuData = [
           "ru": "кетчуп"
         },
         "price": "0,50 €",
-        "image": "/Fladenbrot_with_garlic_sauce_2K_202608121900.jpeg"
+        "image": "/Portion_Ketchup_2K_202609082103.jpeg"
       },
       {
         "id": "112-M",
@@ -1789,7 +1789,7 @@ export const menuData = [
           "ru": "майонез"
         },
         "price": "0,50 €",
-        "image": "/Fladenbrot_with_garlic_sauce_2K_202608121900.jpeg"
+        "image": "/Portion_Mayo_2K_202609082103.jpeg"
       },
       {
         "id": "112-R",
@@ -1799,7 +1799,7 @@ export const menuData = [
           "en": "portion remoulade",
           "ru": "ремулад"
         },
-        "price": "1,00 €",
+        "price": "2,40 €",
         "image": "/Fladenbrot_with_garlic_sauce_2K_202608121900.jpeg"
       },
       {
@@ -1832,7 +1832,7 @@ export const menuData = [
           "en": "cream sauce",
           "ru": "сливочный соус"
         },
-        "price": "4,50 €",
+        "price": "2,40 €",
         "image": "/Fladenbrot_with_garlic_sauce_2K_202608121900.jpeg"
       },
       {
@@ -1843,7 +1843,7 @@ export const menuData = [
           "en": "mushroom hunter sauce",
           "ru": "грибной соус"
         },
-        "price": "4,50 €",
+        "price": "2,40 €",
         "image": "/Fladenbrot_with_garlic_sauce_2K_202608121900.jpeg"
       },
       {
@@ -1854,7 +1854,7 @@ export const menuData = [
           "en": "fine cream sauce",
           "ru": "сливочный соус"
         },
-        "price": "4,50 €",
+        "price": "2,40 €",
         "image": "/Fladenbrot_with_garlic_sauce_2K_202608121900.jpeg"
       },
       {
@@ -1865,7 +1865,7 @@ export const menuData = [
           "en": "mushroom sauce",
           "ru": "грибной соус"
         },
-        "price": "4,50 €",
+        "price": "2,40 €",
         "image": "/Fladenbrot_with_garlic_sauce_2K_202608121900.jpeg"
       }
     ]
