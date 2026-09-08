@@ -953,7 +953,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
 
             
             {/* Side Dishes */}
-            {((isBurger && product.id !== '610') || isSnack || isPasta) && (
+            {(isSnack || isPasta) && (
               <div>
                 <div className="q-modal-section-title">🍟 EXTRA BEILAGEN (MIT AUFPREIS)</div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(165px, 1fr))', gap: '10px', marginBottom: '20px' }}>
@@ -973,7 +973,7 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
             )}
 
             {/* Sauces */}
-            {(((isBurger && product.id !== '610') || isSnack || isSchnitzel || isPizzabroetchen || isFladenbrot || isCroque)) && (
+            {(isSnack || isSchnitzel || isPizzabroetchen || isFladenbrot || isCroque) && (
               <div>
                 <div className="q-modal-section-title">🥣 SAUCEN NACH WAHL {(isFladenbrot || isCroque || isSnack) ? '(1 GRATIS, DANN AUFPREIS)' : '(MIT AUFPREIS)'}</div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(165px, 1fr))', gap: '10px', marginBottom: '20px' }}>
