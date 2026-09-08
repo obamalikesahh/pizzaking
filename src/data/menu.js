@@ -94,9 +94,9 @@ export const menuData = [
         "id": "610",
         "name": "Burger-Hammer",
         "desc": {
-          "de": "12 kleine Burger nach Wahl, 1 Kilo Pommes, 5 Mayo und Ketchup",
-          "en": "12 small burgers, 1kg fries, 5 mayo & ketchup",
-          "ru": "12 маленьких бургеров, 1 кг фри"
+          "de": "12 Hamburger, 1 Kilo Pommes, 5 Mayo und Ketchup",
+          "en": "12 Hamburgers, 1kg fries, 5 mayo & ketchup",
+          "ru": "12 гамбургеров, 1 кг фри, 5 майонезов и кетчуп"
         },
         "price": "33,90 €",
         "image": "/HAmmer Burger Menu.jpeg"
