@@ -7,7 +7,7 @@ import { storeData } from '../data/storeData';
 import { sendOrderConfirmationEmail } from '../services/emailService';
 import './Checkout.css';
 
-const PAYPAL_CLIENT_ID = import.meta.env.VITE_PAYPAL_CLIENT_ID || "Adl2T87ODvxENWF-_68ihGrCGc2cYPtFtBm-0t8S_GcHlR9zMHDhtNymHJjrZPJpFcg0h3Wv4XtfHnKE";
+const PAYPAL_CLIENT_ID = import.meta.env.VITE_PAYPAL_CLIENT_ID;
 
 export default function Checkout() {
   const { cartItems, cartTotal, clearCart, removeFromCart, updateQuantity } = useCart();
