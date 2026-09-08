@@ -1701,7 +1701,7 @@ export const menuData = [
           "ru": "пеперони oder оливки"
         },
         "price": "4,30 €",
-        "image": "/Olives_and_peppers_mixing_202608121902.mp4"
+        "image": "/oliven.jpeg"
       },
       {
         "id": "116",
