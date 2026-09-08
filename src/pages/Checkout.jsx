@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { ArrowRight, ArrowLeft, CheckCircle, Trash2, Plus, Minus } from 'lucide-react';
+import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import { useCart } from '../context/CartContext';
 import { useAdmin } from '../context/AdminContext';
 import { storeData } from '../data/storeData';
 import { sendOrderConfirmationEmail } from '../services/emailService';
 import './Checkout.css';
+
+const PAYPAL_CLIENT_ID = import.meta.env.VITE_PAYPAL_CLIENT_ID || "Adl2T87ODvxENWF-_68ihGrCGc2cYPtFtBm-0t8S_GcHlR9zMHDhtNymHJjrZPJpFcg0h3Wv4XtfHnKE";
 
 export default function Checkout() {
   const { cartItems, cartTotal, clearCart, removeFromCart, updateQuantity } = useCart();
@@ -191,10 +194,47 @@ export default function Checkout() {
                   </label>
                 ))}
               </div>
-              <div className="step-actions split">
-                <button className="btn btn-outline" onClick={handlePrev}><ArrowLeft size={20} className="mr-2"/> Zurück</button>
-                <button className="btn btn-primary" onClick={handleCheckoutComplete}>Zahlungspflichtig bestellen <CheckCircle size={20} className="ml-2"/></button>
-              </div>
+
+              {payment === 'paypal' ? (
+                <div style={{ marginTop: '25px' }}>
+                  <p style={{ fontSize: '0.9rem', color: 'var(--color-text-muted)', marginBottom: '15px' }}>
+                    Klicken Sie auf den PayPal-Button, um die Zahlung im Live-Modus abzuschließen:
+                  </p>
+                  <PayPalScriptProvider options={{ "client-id": PAYPAL_CLIENT_ID, currency: "EUR" }}>
+                    <PayPalButtons 
+                      style={{ layout: "vertical", color: "gold", shape: "rect", label: "pay" }}
+                      createOrder={(data, actions) => {
+                        return actions.order.create({
+                          purchase_units: [{
+                            description: `Bestellung Pizza King Schleswig (${orderType === 'delivery' ? 'Lieferung' : 'Abholung'})`,
+                            amount: {
+                              currency_code: "EUR",
+                              value: finalTotal.toFixed(2)
+                            }
+                          }]
+                        });
+                      }}
+                      onApprove={(data, actions) => {
+                        return actions.order.capture().then((details) => {
+                          handleCheckoutComplete();
+                        });
+                      }}
+                      onError={(err) => {
+                        console.error("PayPal Error:", err);
+                        alert("Bei der PayPal-Zahlung ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut oder wählen Sie eine andere Zahlungsart.");
+                      }}
+                    />
+                  </PayPalScriptProvider>
+                  <div className="step-actions" style={{ marginTop: '15px' }}>
+                    <button className="btn btn-outline" onClick={handlePrev}><ArrowLeft size={20} className="mr-2"/> Zurück</button>
+                  </div>
+                </div>
+              ) : (
+                <div className="step-actions split">
+                  <button className="btn btn-outline" onClick={handlePrev}><ArrowLeft size={20} className="mr-2"/> Zurück</button>
+                  <button className="btn btn-primary" onClick={handleCheckoutComplete}>Zahlungspflichtig bestellen <CheckCircle size={20} className="ml-2"/></button>
+                </div>
+              )}
             </div>
           )}
 
