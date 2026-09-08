@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowRight, ArrowLeft, CheckCircle } from 'lucide-react';
+import { ArrowRight, ArrowLeft, CheckCircle, Trash2, Plus, Minus } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useAdmin } from '../context/AdminContext';
 import { storeData } from '../data/storeData';
@@ -7,7 +7,7 @@ import { sendOrderConfirmationEmail } from '../services/emailService';
 import './Checkout.css';
 
 export default function Checkout() {
-  const { cartItems, cartTotal, clearCart } = useCart();
+  const { cartItems, cartTotal, clearCart, removeFromCart, updateQuantity } = useCart();
   const { addOrder } = useAdmin();
   const [step, setStep] = useState(1);
   const [orderType, setOrderType] = useState('delivery'); // delivery or pickup
@@ -196,10 +196,35 @@ export default function Checkout() {
             {cartItems.map(item => (
               <div key={item.id} className="summary-item">
                 <div className="summary-item-info">
-                  <span className="summary-item-qty">{item.quantity}x</span>
+                  <div className="summary-item-controls">
+                    <button 
+                      className="qty-btn" 
+                      onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                      title="Menge verringern"
+                    >
+                      <Minus size={12} />
+                    </button>
+                    <span className="summary-item-qty">{item.quantity}x</span>
+                    <button 
+                      className="qty-btn" 
+                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                      title="Menge erhöhen"
+                    >
+                      <Plus size={12} />
+                    </button>
+                  </div>
                   <span className="summary-item-name">{item.name}</span>
                 </div>
-                <span className="summary-item-price">{(item.price * item.quantity).toFixed(2).replace('.', ',')} €</span>
+                <div className="summary-item-right">
+                  <span className="summary-item-price">{(item.price * item.quantity).toFixed(2).replace('.', ',')} €</span>
+                  <button 
+                    className="remove-item-btn" 
+                    onClick={() => removeFromCart(item.id)}
+                    title="Artikel entfernen"
+                  >
+                    <Trash2 size={15} />
+                  </button>
+                </div>
               </div>
             ))}
             {cartItems.length === 0 && (
