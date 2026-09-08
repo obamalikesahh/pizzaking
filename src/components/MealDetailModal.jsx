@@ -67,12 +67,12 @@ const SAUCES = [
   { id: 'sc2', name: 'Mayonnaise', price: 0.50, image: '/Portion_Mayo_2K_202609082103.jpeg' },
   { id: 'sc3', name: 'Knoblauch-Sauce', price: 1.00, image: '/sauce.png' },
   { id: 'sc3b', name: 'American-Sauce', price: 1.00, image: '/sauce.png' },
-  { id: 'sc4', name: 'Remoulade', price: 2.50, image: '/sauce.png' },
+  { id: 'sc4', name: 'Remoulade', price: 2.40, image: '/sauce.png' },
   { id: 'sc5', name: 'Tzatziki', price: 1.50, image: '/sauce.png' },
-  { id: 'sc6', name: 'Jägersauce', price: 2.50, image: '/sauce.png' },
-  { id: 'sc6b', name: 'Rahmsauce', price: 2.50, image: '/sauce.png' },
-  { id: 'sc6c', name: 'Sahnesauce', price: 2.50, image: '/sauce.png' },
-  { id: 'sc6d', name: 'Champignonsauce', price: 2.50, image: '/sauce.png' },
+  { id: 'sc6', name: 'Jägersauce', price: 2.40, image: '/sauce.png' },
+  { id: 'sc6b', name: 'Rahmsauce', price: 2.40, image: '/sauce.png' },
+  { id: 'sc6c', name: 'Sahnesauce', price: 2.40, image: '/sauce.png' },
+  { id: 'sc6d', name: 'Champignonsauce', price: 2.40, image: '/sauce.png' },
   { id: 'sc7', name: 'Sauce Hollandaise', price: 2.00, image: '/sauce.png' }
 ];
 
@@ -238,7 +238,10 @@ export default function MealDetailModal({ isOpen, onClose, product, addToCart })
     return 2.50;
   };
 
+  const isPartyPizza = product.id === '602' || product.name.toLowerCase().includes('party');
+
   const getExtraToppingUnitPrice = () => {
+    if (isPartyPizza) return 2.50;
     if (isCalzone || selectedOption.label.includes('26')) return 1.90;
     if (selectedOption.label.includes('32')) return 2.50;
     if (selectedOption.label.includes('36')) return 2.90;
