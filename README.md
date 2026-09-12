@@ -1,2 +1,2 @@
-# Pizza King
-Cloudflare Pages deployment sync.
+# Pizza King Schleswig
+Official deployment build trigger for Cloudflare Pages.
