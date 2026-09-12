@@ -65,14 +65,12 @@ const SIDE_DISHES = [
 const SAUCES = [
   { id: 'sc1', name: 'Ketchup', price: 0.50, image: '/Portion_Ketchup_2K_202609082103.jpeg' },
   { id: 'sc2', name: 'Mayonnaise', price: 0.50, image: '/Portion_Mayo_2K_202609082103.jpeg' },
-  { id: 'sc3', name: 'Knoblauch-Sauce', price: 1.00, image: '/sauce.png' },
-  { id: 'sc3b', name: 'American-Sauce', price: 1.00, image: '/sauce.png' },
+  { id: 'sc3', name: 'Knoblauch-Sauce', price: 2.40, image: '/sauce.png' },
+  { id: 'sc3b', name: 'American-Sauce', price: 2.40, image: '/sauce.png' },
   { id: 'sc4', name: 'Remoulade', price: 2.40, image: '/sauce.png' },
-  { id: 'sc5', name: 'Tzatziki', price: 1.50, image: '/sauce.png' },
-  { id: 'sc6', name: 'Jägersauce', price: 2.40, image: '/sauce.png' },
+  { id: 'sc5', name: 'Tzatziki', price: 3.40, image: '/Tzatziki_served_in_ceramic_bowl_202608121901.jpeg' },
+  { id: 'sc5b', name: 'Chili-Sauce', price: 2.40, image: '/sauce.png' },
   { id: 'sc6b', name: 'Rahmsauce', price: 2.40, image: '/sauce.png' },
-  { id: 'sc6c', name: 'Sahnesauce', price: 2.40, image: '/sauce.png' },
-  { id: 'sc6d', name: 'Champignonsauce', price: 2.40, image: '/sauce.png' },
   { id: 'sc7', name: 'Sauce Hollandaise', price: 2.00, image: '/sauce.png' }
 ];
 

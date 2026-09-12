@@ -1797,6 +1797,28 @@ export const menuData = [
         "image": "/Portion_Mayo_2K_202609082103.jpeg"
       },
       {
+        "id": "112-KS",
+        "name": "Portion Knoblauch-Sauce (Dip)",
+        "desc": {
+          "de": "Portion Knoblauch-Sauce",
+          "en": "portion garlic sauce",
+          "ru": "чесночный соус"
+        },
+        "price": "2,40 €",
+        "image": "/Fladenbrot_with_garlic_sauce_2K_202608121900.jpeg"
+      },
+      {
+        "id": "112-AS",
+        "name": "Portion American-Sauce (Dip)",
+        "desc": {
+          "de": "Portion American-Sauce",
+          "en": "portion american sauce",
+          "ru": "американский соус"
+        },
+        "price": "2,40 €",
+        "image": "/Fladenbrot_with_garlic_sauce_2K_202608121900.jpeg"
+      },
+      {
         "id": "112-R",
         "name": "Portion Remoulade (Dip)",
         "desc": {
@@ -1819,6 +1841,17 @@ export const menuData = [
         "image": "/Tzatziki_served_in_ceramic_bowl_202608121901.jpeg"
       },
       {
+        "id": "112-CS",
+        "name": "Portion Chili-Sauce (Dip)",
+        "desc": {
+          "de": "Portion Chili-Sauce",
+          "en": "portion chili sauce",
+          "ru": "чили соус"
+        },
+        "price": "2,40 €",
+        "image": "/Fladenbrot_with_garlic_sauce_2K_202608121900.jpeg"
+      },
+      {
         "id": "116",
         "name": "Portion Sauce Hollandaise (125 ml)",
         "desc": {
@@ -1826,7 +1859,7 @@ export const menuData = [
           "en": "hollandaise sauce",
           "ru": "голландский соус"
         },
-        "price": "3,40 €",
+        "price": "2,00 €",
         "image": "/Sauce_hollandaise_in_gravy_boat_202608121901.jpeg"
       },
       {
@@ -1836,39 +1869,6 @@ export const menuData = [
           "de": "cremige Rahmsauce",
           "en": "cream sauce",
           "ru": "сливочный соус"
-        },
-        "price": "2,40 €",
-        "image": "/Fladenbrot_with_garlic_sauce_2K_202608121900.jpeg"
-      },
-      {
-        "id": "144A",
-        "name": "Portion Jägersauce",
-        "desc": {
-          "de": "würzige Jägersauce",
-          "en": "mushroom hunter sauce",
-          "ru": "грибной соус"
-        },
-        "price": "2,40 €",
-        "image": "/Fladenbrot_with_garlic_sauce_2K_202608121900.jpeg"
-      },
-      {
-        "id": "144B",
-        "name": "Portion Sahnesauce",
-        "desc": {
-          "de": "feine Sahnesauce",
-          "en": "fine cream sauce",
-          "ru": "сливочный соус"
-        },
-        "price": "2,40 €",
-        "image": "/Fladenbrot_with_garlic_sauce_2K_202608121900.jpeg"
-      },
-      {
-        "id": "144C",
-        "name": "Portion Champignonsauce",
-        "desc": {
-          "de": "leckere Champignonsauce",
-          "en": "mushroom sauce",
-          "ru": "грибной соус"
         },
         "price": "2,40 €",
         "image": "/Fladenbrot_with_garlic_sauce_2K_202608121900.jpeg"
