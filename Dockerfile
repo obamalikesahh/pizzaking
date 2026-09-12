@@ -1,24 +1,25 @@
-# Base image
 FROM node:20-alpine
 
-# Set working directory
 WORKDIR /app
 
-# Copy package files and install dependencies
+# Copy package.json and install all dependencies
 COPY package*.json ./
-COPY server/package*.json ./server/
 RUN npm install
-RUN cd server && npm install
 
-# Copy all source files
+# Copy all project files
 COPY . .
 
-# Build frontend
+# Generate Prisma client
+RUN npx prisma generate --schema=./server/prisma/schema.prisma
+
+# Build the Vite frontend
 RUN npm run build
 
-# Expose ports
+# Install serve globally to serve frontend static files
+RUN npm install -g serve
+
 EXPOSE 3000
 EXPOSE 3002
 
-# Start script: Run server and static server
-CMD ["sh", "-c", "node server/server.js & npx serve -s dist -l 3000"]
+# Run backend server AND static frontend concurrently
+CMD node server/server.js & serve -s dist -l 3000
