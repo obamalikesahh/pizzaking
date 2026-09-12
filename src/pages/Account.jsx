@@ -67,8 +67,12 @@ export default function Account() {
     setTempUser(res.tempUser);
     setGeneratedCode(res.code);
     
-    // Sende echten Verifizierungscode per Resend E-Mail
-    await sendVerificationEmail(signUpEmail, nameInput, res.code);
+    // Sende echten Verifizierungscode per Resend/IONOS E-Mail
+    const emailRes = await sendVerificationEmail(signUpEmail, nameInput, res.code);
+    if (!emailRes.success) {
+      console.warn("E-Mail Backend offline oder blockiert. Zeige Notfall-Code:", res.code);
+      setErrorMsg(`Verifizierungscode: ${res.code} (E-Mail konnte nicht zugestellt werden)`);
+    }
 
     setMode('signup_step2');
   };
