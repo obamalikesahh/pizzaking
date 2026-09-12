@@ -9,26 +9,8 @@ import { API_URL } from '../api';
  * 🔑 1. Verifizierungscode senden (via IONOS Backend)
  */
 export async function sendVerificationEmail(toEmail, userName, code) {
-  console.log(`✉️ [EMail-Service] Sende Verifizierungscode an ${toEmail} via IONOS Backend...`);
+  console.log(`✉️ [EMail-Service] Sende Verifizierungscode an ${toEmail}...`);
 
-  // Versuche es zuerst über das Backend API (Hetzner Node.js / IONOS SMTP)
-  try {
-    const res = await fetch(`${API_URL}/send-verification`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ toEmail, userName, code })
-    });
-    
-    if (res.ok) {
-      const data = await res.json();
-      console.log('✅ IONOS Backend Mailer Result:', data);
-      return { success: true, data };
-    }
-  } catch (err) {
-    console.warn('Backend API error for verification email:', err);
-  }
-
-  // Cloudflare Function Fallback
   try {
     const res = await fetch('/api/send-verification', {
       method: 'POST',
@@ -36,15 +18,18 @@ export async function sendVerificationEmail(toEmail, userName, code) {
       body: JSON.stringify({ toEmail, userName, code })
     });
     
-    if (res.ok) {
-      const data = await res.json();
+    const data = await res.json();
+    if (res.ok && data.success) {
+      console.log('✅ Verifizierungs-E-Mail erfolgreich versendet:', data);
       return { success: true, data };
+    } else {
+      console.error('❌ E-Mail Server Rückmeldung:', data);
+      return { success: false, error: data.error || 'Serverfehler beim Versand' };
     }
   } catch (err) {
-    console.error('Fallback error:', err);
+    console.error('❌ Fehler beim E-Mail Versand:', err);
+    return { success: false, error: err.message };
   }
-
-  return { success: false, error: 'E-Mail konnte nicht gesendet werden.' };
 }
 
 /**
