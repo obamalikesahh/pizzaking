@@ -1,25 +1,27 @@
-FROM node:20-alpine
+# --- STAGE 1: Build ---
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Copy package.json and install all dependencies
+# Copy package files & install dependencies
 COPY package*.json ./
-RUN npm install
+RUN npm ci || npm install
 
-# Copy all project files
+# Copy source files
 COPY . .
 
-# Generate Prisma client
-RUN npx prisma generate --schema=./server/prisma/schema.prisma
+# Generate Prisma (ignore DB connection during build)
+ENV PRISMA_SKIP_POSTINSTALL_GENERATE=true
+RUN npx prisma generate --schema=./server/prisma/schema.prisma || true
 
-# Build the Vite frontend
+# Build Vite frontend
 RUN npm run build
 
-# Install serve globally to serve frontend static files
+# Install lightweight static server
 RUN npm install -g serve
 
 EXPOSE 3000
 EXPOSE 3002
 
-# Run backend server AND static frontend concurrently
-CMD node server/server.js & serve -s dist -l 3000
+# Clean start command
+CMD ["sh", "-c", "node server/server.js & serve -s dist -l 3000 -single"]
