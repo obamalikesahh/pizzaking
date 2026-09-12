@@ -1,27 +1,29 @@
-# --- STAGE 1: Build ---
-FROM node:20-alpine AS builder
+FROM node:20-alpine
 
 WORKDIR /app
 
-# Copy package files & install dependencies
-COPY package*.json ./
-RUN npm ci || npm install
+# Install openssl for Prisma
+RUN apk add --no-cache openssl
 
-# Copy source files
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies (skipping strict engine check)
+RUN npm install --engine-strict=false
+
+# Copy all source files
 COPY . .
 
-# Generate Prisma (ignore DB connection during build)
-ENV PRISMA_SKIP_POSTINSTALL_GENERATE=true
+# Generate Prisma Client
 RUN npx prisma generate --schema=./server/prisma/schema.prisma || true
 
 # Build Vite frontend
 RUN npm run build
 
-# Install lightweight static server
+# Install serve
 RUN npm install -g serve
 
 EXPOSE 3000
 EXPOSE 3002
 
-# Clean start command
 CMD ["sh", "-c", "node server/server.js & serve -s dist -l 3000 -single"]
