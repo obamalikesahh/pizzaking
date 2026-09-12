@@ -1,2 +1,2 @@
-# Pizza King App
-Automated Deployment test for Coolify via GitHub Webhook.
+# Pizza King
+Cloudflare Pages deployment sync.
