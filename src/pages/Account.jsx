@@ -6,15 +6,23 @@ import { sendVerificationEmail } from '../services/emailService';
 import { storeData } from '../data/storeData';
 
 export default function Account() {
-  const { currentUser, userSignUp, userVerifyAndSetPassword, userLogin, userVerifyLogin, userLogout, orders, updateOrderStatus } = useAdmin();
+  const { currentUser, userSignUp, userVerifyAndSetPassword, userLogin, userVerifyLogin, userRequestPasswordReset, userResetPassword, userLogout, orders, updateOrderStatus } = useAdmin();
 
-  // Mode: 'login' | 'login_step2' | 'signup_step1' | 'signup_step2'
+  // Mode: 'login' | 'login_step2' | 'signup_step1' | 'signup_step2' | 'reset_step1' | 'reset_step2'
   const [mode, setMode] = useState('login');
 
   // Login Form
   const [emailInput, setEmailInput] = useState('');
   const [passwordInput, setPasswordInput] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
+  const [successMsg, setSuccessMsg] = useState('');
+
+  // Password Reset State
+  const [resetEmailInput, setResetEmailInput] = useState('');
+  const [resetTempUser, setResetTempUser] = useState(null);
+  const [resetGeneratedCode, setResetGeneratedCode] = useState('');
+  const [resetCodeInput, setResetCodeInput] = useState('');
+  const [resetNewPassword, setResetNewPassword] = useState('');
 
   // Login Verifizierung State
   const [loginTempUser, setLoginTempUser] = useState(null);
@@ -233,6 +241,12 @@ export default function Account() {
           </div>
         )}
 
+        {successMsg && (
+          <div style={{ background: 'rgba(34,197,94,0.15)', border: '1px solid rgba(34,197,94,0.3)', color: '#22c55e', padding: '12px', borderRadius: '10px', fontSize: '0.85rem', marginBottom: '20px', textAlign: 'center' }}>
+            {successMsg}
+          </div>
+        )}
+
         {/* MODE: LOGIN */}
         {mode === 'login' && (
           <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
@@ -245,12 +259,88 @@ export default function Account() {
             </div>
 
             <div>
-              <label style={{ display: 'block', color: '#cfa670', fontSize: '0.8rem', marginBottom: '6px' }}>Passwort</label>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                <label style={{ color: '#cfa670', fontSize: '0.8rem' }}>Passwort</label>
+                <button type="button" onClick={() => { setMode('reset_step1'); setErrorMsg(''); setSuccessMsg(''); }} style={{ background: 'none', border: 'none', color: '#888', fontSize: '0.8rem', cursor: 'pointer', textDecoration: 'underline' }}>
+                  Passwort vergessen?
+                </button>
+              </div>
               <input type="password" required value={passwordInput} onChange={e => setPasswordInput(e.target.value)} placeholder="••••••••" style={{ width: '100%', padding: '14px', background: '#1a1b1a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', color: '#fff', outline: 'none', boxSizing: 'border-box' }} />
             </div>
 
             <button type="submit" style={{ background: '#cfa670', color: '#000', border: 'none', padding: '16px', borderRadius: '12px', fontWeight: 'bold', cursor: 'pointer', marginTop: '10px' }}>
               WEITER ZUR VERIFIZIERUNG
+            </button>
+          </form>
+        )}
+
+        {/* MODE: RESET STEP 1 */}
+        {mode === 'reset_step1' && (
+          <form onSubmit={async (e) => {
+            e.preventDefault();
+            setErrorMsg('');
+            setSuccessMsg('');
+            const res = userRequestPasswordReset(resetEmailInput);
+            if (!res.success) {
+              setErrorMsg(res.message);
+              return;
+            }
+            setResetTempUser(res.tempUser);
+            setResetGeneratedCode(res.code);
+            try {
+              await sendVerificationEmail(resetEmailInput, res.tempUser.name, res.code);
+            } catch (err) {
+              console.warn('Mail versand warnung:', err);
+            }
+            setSuccessMsg(`Verifizierungscode wurde generiert (${res.code}). Falls du keine E-Mail erhältst, nutze diesen Code.`);
+            setMode('reset_step2');
+          }} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <h2 style={{ fontFamily: 'Cinzel, serif', color: '#fff', margin: 0, fontSize: '1.5rem', textAlign: 'center' }}>Passwort Zurücksetzen</h2>
+            <p style={{ color: '#888', fontSize: '0.85rem', textAlign: 'center', margin: '0 0 10px 0' }}>Gib deine E-Mail-Adresse ein. Wir senden dir einen Verifizierungscode.</p>
+
+            <div>
+              <label style={{ display: 'block', color: '#cfa670', fontSize: '0.8rem', marginBottom: '6px' }}>E-Mail-Adresse</label>
+              <input type="email" required value={resetEmailInput} onChange={e => setResetEmailInput(e.target.value)} placeholder="deine@email.de" style={{ width: '100%', padding: '14px', background: '#1a1b1a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', color: '#fff', outline: 'none', boxSizing: 'border-box' }} />
+            </div>
+
+            <button type="submit" style={{ background: '#cfa670', color: '#000', border: 'none', padding: '16px', borderRadius: '12px', fontWeight: 'bold', cursor: 'pointer', marginTop: '10px' }}>
+              CODE ANFORDERN
+            </button>
+
+            <button type="button" onClick={() => setMode('login')} style={{ background: 'transparent', color: '#888', border: 'none', fontSize: '0.85rem', cursor: 'pointer', marginTop: '5px' }}>
+              Zurück zur Anmeldung
+            </button>
+          </form>
+        )}
+
+        {/* MODE: RESET STEP 2 */}
+        {mode === 'reset_step2' && (
+          <form onSubmit={(e) => {
+            e.preventDefault();
+            setErrorMsg('');
+            setSuccessMsg('');
+            const res = userResetPassword(resetTempUser, resetGeneratedCode, resetCodeInput, resetNewPassword);
+            if (!res.success) {
+              setErrorMsg(res.message);
+              return;
+            }
+            setSuccessMsg('Passwort erfolgreich geändert! Du kannst dich jetzt anmelden.');
+            setMode('login');
+          }} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <h2 style={{ fontFamily: 'Cinzel, serif', color: '#fff', margin: 0, fontSize: '1.5rem', textAlign: 'center' }}>Neues Passwort Festlegen</h2>
+
+            <div>
+              <label style={{ display: 'block', color: '#cfa670', fontSize: '0.8rem', marginBottom: '6px' }}>6-Stelligen Code eingeben</label>
+              <input type="text" required value={resetCodeInput} onChange={e => setResetCodeInput(e.target.value)} placeholder="••••••" style={{ width: '100%', padding: '14px', background: '#1a1b1a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', color: '#cfa670', outline: 'none', fontSize: '1.2rem', textAlign: 'center', letterSpacing: '4px', fontWeight: 'bold', boxSizing: 'border-box' }} />
+            </div>
+
+            <div>
+              <label style={{ display: 'block', color: '#cfa670', fontSize: '0.8rem', marginBottom: '6px' }}>Neues Passwort</label>
+              <input type="password" required value={resetNewPassword} onChange={e => setResetNewPassword(e.target.value)} placeholder="Mindestens 6 Zeichen..." style={{ width: '100%', padding: '14px', background: '#1a1b1a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', color: '#fff', outline: 'none', boxSizing: 'border-box' }} />
+            </div>
+
+            <button type="submit" style={{ background: '#cfa670', color: '#000', border: 'none', padding: '16px', borderRadius: '12px', fontWeight: 'bold', cursor: 'pointer', marginTop: '10px' }}>
+              PASSWORT SPEICHERN
             </button>
           </form>
         )}
