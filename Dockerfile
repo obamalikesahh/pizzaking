@@ -30,5 +30,5 @@ RUN npm install -g serve
 EXPOSE 3000
 EXPOSE 3002
 
-CMD ["sh", "-c", "node server/server.js & serve -s dist -l 3000 --single"]
+CMD ["sh", "-c", "node server/server.js & exec serve -s dist -l 3000 -s"]
 
