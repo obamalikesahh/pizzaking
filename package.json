@@ -11,7 +11,7 @@
     "build": "prisma generate --schema=./server/prisma/schema.prisma && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "postinstall": "prisma generate --schema=./server/prisma/schema.prisma"
+    "postinstall": "prisma generate --schema=./server/prisma/schema.prisma || true"
   },
   "dependencies": {
     "@paypal/react-paypal-js": "^10.4.0",
