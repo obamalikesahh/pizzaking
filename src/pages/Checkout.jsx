@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { ArrowRight, ArrowLeft, CheckCircle, Trash2, Plus, Minus } from 'lucide-react';
+import { ArrowRight, ArrowLeft, CheckCircle, Trash2, Plus, Minus, Loader2 } from 'lucide-react';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import { useCart } from '../context/CartContext';
 import { useAdmin } from '../context/AdminContext';
 import { storeData } from '../data/storeData';
 import { sendOrderConfirmationEmail } from '../services/emailService';
-import { validateCheckoutForm } from '../utils/addressValidation';
+import { validateCheckoutForm, validateRealAddressWithOSM } from '../utils/addressValidation';
 import './Checkout.css';
 
 const PAYPAL_CLIENT_ID = import.meta.env.VITE_PAYPAL_CLIENT_ID || "AZchW2TIdgYmSrQoGdahiDqBOYOOWIQ9jdF_yh-oxltBfyuHnU2ticuLx7_txffYGoZhp_K9hgFzj-Va";
@@ -24,6 +24,7 @@ export default function Checkout() {
   const [plz, setPlz] = useState('24837');
   const [city, setCity] = useState('Schleswig');
   const [formErrors, setFormErrors] = useState({});
+  const [isValidatingAddress, setIsValidatingAddress] = useState(false);
 
   const [discountCode, setDiscountCode] = useState('');
   const [discountAmount, setDiscountAmount] = useState(0);
@@ -209,7 +210,7 @@ export default function Checkout() {
           {step === 2 && (
             <div className="step-content animate-fade-in">
               <h2>2. {orderType === 'delivery' ? 'Lieferadresse' : 'Kontaktdaten'}</h2>
-              <form className="checkout-form" onSubmit={(e) => {
+              <form className="checkout-form" onSubmit={async (e) => {
                 e.preventDefault();
                 if (isEmailBlacklisted(customerEmail)) {
                   setFormErrors({ customerEmail: 'Diese E-Mail-Adresse / dieses Konto wurde gesperrt. Bestellungen sind nicht möglich.' });
@@ -220,6 +221,19 @@ export default function Checkout() {
                   setFormErrors(validation.errors);
                   return;
                 }
+
+                // If delivery, validate real street & house number exist in selected PLZ / city using OSM API
+                if (orderType === 'delivery') {
+                  setIsValidatingAddress(true);
+                  const osmResult = await validateRealAddressWithOSM(street, plz, city);
+                  setIsValidatingAddress(false);
+
+                  if (!osmResult.isValid) {
+                    setFormErrors({ street: osmResult.error });
+                    return;
+                  }
+                }
+
                 setFormErrors({});
                 handleNext();
               }}>
@@ -288,8 +302,14 @@ export default function Checkout() {
                   </>
                 )}
                 <div className="step-actions split">
-                  <button type="button" className="btn btn-outline" onClick={handlePrev}><ArrowLeft size={20} className="mr-2"/> Zurück</button>
-                  <button type="submit" className="btn btn-primary">Weiter <ArrowRight size={20} className="ml-2"/></button>
+                  <button type="button" className="btn btn-outline" onClick={handlePrev} disabled={isValidatingAddress}><ArrowLeft size={20} className="mr-2"/> Zurück</button>
+                  <button type="submit" className="btn btn-primary" disabled={isValidatingAddress}>
+                    {isValidatingAddress ? (
+                      <>Adresse wird geprüft... <Loader2 size={18} className="ml-2 animate-spin" /></>
+                    ) : (
+                      <>Weiter <ArrowRight size={20} className="ml-2"/></>
+                    )}
+                  </button>
                 </div>
               </form>
             </div>
