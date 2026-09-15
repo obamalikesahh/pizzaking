@@ -9,10 +9,8 @@ export function useAdmin() {
 }
 
 export function AdminProvider({ children }) {
-  // Auth state - persist login across reloads
-  const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    return localStorage.getItem('pk_admin_auth') === 'true' || !!localStorage.getItem('pk_admin_token');
-  });
+  // Auth state - require password login on page reload / navigation
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   // Language state: 'de', 'en', 'ru'
   const [language, setLanguage] = useState(() => {
@@ -56,7 +54,7 @@ export function AdminProvider({ children }) {
   });
 
   // Backend state
-  const [adminToken, setAdminToken] = useState(() => localStorage.getItem('pk_admin_token') || null);
+  const [adminToken, setAdminToken] = useState(null);
   const [orders, setOrders] = useState(() => {
     const saved = localStorage.getItem('pk_orders');
     if (saved) {
@@ -78,23 +76,7 @@ export function AdminProvider({ children }) {
     localStorage.setItem('pk_blacklisted_emails', JSON.stringify(blacklistedEmails));
   }, [blacklistedEmails]);
 
-  useEffect(() => {
-    if (adminToken) {
-      localStorage.setItem('pk_admin_token', adminToken);
-    } else {
-      localStorage.removeItem('pk_admin_token');
-    }
-  }, [adminToken]);
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      localStorage.setItem('pk_admin_auth', 'true');
-    } else {
-      localStorage.removeItem('pk_admin_auth');
-    }
-  }, [isAuthenticated]);
-
-  // Fetch initial data & 5-Second Auto-Polling for live orders
+  // Fetch initial data & 5-Second Auto-Polling for live orders while logged in
   useEffect(() => {
     fetch(`${API_URL}/offers`, { cache: 'no-store' })
       .then(res => res.json())
@@ -123,15 +105,14 @@ export function AdminProvider({ children }) {
       });
   }, []);
 
-  // 🔄 5-Second Auto Polling for Admin Orders
+  // 🔄 5-Second Auto Polling for Admin Orders (active while admin is logged in)
   useEffect(() => {
-    if (!isAuthenticated && !adminToken) return;
+    if (!isAuthenticated) return;
 
     const pollOrders = () => {
-      const token = localStorage.getItem('pk_admin_token');
       fetch(`${API_URL}/orders`, { 
         cache: 'no-store',
-        headers: token && token !== 'local-admin-token' ? { 'Authorization': `Bearer ${token}` } : {}
+        headers: adminToken && adminToken !== 'local-admin-token' ? { 'Authorization': `Bearer ${adminToken}` } : {}
       })
         .then(res => res.json())
         .then(data => {
@@ -143,7 +124,7 @@ export function AdminProvider({ children }) {
     };
 
     pollOrders();
-    const interval = setInterval(pollOrders, 5000); // 5 seconds polling
+    const interval = setInterval(pollOrders, 5000); // 5 seconds polling on site
     return () => clearInterval(interval);
   }, [adminToken, isAuthenticated]);
 
@@ -206,7 +187,6 @@ export function AdminProvider({ children }) {
     if (email.trim().toLowerCase() === envEmail && password === envPass) {
       setIsAuthenticated(true);
       setAdminToken('local-admin-token');
-      localStorage.setItem('pk_admin_auth', 'true');
       return { success: true };
     }
 
@@ -221,7 +201,6 @@ export function AdminProvider({ children }) {
       if (res.ok && data.success) {
         setAdminToken(data.token);
         setIsAuthenticated(true);
-        localStorage.setItem('pk_admin_auth', 'true');
         
         fetch(`${API_URL}/orders`, { 
           cache: 'no-store',
@@ -238,7 +217,6 @@ export function AdminProvider({ children }) {
       if ((email.trim().toLowerCase() === 'info@pizzaking-schleswig.de' || email.trim().toLowerCase() === 'admin@pizzaking.de') && (password === 'Davit@1981' || password === 'King')) {
         setIsAuthenticated(true);
         setAdminToken('local-admin-token');
-        localStorage.setItem('pk_admin_auth', 'true');
         return { success: true };
       }
       return { success: false, message: 'Falsche E-Mail oder Passwort!' };
@@ -248,7 +226,6 @@ export function AdminProvider({ children }) {
   const verifyAdminLogin = (expectedCode, inputCode) => {
     if (expectedCode === inputCode.trim()) {
       setIsAuthenticated(true);
-      localStorage.setItem('pk_admin_auth', 'true');
       return { success: true };
     }
     return { success: false, message: 'Falscher Verifizierungscode!' };
@@ -257,8 +234,6 @@ export function AdminProvider({ children }) {
   const logout = () => {
     setIsAuthenticated(false);
     setAdminToken(null);
-    localStorage.removeItem('pk_admin_auth');
-    localStorage.removeItem('pk_admin_token');
   };
 
   // User Auth functions
