@@ -12,9 +12,10 @@ import Contact from './pages/Contact';
 import ScrollToTop from './components/ScrollToTop';
 import Admin from './pages/Admin';
 import DeliveryZoneModal from './components/DeliveryZoneModal';
+import StoreClosedOverlay from './components/StoreClosedOverlay';
 import JivoChat from './components/JivoChat';
 import Impressum from './pages/Impressum';
-import { CartProvider } from './context/CartContext';
+import { CartProvider, useCart } from './context/CartContext';
 import { AdminProvider } from './context/AdminContext';
 
 import { useLocation } from 'react-router-dom';
@@ -22,6 +23,7 @@ import { useLocation } from 'react-router-dom';
 function Layout() {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
+  const { isClosedOverlayVisible, setIsClosedOverlayVisible } = useCart();
 
   useEffect(() => {
     if (location.hash) {
@@ -39,6 +41,7 @@ function Layout() {
 
   return (
     <div className="app-container">
+      {!isAdminRoute && <StoreClosedOverlay isVisible={isClosedOverlayVisible} onClose={() => setIsClosedOverlayVisible(false)} />}
       {!isAdminRoute && <DeliveryZoneModal />}
       {!isAdminRoute && <Header />}
       
