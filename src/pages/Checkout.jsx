@@ -65,13 +65,68 @@ export default function Checkout() {
     }
   };
 
+  // Helper to check minimum order requirements
+  const checkMinOrderRequirements = () => {
+    // 1. Overall minimum order total (10.00 € minimum for any order)
+    if (finalTotal < 10.00) {
+      return {
+        isValid: false,
+        message: `Der Mindestbestellwert beträgt 10,00 € (aktuell: ${finalTotal.toFixed(2).replace('.', ',')} €). Bitte fügen Sie noch Artikel für mindestens ${(10.00 - finalTotal).toFixed(2).replace('.', ',')} € hinzu.`
+      };
+    }
+
+    // 2. Check delivery zone minimum order value if orderType is delivery
+    if (orderType === 'delivery' && city) {
+      const zone = storeData.deliveryZones.find(z => z.city === city || z.zip === plz);
+      const minOrderForZone = zone ? zone.minOrder : 10.00;
+      if (finalTotal < minOrderForZone) {
+        return {
+          isValid: false,
+          message: `Der Mindestbestellwert für ${city || 'dieses Liefergebiet'} beträgt ${minOrderForZone.toFixed(2).replace('.', ',')} €. (Fehlender Betrag: ${(minOrderForZone - finalTotal).toFixed(2).replace('.', ',')} €)`
+        };
+      }
+    }
+
+    // 3. Main meal requirement: Must contain at least 1 food/meal item (not only sauces, dips, drinks, or cigarettes)
+    const hasMainMeal = cartItems.some(item => {
+      const name = (item.name || '').toLowerCase();
+      // Exclude standalone sauces, dips, drinks, cigarettes
+      const isSauceOrDip = name.includes('ketchup') || name.includes('mayo') || name.includes('sauce') || name.includes('dip') || name.includes('tzatziki') || name.includes('remoulade');
+      const isDrink = name.includes('cola') || name.includes('sprite') || name.includes('fanta') || name.includes('mezzo') || name.includes('red bull') || name.includes('pilsener') || name.includes('radler') || name.includes('bier') || name.includes('wodka') || name.includes('whiskey') || name.includes('chivas') || name.includes('jameson') || name.includes('jack daniel') || name.includes('oldesloer') || name.includes('limo');
+      const isCigarette = name.includes('stück') && (name.includes('lucky') || name.includes('camel') || name.includes('west') || name.includes('gauloises') || name.includes('marlboro') || name.includes('john player') || name.includes('pall mall') || name.includes('l&m') || name.includes('winston'));
+      
+      return !(isSauceOrDip || isDrink || isCigarette);
+    });
+
+    if (!hasMainMeal) {
+      return {
+        isValid: false,
+        message: 'Eine Bestellung nur aus Saucen, Dips, Getränken oder Zigaretten ist leider nicht möglich. Bitte bestellen Sie mindestens ein Hauptgericht (z. B. Pizza, Burger, Döner, Snacks oder Auflauf) mit.'
+      };
+    }
+
+    return { isValid: true };
+  };
+
   const handleNext = () => {
     if (cartItems.length === 0) return;
+    const minCheck = checkMinOrderRequirements();
+    if (!minCheck.isValid) {
+      alert(minCheck.message);
+      return;
+    }
     setStep(s => s + 1);
   };
+
   const handlePrev = () => setStep(s => s - 1);
+
   const handleCheckoutComplete = () => {
     if (cartItems.length === 0) return;
+    const minCheck = checkMinOrderRequirements();
+    if (!minCheck.isValid) {
+      alert(minCheck.message);
+      return;
+    }
     if (isEmailBlacklisted(customerEmail)) {
       alert('Ihre E-Mail-Adresse wurde vom Inhaber gesperrt. Bestellungen sind leider nicht möglich.');
       return;
@@ -379,6 +434,12 @@ export default function Checkout() {
             <span style={{ fontSize: '0.75rem', color: 'rgba(255, 255, 255, 0.5)', textAlign: 'right', marginTop: '4px' }}>
               * Inkl. MwSt. & Pfand bei Flaschen
             </span>
+          </div>
+
+          <div style={{ marginTop: '15px', padding: '12px', borderRadius: '8px', background: 'rgba(245, 158, 11, 0.1)', border: '1px solid rgba(245, 158, 11, 0.3)', fontSize: '0.8rem', color: '#fbbf24', lineHeight: '1.4' }}>
+            💡 <strong>Bestell-Hinweis:</strong><br />
+            - Mindestbestellwert: <strong>10,00 €</strong><br />
+            - Es muss mindestens <strong>1 Hauptgericht</strong> (Pizza, Döner, Burger, Snacks, Auflauf etc.) mitbestellt werden. Nur Saucen, Dips, Getränke oder Zigaretten reichen nicht aus.
           </div>
         </aside>
       </div>
