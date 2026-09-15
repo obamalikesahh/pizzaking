@@ -71,16 +71,20 @@ export function validateEmail(email) {
   if (!email || !email.trim()) {
     return 'Bitte geben Sie Ihre E-Mail-Adresse ein.';
   }
-  const cleanEmail = email.trim();
+  const cleanEmail = email.trim().toLowerCase();
   
-  // Strict email regex with TLD check
+  // Standard RFC email regex with TLD check
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,10}$/;
   if (!emailRegex.test(cleanEmail)) {
     return 'Bitte geben Sie eine gültige E-Mail-Adresse ein (z. B. max@beispiel.de).';
   }
 
-  const [localPart, domainPart] = cleanEmail.split('@');
-  if (isGibberish(localPart) || isGibberish(domainPart.split('.')[0])) {
+  // Reject explicit test/junk email addresses only
+  const junkEmails = [
+    'test@test.com', 'test@test.de', 'asdf@asdf.com', 'asdf@asdf.de',
+    'xxx@xxx.com', 'abc@abc.com', 'a@a.com', '123@123.com'
+  ];
+  if (junkEmails.includes(cleanEmail) || cleanEmail.startsWith('test@') || cleanEmail.startsWith('asdf@')) {
     return 'Bitte geben Sie eine reale E-Mail-Adresse ein (keine Test-E-Mail).';
   }
 
