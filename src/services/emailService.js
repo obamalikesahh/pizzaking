@@ -1,6 +1,8 @@
+import { API_URL } from '../api';
+
 /**
  * Pizza King E-Mail Service
- * Versendet E-Mails über Vercel Serverless Functions mit IONOS SMTP (Nodemailer).
+ * Versendet E-Mails über Node/Vercel Serverless Functions mit IONOS SMTP (Nodemailer).
  */
 
 // Bot protection & Rate-Limiter Settings
@@ -52,8 +54,12 @@ async function sendApiMail(endpoint, body) {
     return { success: false, error: limitCheck.error };
   }
 
+  // Ensure full URL if endpoint is relative path like /api/send-order
+  const baseUrl = API_URL.endsWith('/api') ? API_URL.slice(0, -4) : API_URL;
+  const fullEndpoint = endpoint.startsWith('http') ? endpoint : `${baseUrl}${endpoint}`;
+
   try {
-    const response = await fetch(endpoint, {
+    const response = await fetch(fullEndpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

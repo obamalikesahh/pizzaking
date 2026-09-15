@@ -5,6 +5,7 @@ import { useCart } from '../context/CartContext';
 import { useAdmin } from '../context/AdminContext';
 import { storeData } from '../data/storeData';
 import { sendOrderConfirmationEmail } from '../services/emailService';
+import { validateCheckoutForm } from '../utils/addressValidation';
 import './Checkout.css';
 
 const PAYPAL_CLIENT_ID = import.meta.env.VITE_PAYPAL_CLIENT_ID || "AZchW2TIdgYmSrQoGdahiDqBOYOOWIQ9jdF_yh-oxltBfyuHnU2ticuLx7_txffYGoZhp_K9hgFzj-Va";
@@ -22,6 +23,7 @@ export default function Checkout() {
   const [street, setStreet] = useState('');
   const [plz, setPlz] = useState('24837');
   const [city, setCity] = useState('Schleswig');
+  const [formErrors, setFormErrors] = useState({});
 
   const [discountCode, setDiscountCode] = useState('');
   const [discountAmount, setDiscountAmount] = useState(0);
@@ -149,35 +151,49 @@ export default function Checkout() {
           {step === 2 && (
             <div className="step-content animate-fade-in">
               <h2>2. {orderType === 'delivery' ? 'Lieferadresse' : 'Kontaktdaten'}</h2>
-              <form className="checkout-form" onSubmit={(e) => { e.preventDefault(); handleNext(); }}>
+              <form className="checkout-form" onSubmit={(e) => {
+                e.preventDefault();
+                const validation = validateCheckoutForm(orderType, { customerName, customerEmail, phone, street, plz, city });
+                if (!validation.isValid) {
+                  setFormErrors(validation.errors);
+                  return;
+                }
+                setFormErrors({});
+                handleNext();
+              }}>
                 <div className="form-group">
-                  <label>Name</label>
-                  <input type="text" required value={customerName} onChange={e => setCustomerName(e.target.value)} className="form-input" placeholder="Max Mustermann" />
+                  <label>Name *</label>
+                  <input type="text" required value={customerName} onChange={e => { setCustomerName(e.target.value); setFormErrors(prev => ({ ...prev, customerName: null })); }} className="form-input" placeholder="Max Mustermann" />
+                  {formErrors.customerName && <div style={{ color: '#ef4444', fontSize: '0.8rem', marginTop: '4px' }}>{formErrors.customerName}</div>}
                 </div>
                 <div className="form-group">
-                  <label>E-Mail</label>
-                  <input type="email" required value={customerEmail} onChange={e => setCustomerEmail(e.target.value)} className="form-input" placeholder="deine@email.de" />
+                  <label>E-Mail *</label>
+                  <input type="email" required value={customerEmail} onChange={e => { setCustomerEmail(e.target.value); setFormErrors(prev => ({ ...prev, customerEmail: null })); }} className="form-input" placeholder="deine@email.de" />
+                  {formErrors.customerEmail && <div style={{ color: '#ef4444', fontSize: '0.8rem', marginTop: '4px' }}>{formErrors.customerEmail}</div>}
                 </div>
                 <div className="form-group">
-                  <label>Telefon</label>
-                  <input type="tel" required value={phone} onChange={e => setPhone(e.target.value)} className="form-input" placeholder="Für Rückfragen" />
+                  <label>Telefon *</label>
+                  <input type="tel" required value={phone} onChange={e => { setPhone(e.target.value); setFormErrors(prev => ({ ...prev, phone: null })); }} className="form-input" placeholder="Für Rückfragen (z.B. 0170 1234567)" />
+                  {formErrors.phone && <div style={{ color: '#ef4444', fontSize: '0.8rem', marginTop: '4px' }}>{formErrors.phone}</div>}
                 </div>
                 {orderType === 'delivery' && (
                   <>
                     <div className="form-group">
-                      <label>Straße & Hausnummer</label>
-                      <input type="text" required value={street} onChange={e => setStreet(e.target.value)} className="form-input" placeholder="Mühlenstraße 12" />
+                      <label>Straße & Hausnummer *</label>
+                      <input type="text" required value={street} onChange={e => { setStreet(e.target.value); setFormErrors(prev => ({ ...prev, street: null })); }} className="form-input" placeholder="Mühlenstraße 12" />
+                      {formErrors.street && <div style={{ color: '#ef4444', fontSize: '0.8rem', marginTop: '4px' }}>{formErrors.street}</div>}
                     </div>
                     <div className="form-row">
                       <div className="form-group">
-                        <label>PLZ</label>
-                        <input type="text" required value={plz} onChange={e => setPlz(e.target.value)} className="form-input" />
+                        <label>PLZ *</label>
+                        <input type="text" required value={plz} onChange={e => { setPlz(e.target.value); setFormErrors(prev => ({ ...prev, plz: null })); }} className="form-input" placeholder="24837" maxLength={5} />
                       </div>
                       <div className="form-group">
-                        <label>Ort</label>
-                        <input type="text" required value={city} onChange={e => setCity(e.target.value)} className="form-input" />
+                        <label>Ort *</label>
+                        <input type="text" required value={city} onChange={e => { setCity(e.target.value); setFormErrors(prev => ({ ...prev, plz: null })); }} className="form-input" placeholder="Schleswig" />
                       </div>
                     </div>
+                    {formErrors.plz && <div style={{ color: '#ef4444', fontSize: '0.8rem', marginTop: '4px' }}>{formErrors.plz}</div>}
                   </>
                 )}
                 <div className="step-actions split">

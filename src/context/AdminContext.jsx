@@ -46,9 +46,22 @@ export function AdminProvider({ children }) {
 
   // Backend state
   const [adminToken, setAdminToken] = useState(() => localStorage.getItem('pk_admin_token') || null);
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState(() => {
+    const saved = localStorage.getItem('pk_orders');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) return parsed;
+      } catch (e) {}
+    }
+    return [];
+  });
   const [offers, setOffers] = useState([]);
   const [menu, setMenu] = useState([]);
+
+  useEffect(() => {
+    localStorage.setItem('pk_orders', JSON.stringify(orders));
+  }, [orders]);
 
   useEffect(() => {
     if (adminToken) {
@@ -260,6 +273,13 @@ export function AdminProvider({ children }) {
       ...newOrder
     };
     setOrders(prev => [orderWithId, ...prev]);
+
+    // Sync order to backend
+    fetch(`${API_URL}/orders`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(orderWithId)
+    }).catch(err => console.warn('Order sync to backend failed:', err));
 
     // Automatically deduct stock for items that have tracked stock
     if (newOrder.items && Array.isArray(newOrder.items)) {

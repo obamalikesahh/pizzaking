@@ -172,87 +172,90 @@ app.post('/api/send-verification', async (req, res) => {
 app.post('/api/send-order', async (req, res) => {
   try {
     const { toEmail, order } = req.body;
-    console.log(`✉️ [Server Mailer] Sende Bestellbestätigung für Order ${order.id}...`);
+    console.log(`✉️ [Server Mailer] Sende Bestellbestätigung für Order ${order?.id}...`);
 
-    if (!RESEND_API_KEY) {
-      return res.status(400).json({ error: 'No Resend API Key' });
-    }
-
-    const itemsListHtml = order.items.map(i => `
+    const itemsListHtml = (order?.items || []).map(i => `
       <tr>
         <td style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); width: 60px;">
           ${i.image ? `<img src="https://www.pizzaking-schleswig.com${i.image}" alt="${i.name}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 6px; border: 1px solid #cfa670;" />` : ''}
         </td>
         <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05);">
-          <strong style="color: #ffffff;">${i.quantity}x ${i.name}</strong>
+          <strong style="color: #ffffff;">${i.quantity || 1}x ${i.name}</strong>
         </td>
         <td style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); text-align: right; color: #cfa670; font-weight: bold;">
-          ${(i.price * i.quantity).toFixed(2).replace('.', ',')} €
+          ${((i.price || 0) * (i.quantity || 1)).toFixed(2).replace('.', ',')} €
         </td>
       </tr>
     `).join('');
 
-    // 1. Kunden Mail
-    await transporter.sendMail({
-      from: `"Pizza King Schleswig" <${process.env.SMTP_USER}>`,
-      to: toEmail,
-      subject: `🍕 Bestellbestätigung #${order.id} - Pizza King`,
-      html: `
-        <div style="font-family: 'Inter', Helvetica, sans-serif; background-color: #111111; color: #ffffff; padding: 40px 20px; text-align: center;">
-          <div style="max-width: 600px; margin: 0 auto; background-color: #1a1a1a; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #cfa670;">
-            <div style="background: linear-gradient(135deg, #cfa670 0%, #b88645 100%); padding: 30px 20px;">
-              <h1 style="color: #111111; margin: 0; font-size: 28px; text-transform: uppercase; letter-spacing: 2px;">Pizza King</h1>
-              <p style="color: #111111; margin: 10px 0 0; font-weight: 600;">Deine Bestellung ist eingegangen!</p>
-            </div>
-            <div style="padding: 30px 20px; text-align: left;">
-              <h2 style="color: #cfa670; margin-top: 0; font-size: 22px;">Bestellbestätigung #${order.id}</h2>
-              <p style="font-size: 16px; color: #dddddd;">Hallo ${order.customer || 'Kunde'},</p>
-              <p style="font-size: 16px; color: #dddddd; line-height: 1.5;">Vielen Dank für deine Bestellung! Wir haben deine Bestellung erhalten und bereiten sie gerade frisch für dich zu.</p>
-              
-              <h3 style="color: #ffffff; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-top: 30px;">Deine Artikel</h3>
-              <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
-                ${itemsListHtml}
-              </table>
-              
-              <div style="margin-top: 20px; text-align: right; font-size: 20px; color: #cfa670; font-weight: bold;">
-                Gesamtsumme: ${(order.total || 0).toFixed(2).replace('.', ',')} €
+    const fromSender = process.env.SMTP_USER ? `"Pizza King Schleswig" <${process.env.SMTP_USER}>` : '"Pizza King Schleswig" <info@pizzaking-schleswig.de>';
+
+    // 1. Kunden Mail (if toEmail provided)
+    if (toEmail) {
+      await transporter.sendMail({
+        from: fromSender,
+        to: toEmail,
+        subject: `🍕 Bestellbestätigung #${order?.id} - Pizza King`,
+        html: `
+          <div style="font-family: 'Inter', Helvetica, sans-serif; background-color: #111111; color: #ffffff; padding: 40px 20px; text-align: center;">
+            <div style="max-width: 600px; margin: 0 auto; background-color: #1a1a1a; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #cfa670;">
+              <div style="background: linear-gradient(135deg, #cfa670 0%, #b88645 100%); padding: 30px 20px;">
+                <h1 style="color: #111111; margin: 0; font-size: 28px; text-transform: uppercase; letter-spacing: 2px;">Pizza King</h1>
+                <p style="color: #111111; margin: 10px 0 0; font-weight: 600;">Deine Bestellung ist eingegangen!</p>
+              </div>
+              <div style="padding: 30px 20px; text-align: left;">
+                <h2 style="color: #cfa670; margin-top: 0; font-size: 22px;">Bestellbestätigung #${order?.id}</h2>
+                <p style="font-size: 16px; color: #dddddd;">Hallo ${order?.customer || 'Kunde'},</p>
+                <p style="font-size: 16px; color: #dddddd; line-height: 1.5;">Vielen Dank für deine Bestellung! Wir haben deine Bestellung erhalten und bereiten sie gerade frisch für dich zu.</p>
+                
+                <h3 style="color: #ffffff; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-top: 30px;">Deine Artikel</h3>
+                <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+                  ${itemsListHtml}
+                </table>
+                
+                <div style="margin-top: 20px; text-align: right; font-size: 20px; color: #cfa670; font-weight: bold;">
+                  Gesamtsumme: ${(order?.total || 0).toFixed(2).replace('.', ',')} €
+                </div>
+              </div>
+              <div style="background-color: #0a0a0a; padding: 25px 20px; font-size: 14px; color: #888888; text-align: center; border-top: 1px solid rgba(255,255,255,0.05);">
+                <p style="margin: 0 0 5px 0;"><strong>Euer Pizza King Team!</strong></p>
+                <p style="margin: 0 0 5px 0;">Adresse: Domziegelhof 12-14, 24837 Schleswig</p>
+                <p style="margin: 0 0 5px 0;">Telefon: 04621/ 999 460 oder 04621/ 999 461</p>
+                <p style="margin: 0;">Email: <a href="mailto:info@pizzaking-schleswig.de" style="color: #cfa670; text-decoration: none;">info@pizzaking-schleswig.de</a></p>
               </div>
             </div>
-            <div style="background-color: #0a0a0a; padding: 25px 20px; font-size: 14px; color: #888888; text-align: center; border-top: 1px solid rgba(255,255,255,0.05);">
-              <p style="margin: 0 0 5px 0;"><strong>Euer Pizza King Team!</strong></p>
-              <p style="margin: 0 0 5px 0;">Adresse: Domziegelhof 12-14, 24837 Schleswig</p>
-              <p style="margin: 0 0 5px 0;">Telefon: 04621/ 999 460 oder 04621/ 999 461</p>
-              <p style="margin: 0;">Email: <a href="mailto:info@pizzaking-schleswig.de" style="color: #cfa670; text-decoration: none;">info@pizzaking-schleswig.de</a></p>
-            </div>
           </div>
-        </div>
-      `
-    });
+        `
+      }).catch(err => console.error("Kunden-Mail Fehler:", err));
+    }
 
-    // 2. Restaurant Inhaber Mail
-    const adminEmail = process.env.RESTAURANT_EMAIL || process.env.SMTP_USER;
+    // 2. Restaurant Inhaber Mail (Admin)
+    const adminEmail = process.env.RESTAURANT_EMAIL || process.env.VITE_ADMIN_EMAIL || process.env.SMTP_USER || 'info@pizzaking-schleswig.de';
     await transporter.sendMail({
-      from: `"Pizza King System" <${process.env.SMTP_USER}>`,
+      from: fromSender,
       to: adminEmail,
-      subject: `🚨 NEUE BESTELLUNG EINGEGANGEN! (${order.id} - ${(order.total || 0).toFixed(2).replace('.', ',')} €)`,
+      subject: `🚨 NEUE BESTELLUNG EINGEGANGEN! (${order?.id} - ${(order?.total || 0).toFixed(2).replace('.', ',')} €)`,
       html: `
         <div style="font-family: Arial, sans-serif; padding: 25px; background: #111111; color: #ffffff; border-radius: 12px; border: 2px solid #22c55e;">
           <h1 style="color: #22c55e; margin-top: 0;">🚨 NEUE BESTELLUNG EINGEGANGEN!</h1>
-          <p><strong>Kunde:</strong> ${order.customer}</p>
-          <p><strong>Telefon:</strong> ${order.phone}</p>
-          <p><strong>Adresse:</strong> ${order.address}</p>
-          <p><strong>Zahlung:</strong> ${order.payment}</p>
+          <p><strong>Kunde:</strong> ${order?.customer}</p>
+          <p><strong>E-Mail:</strong> ${order?.customerEmail || 'Keine'}</p>
+          <p><strong>Telefon:</strong> ${order?.phone}</p>
+          <p><strong>Adresse:</strong> ${order?.address}</p>
+          <p><strong>Zahlung:</strong> ${order?.payment}</p>
           <h3>Bestellung:</h3>
-          <ul>${itemsListHtml}</ul>
-          <h2>Gesamtsumme: ${(order.total || 0).toFixed(2).replace('.', ',')} €</h2>
+          <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+            ${itemsListHtml}
+          </table>
+          <h2>Gesamtsumme: ${(order?.total || 0).toFixed(2).replace('.', ',')} €</h2>
         </div>
       `
-    });
+    }).catch(err => console.error("Admin-Mail Fehler:", err));
 
     res.json({ success: true });
   } catch (error) {
     console.error('Server Order Mailer Error (IONOS):', error);
-    res.status(500).json({ error: 'Ein interner Serverfehler ist aufgetreten.' });
+    res.status(500).json({ error: error.message || 'Ein interner Serverfehler ist aufgetreten.' });
   }
 });
 
@@ -538,6 +541,36 @@ app.get('/api/orders', authenticateAdmin, async (req, res) => {
   } catch (error) {
     console.error('Error fetching orders:', error);
     res.status(500).json({ error: 'Failed to fetch orders' });
+  }
+});
+
+app.post('/api/orders', async (req, res) => {
+  try {
+    const orderData = req.body;
+    console.log(`📦 Neue Bestellung empfangen: Order #${orderData.id}`);
+
+    // Try saving order to Prisma if available
+    let createdOrder = null;
+    if (prisma && prisma.order) {
+      try {
+        createdOrder = await prisma.order.create({
+          data: {
+            id: String(orderData.id),
+            totalPrice: Number(orderData.total) || 0,
+            status: orderData.status || 'eingegangen',
+            orderType: orderData.address?.includes('Abholung') ? 'pickup' : 'delivery',
+            payment: orderData.payment || 'Barzahlung'
+          }
+        });
+      } catch (dbErr) {
+        console.warn('DB Order save skipped:', dbErr.message);
+      }
+    }
+
+    return res.status(201).json({ success: true, order: orderData });
+  } catch (error) {
+    console.error('Error creating order:', error);
+    res.status(500).json({ error: 'Failed to create order' });
   }
 });
 

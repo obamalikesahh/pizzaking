@@ -292,7 +292,7 @@ export default function Account() {
             } catch (err) {
               console.warn('Mail versand warnung:', err);
             }
-            setSuccessMsg(`Verifizierungscode wurde generiert (${res.code}). Falls du keine E-Mail erhältst, nutze diesen Code.`);
+            setSuccessMsg('Ein 6-stelliger Verifizierungscode wurde per E-Mail an deine Adresse gesendet. Bitte schaue in dein E-Mail-Postfach.');
             setMode('reset_step2');
           }} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <h2 style={{ fontFamily: 'Cinzel, serif', color: '#fff', margin: 0, fontSize: '1.5rem', textAlign: 'center' }}>Passwort Zurücksetzen</h2>
