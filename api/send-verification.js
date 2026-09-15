@@ -9,11 +9,11 @@ export default async function handler(req, res) {
 
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST || 'smtp.ionos.de',
-    port: parseInt(process.env.SMTP_PORT || '587'),
-    secure: process.env.SMTP_SECURE === 'true',
+    port: parseInt(process.env.SMTP_PORT || '465'),
+    secure: process.env.SMTP_SECURE !== 'false',
     auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
+      user: process.env.SMTP_USER || 'info@pizzaking-schleswig.de',
+      pass: process.env.SMTP_PASS || 'Davit@1981',
     },
     tls: {
       rejectUnauthorized: false
@@ -22,7 +22,7 @@ export default async function handler(req, res) {
 
   try {
     await transporter.sendMail({
-      from: `"Pizza King Schleswig" <${process.env.SMTP_USER}>`,
+      from: `"Pizza King Schleswig" <${process.env.SMTP_USER || 'info@pizzaking-schleswig.de'}>`,
       to: toEmail,
       subject: `🔑 Dein Verifizierungscode für Pizza King: ${code}`,
       html: `
