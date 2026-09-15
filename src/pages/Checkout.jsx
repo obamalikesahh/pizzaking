@@ -12,7 +12,7 @@ const PAYPAL_CLIENT_ID = import.meta.env.VITE_PAYPAL_CLIENT_ID || "AZchW2TIdgYmS
 
 export default function Checkout() {
   const { cartItems, cartTotal, clearCart, removeFromCart, updateQuantity } = useCart();
-  const { addOrder } = useAdmin();
+  const { addOrder, isEmailBlacklisted } = useAdmin();
   const [step, setStep] = useState(1);
   const [orderType, setOrderType] = useState('delivery'); // delivery or pickup
   const [payment, setPayment] = useState('paypal');
@@ -57,7 +57,6 @@ export default function Checkout() {
         setDiscountAmount(0);
       }
     } catch (err) {
-      // If server check fails (e.g. offline/network), allow KING10 or valid pattern KING-
       if (cleanCode.startsWith('KING-')) {
         setDiscountAmount(10);
       } else {
@@ -73,6 +72,10 @@ export default function Checkout() {
   const handlePrev = () => setStep(s => s - 1);
   const handleCheckoutComplete = () => {
     if (cartItems.length === 0) return;
+    if (isEmailBlacklisted(customerEmail)) {
+      alert('Ihre E-Mail-Adresse wurde vom Inhaber gesperrt. Bestellungen sind leider nicht möglich.');
+      return;
+    }
     const paymentLabel = storeData.paymentMethods.find(p => p.id === payment)?.label || payment;
     const addressStr = orderType === 'delivery' ? `${street}, ${plz} ${city}` : 'Abholung im Restaurant (Domziegelhof 12-14)';
     
@@ -153,6 +156,10 @@ export default function Checkout() {
               <h2>2. {orderType === 'delivery' ? 'Lieferadresse' : 'Kontaktdaten'}</h2>
               <form className="checkout-form" onSubmit={(e) => {
                 e.preventDefault();
+                if (isEmailBlacklisted(customerEmail)) {
+                  setFormErrors({ customerEmail: 'Diese E-Mail-Adresse / dieses Konto wurde gesperrt. Bestellungen sind nicht möglich.' });
+                  return;
+                }
                 const validation = validateCheckoutForm(orderType, { customerName, customerEmail, phone, street, plz, city });
                 if (!validation.isValid) {
                   setFormErrors(validation.errors);

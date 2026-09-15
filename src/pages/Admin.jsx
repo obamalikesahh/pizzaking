@@ -52,8 +52,14 @@ export default function Admin() {
     updateMenuItem,
     bulkUpdatePrices,
     allUsers,
+    blacklistedEmails,
+    isEmailBlacklisted,
+    toggleBlacklistEmail,
     newsletterSubscribers
   } = useAdmin();
+
+  // Custom Blacklist Input State
+  const [customBlacklistInput, setCustomBlacklistInput] = useState('');
 
   // Login form state
   const [loginEmail, setLoginEmail] = useState('');
@@ -226,6 +232,11 @@ export default function Admin() {
         </div>
 
         <div className="admin-status-pills">
+          <div style={{ background: 'rgba(34,197,94,0.15)', color: '#22c55e', border: '1px solid rgba(34,197,94,0.3)', padding: '6px 12px', borderRadius: '8px', fontSize: '0.8rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#22c55e', display: 'inline-block' }}></span>
+            Live-Sync (alle 5s)
+          </div>
+
           <div className="flex items-center gap-2">
             <span style={{ fontSize: '0.85rem', color: '#888' }}>Lieferzeit:</span>
             <select 
@@ -434,55 +445,154 @@ export default function Admin() {
             </div>
           )}
 
-          {/* TAB 1.5: CUSTOMERS */}
+          {/* TAB 1.5: CUSTOMERS & BLACKLIST */}
           {activeTab === 'customers' && (
             <div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px' }}>
-                <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: '1.8rem', color: '#ffffff', margin: 0 }}>
-                  Registrierte Kunden
-                </h2>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px', flexWrap: 'wrap', gap: '15px' }}>
+                <div>
+                  <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: '1.8rem', color: '#ffffff', margin: 0 }}>
+                    Kunden & Sperrliste (Blacklist)
+                  </h2>
+                  <p style={{ color: '#888', fontSize: '0.85rem', margin: '4px 0 0 0' }}>
+                    Verwalte registrierte Kunden oder sperre Problemkunden direkt per E-Mail-Adresse.
+                  </p>
+                </div>
                 <div style={{ display: 'flex', gap: '10px' }}>
                   <span className="status-badge" style={{ background: 'rgba(207,166,112,0.15)', color: '#cfa670', border: '1px solid rgba(207,166,112,0.3)' }}>
-                    Gesamt: {allUsers.length}
+                    Registrierte Kunden: {allUsers.length}
+                  </span>
+                  <span className="status-badge" style={{ background: 'rgba(239,68,68,0.15)', color: '#ef4444', border: '1px solid rgba(239,68,68,0.3)' }}>
+                    Gesperrt: {blacklistedEmails.length}
                   </span>
                 </div>
               </div>
 
-              <div className="admin-table-wrapper">
+              {/* Manual Email Blacklist Form */}
+              <div style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '16px', padding: '20px', marginBottom: '30px' }}>
+                <h3 style={{ color: '#ef4444', fontFamily: 'Cinzel, serif', fontSize: '1.1rem', margin: '0 0 10px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  🚫 E-Mail-Adresse Manuell Sperren / Bannen
+                </h3>
+                <p style={{ color: '#aaa', fontSize: '0.85rem', margin: '0 0 15px 0' }}>
+                  Gesperrte E-Mail-Adressen können **keine Bestellungen mehr aufgeben** und sich **nicht mehr anmelden/registrieren**.
+                </p>
+                <form onSubmit={(e) => {
+                  e.preventDefault();
+                  if (!customBlacklistInput || !customBlacklistInput.includes('@')) return;
+                  toggleBlacklistEmail(customBlacklistInput);
+                  setCustomBlacklistInput('');
+                }} style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                  <input 
+                    type="email" 
+                    required 
+                    value={customBlacklistInput} 
+                    onChange={e => setCustomBlacklistInput(e.target.value)} 
+                    placeholder="E-Mail-Adresse eingeben (z. B. spamer@mail.de)..." 
+                    style={{ flex: 1, minWidth: '250px', padding: '12px 16px', background: '#121312', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '10px', color: '#fff', outline: 'none' }} 
+                  />
+                  <button type="submit" style={{ background: '#ef4444', color: '#fff', border: 'none', padding: '12px 24px', borderRadius: '10px', fontWeight: 'bold', cursor: 'pointer' }}>
+                    🚫 SOFORT SPPEREN / BANNEN
+                  </button>
+                </form>
+              </div>
+
+              <h3 style={{ color: '#cfa670', fontFamily: 'Cinzel, serif', fontSize: '1.2rem', marginBottom: '15px' }}>Registrierte Kundenliste</h3>
+              <div className="admin-table-wrapper" style={{ marginBottom: '40px' }}>
                 <table className="admin-table">
                   <thead>
                     <tr>
                       <th>Name</th>
                       <th>E-Mail Adresse</th>
                       <th>Registrierungsdatum</th>
-                      <th>Verifiziert</th>
+                      <th>Status / Sperre</th>
+                      <th>Aktion</th>
                     </tr>
                   </thead>
                   <tbody>
                     {allUsers.length === 0 ? (
                       <tr>
-                        <td colSpan="4" style={{ textAlign: 'center', color: '#888', padding: '30px' }}>
+                        <td colSpan="5" style={{ textAlign: 'center', color: '#888', padding: '30px' }}>
                           Noch keine Kunden registriert.
                         </td>
                       </tr>
                     ) : (
-                      allUsers.map((user, idx) => (
+                      allUsers.map((user, idx) => {
+                        const blocked = isEmailBlacklisted(user.email);
+                        return (
+                          <tr key={idx} style={{ background: blocked ? 'rgba(239,68,68,0.1)' : 'transparent' }}>
+                            <td>
+                              <strong style={{ color: '#fff', display: 'block', fontSize: '1rem' }}>{user.name}</strong>
+                            </td>
+                            <td>
+                              <span style={{ color: '#aaa' }}>{user.email}</span>
+                            </td>
+                            <td>
+                              <span style={{ color: '#cfa670' }}>{user.joined}</span>
+                            </td>
+                            <td>
+                              {blocked ? (
+                                <span style={{ color: '#ef4444', fontWeight: 'bold', fontSize: '0.85rem' }}>🚫 GESPERRT</span>
+                              ) : (
+                                <span style={{ color: '#22c55e', fontSize: '0.85rem' }}>🟢 Aktiv</span>
+                              )}
+                            </td>
+                            <td>
+                              <button 
+                                className="admin-btn"
+                                onClick={() => toggleBlacklistEmail(user.email)}
+                                style={{ 
+                                  background: blocked ? 'rgba(34,197,94,0.2)' : 'rgba(239,68,68,0.2)', 
+                                  color: blocked ? '#22c55e' : '#ef4444',
+                                  borderColor: blocked ? 'rgba(34,197,94,0.4)' : 'rgba(239,68,68,0.4)'
+                                }}
+                              >
+                                {blocked ? '✅ Entsperren' : '🚫 Kunde Bannen'}
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                      })
+                    )}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Blacklisted Emails Table */}
+              <h3 style={{ color: '#ef4444', fontFamily: 'Cinzel, serif', fontSize: '1.2rem', marginBottom: '15px' }}>
+                Gesperrte E-Mail-Adressen ({blacklistedEmails.length})
+              </h3>
+              <div className="admin-table-wrapper">
+                <table className="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Gesperrte E-Mail</th>
+                      <th>Status</th>
+                      <th>Aktion</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {blacklistedEmails.length === 0 ? (
+                      <tr>
+                        <td colSpan="3" style={{ textAlign: 'center', color: '#888', padding: '30px' }}>
+                          Keine E-Mail-Adressen gesperrt.
+                        </td>
+                      </tr>
+                    ) : (
+                      blacklistedEmails.map((email, idx) => (
                         <tr key={idx}>
                           <td>
-                            <strong style={{ color: '#fff', display: 'block', fontSize: '1rem' }}>{user.name}</strong>
+                            <strong style={{ color: '#ef4444', fontSize: '1rem' }}>{email}</strong>
                           </td>
                           <td>
-                            <span style={{ color: '#aaa' }}>{user.email}</span>
+                            <span style={{ color: '#ef4444', fontSize: '0.85rem' }}>🚫 Bestellungen & Login Blockiert</span>
                           </td>
                           <td>
-                            <span style={{ color: '#cfa670' }}>{user.joined}</span>
-                          </td>
-                          <td>
-                            {user.isVerified ? (
-                              <CheckCircle size={16} color="#22c55e" title="Verifiziert" />
-                            ) : (
-                              <span style={{ color: '#ef4444', fontSize: '0.8rem' }}>Nein</span>
-                            )}
+                            <button 
+                              className="admin-btn" 
+                              onClick={() => toggleBlacklistEmail(email)}
+                              style={{ background: 'rgba(34,197,94,0.2)', color: '#22c55e', borderColor: 'rgba(34,197,94,0.4)' }}
+                            >
+                              ✅ Entsperren
+                            </button>
                           </td>
                         </tr>
                       ))

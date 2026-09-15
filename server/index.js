@@ -77,7 +77,7 @@ const authenticateAdmin = (req, res, next) => {
 app.post('/api/auth/admin-login', (req, res) => {
   const { email, password } = req.body;
   const adminEmail = process.env.VITE_ADMIN_EMAIL || process.env.ADMIN_EMAIL || 'info@pizzaking-schleswig.de';
-  const adminPassword = process.env.VITE_ADMIN_PASSWORD || process.env.ADMIN_PASSWORD || 'King';
+  const adminPassword = process.env.VITE_ADMIN_PASSWORD || process.env.ADMIN_PASSWORD || 'Davit@1981';
   
   if (email.toLowerCase() === adminEmail.toLowerCase() && password === adminPassword) {
     const token = jwt.sign({ isAdmin: true, email }, JWT_SECRET, { expiresIn: '7d' });

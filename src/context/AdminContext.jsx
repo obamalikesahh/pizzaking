@@ -9,8 +9,10 @@ export function useAdmin() {
 }
 
 export function AdminProvider({ children }) {
-  // Auth state
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // Auth state - persist login across reloads
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    return localStorage.getItem('pk_admin_auth') === 'true' || !!localStorage.getItem('pk_admin_token');
+  });
 
   // Language state: 'de', 'en', 'ru'
   const [language, setLanguage] = useState(() => {
@@ -44,6 +46,15 @@ export function AdminProvider({ children }) {
     return [];
   });
 
+  // Blacklisted/Banned emails list
+  const [blacklistedEmails, setBlacklistedEmails] = useState(() => {
+    const saved = localStorage.getItem('pk_blacklisted_emails');
+    if (saved) {
+      try { const parsed = JSON.parse(saved); return Array.isArray(parsed) ? parsed : []; } catch (e) {}
+    }
+    return [];
+  });
+
   // Backend state
   const [adminToken, setAdminToken] = useState(() => localStorage.getItem('pk_admin_token') || null);
   const [orders, setOrders] = useState(() => {
@@ -64,6 +75,10 @@ export function AdminProvider({ children }) {
   }, [orders]);
 
   useEffect(() => {
+    localStorage.setItem('pk_blacklisted_emails', JSON.stringify(blacklistedEmails));
+  }, [blacklistedEmails]);
+
+  useEffect(() => {
     if (adminToken) {
       localStorage.setItem('pk_admin_token', adminToken);
     } else {
@@ -71,28 +86,25 @@ export function AdminProvider({ children }) {
     }
   }, [adminToken]);
 
-  // Fetch initial data from backend
+  useEffect(() => {
+    if (isAuthenticated) {
+      localStorage.setItem('pk_admin_auth', 'true');
+    } else {
+      localStorage.removeItem('pk_admin_auth');
+    }
+  }, [isAuthenticated]);
+
+  // Fetch initial data & 5-Second Auto-Polling for live orders
   useEffect(() => {
     fetch(`${API_URL}/offers`, { cache: 'no-store' })
       .then(res => res.json())
       .then(data => setOffers(Array.isArray(data) ? data : []))
       .catch(err => console.error("Fehler beim Laden der Angebote:", err));
 
-    if (adminToken) {
-      fetch(`${API_URL}/orders`, { 
-        cache: 'no-store',
-        headers: { 'Authorization': `Bearer ${adminToken}` }
-      })
-        .then(res => res.json())
-        .then(data => setOrders(Array.isArray(data) ? data : []))
-        .catch(err => console.error("Fehler beim Laden der Bestellungen:", err));
-    }
-
     fetch(`${API_URL}/menu`, { cache: 'no-store' })
       .then(res => res.json())
       .then(data => {
         if (data && data.length > 0) {
-          // Format backend data to match frontend structure
           const formattedMenu = data.map(cat => ({
             category: cat.title,
             items: cat.items.map(item => ({
@@ -102,15 +114,38 @@ export function AdminProvider({ children }) {
           }));
           setMenu(formattedMenu);
         } else {
-          // If empty, seed from default data
           seedMenu(defaultMenuData);
         }
       })
       .catch(err => {
         console.error("Fehler beim Laden der Speisekarte:", err);
-        setMenu(defaultMenuData); // Fallback
+        setMenu(defaultMenuData);
       });
   }, []);
+
+  // 🔄 5-Second Auto Polling for Admin Orders
+  useEffect(() => {
+    if (!isAuthenticated && !adminToken) return;
+
+    const pollOrders = () => {
+      const token = localStorage.getItem('pk_admin_token');
+      fetch(`${API_URL}/orders`, { 
+        cache: 'no-store',
+        headers: token && token !== 'local-admin-token' ? { 'Authorization': `Bearer ${token}` } : {}
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (Array.isArray(data) && data.length > 0) {
+            setOrders(data);
+          }
+        })
+        .catch(err => console.error("Auto-Polling Fehler (Bestellungen):", err));
+    };
+
+    pollOrders();
+    const interval = setInterval(pollOrders, 5000); // 5 seconds polling
+    return () => clearInterval(interval);
+  }, [adminToken, isAuthenticated]);
 
   const seedMenu = async (menuData) => {
     try {
@@ -144,15 +179,34 @@ export function AdminProvider({ children }) {
     localStorage.setItem('pk_newsletter', JSON.stringify(newsletterSubscribers));
   }, [newsletterSubscribers]);
 
+  // Blacklist helper
+  const isEmailBlacklisted = (email) => {
+    if (!email) return false;
+    const clean = email.trim().toLowerCase();
+    return blacklistedEmails.some(b => b.toLowerCase() === clean);
+  };
+
+  const toggleBlacklistEmail = (email) => {
+    if (!email) return;
+    const clean = email.trim().toLowerCase();
+    setBlacklistedEmails(prev => {
+      if (prev.some(b => b.toLowerCase() === clean)) {
+        return prev.filter(b => b.toLowerCase() !== clean);
+      } else {
+        return [...prev, clean];
+      }
+    });
+  };
+
   // Auth functions
   const login = async (email, password) => {
-    // 1. Direct Env Fallback check (for instant local & frontend admin login)
     const envEmail = (import.meta.env.VITE_ADMIN_EMAIL || 'info@pizzaking-schleswig.de').toLowerCase();
-    const envPass = import.meta.env.VITE_ADMIN_PASSWORD || 'King';
+    const envPass = import.meta.env.VITE_ADMIN_PASSWORD || 'Davit@1981';
     
     if (email.trim().toLowerCase() === envEmail && password === envPass) {
       setIsAuthenticated(true);
       setAdminToken('local-admin-token');
+      localStorage.setItem('pk_admin_auth', 'true');
       return { success: true };
     }
 
@@ -167,8 +221,8 @@ export function AdminProvider({ children }) {
       if (res.ok && data.success) {
         setAdminToken(data.token);
         setIsAuthenticated(true);
+        localStorage.setItem('pk_admin_auth', 'true');
         
-        // Fetch orders now that we're admin
         fetch(`${API_URL}/orders`, { 
           cache: 'no-store',
           headers: { 'Authorization': `Bearer ${data.token}` }
@@ -181,10 +235,10 @@ export function AdminProvider({ children }) {
       }
       return { success: false, message: data.error || 'Ungültige Admin-E-Mail oder Passwort!' };
     } catch (err) {
-      // If backend is unreachable but credentials match standard admin credentials
-      if ((email.trim().toLowerCase() === 'info@pizzaking-schleswig.de' || email.trim().toLowerCase() === 'admin@pizzaking.de') && password === 'King') {
+      if ((email.trim().toLowerCase() === 'info@pizzaking-schleswig.de' || email.trim().toLowerCase() === 'admin@pizzaking.de') && (password === 'Davit@1981' || password === 'King')) {
         setIsAuthenticated(true);
         setAdminToken('local-admin-token');
+        localStorage.setItem('pk_admin_auth', 'true');
         return { success: true };
       }
       return { success: false, message: 'Falsche E-Mail oder Passwort!' };
@@ -194,6 +248,7 @@ export function AdminProvider({ children }) {
   const verifyAdminLogin = (expectedCode, inputCode) => {
     if (expectedCode === inputCode.trim()) {
       setIsAuthenticated(true);
+      localStorage.setItem('pk_admin_auth', 'true');
       return { success: true };
     }
     return { success: false, message: 'Falscher Verifizierungscode!' };
@@ -202,16 +257,24 @@ export function AdminProvider({ children }) {
   const logout = () => {
     setIsAuthenticated(false);
     setAdminToken(null);
+    localStorage.removeItem('pk_admin_auth');
+    localStorage.removeItem('pk_admin_token');
   };
 
   // User Auth functions
   const userSignUp = (email, name, address) => {
+    if (isEmailBlacklisted(email)) {
+      return { success: false, message: 'Registrierung fehlgeschlagen: Dieses Konto / E-Mail wurde gesperrt.' };
+    }
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     const tempUser = { email, name, address, verificationCode: code, isVerified: false };
     return { success: true, code, tempUser };
   };
 
   const userVerifyAndSetPassword = (tempUser, inputCode, password) => {
+    if (tempUser && isEmailBlacklisted(tempUser.email)) {
+      return { success: false, message: 'Dieses Konto wurde gesperrt.' };
+    }
     if (tempUser && String(tempUser.verificationCode) === String(inputCode).trim()) {
       const verifiedUser = { email: tempUser.email, name: tempUser.name, address: tempUser.address, password, isVerified: true, joined: new Date().toLocaleDateString('de-DE') + ' ' + new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }) };
       setCurrentUser(verifiedUser);
@@ -225,6 +288,9 @@ export function AdminProvider({ children }) {
   };
 
   const userLogin = (email, password) => {
+    if (isEmailBlacklisted(email)) {
+      return { success: false, message: 'Ihr Kundenkonto wurde gesperrt. Bitte wenden Sie sich an den Inhaber.' };
+    }
     const foundUser = allUsers.find(u => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
     if (foundUser) {
       const code = Math.floor(100000 + Math.random() * 900000).toString();
@@ -453,6 +519,9 @@ export function AdminProvider({ children }) {
       setLanguage,
       currentUser,
       allUsers,
+      blacklistedEmails,
+      isEmailBlacklisted,
+      toggleBlacklistEmail,
       newsletterSubscribers,
       addNewsletterSubscriber,
       userSignUp,
