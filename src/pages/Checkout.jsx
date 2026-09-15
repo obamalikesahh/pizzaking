@@ -180,17 +180,46 @@ export default function Checkout() {
                   <>
                     <div className="form-group">
                       <label>Straße & Hausnummer *</label>
-                      <input type="text" required value={street} onChange={e => { setStreet(e.target.value); setFormErrors(prev => ({ ...prev, street: null })); }} className="form-input" placeholder="Mühlenstraße 12" />
+                      <input type="text" required value={street} onChange={e => { setStreet(e.target.value); setFormErrors(prev => ({ ...prev, street: null })); }} className="form-input" placeholder="z. B. Mühlenstraße 12" />
                       {formErrors.street && <div style={{ color: '#ef4444', fontSize: '0.8rem', marginTop: '4px' }}>{formErrors.street}</div>}
                     </div>
                     <div className="form-row">
                       <div className="form-group">
-                        <label>PLZ *</label>
-                        <input type="text" required value={plz} onChange={e => { setPlz(e.target.value); setFormErrors(prev => ({ ...prev, plz: null })); }} className="form-input" placeholder="24837" maxLength={5} />
+                        <label>Ort (Liefergebiet) *</label>
+                        <select 
+                          required 
+                          value={city} 
+                          onChange={e => {
+                            const newCity = e.target.value;
+                            setCity(newCity);
+                            setFormErrors(prev => ({ ...prev, plz: null }));
+                            const matchingZone = storeData.deliveryZones.find(z => z.city === newCity);
+                            if (matchingZone && matchingZone.zip !== '—') {
+                              setPlz(matchingZone.zip);
+                            }
+                          }} 
+                          className="form-input"
+                          style={{ appearance: 'auto', background: '#1a1b1a', color: '#fff' }}
+                        >
+                          <option value="" disabled>Ort auswählen...</option>
+                          {storeData.deliveryZones.filter(z => z.zip !== '—').map((zone, idx) => (
+                            <option key={idx} value={zone.city}>
+                              {zone.city} ({zone.zip})
+                            </option>
+                          ))}
+                        </select>
                       </div>
                       <div className="form-group">
-                        <label>Ort *</label>
-                        <input type="text" required value={city} onChange={e => { setCity(e.target.value); setFormErrors(prev => ({ ...prev, plz: null })); }} className="form-input" placeholder="Schleswig" />
+                        <label>PLZ *</label>
+                        <input 
+                          type="text" 
+                          required 
+                          value={plz} 
+                          onChange={e => { setPlz(e.target.value); setFormErrors(prev => ({ ...prev, plz: null })); }} 
+                          className="form-input" 
+                          placeholder="24837" 
+                          maxLength={5} 
+                        />
                       </div>
                     </div>
                     {formErrors.plz && <div style={{ color: '#ef4444', fontSize: '0.8rem', marginTop: '4px' }}>{formErrors.plz}</div>}

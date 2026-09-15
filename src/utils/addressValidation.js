@@ -1,33 +1,68 @@
 import { storeData } from '../data/storeData';
 
-// Common junk patterns to reject
-const JUNK_PATTERNS = [
-  /^test/i,
-  /test$/i,
-  /^asdf/i,
-  /^qwer/i,
-  /^xxx/i,
-  /^abc/i,
-  /^123/i,
-  /pups/i,
-  /hausen$/i,
-  /bla\s*bla/i,
-  /(.)\1{4,}/i // 5 or more identical repeating characters
-];
-
-export function isJunkText(text) {
+/**
+ * Checks if a string looks like random keyboard mashing or gibberish.
+ */
+export function isGibberish(text) {
   if (!text || typeof text !== 'string') return true;
-  const trimmed = text.trim();
-  if (trimmed.length < 2) return true;
-  return JUNK_PATTERNS.some(pattern => pattern.test(trimmed));
+  const cleaned = text.trim().toLowerCase();
+  
+  if (cleaned.length < 2) return true;
+
+  // 1. Common junk words
+  const junkWords = [
+    'test', 'asdf', 'qwer', 'pups', 'hausen', 'blabla', 'xxx', 'abc', '123',
+    'üplk', 'fsdaf', 'sdsf', 'lskd', 'skdl', 'jkjk', 'dfgh', 'ghjk', 'yxcv'
+  ];
+  if (junkWords.some(j => cleaned.includes(j))) {
+    return true;
+  }
+
+  // 2. Too many consecutive consonants without a vowel (except common German clusters sch, str, pf, st, br, gr, tr, kr, fr, dr, pr)
+  // Strip common German valid consonant clusters first
+  const normalized = cleaned
+    .replace(/sch/g, 's')
+    .replace(/str/g, 's')
+    .replace(/ck/g, 'k')
+    .replace(/tz/g, 'z')
+    .replace(/pf/g, 'p')
+    .replace(/ph/g, 'f')
+    .replace(/th/g, 't')
+    .replace(/ng/g, 'g')
+    .replace(/nk/g, 'k');
+
+  // Check for 4 or more consecutive consonants
+  if (/[bcdfghjklmnpqrstvwxyz]{4,}/i.test(normalized)) {
+    return true;
+  }
+
+  // 3. Repeating single character 3+ times (e.g., 'aaaa', 'ssss')
+  if (/(.)\1{2,}/i.test(cleaned)) {
+    return true;
+  }
+
+  // 4. Check vowel to consonant ratio for words > 4 chars (German words have at least 1 vowel/umlaut per 4-5 chars)
+  const words = cleaned.split(/\s+/);
+  for (const word of words) {
+    if (word.length >= 5) {
+      const vowelCount = (word.match(/[aeiouäöüy]/gi) || []).length;
+      if (vowelCount === 0) return true; // No vowels in 5+ char word -> gibberish
+    }
+  }
+
+  return false;
 }
 
 export function validateCustomerName(name) {
-  if (!name || name.trim().length < 2) {
+  if (!name || !name.trim()) {
     return 'Bitte geben Sie Ihren vollständigen Namen ein.';
   }
-  if (isJunkText(name)) {
-    return 'Bitte geben Sie einen gültigen Namen ein (keine Test-Eingaben).';
+  const trimmed = name.trim();
+  if (trimmed.length < 3) {
+    return 'Der Name muss mindestens 3 Zeichen lang sein.';
+  }
+  if (isGibberish(trimmed)) {
+    return 'Bitte geben Sie einen gültigen Vor- und Nachnamen ein.';
   }
   return null;
 }
@@ -36,13 +71,19 @@ export function validateEmail(email) {
   if (!email || !email.trim()) {
     return 'Bitte geben Sie Ihre E-Mail-Adresse ein.';
   }
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email.trim())) {
-    return 'Bitte geben Sie eine gültige E-Mail-Adresse ein.';
+  const cleanEmail = email.trim();
+  
+  // Strict email regex with TLD check
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,10}$/;
+  if (!emailRegex.test(cleanEmail)) {
+    return 'Bitte geben Sie eine gültige E-Mail-Adresse ein (z. B. max@beispiel.de).';
   }
-  if (isJunkText(email.split('@')[0])) {
-    return 'Bitte geben Sie eine reale E-Mail-Adresse ein.';
+
+  const [localPart, domainPart] = cleanEmail.split('@');
+  if (isGibberish(localPart) || isGibberish(domainPart.split('.')[0])) {
+    return 'Bitte geben Sie eine reale E-Mail-Adresse ein (keine Test-E-Mail).';
   }
+
   return null;
 }
 
@@ -50,10 +91,19 @@ export function validatePhone(phone) {
   if (!phone || !phone.trim()) {
     return 'Bitte geben Sie Ihre Telefonnummer für Rückfragen ein.';
   }
-  const cleanPhone = phone.replace(/[\s\-\+\(\)]/g, '');
-  if (!/^\d{6,15}$/.test(cleanPhone)) {
-    return 'Bitte geben Sie eine gültige Telefonnummer ein (mind. 6 Ziffern).';
+  
+  const cleanPhone = phone.trim().replace(/[\s\-\/\(\)]/g, '');
+
+  // German / EU phone pattern: must start with 0 or + or 00
+  if (!/^(0|\+49|\+45|\+43|\+41|0049|0045)/.test(cleanPhone)) {
+    return 'Bitte geben Sie eine gültige deutsche/europäische Telefonnummer an (z. B. 04621 123456 oder 0170 1234567).';
   }
+
+  // Must contain only digits (and optional leading +)
+  if (!/^\+?\d{7,15}$/.test(cleanPhone)) {
+    return 'Bitte geben Sie eine gültige Telefonnummer ein (7 bis 15 Ziffern, z. B. 0171 12345678).';
+  }
+
   return null;
 }
 
@@ -62,16 +112,25 @@ export function validateStreet(street) {
     return 'Bitte geben Sie Ihre Straße und Hausnummer ein.';
   }
   const trimmed = street.trim();
+  
   if (trimmed.length < 4) {
     return 'Bitte geben Sie eine vollständige Straße mit Hausnummer ein.';
   }
-  // Must contain at least one number for house number
-  if (!/\d+/.test(trimmed)) {
-    return 'Bitte geben Sie auch eine Hausnummer an (z. B. Mühlenstraße 12).';
+
+  // Check if house number is present (digits)
+  const match = trimmed.match(/^(.*?)\s+([0-9]+\s*[a-zA-Z\/]*)$/);
+  if (!match) {
+    if (!/\d+/.test(trimmed)) {
+      return 'Bitte geben Sie auch eine Hausnummer an (z. B. Mühlenstraße 12).';
+    }
   }
-  if (isJunkText(trimmed)) {
-    return 'Bitte geben Sie eine reale Adresse ein (keine Test-Eingaben).';
+
+  // Extract street name part
+  const streetName = trimmed.replace(/[0-9]+/g, '').trim();
+  if (streetName.length < 3 || isGibberish(streetName)) {
+    return 'Ungültiger Straßenname. Bitte geben Sie einen realen Straßennamen ein (z. B. Mühlenstraße 12).';
   }
+
   return null;
 }
 
@@ -91,20 +150,28 @@ export function validatePlzAndCity(plz, city) {
     return 'Die Postleitzahl muss genau 5 Ziffern enthalten (z. B. 24837).';
   }
 
-  if (isJunkText(cleanCity) || cleanCity.length < 2) {
+  if (isGibberish(cleanCity)) {
     return 'Bitte geben Sie einen gültigen Ortnamen an (z. B. Schleswig).';
   }
 
-  // Check against known delivery zones
-  const matchingZone = storeData.deliveryZones.find(z => 
-    z.zip === cleanPlz || z.city.toLowerCase() === cleanCity.toLowerCase()
+  // Filter delivery zones for matching PLZ
+  const validZonesForPlz = storeData.deliveryZones.filter(z => z.zip === cleanPlz);
+
+  if (validZonesForPlz.length === 0) {
+    const supportedPlzs = Array.from(new Set(storeData.deliveryZones.map(z => z.zip).filter(z => z !== '—'))).join(', ');
+    return `Die PLZ ${cleanPlz} liegt nicht in unserem Liefergebiet. Wir beliefern unter anderem: ${supportedPlzs}.`;
+  }
+
+  // Check if city matches one of the valid cities for this PLZ
+  const cityMatch = validZonesForPlz.some(z => 
+    z.city.toLowerCase() === cleanCity.toLowerCase() ||
+    cleanCity.toLowerCase().includes(z.city.toLowerCase()) ||
+    z.city.toLowerCase().includes(cleanCity.toLowerCase())
   );
 
-  if (matchingZone) {
-    // If PLZ and City are both provided, check if they align or are valid
-    if (matchingZone.zip !== '—' && matchingZone.zip !== cleanPlz && matchingZone.city.toLowerCase() === cleanCity.toLowerCase()) {
-      // Small adjustment suggestion or allow if city matches
-    }
+  if (!cityMatch) {
+    const validCityNames = validZonesForPlz.map(z => z.city).join(', ');
+    return `Der Ort "${cleanCity}" passt nicht zur PLZ ${cleanPlz}. Gültige Orte für ${cleanPlz}: ${validCityNames}.`;
   }
 
   return null;
