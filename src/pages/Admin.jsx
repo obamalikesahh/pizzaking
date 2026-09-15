@@ -52,11 +52,19 @@ export default function Admin() {
     updateMenuItem,
     bulkUpdatePrices,
     allUsers,
+    deleteUser,
+    bulkDeleteUsers,
+    bulkBanUsers,
+    bulkUnbanUsers,
     blacklistedEmails,
     isEmailBlacklisted,
     toggleBlacklistEmail,
     newsletterSubscribers
   } = useAdmin();
+
+  // Multi-Select Customers & Blacklist State
+  const [selectedCustomerEmails, setSelectedCustomerEmails] = useState([]);
+  const [selectedBlacklistEmails, setSelectedBlacklistEmails] = useState([]);
 
   // Custom Blacklist Input State
   const [customBlacklistInput, setCustomBlacklistInput] = useState('');
@@ -446,162 +454,313 @@ export default function Admin() {
           )}
 
           {/* TAB 1.5: CUSTOMERS & BLACKLIST */}
-          {activeTab === 'customers' && (
-            <div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px', flexWrap: 'wrap', gap: '15px' }}>
-                <div>
-                  <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: '1.8rem', color: '#ffffff', margin: 0 }}>
-                    Kunden & Sperrliste (Blacklist)
-                  </h2>
-                  <p style={{ color: '#888', fontSize: '0.85rem', margin: '4px 0 0 0' }}>
-                    Verwalte registrierte Kunden oder sperre Problemkunden direkt per E-Mail-Adresse.
+          {activeTab === 'customers' && (() => {
+            const isAllCustomersSelected = allUsers.length > 0 && selectedCustomerEmails.length === allUsers.length;
+            const isAllBlacklistSelected = blacklistedEmails.length > 0 && selectedBlacklistEmails.length === blacklistedEmails.length;
+
+            return (
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px', flexWrap: 'wrap', gap: '15px' }}>
+                  <div>
+                    <h2 style={{ fontFamily: 'Cinzel, serif', fontSize: '1.8rem', color: '#ffffff', margin: 0 }}>
+                      Kunden & Sperrliste (Blacklist)
+                    </h2>
+                    <p style={{ color: '#888', fontSize: '0.85rem', margin: '4px 0 0 0' }}>
+                      Verwalte Kunden per Mehrfachauswahl: Wähle mehrere Kunden aus, um sie mit einem Klick zu bannen, zu entsperren oder zu löschen.
+                    </p>
+                  </div>
+                  <div style={{ display: 'flex', gap: '10px' }}>
+                    <span className="status-badge" style={{ background: 'rgba(207,166,112,0.15)', color: '#cfa670', border: '1px solid rgba(207,166,112,0.3)' }}>
+                      Registrierte Kunden: {allUsers.length}
+                    </span>
+                    <span className="status-badge" style={{ background: 'rgba(239,68,68,0.15)', color: '#ef4444', border: '1px solid rgba(239,68,68,0.3)' }}>
+                      Gesperrt: {blacklistedEmails.length}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Manual Email Blacklist Form */}
+                <div style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '16px', padding: '20px', marginBottom: '30px' }}>
+                  <h3 style={{ color: '#ef4444', fontFamily: 'Cinzel, serif', fontSize: '1.1rem', margin: '0 0 10px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    🚫 E-Mail-Adresse Manuell Sperren / Bannen
+                  </h3>
+                  <p style={{ color: '#aaa', fontSize: '0.85rem', margin: '0 0 15px 0' }}>
+                    Gesperrte E-Mail-Adressen können **keine Bestellungen mehr aufgeben** und sich **nicht mehr anmelden/registrieren**.
                   </p>
+                  <form onSubmit={(e) => {
+                    e.preventDefault();
+                    if (!customBlacklistInput || !customBlacklistInput.includes('@')) return;
+                    toggleBlacklistEmail(customBlacklistInput);
+                    setCustomBlacklistInput('');
+                  }} style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                    <input 
+                      type="email" 
+                      required 
+                      value={customBlacklistInput} 
+                      onChange={e => setCustomBlacklistInput(e.target.value)} 
+                      placeholder="E-Mail-Adresse eingeben (z. B. spamer@mail.de)..." 
+                      style={{ flex: 1, minWidth: '250px', padding: '12px 16px', background: '#121312', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '10px', color: '#fff', outline: 'none' }} 
+                    />
+                    <button type="submit" style={{ background: '#ef4444', color: '#fff', border: 'none', padding: '12px 24px', borderRadius: '10px', fontWeight: 'bold', cursor: 'pointer' }}>
+                      🚫 SOFORT SPPEREN / BANNEN
+                    </button>
+                  </form>
                 </div>
-                <div style={{ display: 'flex', gap: '10px' }}>
-                  <span className="status-badge" style={{ background: 'rgba(207,166,112,0.15)', color: '#cfa670', border: '1px solid rgba(207,166,112,0.3)' }}>
-                    Registrierte Kunden: {allUsers.length}
-                  </span>
-                  <span className="status-badge" style={{ background: 'rgba(239,68,68,0.15)', color: '#ef4444', border: '1px solid rgba(239,68,68,0.3)' }}>
-                    Gesperrt: {blacklistedEmails.length}
-                  </span>
-                </div>
-              </div>
 
-              {/* Manual Email Blacklist Form */}
-              <div style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '16px', padding: '20px', marginBottom: '30px' }}>
-                <h3 style={{ color: '#ef4444', fontFamily: 'Cinzel, serif', fontSize: '1.1rem', margin: '0 0 10px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  🚫 E-Mail-Adresse Manuell Sperren / Bannen
-                </h3>
-                <p style={{ color: '#aaa', fontSize: '0.85rem', margin: '0 0 15px 0' }}>
-                  Gesperrte E-Mail-Adressen können **keine Bestellungen mehr aufgeben** und sich **nicht mehr anmelden/registrieren**.
-                </p>
-                <form onSubmit={(e) => {
-                  e.preventDefault();
-                  if (!customBlacklistInput || !customBlacklistInput.includes('@')) return;
-                  toggleBlacklistEmail(customBlacklistInput);
-                  setCustomBlacklistInput('');
-                }} style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                  <input 
-                    type="email" 
-                    required 
-                    value={customBlacklistInput} 
-                    onChange={e => setCustomBlacklistInput(e.target.value)} 
-                    placeholder="E-Mail-Adresse eingeben (z. B. spamer@mail.de)..." 
-                    style={{ flex: 1, minWidth: '250px', padding: '12px 16px', background: '#121312', border: '1px solid rgba(255,255,255,0.15)', borderRadius: '10px', color: '#fff', outline: 'none' }} 
-                  />
-                  <button type="submit" style={{ background: '#ef4444', color: '#fff', border: 'none', padding: '12px 24px', borderRadius: '10px', fontWeight: 'bold', cursor: 'pointer' }}>
-                    🚫 SOFORT SPPEREN / BANNEN
-                  </button>
-                </form>
-              </div>
+                {/* Bulk Actions Banner for Registered Customers */}
+                {selectedCustomerEmails.length > 0 && (
+                  <div style={{ background: 'rgba(207,166,112,0.15)', border: '1px solid rgba(207,166,112,0.4)', borderRadius: '12px', padding: '14px 20px', marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '15px' }}>
+                    <span style={{ color: '#cfa670', fontWeight: 'bold', fontSize: '0.95rem' }}>
+                      ✓ {selectedCustomerEmails.length} Kunden ausgewählt
+                    </span>
+                    <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                      <button 
+                        className="admin-btn"
+                        style={{ background: '#ef4444', color: '#fff', fontWeight: 'bold' }}
+                        onClick={() => {
+                          bulkBanUsers(selectedCustomerEmails);
+                          setSelectedCustomerEmails([]);
+                        }}
+                      >
+                        🚫 Alle {selectedCustomerEmails.length} Bannen
+                      </button>
 
-              <h3 style={{ color: '#cfa670', fontFamily: 'Cinzel, serif', fontSize: '1.2rem', marginBottom: '15px' }}>Registrierte Kundenliste</h3>
-              <div className="admin-table-wrapper" style={{ marginBottom: '40px' }}>
-                <table className="admin-table">
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>E-Mail Adresse</th>
-                      <th>Registrierungsdatum</th>
-                      <th>Status / Sperre</th>
-                      <th>Aktion</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {allUsers.length === 0 ? (
+                      <button 
+                        className="admin-btn"
+                        style={{ background: '#22c55e', color: '#fff', fontWeight: 'bold' }}
+                        onClick={() => {
+                          bulkUnbanUsers(selectedCustomerEmails);
+                          setSelectedCustomerEmails([]);
+                        }}
+                      >
+                        ✅ Alle {selectedCustomerEmails.length} Entsperren
+                      </button>
+
+                      <button 
+                        className="admin-btn"
+                        style={{ background: 'rgba(239,68,68,0.2)', color: '#ef4444', borderColor: 'rgba(239,68,68,0.4)' }}
+                        onClick={() => {
+                          if (window.confirm(`Möchten Sie ${selectedCustomerEmails.length} Kunden wirklich dauerhaft löschen?`)) {
+                            bulkDeleteUsers(selectedCustomerEmails);
+                            setSelectedCustomerEmails([]);
+                          }
+                        }}
+                      >
+                        <Trash2 size={16} /> Alle {selectedCustomerEmails.length} Löschen
+                      </button>
+
+                      <button 
+                        className="admin-btn"
+                        style={{ background: 'rgba(255,255,255,0.1)', color: '#aaa' }}
+                        onClick={() => setSelectedCustomerEmails([])}
+                      >
+                        Auswahl Aufheben
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                <h3 style={{ color: '#cfa670', fontFamily: 'Cinzel, serif', fontSize: '1.2rem', marginBottom: '15px' }}>Registrierte Kundenliste</h3>
+                <div className="admin-table-wrapper" style={{ marginBottom: '40px' }}>
+                  <table className="admin-table">
+                    <thead>
                       <tr>
-                        <td colSpan="5" style={{ textAlign: 'center', color: '#888', padding: '30px' }}>
-                          Noch keine Kunden registriert.
-                        </td>
+                        <th style={{ width: '40px', textAlign: 'center' }}>
+                          <input 
+                            type="checkbox" 
+                            checked={isAllCustomersSelected}
+                            onChange={() => {
+                              if (isAllCustomersSelected) setSelectedCustomerEmails([]);
+                              else setSelectedCustomerEmails(allUsers.map(u => u.email));
+                            }}
+                            style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: '#cfa670' }}
+                          />
+                        </th>
+                        <th>Name</th>
+                        <th>E-Mail Adresse</th>
+                        <th>Registrierungsdatum</th>
+                        <th>Status / Sperre</th>
+                        <th>Aktionen</th>
                       </tr>
-                    ) : (
-                      allUsers.map((user, idx) => {
-                        const blocked = isEmailBlacklisted(user.email);
-                        return (
-                          <tr key={idx} style={{ background: blocked ? 'rgba(239,68,68,0.1)' : 'transparent' }}>
-                            <td>
-                              <strong style={{ color: '#fff', display: 'block', fontSize: '1rem' }}>{user.name}</strong>
-                            </td>
-                            <td>
-                              <span style={{ color: '#aaa' }}>{user.email}</span>
-                            </td>
-                            <td>
-                              <span style={{ color: '#cfa670' }}>{user.joined}</span>
-                            </td>
-                            <td>
-                              {blocked ? (
-                                <span style={{ color: '#ef4444', fontWeight: 'bold', fontSize: '0.85rem' }}>🚫 GESPERRT</span>
-                              ) : (
-                                <span style={{ color: '#22c55e', fontSize: '0.85rem' }}>🟢 Aktiv</span>
-                              )}
-                            </td>
-                            <td>
-                              <button 
-                                className="admin-btn"
-                                onClick={() => toggleBlacklistEmail(user.email)}
-                                style={{ 
-                                  background: blocked ? 'rgba(34,197,94,0.2)' : 'rgba(239,68,68,0.2)', 
-                                  color: blocked ? '#22c55e' : '#ef4444',
-                                  borderColor: blocked ? 'rgba(34,197,94,0.4)' : 'rgba(239,68,68,0.4)'
-                                }}
-                              >
-                                {blocked ? '✅ Entsperren' : '🚫 Kunde Bannen'}
-                              </button>
-                            </td>
-                          </tr>
-                        );
-                      })
-                    )}
-                  </tbody>
-                </table>
-              </div>
-
-              {/* Blacklisted Emails Table */}
-              <h3 style={{ color: '#ef4444', fontFamily: 'Cinzel, serif', fontSize: '1.2rem', marginBottom: '15px' }}>
-                Gesperrte E-Mail-Adressen ({blacklistedEmails.length})
-              </h3>
-              <div className="admin-table-wrapper">
-                <table className="admin-table">
-                  <thead>
-                    <tr>
-                      <th>Gesperrte E-Mail</th>
-                      <th>Status</th>
-                      <th>Aktion</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {blacklistedEmails.length === 0 ? (
-                      <tr>
-                        <td colSpan="3" style={{ textAlign: 'center', color: '#888', padding: '30px' }}>
-                          Keine E-Mail-Adressen gesperrt.
-                        </td>
-                      </tr>
-                    ) : (
-                      blacklistedEmails.map((email, idx) => (
-                        <tr key={idx}>
-                          <td>
-                            <strong style={{ color: '#ef4444', fontSize: '1rem' }}>{email}</strong>
-                          </td>
-                          <td>
-                            <span style={{ color: '#ef4444', fontSize: '0.85rem' }}>🚫 Bestellungen & Login Blockiert</span>
-                          </td>
-                          <td>
-                            <button 
-                              className="admin-btn" 
-                              onClick={() => toggleBlacklistEmail(email)}
-                              style={{ background: 'rgba(34,197,94,0.2)', color: '#22c55e', borderColor: 'rgba(34,197,94,0.4)' }}
-                            >
-                              ✅ Entsperren
-                            </button>
+                    </thead>
+                    <tbody>
+                      {allUsers.length === 0 ? (
+                        <tr>
+                          <td colSpan="6" style={{ textAlign: 'center', color: '#888', padding: '30px' }}>
+                            Noch keine Kunden registriert.
                           </td>
                         </tr>
-                      ))
-                    )}
-                  </tbody>
-                </table>
+                      ) : (
+                        allUsers.map((user, idx) => {
+                          const blocked = isEmailBlacklisted(user.email);
+                          const isSelected = selectedCustomerEmails.includes(user.email);
+                          return (
+                            <tr key={idx} style={{ background: isSelected ? 'rgba(207,166,112,0.12)' : (blocked ? 'rgba(239,68,68,0.1)' : 'transparent') }}>
+                              <td style={{ textAlign: 'center' }}>
+                                <input 
+                                  type="checkbox" 
+                                  checked={isSelected}
+                                  onChange={() => {
+                                    setSelectedCustomerEmails(prev => 
+                                      prev.includes(user.email) ? prev.filter(e => e !== user.email) : [...prev, user.email]
+                                    );
+                                  }}
+                                  style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: '#cfa670' }}
+                                />
+                              </td>
+                              <td>
+                                <strong style={{ color: '#fff', display: 'block', fontSize: '1rem' }}>{user.name}</strong>
+                              </td>
+                              <td>
+                                <span style={{ color: '#aaa' }}>{user.email}</span>
+                              </td>
+                              <td>
+                                <span style={{ color: '#cfa670' }}>{user.joined}</span>
+                              </td>
+                              <td>
+                                {blocked ? (
+                                  <span style={{ color: '#ef4444', fontWeight: 'bold', fontSize: '0.85rem' }}>🚫 GESPERRT</span>
+                                ) : (
+                                  <span style={{ color: '#22c55e', fontSize: '0.85rem' }}>🟢 Aktiv</span>
+                                )}
+                              </td>
+                              <td>
+                                <div style={{ display: 'flex', gap: '8px' }}>
+                                  <button 
+                                    className="admin-btn"
+                                    onClick={() => toggleBlacklistEmail(user.email)}
+                                    style={{ 
+                                      background: blocked ? 'rgba(34,197,94,0.2)' : 'rgba(239,68,68,0.2)', 
+                                      color: blocked ? '#22c55e' : '#ef4444',
+                                      borderColor: blocked ? 'rgba(34,197,94,0.4)' : 'rgba(239,68,68,0.4)'
+                                    }}
+                                  >
+                                    {blocked ? '✅ Entsperren' : '🚫 Bannen'}
+                                  </button>
+                                  <button 
+                                    className="admin-btn"
+                                    onClick={() => {
+                                      if (window.confirm(`Möchten Sie ${user.name} (${user.email}) löschen?`)) {
+                                        deleteUser(user.email);
+                                        setSelectedCustomerEmails(prev => prev.filter(e => e !== user.email));
+                                      }
+                                    }}
+                                    style={{ background: 'rgba(255,255,255,0.05)', color: '#888' }}
+                                    title="Kunde löschen"
+                                  >
+                                    <Trash2 size={15} />
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Bulk Actions Banner for Blacklisted Emails */}
+                {selectedBlacklistEmails.length > 0 && (
+                  <div style={{ background: 'rgba(239,68,68,0.15)', border: '1px solid rgba(239,68,68,0.4)', borderRadius: '12px', padding: '14px 20px', marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '15px' }}>
+                    <span style={{ color: '#ef4444', fontWeight: 'bold', fontSize: '0.95rem' }}>
+                      ✓ {selectedBlacklistEmails.length} gesperrte E-Mails ausgewählt
+                    </span>
+                    <div style={{ display: 'flex', gap: '10px' }}>
+                      <button 
+                        className="admin-btn"
+                        style={{ background: '#22c55e', color: '#fff', fontWeight: 'bold' }}
+                        onClick={() => {
+                          bulkUnbanUsers(selectedBlacklistEmails);
+                          setSelectedBlacklistEmails([]);
+                        }}
+                      >
+                        ✅ Alle {selectedBlacklistEmails.length} Entsperren
+                      </button>
+                      <button 
+                        className="admin-btn"
+                        style={{ background: 'rgba(255,255,255,0.1)', color: '#aaa' }}
+                        onClick={() => setSelectedBlacklistEmails([])}
+                      >
+                        Auswahl Aufheben
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {/* Blacklisted Emails Table */}
+                <h3 style={{ color: '#ef4444', fontFamily: 'Cinzel, serif', fontSize: '1.2rem', marginBottom: '15px' }}>
+                  Gesperrte E-Mail-Adressen ({blacklistedEmails.length})
+                </h3>
+                <div className="admin-table-wrapper">
+                  <table className="admin-table">
+                    <thead>
+                      <tr>
+                        <th style={{ width: '40px', textAlign: 'center' }}>
+                          <input 
+                            type="checkbox" 
+                            checked={isAllBlacklistSelected}
+                            onChange={() => {
+                              if (isAllBlacklistSelected) setSelectedBlacklistEmails([]);
+                              else setSelectedBlacklistEmails([...blacklistedEmails]);
+                            }}
+                            style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: '#ef4444' }}
+                          />
+                        </th>
+                        <th>Gesperrte E-Mail</th>
+                        <th>Status</th>
+                        <th>Aktion</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {blacklistedEmails.length === 0 ? (
+                        <tr>
+                          <td colSpan="4" style={{ textAlign: 'center', color: '#888', padding: '30px' }}>
+                            Keine E-Mail-Adressen gesperrt.
+                          </td>
+                        </tr>
+                      ) : (
+                        blacklistedEmails.map((email, idx) => {
+                          const isSelected = selectedBlacklistEmails.includes(email);
+                          return (
+                            <tr key={idx} style={{ background: isSelected ? 'rgba(239,68,68,0.2)' : 'transparent' }}>
+                              <td style={{ textAlign: 'center' }}>
+                                <input 
+                                  type="checkbox" 
+                                  checked={isSelected}
+                                  onChange={() => {
+                                    setSelectedBlacklistEmails(prev => 
+                                      prev.includes(email) ? prev.filter(e => e !== email) : [...prev, email]
+                                    );
+                                  }}
+                                  style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: '#ef4444' }}
+                                />
+                              </td>
+                              <td>
+                                <strong style={{ color: '#ef4444', fontSize: '1rem' }}>{email}</strong>
+                              </td>
+                              <td>
+                                <span style={{ color: '#ef4444', fontSize: '0.85rem' }}>🚫 Bestellungen & Login Blockiert</span>
+                              </td>
+                              <td>
+                                <button 
+                                  className="admin-btn" 
+                                  onClick={() => toggleBlacklistEmail(email)}
+                                  style={{ background: 'rgba(34,197,94,0.2)', color: '#22c55e', borderColor: 'rgba(34,197,94,0.4)' }}
+                                >
+                                  ✅ Entsperren
+                                </button>
+                              </td>
+                            </tr>
+                          );
+                        })
+                      )}
+                    </tbody>
+                  </table>
+                </div>
               </div>
-            </div>
-          )}
+            );
+          })()}
 
           {/* TAB 1.7: NEWSLETTER */}
           {activeTab === 'newsletter' && (

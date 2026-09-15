@@ -484,6 +484,37 @@ export function AdminProvider({ children }) {
     }
   };
 
+  const deleteUser = (email) => {
+    if (!email) return;
+    const clean = email.trim().toLowerCase();
+    setAllUsers(prev => prev.filter(u => u.email.toLowerCase() !== clean));
+  };
+
+  const bulkDeleteUsers = (emails) => {
+    if (!Array.isArray(emails) || emails.length === 0) return;
+    const emailSet = new Set(emails.map(e => e.trim().toLowerCase()));
+    setAllUsers(prev => prev.filter(u => !emailSet.has(u.email.toLowerCase())));
+  };
+
+  const bulkBanUsers = (emails) => {
+    if (!Array.isArray(emails) || emails.length === 0) return;
+    const emailSet = new Set(emails.map(e => e.trim().toLowerCase()));
+    setBlacklistedEmails(prev => {
+      const existing = new Set(prev.map(b => b.toLowerCase()));
+      const updated = [...prev];
+      emailSet.forEach(e => {
+        if (!existing.has(e)) updated.push(e);
+      });
+      return updated;
+    });
+  };
+
+  const bulkUnbanUsers = (emails) => {
+    if (!Array.isArray(emails) || emails.length === 0) return;
+    const emailSet = new Set(emails.map(e => e.trim().toLowerCase()));
+    setBlacklistedEmails(prev => prev.filter(b => !emailSet.has(b.toLowerCase())));
+  };
+
   return (
     <AdminContext.Provider value={{
       isAuthenticated,
@@ -494,6 +525,10 @@ export function AdminProvider({ children }) {
       setLanguage,
       currentUser,
       allUsers,
+      deleteUser,
+      bulkDeleteUsers,
+      bulkBanUsers,
+      bulkUnbanUsers,
       blacklistedEmails,
       isEmailBlacklisted,
       toggleBlacklistEmail,
