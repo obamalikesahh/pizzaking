@@ -76,8 +76,8 @@ export default async function handler(req, res) {
       }).catch(err => console.error("Kunden-Mail Fehler:", err));
     }
 
-    // 2. Admin Mail (Hermann Ajonos / info@pizzaking-schleswig.de)
-    const adminEmail = process.env.RESTAURANT_EMAIL || process.env.VITE_ADMIN_EMAIL || 'info@pizzaking-schleswig.de';
+    // 2. Admin Mail / Bestell-Benachrichtigung (order@pizzaking-schleswig.de)
+    const adminEmail = process.env.ORDER_NOTIFICATIONS_EMAIL || process.env.RESTAURANT_EMAIL || 'order@pizzaking-schleswig.de';
     await transporter.sendMail({
       from: fromSender,
       to: adminEmail,

@@ -229,8 +229,8 @@ app.post('/api/send-order', async (req, res) => {
       }).catch(err => console.error("Kunden-Mail Fehler:", err));
     }
 
-    // 2. Restaurant Inhaber Mail (Admin)
-    const adminEmail = process.env.RESTAURANT_EMAIL || process.env.VITE_ADMIN_EMAIL || process.env.SMTP_USER || 'info@pizzaking-schleswig.de';
+    // 2. Restaurant Inhaber Mail (Admin / Bestellung Empfänger)
+    const adminEmail = process.env.ORDER_NOTIFICATIONS_EMAIL || process.env.RESTAURANT_EMAIL || 'order@pizzaking-schleswig.de';
     await transporter.sendMail({
       from: fromSender,
       to: adminEmail,
