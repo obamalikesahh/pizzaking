@@ -6,6 +6,7 @@ import { useAdmin } from '../context/AdminContext';
 import { storeData } from '../data/storeData';
 import { sendOrderConfirmationEmail } from '../services/emailService';
 import { validateCheckoutForm, validateRealAddressWithOSM } from '../utils/addressValidation';
+import DeliveryDateTimePicker from '../components/DeliveryDateTimePicker';
 import './Checkout.css';
 
 const PAYPAL_CLIENT_ID = import.meta.env.VITE_PAYPAL_CLIENT_ID || "AZchW2TIdgYmSrQoGdahiDqBOYOOWIQ9jdF_yh-oxltBfyuHnU2ticuLx7_txffYGoZhp_K9hgFzj-Va";
@@ -16,6 +17,7 @@ export default function Checkout() {
   const [step, setStep] = useState(1);
   const [orderType, setOrderType] = useState('delivery'); // delivery or pickup
   const [payment, setPayment] = useState('paypal');
+  const [deliveryTime, setDeliveryTime] = useState({ type: 'ASAP', label: 'Schnellstmöglich (ca. 30–45 Min.)' });
 
   const [customerName, setCustomerName] = useState('');
   const [customerEmail, setCustomerEmail] = useState('');
@@ -140,6 +142,7 @@ export default function Checkout() {
       customerEmail: customerEmail,
       phone: phone || 'Keine Angabe',
       address: addressStr,
+      deliveryTime: deliveryTime?.label || 'Schnellstmöglich',
       items: cartItems.map(i => ({ name: i.name, price: i.price, quantity: i.quantity, image: i.image })),
       total: finalTotal,
       payment: paymentLabel,
@@ -301,6 +304,12 @@ export default function Checkout() {
                     {formErrors.plz && <div style={{ color: '#ef4444', fontSize: '0.8rem', marginTop: '4px' }}>{formErrors.plz}</div>}
                   </>
                 )}
+
+                <DeliveryDateTimePicker 
+                  selectedDeliveryTime={deliveryTime}
+                  onChangeDeliveryTime={setDeliveryTime}
+                />
+
                 <div className="step-actions split">
                   <button type="button" className="btn btn-outline" onClick={handlePrev} disabled={isValidatingAddress}><ArrowLeft size={20} className="mr-2"/> Zurück</button>
                   <button type="submit" className="btn btn-primary" disabled={isValidatingAddress}>
@@ -383,7 +392,13 @@ export default function Checkout() {
             <div className="step-content animate-fade-in text-center success-step">
               <CheckCircle size={60} color="var(--color-brand-secondary)" style={{ margin: '0 auto 20px' }} />
               <h2>Vielen Dank für Ihre Bestellung!</h2>
-              <p>Ihre Pizza wird nun frisch zubereitet.</p>
+              <p>Ihre Bestellung wurde erfolgreich aufgenommen.</p>
+              <div style={{ marginTop: '15px', padding: '15px', background: 'rgba(207, 166, 112, 0.15)', borderRadius: '10px', border: '1px solid #cfa670', display: 'inline-block' }}>
+                <span style={{ color: '#cfa670', fontWeight: 'bold' }}>🕒 Gewünschte Liefer-/Abholzeit:</span>
+                <div style={{ fontSize: '1.1rem', color: '#fff', marginTop: '4px', fontWeight: '600' }}>
+                  {deliveryTime?.label || 'Schnellstmöglich'}
+                </div>
+              </div>
             </div>
           )}
 

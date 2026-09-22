@@ -397,6 +397,11 @@ export default function Admin() {
                           <strong style={{ color: '#fff', display: 'block' }}>{order.customer}</strong>
                           <span style={{ fontSize: '0.8rem', color: '#aaa', display: 'block' }}>{order.address}</span>
                           <span style={{ fontSize: '0.8rem', color: '#cfa670' }}>Tel: {order.phone}</span>
+                          {order.deliveryTime && (
+                            <span style={{ fontSize: '0.8rem', color: '#fbbf24', display: 'block', marginTop: '2px', fontWeight: '600' }}>
+                              🕒 Lieferzeit: {order.deliveryTime}
+                            </span>
+                          )}
                         </td>
                         <td>
                           <div style={{ fontSize: '0.85rem' }}>
