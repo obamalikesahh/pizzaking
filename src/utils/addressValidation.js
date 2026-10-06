@@ -220,11 +220,11 @@ export async function validateRealAddressWithOSM(street, plz, city) {
 
     // Extract house number if present
     const houseNumberMatch = cleanStreet.match(/\b\d+\s*[a-zA-Z]?\b/);
-    const houseNumber = houseNumberMatch ? houseNumberMatch[0] : '';
     const streetOnly = cleanStreet.replace(/\b\d+\s*[a-zA-Z]?\b/g, '').trim();
 
-    // Call OpenStreetMap Nominatim API with structured parameters
-    const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&addressdetails=1&street=${encodeURIComponent(cleanStreet)}&postalcode=${encodeURIComponent(cleanPlz)}&city=${encodeURIComponent(cleanCity)}&country=Germany`;
+    // Call OpenStreetMap Nominatim API with query string for max flexibility in German towns
+    const query = `${cleanStreet}, ${cleanPlz} ${cleanCity}, Germany`;
+    const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&addressdetails=1&q=${encodeURIComponent(query)}`;
     
     const response = await fetch(url, {
       headers: {
@@ -233,58 +233,51 @@ export async function validateRealAddressWithOSM(street, plz, city) {
     });
 
     if (!response.ok) {
-      // If OSM rate-limited or offline, don't block order
-      return { isValid: true };
+      return { isValid: true }; // On API limit, accept
     }
 
     const data = await response.json();
 
-    if (!data || data.length === 0) {
-      // Try searching street without house number in that PLZ to distinguish missing house number vs invalid street
-      const fallbackUrl = `https://nominatim.openstreetmap.org/search?format=jsonv2&addressdetails=1&street=${encodeURIComponent(streetOnly)}&postalcode=${encodeURIComponent(cleanPlz)}&country=Germany`;
-      const fallbackRes = await fetch(fallbackUrl, {
-        headers: { 'User-Agent': 'PizzaKingSchleswig/1.0 (kontakt@pizzaking-schleswig.de)' }
-      });
-      const fallbackData = await fallbackRes.json();
-
-      if (!fallbackData || fallbackData.length === 0) {
-        return {
-          isValid: false,
-          error: `Die Straße "${streetOnly}" existiert nicht in ${cleanCity} (${cleanPlz}). Bitte überprüfen Sie Ihre Eingabe.`
-        };
-      }
-
-      if (houseNumber) {
-        return {
-          isValid: false,
-          error: `Die Hausnummer "${houseNumber}" wurde in "${streetOnly}" in ${cleanCity} (${cleanPlz}) nicht gefunden. Bitte prüfen Sie Ihre Hausnummer.`
-        };
-      }
-
-      return {
-        isValid: false,
-        error: `Die Adresse "${cleanStreet}" existiert nicht in ${cleanCity} (${cleanPlz}).`
-      };
+    if (data && data.length > 0) {
+      return { isValid: true };
     }
 
-    // Verify returning postalcode / city matches roughly
-    const match = data.find(item => {
-      const addr = item.address || {};
-      const itemZip = addr.postcode || '';
-      return itemZip.startsWith(cleanPlz.substring(0, 3));
+    // Fallback search 1: Street without house number in target city/zip
+    const streetQuery = `${streetOnly}, ${cleanPlz} ${cleanCity}, Germany`;
+    const fallbackUrl = `https://nominatim.openstreetmap.org/search?format=jsonv2&addressdetails=1&q=${encodeURIComponent(streetQuery)}`;
+    const fallbackRes = await fetch(fallbackUrl, {
+      headers: { 'User-Agent': 'PizzaKingSchleswig/1.0 (kontakt@pizzaking-schleswig.de)' }
     });
 
-    if (!match && data.length > 0) {
-      // Returned address belongs to a completely different town/region
-      return {
-        isValid: false,
-        error: `Die Adresse "${cleanStreet}" liegt nicht in ${cleanCity} (${cleanPlz}). Bitte prüfen Sie die Straßenangabe.`
-      };
+    if (fallbackRes.ok) {
+      const fallbackData = await fallbackRes.json();
+      if (fallbackData && fallbackData.length > 0) {
+        // The street exists in that town/zip! Accept the address.
+        return { isValid: true };
+      }
     }
 
-    return { isValid: true };
+    // Fallback search 2: General query for streetOnly in Germany with postalcode
+    const generalUrl = `https://nominatim.openstreetmap.org/search?format=jsonv2&addressdetails=1&street=${encodeURIComponent(streetOnly)}&postalcode=${encodeURIComponent(cleanPlz)}`;
+    const generalRes = await fetch(generalUrl, {
+      headers: { 'User-Agent': 'PizzaKingSchleswig/1.0 (kontakt@pizzaking-schleswig.de)' }
+    });
+
+    if (generalRes.ok) {
+      const generalData = await generalRes.json();
+      if (generalData && generalData.length > 0) {
+        return { isValid: true };
+      }
+    }
+
+    // If street was not found anywhere in that zip/town
+    return {
+      isValid: false,
+      error: `Die Straße "${streetOnly || cleanStreet}" wurde in ${cleanCity} (${cleanPlz}) nicht gefunden. Bitte überprüfen Sie Ihre Eingabe.`
+    };
+
   } catch (err) {
     console.warn('OSM Address Validation error:', err);
-    return { isValid: true }; // On network error, gracefully fallback to valid to not block customer
+    return { isValid: true }; // Graceful fallback on network error
   }
 }
