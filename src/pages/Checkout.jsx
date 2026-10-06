@@ -5,7 +5,7 @@ import { useCart } from '../context/CartContext';
 import { useAdmin } from '../context/AdminContext';
 import { storeData } from '../data/storeData';
 import { sendOrderConfirmationEmail } from '../services/emailService';
-import { validateCheckoutForm, validateRealAddressWithOSM } from '../utils/addressValidation';
+import { validateCheckoutForm, validateRealAddressWithOSM, verifyRealEmailDomain } from '../utils/addressValidation';
 import DeliveryDateTimePicker from '../components/DeliveryDateTimePicker';
 import Captcha from '../components/Captcha';
 import './Checkout.css';
@@ -227,18 +227,27 @@ export default function Checkout() {
                   return;
                 }
 
-                // If delivery, validate real street & house number exist in selected PLZ / city using OSM API
-                if (orderType === 'delivery') {
-                  setIsValidatingAddress(true);
-                  const osmResult = await validateRealAddressWithOSM(street, plz, city);
-                  setIsValidatingAddress(false);
+                setIsValidatingAddress(true);
 
+                // 1. Verify real DNS MX records for email domain
+                const emailCheck = await verifyRealEmailDomain(customerEmail);
+                if (!emailCheck.isValid) {
+                  setIsValidatingAddress(false);
+                  setFormErrors({ customerEmail: emailCheck.error });
+                  return;
+                }
+
+                // 2. If delivery, validate real street & house number exist in selected PLZ / city using OSM API
+                if (orderType === 'delivery') {
+                  const osmResult = await validateRealAddressWithOSM(street, plz, city);
                   if (!osmResult.isValid) {
+                    setIsValidatingAddress(false);
                     setFormErrors({ street: osmResult.error });
                     return;
                   }
                 }
 
+                setIsValidatingAddress(false);
                 setFormErrors({});
                 handleNext();
               }}>

@@ -86,11 +86,12 @@ export function validateEmail(email) {
     'mailinator.com', 'trashmail.com', 'guerrillamail.com', '10minutemail.com',
     'tempmail.com', 'yopmail.com', 'sharklasers.com', 'getairmail.com',
     'dispostable.com', 'throwawaymail.com', 'test.com', 'test.de', 'example.com',
-    'example.de', 'fake.com', 'fake.de', 'asdf.com', 'asdf.de', 'pups.com', 'pups.de'
+    'example.de', 'fake.com', 'fake.de', 'asdf.com', 'asdf.de', 'pups.com', 'pups.de',
+    'gmx.de1', 'web.de1', 'gmail.com1', 'outlook.de1'
   ];
 
   if (disposableDomains.includes(domain)) {
-    return 'Wegwerf- oder Test-E-Mail-Adressen werden nicht akzeptiert. Bitte nutzen Sie eine echte E-Mail-Adresse.';
+    return 'Wegwerf- oder ungültige E-Mail-Adressen werden nicht akzeptiert. Bitte nutzen Sie eine echte E-Mail-Adresse.';
   }
 
   // Common valid email providers check or valid TLD check
@@ -109,6 +110,51 @@ export function validateEmail(email) {
   }
 
   return null;
+}
+
+/**
+ * Checks via DNS-over-HTTPS (Cloudflare DoH API) if the email's domain actually exists 
+ * and has valid MX (Mail Exchange) or A records to receive real emails.
+ */
+export async function verifyRealEmailDomain(email) {
+  try {
+    if (!email || !email.includes('@')) return { isValid: false, error: 'Ungültiges E-Mail-Format.' };
+    const domain = email.trim().toLowerCase().split('@')[1];
+
+    // Check MX (Mail Exchange) records using Cloudflare DNS-over-HTTPS
+    const response = await fetch(`https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(domain)}&type=MX`, {
+      headers: { 'Accept': 'application/dns-json' }
+    });
+
+    if (!response.ok) {
+      return { isValid: true }; // On DNS network failure, gracefully allow
+    }
+
+    const data = await response.json();
+
+    // Status 0 means NOERROR in DNS
+    if (data.Status === 0 && data.Answer && data.Answer.length > 0) {
+      return { isValid: true };
+    }
+
+    // Fallback: Check A record if domain has fallback mail server
+    const aResponse = await fetch(`https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(domain)}&type=A`, {
+      headers: { 'Accept': 'application/dns-json' }
+    });
+    const aData = await aResponse.json();
+
+    if (aData.Status === 0 && aData.Answer && aData.Answer.length > 0) {
+      return { isValid: true };
+    }
+
+    return {
+      isValid: false,
+      error: `Die E-Mail-Domain "@${domain}" existiert nicht oder kann keine E-Mails empfangen. Bitte prüfen Sie Ihre E-Mail-Adresse.`
+    };
+  } catch (err) {
+    console.warn('Real Email Domain verification failed:', err);
+    return { isValid: true }; // Graceful fallback on network error
+  }
 }
 
 export function validatePhone(phone) {
