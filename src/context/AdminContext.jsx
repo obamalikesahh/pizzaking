@@ -181,10 +181,10 @@ export function AdminProvider({ children }) {
 
   // Auth functions
   const login = async (email, password) => {
-    const envEmail = (import.meta.env.VITE_ADMIN_EMAIL || 'info@pizzaking-schleswig.de').toLowerCase();
-    const envPass = import.meta.env.VITE_ADMIN_PASSWORD || 'Davit@1981';
+    const envEmail = (import.meta.env.VITE_ADMIN_EMAIL || process.env.VITE_ADMIN_EMAIL || '').toLowerCase();
+    const envPass = import.meta.env.VITE_ADMIN_PASSWORD || process.env.VITE_ADMIN_PASSWORD || '';
     
-    if (email.trim().toLowerCase() === envEmail && password === envPass) {
+    if (envEmail && envPass && email.trim().toLowerCase() === envEmail && password === envPass) {
       setIsAuthenticated(true);
       setAdminToken('local-admin-token');
       return { success: true };
@@ -214,11 +214,6 @@ export function AdminProvider({ children }) {
       }
       return { success: false, message: data.error || 'Ungültige Admin-E-Mail oder Passwort!' };
     } catch (err) {
-      if ((email.trim().toLowerCase() === 'info@pizzaking-schleswig.de' || email.trim().toLowerCase() === 'admin@pizzaking.de') && (password === 'Davit@1981' || password === 'King')) {
-        setIsAuthenticated(true);
-        setAdminToken('local-admin-token');
-        return { success: true };
-      }
       return { success: false, message: 'Falsche E-Mail oder Passwort!' };
     }
   };

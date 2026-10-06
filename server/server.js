@@ -20,8 +20,8 @@ const transporter = nodemailer.createTransport({
   port: parseInt(process.env.SMTP_PORT || '587'),
   secure: process.env.SMTP_SECURE === 'true', // false for 587 (STARTTLS)
   auth: {
-    user: process.env.SMTP_USER || 'info@pizzaking-schleswig.de',
-    pass: process.env.SMTP_PASS || 'Davit@1981',
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
   },
   tls: {
     rejectUnauthorized: false
