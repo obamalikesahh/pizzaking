@@ -7,6 +7,7 @@ import { storeData } from '../data/storeData';
 import { sendOrderConfirmationEmail } from '../services/emailService';
 import { validateCheckoutForm, validateRealAddressWithOSM } from '../utils/addressValidation';
 import DeliveryDateTimePicker from '../components/DeliveryDateTimePicker';
+import Captcha from '../components/Captcha';
 import './Checkout.css';
 
 const PAYPAL_CLIENT_ID = import.meta.env.VITE_PAYPAL_CLIENT_ID || "AZchW2TIdgYmSrQoGdahiDqBOYOOWIQ9jdF_yh-oxltBfyuHnU2ticuLx7_txffYGoZhp_K9hgFzj-Va";
@@ -27,6 +28,7 @@ export default function Checkout() {
   const [city, setCity] = useState('Schleswig');
   const [formErrors, setFormErrors] = useState({});
   const [isValidatingAddress, setIsValidatingAddress] = useState(false);
+  const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
 
   const [discountCode, setDiscountCode] = useState('');
   const [discountAmount, setDiscountAmount] = useState(0);
@@ -344,8 +346,12 @@ export default function Checkout() {
                 ))}
               </div>
 
+              <div style={{ marginTop: '20px' }}>
+                <Captcha onVerify={(verified) => setIsCaptchaVerified(verified)} />
+              </div>
+
               {payment === 'paypal' ? (
-                <div style={{ marginTop: '25px' }}>
+                <div style={{ marginTop: '25px', opacity: isCaptchaVerified ? 1 : 0.5, pointerEvents: isCaptchaVerified ? 'auto' : 'none' }}>
                   <p style={{ fontSize: '0.9rem', color: 'var(--color-text-muted)', marginBottom: '15px' }}>
                     Klicken Sie auf den PayPal-Button, um die Zahlung im Live-Modus abzuschließen:
                   </p>
@@ -381,7 +387,19 @@ export default function Checkout() {
               ) : (
                 <div className="step-actions split">
                   <button className="btn btn-outline" onClick={handlePrev}><ArrowLeft size={20} className="mr-2"/> Zurück</button>
-                  <button className="btn btn-primary" onClick={handleCheckoutComplete}>Zahlungspflichtig bestellen <CheckCircle size={20} className="ml-2"/></button>
+                  <button 
+                    className="btn btn-primary" 
+                    disabled={!isCaptchaVerified} 
+                    onClick={() => {
+                      if (!isCaptchaVerified) {
+                        alert('Bitte löse zuerst die Captcha-Sicherheitsabfrage.');
+                        return;
+                      }
+                      handleCheckoutComplete();
+                    }}
+                  >
+                    Zahlungspflichtig bestellen <CheckCircle size={20} className="ml-2"/>
+                  </button>
                 </div>
               )}
             </div>

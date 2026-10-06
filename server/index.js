@@ -1,5 +1,7 @@
 import express from 'express';
 import cors from 'cors';
+import rateLimit from 'express-rate-limit';
+import helmet from 'helmet';
 import { PrismaClient } from '@prisma/client';
 import pg from 'pg';
 const { Pool } = pg;
@@ -23,9 +25,59 @@ const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 const app = express();
+app.use(helmet({
+  contentSecurityPolicy: false, // Allowed for embedded images & external scripts
+  crossOriginResourcePolicy: { policy: "cross-origin" }
+}));
 app.use(cors());
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
+
+// --- ANTI-BOT & RATE LIMITING SYSTEM ---
+const globalLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 Minuten
+  max: 300, // Max 300 Anfragen pro 15 Min per IP
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Zu viele Anfragen von dieser IP. Bitte versuche es später noch einmal.' }
+});
+
+const strictAuthLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 Minuten
+  max: 15, // Max 15 Login/Registrierungs-Versuche
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Zu viele Anmeldeversuche. Aus Sicherheitsgründen vorübergehend gesperrt.' }
+});
+
+const orderLimiter = rateLimit({
+  windowMs: 10 * 60 * 1000, // 10 Minuten
+  max: 10, // Max 10 Bestellungen per IP pro 10 Min
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Zu viele Bestellversuche. Bitte warte einen Moment.' }
+});
+
+const newsletterLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 Stunde
+  max: 5, // Max 5 Anmeldungen pro IP
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Zu viele Newsletter-Anmeldungen von dieser IP.' }
+});
+
+// Honeypot validation middleware for sensitive POST endpoints
+const checkHoneypot = (req, res, next) => {
+  if (req.body && req.body.website_hp_check) {
+    console.warn(`🤖 Bot-Aktivität erkannt & blockiert! Honeypot getriggert von IP: ${req.ip}`);
+    // Täusche einen Erfolg vor oder lehne ab, damit der Bot verstummt
+    return res.status(200).json({ success: true, message: 'Processed' });
+  }
+  next();
+};
+
+app.use(globalLimiter);
+
 
 // Groq
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY || 'missing-key' });
@@ -74,7 +126,7 @@ const authenticateAdmin = (req, res, next) => {
   });
 };
 
-app.post('/api/auth/admin-login', (req, res) => {
+app.post('/api/auth/admin-login', strictAuthLimiter, checkHoneypot, (req, res) => {
   const { email, password } = req.body;
   const adminEmail = process.env.VITE_ADMIN_EMAIL || process.env.ADMIN_EMAIL || 'info@pizzaking-schleswig.de';
   const adminPassword = process.env.VITE_ADMIN_PASSWORD || process.env.ADMIN_PASSWORD || 'Davit@1981';
@@ -86,7 +138,7 @@ app.post('/api/auth/admin-login', (req, res) => {
   return res.status(401).json({ error: 'Invalid admin credentials' });
 });
 
-app.post('/api/auth/register', async (req, res) => {
+app.post('/api/auth/register', strictAuthLimiter, checkHoneypot, async (req, res) => {
   try {
     const { name, email, password } = req.body;
     const existingUser = await prisma.user.findUnique({ where: { email } });
@@ -104,7 +156,7 @@ app.post('/api/auth/register', async (req, res) => {
   }
 });
 
-app.post('/api/auth/login', async (req, res) => {
+app.post('/api/auth/login', strictAuthLimiter, checkHoneypot, async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await prisma.user.findUnique({ where: { email } });
@@ -169,7 +221,7 @@ app.post('/api/send-verification', async (req, res) => {
   }
 });
 
-app.post('/api/send-order', async (req, res) => {
+app.post('/api/send-order', orderLimiter, checkHoneypot, async (req, res) => {
   try {
     const { toEmail, order } = req.body;
     console.log(`✉️ [Server Mailer] Sende Bestellbestätigung für Order ${order?.id}...`);
@@ -361,8 +413,8 @@ const handleNewsletterSubscribe = async (req, res) => {
   }
 };
 
-app.post('/api/newsletter/subscribe', handleNewsletterSubscribe);
-app.post('/api/subscribe-newsletter', handleNewsletterSubscribe);
+app.post('/api/newsletter/subscribe', newsletterLimiter, checkHoneypot, handleNewsletterSubscribe);
+app.post('/api/subscribe-newsletter', newsletterLimiter, checkHoneypot, handleNewsletterSubscribe);
 
 app.post('/api/discount/validate', async (req, res) => {
   try {
@@ -544,7 +596,7 @@ app.get('/api/orders', authenticateAdmin, async (req, res) => {
   }
 });
 
-app.post('/api/orders', async (req, res) => {
+app.post('/api/orders', orderLimiter, checkHoneypot, async (req, res) => {
   try {
     const orderData = req.body;
     console.log(`📦 Neue Bestellung empfangen: Order #${orderData.id}`);

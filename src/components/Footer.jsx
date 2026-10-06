@@ -91,6 +91,18 @@ export default function Footer() {
           <p style={{ color: 'var(--color-text-muted)', fontSize: '0.9rem', marginBottom: '15px' }}>{t.newsletterFooterDesc}</p>
           
           <form onSubmit={handleSubscribe} style={{ display: 'flex', gap: '8px', position: 'relative' }}>
+            {/* Honeypot Anti-Bot Field */}
+            <input
+              type="text"
+              name="website_hp_check"
+              tabIndex="-1"
+              autoComplete="off"
+              style={{ display: 'none', position: 'absolute', left: '-9999px' }}
+              onChange={(e) => {
+                // Bots filled this field
+                window._hp_val = e.target.value;
+              }}
+            />
             <input 
               type="email" 
               placeholder={t.emailPlaceholder} 

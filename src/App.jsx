@@ -16,6 +16,7 @@ import StoreClosedOverlay from './components/StoreClosedOverlay';
 import JivoChat from './components/JivoChat';
 import FloatingCart from './components/FloatingCart';
 import Impressum from './pages/Impressum';
+import CookieConsent from './components/CookieConsent';
 import { CartProvider, useCart } from './context/CartContext';
 import { AdminProvider } from './context/AdminContext';
 
@@ -62,6 +63,7 @@ function Layout() {
       {!isAdminRoute && <Footer />}
       {!isAdminRoute && <JivoChat />}
       {!isAdminRoute && <FloatingCart />}
+      {!isAdminRoute && <CookieConsent />}
     </div>
   );
 }

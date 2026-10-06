@@ -1,0 +1,218 @@
+.cookie-banner-overlay {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 900px;
+  z-index: 99999;
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+  from {
+    transform: translate(-50%, 100px);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}
+
+.cookie-banner-card {
+  background: rgba(18, 18, 18, 0.95);
+  border: 1px solid rgba(207, 166, 112, 0.4);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(20px);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (min-width: 768px) {
+  .cookie-banner-card {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.cookie-banner-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  flex: 1;
+}
+
+.cookie-icon-wrapper {
+  background: rgba(207, 166, 112, 0.15);
+  padding: 12px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(207, 166, 112, 0.3);
+}
+
+.cookie-banner-text h3 {
+  margin: 0 0 6px 0;
+  font-size: 1.1rem;
+  color: var(--color-primary);
+  font-family: var(--font-heading);
+}
+
+.cookie-banner-text p {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.cookie-banner-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.cookie-btn {
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.cookie-btn-primary {
+  background: var(--color-primary);
+  color: #000;
+}
+
+.cookie-btn-primary:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 4px 12px rgba(207, 166, 112, 0.4);
+}
+
+.cookie-btn-secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.cookie-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.cookie-btn-outline {
+  background: transparent;
+  color: var(--color-text-muted);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.cookie-btn-outline:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Modal */
+.cookie-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.cookie-modal-card {
+  background: #161716;
+  border: 1px solid rgba(207, 166, 112, 0.4);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 550px;
+  overflow: hidden;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
+}
+
+.cookie-modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cookie-modal-header h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+.cookie-modal-close {
+  background: transparent;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 4px;
+}
+
+.cookie-modal-close:hover {
+  color: #fff;
+}
+
+.cookie-modal-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cookie-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 14px 18px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.cookie-option-info strong {
+  display: block;
+  color: var(--color-primary);
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+}
+
+.cookie-option-info p {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+.cookie-checkbox {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+}
+
+.cookie-modal-footer {
+  padding: 16px 24px;
+  background: rgba(0, 0, 0, 0.3);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
