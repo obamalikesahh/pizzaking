@@ -79,13 +79,33 @@ export function validateEmail(email) {
     return 'Bitte geben Sie eine gültige E-Mail-Adresse ein (z. B. max@beispiel.de).';
   }
 
-  // Reject explicit test/junk email addresses only
-  const junkEmails = [
-    'test@test.com', 'test@test.de', 'asdf@asdf.com', 'asdf@asdf.de',
-    'xxx@xxx.com', 'abc@abc.com', 'a@a.com', '123@123.com'
+  const [localPart, domain] = cleanEmail.split('@');
+
+  // Block fake / disposable / trash email domains
+  const disposableDomains = [
+    'mailinator.com', 'trashmail.com', 'guerrillamail.com', '10minutemail.com',
+    'tempmail.com', 'yopmail.com', 'sharklasers.com', 'getairmail.com',
+    'dispostable.com', 'throwawaymail.com', 'test.com', 'test.de', 'example.com',
+    'example.de', 'fake.com', 'fake.de', 'asdf.com', 'asdf.de', 'pups.com', 'pups.de'
   ];
-  if (junkEmails.includes(cleanEmail) || cleanEmail.startsWith('test@') || cleanEmail.startsWith('asdf@')) {
-    return 'Bitte geben Sie eine reale E-Mail-Adresse ein (keine Test-E-Mail).';
+
+  if (disposableDomains.includes(domain)) {
+    return 'Wegwerf- oder Test-E-Mail-Adressen werden nicht akzeptiert. Bitte nutzen Sie eine echte E-Mail-Adresse.';
+  }
+
+  // Common valid email providers check or valid TLD check
+  const validTlds = ['de', 'com', 'net', 'org', 'eu', 'ch', 'at', 'info', 'me', 'io', 'shop', 'online', 'store'];
+  const domainParts = domain.split('.');
+  const tld = domainParts[domainParts.length - 1];
+
+  if (!validTlds.includes(tld)) {
+    return `Die E-Mail-Endung ".${tld}" wird nicht unterstützt. Bitte verwenden Sie eine gültige E-Mail-Adresse.`;
+  }
+
+  // Reject local parts that are gibberish or test
+  const junkLocalParts = ['test', 'asdf', 'pups', 'qwer', 'blabla', '123456', 'xxxx'];
+  if (junkLocalParts.includes(localPart) || localPart.length < 2) {
+    return 'Bitte geben Sie eine reale E-Mail-Adresse an.';
   }
 
   return null;
