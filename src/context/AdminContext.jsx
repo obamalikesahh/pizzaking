@@ -105,26 +105,50 @@ export function AdminProvider({ children }) {
       });
   }, []);
 
-  // 🔄 5-Second Auto Polling for Admin Orders (active while admin is logged in)
+  // 🔄 5-Second Auto Polling for Admin Orders, Users, Newsletter & Blacklist (active while admin is logged in)
   useEffect(() => {
     if (!isAuthenticated) return;
 
-    const pollOrders = () => {
-      fetch(`${API_URL}/orders`, { 
-        cache: 'no-store',
-        headers: adminToken && adminToken !== 'local-admin-token' ? { 'Authorization': `Bearer ${adminToken}` } : {}
-      })
+    const tokenHeader = adminToken && adminToken !== 'local-admin-token' 
+      ? { 'Authorization': `Bearer ${adminToken}` } 
+      : { 'Authorization': 'Bearer local-admin-token' };
+
+    const pollAll = () => {
+      // 1. Orders
+      fetch(`${API_URL}/orders`, { cache: 'no-store', headers: tokenHeader })
         .then(res => res.json())
         .then(data => {
-          if (Array.isArray(data) && data.length > 0) {
-            setOrders(data);
-          }
+          if (Array.isArray(data)) setOrders(data);
         })
         .catch(err => console.error("Auto-Polling Fehler (Bestellungen):", err));
+
+      // 2. All Users
+      fetch(`${API_URL}/admin/users`, { cache: 'no-store', headers: tokenHeader })
+        .then(res => res.json())
+        .then(data => {
+          if (Array.isArray(data)) setAllUsers(data);
+        })
+        .catch(err => console.error("Auto-Polling Fehler (Benutzer):", err));
+
+      // 3. Newsletter Subscribers
+      fetch(`${API_URL}/admin/newsletter`, { cache: 'no-store', headers: tokenHeader })
+        .then(res => res.json())
+        .then(data => {
+          if (Array.isArray(data)) setNewsletterSubscribers(data);
+        })
+        .catch(err => console.error("Auto-Polling Fehler (Newsletter):", err));
+
+      // 4. Blacklist
+      fetch(`${API_URL}/admin/blacklist`, { cache: 'no-store', headers: tokenHeader })
+        .then(res => res.json())
+        .then(data => {
+          if (Array.isArray(data)) setBlacklistedEmails(data);
+        })
+        .catch(err => console.error("Auto-Polling Fehler (Blacklist):", err));
     };
 
-    pollOrders();
-    const interval = setInterval(pollOrders, 5000); // 5 seconds polling on site
+    pollAll();
+    const interval = setInterval(pollAll, 5000); // 5 seconds live polling
     return () => clearInterval(interval);
   }, [adminToken, isAuthenticated]);
 
@@ -167,7 +191,7 @@ export function AdminProvider({ children }) {
     return blacklistedEmails.some(b => b.toLowerCase() === clean);
   };
 
-  const toggleBlacklistEmail = (email) => {
+  const toggleBlacklistEmail = async (email) => {
     if (!email) return;
     const clean = email.trim().toLowerCase();
     setBlacklistedEmails(prev => {
@@ -177,6 +201,19 @@ export function AdminProvider({ children }) {
         return [...prev, clean];
       }
     });
+
+    try {
+      const tokenHeader = adminToken && adminToken !== 'local-admin-token' 
+        ? { 'Authorization': `Bearer ${adminToken}`, 'Content-Type': 'application/json' } 
+        : { 'Authorization': 'Bearer local-admin-token', 'Content-Type': 'application/json' };
+      await fetch(`${API_URL}/admin/blacklist/toggle`, {
+        method: 'POST',
+        headers: tokenHeader,
+        body: JSON.stringify({ email: clean })
+      });
+    } catch (err) {
+      console.error("Fehler beim Blacklist-Toggle:", err);
+    }
   };
 
   // Auth functions
@@ -184,12 +221,6 @@ export function AdminProvider({ children }) {
     const envEmail = (import.meta.env.VITE_ADMIN_EMAIL || process.env.VITE_ADMIN_EMAIL || '').toLowerCase();
     const envPass = import.meta.env.VITE_ADMIN_PASSWORD || process.env.VITE_ADMIN_PASSWORD || '';
     
-    if (envEmail && envPass && email.trim().toLowerCase() === envEmail && password === envPass) {
-      setIsAuthenticated(true);
-      setAdminToken('local-admin-token');
-      return { success: true };
-    }
-
     try {
       const res = await fetch(`${API_URL}/auth/admin-login`, {
         method: 'POST',
@@ -201,21 +232,19 @@ export function AdminProvider({ children }) {
       if (res.ok && data.success) {
         setAdminToken(data.token);
         setIsAuthenticated(true);
-        
-        fetch(`${API_URL}/orders`, { 
-          cache: 'no-store',
-          headers: { 'Authorization': `Bearer ${data.token}` }
-        })
-          .then(r => r.json())
-          .then(ordersData => setOrders(Array.isArray(ordersData) ? ordersData : []))
-          .catch(err => console.error(err));
-          
         return { success: true };
       }
-      return { success: false, message: data.error || 'Ungültige Admin-E-Mail oder Passwort!' };
     } catch (err) {
-      return { success: false, message: 'Falsche E-Mail oder Passwort!' };
+      console.warn("Backend admin login failed, checking local credentials:", err);
     }
+
+    if (envEmail && envPass && email.trim().toLowerCase() === envEmail && password === envPass) {
+      setIsAuthenticated(true);
+      setAdminToken('local-admin-token');
+      return { success: true };
+    }
+
+    return { success: false, message: 'Ungültige Admin-E-Mail oder Passwort!' };
   };
 
   const verifyAdminLogin = (expectedCode, inputCode) => {
@@ -231,7 +260,7 @@ export function AdminProvider({ children }) {
     setAdminToken(null);
   };
 
-  // User Auth functions
+  // User Auth functions (Synchronized with Neon PostgreSQL)
   const userSignUp = (email, name, address) => {
     if (isEmailBlacklisted(email)) {
       return { success: false, message: 'Registrierung fehlgeschlagen: Dieses Konto / E-Mail wurde gesperrt.' };
@@ -241,36 +270,71 @@ export function AdminProvider({ children }) {
     return { success: true, code, tempUser };
   };
 
-  const userVerifyAndSetPassword = (tempUser, inputCode, password) => {
+  const userVerifyAndSetPassword = async (tempUser, inputCode, password) => {
     if (tempUser && isEmailBlacklisted(tempUser.email)) {
       return { success: false, message: 'Dieses Konto wurde gesperrt.' };
     }
     if (tempUser && String(tempUser.verificationCode) === String(inputCode).trim()) {
-      const verifiedUser = { email: tempUser.email, name: tempUser.name, address: tempUser.address, password, isVerified: true, joined: new Date().toLocaleDateString('de-DE') + ' ' + new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }) };
-      setCurrentUser(verifiedUser);
-      setAllUsers(prev => {
-        const filtered = prev.filter(u => u.email.toLowerCase() !== tempUser.email.toLowerCase());
-        return [...filtered, verifiedUser];
-      });
-      return { success: true };
+      try {
+        const res = await fetch(`${API_URL}/auth/register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: tempUser.name,
+            email: tempUser.email,
+            password: password,
+            address: tempUser.address
+          })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          return { success: false, message: data.error || 'Registrierung fehlgeschlagen' };
+        }
+        
+        if (data.token) {
+          localStorage.setItem('pk_token', data.token);
+        }
+        setCurrentUser(data.user);
+        setAllUsers(prev => {
+          const filtered = prev.filter(u => u.email.toLowerCase() !== tempUser.email.toLowerCase());
+          return [data.user, ...filtered];
+        });
+        return { success: true };
+      } catch (err) {
+        return { success: false, message: 'Verbindung zum Server fehlgeschlagen: ' + err.message };
+      }
     }
     return { success: false, message: 'Falscher Verifizierungscode!' };
   };
 
-  const userLogin = (email, password) => {
+  const userLogin = async (email, password) => {
     if (isEmailBlacklisted(email)) {
       return { success: false, message: 'Ihr Kundenkonto wurde gesperrt. Bitte wenden Sie sich an den Inhaber.' };
     }
-    const foundUser = allUsers.find(u => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
-    if (foundUser) {
+    try {
+      const res = await fetch(`${API_URL}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        return { success: false, message: data.error || 'E-Mail oder Passwort nicht gefunden!' };
+      }
+      
       const code = Math.floor(100000 + Math.random() * 900000).toString();
-      return { success: true, requireVerification: true, code, tempUser: foundUser };
+      const tempUserWithToken = { ...data.user, token: data.token };
+      return { success: true, requireVerification: true, code, tempUser: tempUserWithToken };
+    } catch (err) {
+      return { success: false, message: 'Verbindung zum Server fehlgeschlagen!' };
     }
-    return { success: false, message: 'E-Mail oder Passwort nicht gefunden!' };
   };
 
   const userVerifyLogin = (tempUser, expectedCode, inputCode) => {
     if (String(expectedCode) === String(inputCode).trim()) {
+      if (tempUser.token) {
+        localStorage.setItem('pk_token', tempUser.token);
+      }
       setCurrentUser(tempUser);
       return { success: true };
     }
@@ -278,27 +342,38 @@ export function AdminProvider({ children }) {
   };
 
   const userRequestPasswordReset = (email) => {
-    const foundUser = allUsers.find(u => u.email.toLowerCase() === email.toLowerCase());
-    if (!foundUser) {
-      return { success: false, message: 'Kein Konto mit dieser E-Mail-Adresse gefunden.' };
-    }
     const code = Math.floor(100000 + Math.random() * 900000).toString();
-    return { success: true, code, tempUser: foundUser };
+    const tempUser = { email, verificationCode: code };
+    return { success: true, code, tempUser };
   };
 
-  const userResetPassword = (tempUser, expectedCode, inputCode, newPassword) => {
+  const userResetPassword = async (tempUser, expectedCode, inputCode, newPassword) => {
     if (String(expectedCode) !== String(inputCode).trim()) {
       return { success: false, message: 'Falscher Verifizierungscode!' };
     }
-    setAllUsers(prev => prev.map(u => u.email.toLowerCase() === tempUser.email.toLowerCase() ? { ...u, password: newPassword } : u));
-    return { success: true };
+    try {
+      const res = await fetch(`${API_URL}/auth/reset-password`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: tempUser.email, password: newPassword })
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        return { success: false, message: data.error || 'Fehler beim Zurücksetzen des Passworts' };
+      }
+      return { success: true };
+    } catch (err) {
+      return { success: false, message: 'Server-Fehler: ' + err.message };
+    }
   };
 
   const userLogout = () => {
     setCurrentUser(null);
+    localStorage.removeItem('pk_user');
+    localStorage.removeItem('pk_token');
   };
 
-  // Order functions
+  // Order functions (Synchronized worldwide with Neon PostgreSQL)
   const addOrder = (newOrder) => {
     const orderWithId = {
       id: `${Math.floor(100000 + Math.random() * 900000)}`,
@@ -306,16 +381,24 @@ export function AdminProvider({ children }) {
       time: new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }),
       status: 'eingegangen',
       customerEmail: newOrder.customerEmail || (currentUser ? currentUser.email : null),
+      userId: currentUser ? currentUser.id : null,
       ...newOrder
     };
     setOrders(prev => [orderWithId, ...prev]);
 
-    // Sync order to backend
+    // Sync order to backend Neon PostgreSQL
     fetch(`${API_URL}/orders`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(orderWithId)
-    }).catch(err => console.warn('Order sync to backend failed:', err));
+    })
+      .then(res => res.json())
+      .then(resData => {
+        if (resData && resData.order) {
+          setOrders(prev => prev.map(o => o.id === orderWithId.id ? { ...o, ...resData.order } : o));
+        }
+      })
+      .catch(err => console.warn('Order sync to backend failed:', err));
 
     // Automatically deduct stock for items that have tracked stock
     if (newOrder.items && Array.isArray(newOrder.items)) {
@@ -323,7 +406,6 @@ export function AdminProvider({ children }) {
         return prevMenu.map(cat => ({
           ...cat,
           items: cat.items.map(item => {
-            // Find if item was ordered
             const orderedItem = newOrder.items.find(oi => {
               if (oi.id && String(oi.id).startsWith(String(item.id))) return true;
               if (oi.name && oi.name.toLowerCase().includes(item.name.toLowerCase())) return true;
@@ -349,16 +431,17 @@ export function AdminProvider({ children }) {
   };
 
   const updateOrderStatus = async (orderId, newStatus) => {
+    setOrders(prev => prev.map(o => o.id === orderId ? { ...o, status: newStatus } : o));
     try {
+      const tokenHeader = adminToken && adminToken !== 'local-admin-token' 
+        ? { 'Authorization': `Bearer ${adminToken}`, 'Content-Type': 'application/json' } 
+        : { 'Authorization': 'Bearer local-admin-token', 'Content-Type': 'application/json' };
+
       await fetch(`${API_URL}/orders/${orderId}/status`, {
         method: 'PUT',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${adminToken}`
-        },
+        headers: tokenHeader,
         body: JSON.stringify({ status: newStatus })
       });
-      setOrders(prev => prev.map(o => o.id === orderId ? { ...o, status: newStatus } : o));
     } catch (err) {
       console.error("Fehler beim Update des Bestellstatus:", err);
     }
@@ -479,19 +562,44 @@ export function AdminProvider({ children }) {
     }
   };
 
-  const deleteUser = (email) => {
+  const deleteUser = async (email) => {
     if (!email) return;
     const clean = email.trim().toLowerCase();
     setAllUsers(prev => prev.filter(u => u.email.toLowerCase() !== clean));
+
+    try {
+      const tokenHeader = adminToken && adminToken !== 'local-admin-token' 
+        ? { 'Authorization': `Bearer ${adminToken}` } 
+        : { 'Authorization': 'Bearer local-admin-token' };
+      await fetch(`${API_URL}/admin/users/${encodeURIComponent(clean)}`, {
+        method: 'DELETE',
+        headers: tokenHeader
+      });
+    } catch (err) {
+      console.error("Fehler beim Löschen des Benutzers:", err);
+    }
   };
 
-  const bulkDeleteUsers = (emails) => {
+  const bulkDeleteUsers = async (emails) => {
     if (!Array.isArray(emails) || emails.length === 0) return;
     const emailSet = new Set(emails.map(e => e.trim().toLowerCase()));
     setAllUsers(prev => prev.filter(u => !emailSet.has(u.email.toLowerCase())));
+
+    try {
+      const tokenHeader = adminToken && adminToken !== 'local-admin-token' 
+        ? { 'Authorization': `Bearer ${adminToken}`, 'Content-Type': 'application/json' } 
+        : { 'Authorization': 'Bearer local-admin-token', 'Content-Type': 'application/json' };
+      await fetch(`${API_URL}/admin/users/bulk-delete`, {
+        method: 'POST',
+        headers: tokenHeader,
+        body: JSON.stringify({ emails })
+      });
+    } catch (err) {
+      console.error("Fehler beim Bulk-Löschen:", err);
+    }
   };
 
-  const bulkBanUsers = (emails) => {
+  const bulkBanUsers = async (emails) => {
     if (!Array.isArray(emails) || emails.length === 0) return;
     const emailSet = new Set(emails.map(e => e.trim().toLowerCase()));
     setBlacklistedEmails(prev => {
@@ -502,12 +610,40 @@ export function AdminProvider({ children }) {
       });
       return updated;
     });
+    setAllUsers(prev => prev.map(u => emailSet.has(u.email.toLowerCase()) ? { ...u, isBanned: true } : u));
+
+    try {
+      const tokenHeader = adminToken && adminToken !== 'local-admin-token' 
+        ? { 'Authorization': `Bearer ${adminToken}`, 'Content-Type': 'application/json' } 
+        : { 'Authorization': 'Bearer local-admin-token', 'Content-Type': 'application/json' };
+      await fetch(`${API_URL}/admin/users/bulk-ban`, {
+        method: 'POST',
+        headers: tokenHeader,
+        body: JSON.stringify({ emails })
+      });
+    } catch (err) {
+      console.error("Fehler beim Bulk-Bannen:", err);
+    }
   };
 
-  const bulkUnbanUsers = (emails) => {
+  const bulkUnbanUsers = async (emails) => {
     if (!Array.isArray(emails) || emails.length === 0) return;
     const emailSet = new Set(emails.map(e => e.trim().toLowerCase()));
     setBlacklistedEmails(prev => prev.filter(b => !emailSet.has(b.toLowerCase())));
+    setAllUsers(prev => prev.map(u => emailSet.has(u.email.toLowerCase()) ? { ...u, isBanned: false } : u));
+
+    try {
+      const tokenHeader = adminToken && adminToken !== 'local-admin-token' 
+        ? { 'Authorization': `Bearer ${adminToken}`, 'Content-Type': 'application/json' } 
+        : { 'Authorization': 'Bearer local-admin-token', 'Content-Type': 'application/json' };
+      await fetch(`${API_URL}/admin/users/bulk-unban`, {
+        method: 'POST',
+        headers: tokenHeader,
+        body: JSON.stringify({ emails })
+      });
+    } catch (err) {
+      console.error("Fehler beim Bulk-Entbannen:", err);
+    }
   };
 
   return (

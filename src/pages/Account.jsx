@@ -88,10 +88,10 @@ export default function Account() {
     setMode('signup_step2');
   };
 
-  const handleSignUpStep2 = (e) => {
+  const handleSignUpStep2 = async (e) => {
     e.preventDefault();
     setErrorMsg('');
-    const res = userVerifyAndSetPassword(tempUser, verifyCodeInput, newPassword);
+    const res = await userVerifyAndSetPassword(tempUser, verifyCodeInput, newPassword);
     if (!res.success) {
       setErrorMsg(res.message);
     }

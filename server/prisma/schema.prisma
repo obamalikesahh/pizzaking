@@ -12,6 +12,8 @@ model User {
   name      String
   password  String
   address   String?
+  phone     String?
+  isBanned  Boolean  @default(false)
   createdAt DateTime @default(now())
 }
 
@@ -27,13 +29,20 @@ model Product {
 }
 
 model Order {
-  id          String   @id @default(uuid())
-  userId      String
-  totalPrice  Float
-  status      String   @default("PENDING")
-  orderType   String   @default("DELIVERY")
-  payment     String   @default("PAYPAL")
-  createdAt   DateTime @default(now())
+  id            String   @id
+  userId        String?
+  customer      String?
+  customerEmail String?
+  phone         String?
+  address       String?
+  deliveryTime  String?
+  items         String?
+  totalPrice    Float
+  status        String   @default("eingegangen")
+  orderType     String   @default("delivery")
+  payment       String   @default("Barzahlung")
+  discount      String?
+  createdAt     DateTime @default(now())
 }
 
 model Offer {
@@ -74,5 +83,19 @@ model DiscountCode {
   discount  Int      @default(10) // percentage
   isUsed    Boolean  @default(false)
   expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model NewsletterSubscriber {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  code      String?
+  createdAt DateTime @default(now())
+}
+
+model Blacklist {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  reason    String?
   createdAt DateTime @default(now())
 }
